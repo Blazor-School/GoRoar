@@ -1,3 +1,4 @@
+using BlazorSchool.BlazorLibrary2.Utilities;
 using ShowcaseWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddAdditionalAssemblies(typeof(BlazorSchool.BlazorLibrary2.Component1).Assembly)
+    .EnableBlazorLibraryDevConsole()
     .AddInteractiveServerRenderMode();
 
 app.Run();
