@@ -2,14 +2,14 @@
 using Microsoft.CodeAnalysis.Text;
 using System.Text;
 
-namespace BlazorSchool.BlazorLibrary2.Generators
+namespace BlazorSchool.BlazorLibrary2.Generators;
+
+[Generator]
+public class Class1 : IIncrementalGenerator
 {
-    [Generator]
-    public class Class1 : IIncrementalGenerator
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        public void Initialize(IncrementalGeneratorInitializationContext context)
-        {
-            string source = @"
+        string source = @"
 namespace BlazorSchool.BlazorLibrary2.Generated
 {
     public class HelloWorld
@@ -19,7 +19,6 @@ namespace BlazorSchool.BlazorLibrary2.Generated
 }
 ";
 
-            context.RegisterPostInitializationOutput(ctx => ctx.AddSource("HelloWorld.g.cs", SourceText.From(source, Encoding.UTF8)));
-        }
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("HelloWorld.g.cs", SourceText.From(source, Encoding.UTF8)));
     }
 }
