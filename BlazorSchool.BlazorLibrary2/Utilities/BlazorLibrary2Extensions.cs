@@ -1,8 +1,9 @@
-﻿using BlazorSchool.BlazorLibrary2.Console;
+﻿using BlazorSchool.BlazorLibrary2.BlazorConsole;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorSchool.BlazorLibrary2.Utilities;
+
 public static partial class BlazorLibrary2Extensions
 {
     public static RazorComponentsEndpointConventionBuilder EnableBlazorLibraryDevConsole(this RazorComponentsEndpointConventionBuilder builder)
@@ -17,11 +18,6 @@ public static partial class BlazorLibrary2Extensions
         // Your normal registrations
         //services.AddSingleton<MyCoreService>();
 
-        // Call out to generated code
-        OnConfigureGenerated(services);
-
         return services;
     }
-
-    static partial void OnConfigureGenerated(IServiceCollection services);
 }

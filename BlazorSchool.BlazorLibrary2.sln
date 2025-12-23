@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36511.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSchool.BlazorLibrary2", "BlazorSchool.BlazorLibrary2\BlazorSchool.BlazorLibrary2.csproj", "{6820509D-FD3C-4ADE-9095-EC7EC719FDB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowcaseWebApp", "ShowcaseWebApp\ShowcaseWebApp.csproj", "{2FF80B8B-E370-40DA-BA7A-4CAD55FCD69B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSchool.BlazorLibrary2.Generators", "BlazorSchool.BlazorLibrary2.Generators\BlazorSchool.BlazorLibrary2.Generators.csproj", "{BB136EBB-E5A6-4FE3-987C-5785BE8B78E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSchool.BlazorLibrary2.Abstractions", "BlazorSchool.BlazorLibrary2.Abstractions\BlazorSchool.BlazorLibrary2.Abstractions.csproj", "{9F6BF564-6C58-478E-AA22-C64B15E10984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BB136EBB-E5A6-4FE3-987C-5785BE8B78E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB136EBB-E5A6-4FE3-987C-5785BE8B78E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB136EBB-E5A6-4FE3-987C-5785BE8B78E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F6BF564-6C58-478E-AA22-C64B15E10984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F6BF564-6C58-478E-AA22-C64B15E10984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F6BF564-6C58-478E-AA22-C64B15E10984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F6BF564-6C58-478E-AA22-C64B15E10984}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
