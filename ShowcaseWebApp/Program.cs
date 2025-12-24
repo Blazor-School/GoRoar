@@ -1,5 +1,6 @@
 using BlazorSchool.BlazorLibrary2.Utilities;
 using ShowcaseWebApp.Components;
+using ShowcaseWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.UseBlazorLibrary2();
-builder.Services.AddConsumerServices();
+builder.Services.UseBlazorLibrary2().AddConsumerServices();
+builder.Services.AddHostedService<BackgroundService2>();
 
 var app = builder.Build();
 

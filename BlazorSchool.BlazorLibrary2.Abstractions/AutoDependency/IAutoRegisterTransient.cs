@@ -1,6 +1,5 @@
-﻿namespace BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency
+﻿namespace BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency;
+
+public interface IAutoRegisterTransient
 {
-    public interface IAutoRegisterTransient
-    {
-    }
 }

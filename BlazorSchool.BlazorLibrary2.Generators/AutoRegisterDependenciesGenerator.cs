@@ -31,35 +31,20 @@ public class AutoRegisterDependenciesGenerator : IIncrementalGenerator
             {
                 var (compilation, symbols) = source;
 
-                var scopedInterface =
-                    compilation.GetTypeByMetadataName(
-                        "BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency.IAutoRegisterScoped");
+                var scopedInterface = compilation.GetTypeByMetadataName("BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency.IAutoRegisterScoped");
+                var singletonInterface = compilation.GetTypeByMetadataName("BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency.IAutoRegisterSingleton");
+                var transientInterface = compilation.GetTypeByMetadataName("BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency.IAutoRegisterTransient");
+                var hostedServiceInterface = compilation.GetTypeByMetadataName("Microsoft.Extensions.Hosting.IHostedService");
 
-                if (scopedInterface is null)
-                {
-                    spc.ReportDiagnostic(
-      Diagnostic.Create(
-          new DiagnosticDescriptor(
-              "GEN_NULL",
-              "Scoped interface NULL",
-              "IAutoRegisterScoped NOT FOUND in compilation",
-              "Debug",
-              DiagnosticSeverity.Error,
-              true),
-          Location.None));
-                    return;
-                }
+                var sb = new StringBuilder(@"using Microsoft.Extensions.DependencyInjection;
 
-                var sb = new StringBuilder("""
-                using Microsoft.Extensions.DependencyInjection;
+namespace BlazorSchool.BlazorLibrary2.Utilities;
 
-                namespace BlazorSchool.BlazorLibrary2.Utilities;
-
-                public static class BlazorLibrary2GeneratedExtensions
-                {
-                    public static IServiceCollection AddConsumerServices(IServiceCollection services)
-                    {
-                """);
+public static class BlazorLibrary2GeneratedExtensions
+{
+    public static IServiceCollection AddConsumerServices(this IServiceCollection services)
+    {
+");
 
                 foreach (var symbol in symbols)
                 {
@@ -73,39 +58,50 @@ public class AutoRegisterDependenciesGenerator : IIncrementalGenerator
                         spc.ReportDiagnostic(
                             Diagnostic.Create(
                                 new DiagnosticDescriptor(
-                                    "GEN002",
+                                    "BL1",
                                     "Found type",
-                                    i.ToDisplayString(),
+                                    $"BlazorLibrary2: Registering {i.ToDisplayString()}",
                                     "Debug",
-                                    DiagnosticSeverity.Warning,
+                                    DiagnosticSeverity.Info,
                                     true),
                                 Location.None));
 
                         if (SymbolEqualityComparer.Default.Equals(i, scopedInterface))
                         {
-                            spc.ReportDiagnostic(
-    Diagnostic.Create(
-        new DiagnosticDescriptor(
-            "GEN_HIT",
-            "HIT",
-            symbol.ToDisplayString(),
-            "Debug",
-            DiagnosticSeverity.Warning,
-            true),
-        Location.None));
                             sb.AppendLine(
-                                $"        services.AddScoped<{symbol.ToDisplayString()}>();");
+                                $"       services.AddScoped<{symbol.ToDisplayString()}>();");
                             break;
                         }
+
+                        if (SymbolEqualityComparer.Default.Equals(i, singletonInterface))
+                        {
+                            sb.AppendLine(
+                                $"       services.AddSingleton<{symbol.ToDisplayString()}>();");
+                            break;
+                        }
+
+                        if (SymbolEqualityComparer.Default.Equals(i, transientInterface))
+                        {
+                            sb.AppendLine(
+                                $"       services.AddTransient<{symbol.ToDisplayString()}>();");
+                            break;
+                        }
+
+                        //Should support background service
+                        //if (SymbolEqualityComparer.Default.Equals(i, hostedServiceInterface))
+                        //{
+                        //    sb.AppendLine(
+                        //        $"       services.AddHostedService<{symbol.ToDisplayString()}>();");
+                        //    break;
+                        //}
                     }
                 }
 
-                sb.AppendLine("""
-
-                    return services;
-                    }
-                }
-                """);
+                sb.AppendLine(@"
+       return services;
+    }
+}
+                ");
 
                 spc.AddSource(
                     "BlazorLibrary2GeneratedExtensions.g.cs",
