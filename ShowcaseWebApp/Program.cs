@@ -1,6 +1,5 @@
-using BlazorSchool.BlazorLibrary2.Utilities;
+using BlazorAccelerator.Utilities;
 using ShowcaseWebApp.Components;
-using ShowcaseWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.UseBlazorLibrary2().AddConsumerServices();
-builder.Services.AddHostedService<BackgroundService2>();
+builder.Services.UseBlazorAccelerator();
 
 var app = builder.Build();
 
@@ -27,7 +25,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .EnableBlazorLibraryDevConsole()
+    .EnableBlazorAcceleratorDevConsole()
     .AddInteractiveServerRenderMode();
 
 app.Run();

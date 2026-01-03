@@ -1,4 +1,4 @@
-﻿using BlazorSchool.BlazorLibrary2.Abstractions.AutoDependency;
+﻿using BlazorAccelerator.Abstractions.AutoDependency;
 
 namespace ShowcaseWebApp.Services;
 

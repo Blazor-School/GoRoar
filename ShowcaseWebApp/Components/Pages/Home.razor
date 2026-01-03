@@ -3,7 +3,7 @@
 @inject ScopedService ScopedService
 @inject SingletonService SingletonService
 @inject TransientService TransientService
-@* @inject BackgroundService2 BackgroundService2 *@
+@inject BackgroundService2 BackgroundService2
 
 <PageTitle>Home</PageTitle>
 
@@ -14,5 +14,10 @@ Welcome to your new app.
 @ScopedService.GetMessage()
 @SingletonService.GetMessage()
 @TransientService.GetMessage()
-@* Should support background service later *@
-@* @BackgroundService2.StartAsync(new()) *@
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await BackgroundService2.StartAsync(new());
+    }
+}

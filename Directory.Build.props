@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <IsDevSolution Condition="'$(SolutionName)'=='BlazorSchool.BlazorLibrary2'">true</IsDevSolution>
+    <IsDevSolution Condition="'$(SolutionName)'=='BlazorAcceleratorSolution'">true</IsDevSolution>
   </PropertyGroup>
 </Project>
