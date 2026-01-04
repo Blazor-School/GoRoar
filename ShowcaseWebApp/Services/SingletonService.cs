@@ -1,8 +1,8 @@
-﻿using BlazorAccelerator.Abstractions.AutoDependency;
+﻿using Roar.Abstractions.Runtime;
 
 namespace ShowcaseWebApp.Services;
 
-public class SingletonService : IAutoRegisterSingleton
+public class SingletonService : IRoarSingletonService
 {
     public string GetMessage() => "Hello from SingletonService!";
 }

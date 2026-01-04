@@ -4,6 +4,7 @@
 @inject SingletonService SingletonService
 @inject TransientService TransientService
 @inject BackgroundService2 BackgroundService2
+@inject IScopedServiceWithInterface IScopedServiceWithInterface
 
 <PageTitle>Home</PageTitle>
 
@@ -14,6 +15,8 @@ Welcome to your new app.
 @ScopedService.GetMessage()
 @SingletonService.GetMessage()
 @TransientService.GetMessage()
+@IScopedServiceWithInterface.GetInfo()
+<wa-button variant="danger2">Button</wa-button>
 
 @code {
     protected override async Task OnInitializedAsync()

@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <IsDevSolution Condition="'$(SolutionName)'=='BlazorAcceleratorSolution'">true</IsDevSolution>
+    <IsDevSolution Condition="'$(SolutionName)'=='GoRoar'">true</IsDevSolution>
   </PropertyGroup>
 </Project>

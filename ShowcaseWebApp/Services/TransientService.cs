@@ -1,8 +1,8 @@
-﻿using BlazorAccelerator.Abstractions.AutoDependency;
+﻿using Roar.Abstractions.Runtime;
 
 namespace ShowcaseWebApp.Services;
 
-public class TransientService : IAutoRegisterTransient
+public class TransientService : IRoarTransientService
 {
     public string GetMessage() => "Hello from TransientService!";
 }
