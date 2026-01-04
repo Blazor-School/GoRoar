@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Components.Sections
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,10 +12,13 @@
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
+    <RoarAsset />
 </head>
 
 <body>
-    <Routes />
+    <GoRoar>
+        <Routes />
+    </GoRoar>
     <script src="_framework/blazor.web.js"></script>
 </body>
 

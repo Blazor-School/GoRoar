@@ -1,0 +1,10 @@
+﻿@namespace Roar.Components
+
+<SectionContent SectionName="RoarDependencies">
+    @ChildContent
+</SectionContent>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
