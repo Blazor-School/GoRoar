@@ -2,9 +2,10 @@
 
 public readonly struct Variant : IEquatable<Variant>
 {
-    public string Value => field ?? "neutral";
+    private const string _default = "neutral";
+    public string Value => field ?? _default;
 
-    public Variant(string value) => Value = string.IsNullOrEmpty(value) ? "neutral" : value;
+    public Variant(string value) => Value = string.IsNullOrEmpty(value) ? _default : value;
 
     public static readonly Variant Neutral = new("neutral");
     public static readonly Variant Brand = new("brand");
