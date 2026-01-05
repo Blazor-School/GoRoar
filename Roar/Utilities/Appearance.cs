@@ -7,11 +7,11 @@ public readonly struct Appearance : IEquatable<Appearance>
 
     public Appearance(string value) => Value = string.IsNullOrEmpty(value) ? _default : value;
 
-    public static readonly Variant Accent = new("accent");
-    public static readonly Variant FilledOutline = new("filled-outlined");
-    public static readonly Variant Filled = new("filled");
-    public static readonly Variant Outlined = new("outlined");
-    public static readonly Variant Plain = new("plain");
+    public static readonly Appearance Accent = new("accent");
+    public static readonly Appearance FilledOutline = new("filled-outlined");
+    public static readonly Appearance Filled = new("filled");
+    public static readonly Appearance Outlined = new("outlined");
+    public static readonly Appearance Plain = new("plain");
 
     public override string ToString() => Value;
     public bool Equals(Appearance other) => Value == other.Value;
