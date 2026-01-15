@@ -1,0 +1,33 @@
+﻿@namespace RoarUI.Components
+
+<RoarDependency ComponentName="button" />
+<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes">@ChildContent</wa-button>
+
+@code {
+    [Parameter]
+    public Variant Variant { get; set; }
+
+    [Parameter]
+    public Appearance Appearance { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; }
+
+    [Parameter]
+    public bool Pill { get; set; }
+
+    [Parameter]
+    public ButtonType Type { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Loading { get; set; } = false;
+
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter(CaptureUnmatchedValues = true)] 
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}

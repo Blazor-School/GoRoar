@@ -1,4 +1,4 @@
-using BlazorAccelerator.Utilities;
+using RoarUI.Utilities;
 using ShowcaseWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.UseBlazorAccelerator();
+builder.Services.GoRoar();
 
 var app = builder.Build();
 
@@ -25,7 +25,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .EnableBlazorAcceleratorDevConsole()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode()
+    .EnableRoarConsole();
 
 app.Run();

@@ -1,0 +1,12 @@
+﻿@namespace RoarUI.Components
+
+@ChildContent
+<script type="module">
+    import { setBasePath } from '@Assets[$"{InternalPaths.BaseWebAwesomePath}/webawesome.js"]';
+    setBasePath('@InternalPaths.BaseWebAwesomePath');
+</script>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

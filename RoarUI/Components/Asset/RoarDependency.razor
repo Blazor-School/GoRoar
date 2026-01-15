@@ -1,0 +1,9 @@
+﻿@namespace RoarUI.Components
+@inject IJSRuntime JsRuntime
+
+<script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(ComponentName)]"></script>
+
+@code {
+    [Parameter]
+    public string ComponentName { get; set; } = "";
+}

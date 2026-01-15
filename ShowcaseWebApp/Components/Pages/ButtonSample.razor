@@ -1,0 +1,103 @@
+﻿@page "/button-sample"
+
+<h3>Basic</h3>
+<RoarButton @onclick="SayHello">Click me!</RoarButton>
+
+<h3>Variants</h3>
+<RoarButton>Default</RoarButton>
+<RoarButton Variant="Variant.Neutral">Neutral</RoarButton>
+<RoarButton Variant="Variant.Brand">Brand</RoarButton>
+<RoarButton Variant="Variant.Success">Success</RoarButton>
+<RoarButton Variant="Variant.Warning">Warning</RoarButton>
+<RoarButton Variant="Variant.Danger">Danger</RoarButton>
+
+<h3>Appearance</h3>
+<div class="wa-stack wa-gap-xs">
+    <div>
+        <RoarButton Variant="Variant.Neutral" Appearance="Appearance.Accent">Accent</RoarButton>
+        <RoarButton Variant="Variant.Neutral" Appearance="Appearance.FilledOutline">Filled-Outline</RoarButton>
+        <RoarButton Variant="Variant.Neutral" Appearance="Appearance.Filled">Filled</RoarButton>
+        <RoarButton Variant="Variant.Neutral" Appearance="Appearance.Outlined">Outlined</RoarButton>
+        <RoarButton Variant="Variant.Neutral" Appearance="Appearance.Plain">Plain</RoarButton>
+    </div>
+
+    <div>
+        <RoarButton Variant="Variant.Brand" Appearance="Appearance.Accent">Accent</RoarButton>
+        <RoarButton Variant="Variant.Brand" Appearance="Appearance.FilledOutline">Filled-Outline</RoarButton>
+        <RoarButton Variant="Variant.Brand" Appearance="Appearance.Filled">Filled</RoarButton>
+        <RoarButton Variant="Variant.Brand" Appearance="Appearance.Outlined">Outlined</RoarButton>
+        <RoarButton Variant="Variant.Brand" Appearance="Appearance.Plain">Plain</RoarButton>
+    </div>
+
+    <div>
+        <RoarButton Variant="Variant.Success" Appearance="Appearance.Accent">Accent</RoarButton>
+        <RoarButton Variant="Variant.Success" Appearance="Appearance.FilledOutline">Filled-Outline</RoarButton>
+        <RoarButton Variant="Variant.Success" Appearance="Appearance.Filled">Filled</RoarButton>
+        <RoarButton Variant="Variant.Success" Appearance="Appearance.Outlined">Outlined</RoarButton>
+        <RoarButton Variant="Variant.Success" Appearance="Appearance.Plain">Plain</RoarButton>
+    </div>
+
+    <div>
+        <RoarButton Variant="Variant.Warning" Appearance="Appearance.Accent">Accent</RoarButton>
+        <RoarButton Variant="Variant.Warning" Appearance="Appearance.FilledOutline">Filled-Outline</RoarButton>
+        <RoarButton Variant="Variant.Warning" Appearance="Appearance.Filled">Filled</RoarButton>
+        <RoarButton Variant="Variant.Warning" Appearance="Appearance.Outlined">Outlined</RoarButton>
+        <RoarButton Variant="Variant.Warning" Appearance="Appearance.Plain">Plain</RoarButton>
+    </div>
+
+    <div>
+        <RoarButton Variant="Variant.Danger" Appearance="Appearance.Accent">Accent</RoarButton>
+        <RoarButton Variant="Variant.Danger" Appearance="Appearance.FilledOutline">Filled-Outline</RoarButton>
+        <RoarButton Variant="Variant.Danger" Appearance="Appearance.Filled">Filled</RoarButton>
+        <RoarButton Variant="Variant.Danger" Appearance="Appearance.Outlined">Outlined</RoarButton>
+        <RoarButton Variant="Variant.Danger" Appearance="Appearance.Plain">Plain</RoarButton>
+    </div>
+</div>
+
+<h3>Size</h3>
+<RoarButton Size="Size.Small">Small</RoarButton>
+<RoarButton Size="Size.Medium">Medium</RoarButton>
+<RoarButton Size="Size.Large">Large</RoarButton>
+
+<h3>Pill</h3>
+<RoarButton Pill="true">Pill Button</RoarButton>
+<RoarButton Pill="false">Non-pill Button</RoarButton>
+
+<h3>Type</h3>
+<RoarButton Type="ButtonType.Button">General Button</RoarButton>
+<RoarButton Type="ButtonType.Submit">Submit Button</RoarButton>
+<RoarButton Type="ButtonType.Reset">Reset Button</RoarButton>
+
+<h3>Loading</h3>
+<RoarButton Variant="Variant.Neutral" Loading="IsLoading" @onclick="InitiateLoadingAsync">Neutral</RoarButton>
+<RoarButton Variant="Variant.Brand" Loading="IsLoading" @onclick="InitiateLoadingAsync">Brand</RoarButton>
+<RoarButton Variant="Variant.Success" Loading="IsLoading" @onclick="InitiateLoadingAsync">Success</RoarButton>
+<RoarButton Variant="Variant.Warning" Loading="IsLoading" @onclick="InitiateLoadingAsync">Warning</RoarButton>
+<RoarButton Variant="Variant.Danger" Loading="IsLoading" @onclick="InitiateLoadingAsync">Danger</RoarButton>
+
+<h3>Disabled</h3>
+<RoarButton  @onclick="ToggleDisabled">Toggle Status</RoarButton>
+<RoarButton Variant="Variant.Neutral" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Neutral</RoarButton>
+<RoarButton Variant="Variant.Brand" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Brand</RoarButton>
+<RoarButton Variant="Variant.Success" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Success</RoarButton>
+<RoarButton Variant="Variant.Warning" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Warning</RoarButton>
+<RoarButton Variant="Variant.Danger" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Danger</RoarButton>
+
+@code {
+    public bool IsLoading { get; set; } = false;
+    public bool ButtonDisabled { get; set; } = true;
+
+    public async Task InitiateLoadingAsync()
+    {
+        IsLoading = true;
+        await Task.Delay(TimeSpan.FromSeconds(5));
+        IsLoading = false;
+    }
+
+    public void ToggleDisabled() => ButtonDisabled = !ButtonDisabled;
+
+    public void SayHello()
+    {
+        Console.WriteLine("Roar!");
+    }
+}

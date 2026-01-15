@@ -1,6 +1,0 @@
-Blazor Accelerator
-
-Copyright (c) 2026 Blazor Innovations
-
-This software is licensed under the Blazor Accelerator Dual License.
-See LICENSE.txt for full license terms.
