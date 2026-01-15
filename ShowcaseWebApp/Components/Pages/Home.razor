@@ -1,26 +1,7 @@
 ﻿@page "/"
-@using ShowcaseWebApp.Services
-@inject ScopedService ScopedService
-@inject SingletonService SingletonService
-@inject TransientService TransientService
-@inject BackgroundService2 BackgroundService2
-@inject IScopedServiceWithInterface IScopedServiceWithInterface
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-
-@ScopedService.GetMessage()
-@SingletonService.GetMessage()
-@TransientService.GetMessage()
-@IScopedServiceWithInterface.GetInfo()
-<wa-button variant="danger2">Button</wa-button>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        await BackgroundService2.StartAsync(new());
-    }
-}

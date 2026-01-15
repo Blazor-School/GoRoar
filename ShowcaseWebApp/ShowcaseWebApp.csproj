@@ -7,13 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- runtime -->
-		<ProjectReference Include="..\Roar\Roar.csproj" />
-
-		<!-- abstractions -->
-		<ProjectReference Include="..\Roar.Abstractions\Roar.Abstractions.csproj" />
-
-		<!-- generator -->
-		<ProjectReference Include="..\Roar.Generators\Roar.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\RoarUI\RoarUI.csproj" />
 	</ItemGroup>
 </Project>

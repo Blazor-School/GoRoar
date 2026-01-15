@@ -1,4 +1,4 @@
-﻿namespace Roar.Utilities;
+﻿namespace RoarUI.Utilities;
 
 public readonly struct Variant : IEquatable<Variant>
 {

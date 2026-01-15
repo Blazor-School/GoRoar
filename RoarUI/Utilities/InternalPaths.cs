@@ -1,8 +1,8 @@
-﻿namespace Roar.Utilities;
+﻿namespace RoarUI.Utilities;
 
 internal static class InternalPaths
 {
-    public const string BaseWebAwesomePath = "/_content/Roar/webawesome-3.1.0";
+    public const string BaseWebAwesomePath = "/_content/RoarUI/webawesome-3.1.0";
 
     public static string ComposeWebAwesomeComponentJsPath(string componentName)
     {

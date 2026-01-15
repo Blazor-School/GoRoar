@@ -1,5 +1,8 @@
 ﻿@page "/button-sample"
 
+<h3>Basic</h3>
+<RoarButton @onclick="SayHello">Click me!</RoarButton>
+
 <h3>Variants</h3>
 <RoarButton>Default</RoarButton>
 <RoarButton Variant="Variant.Neutral">Neutral</RoarButton>
@@ -59,3 +62,15 @@
 <h3>Pill</h3>
 <RoarButton Pill="true">Pill Button</RoarButton>
 <RoarButton Pill="false">Non-pill Button</RoarButton>
+
+<h3>Type</h3>
+<RoarButton Type="ButtonType.Button">General Button</RoarButton>
+<RoarButton Type="ButtonType.Submit">Submit Button</RoarButton>
+<RoarButton Type="ButtonType.Reset">Reset Button</RoarButton>
+
+@code {
+    public void SayHello()
+    {
+        Console.WriteLine("Roar!");
+    }
+}

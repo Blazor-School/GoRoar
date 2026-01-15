@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Roar.Services;
+namespace RoarUI.Services;
 
 public class DevConsoleService
 {

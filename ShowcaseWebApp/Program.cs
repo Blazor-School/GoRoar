@@ -1,4 +1,4 @@
-using Roar.Utilities;
+using RoarUI.Utilities;
 using ShowcaseWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +25,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode()
+    .EnableRoarConsole();
 
 app.Run();
