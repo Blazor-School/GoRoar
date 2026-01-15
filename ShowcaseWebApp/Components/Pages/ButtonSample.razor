@@ -68,7 +68,34 @@
 <RoarButton Type="ButtonType.Submit">Submit Button</RoarButton>
 <RoarButton Type="ButtonType.Reset">Reset Button</RoarButton>
 
+<h3>Loading</h3>
+<RoarButton Variant="Variant.Neutral" Loading="IsLoading" @onclick="InitiateLoadingAsync">Neutral</RoarButton>
+<RoarButton Variant="Variant.Brand" Loading="IsLoading" @onclick="InitiateLoadingAsync">Brand</RoarButton>
+<RoarButton Variant="Variant.Success" Loading="IsLoading" @onclick="InitiateLoadingAsync">Success</RoarButton>
+<RoarButton Variant="Variant.Warning" Loading="IsLoading" @onclick="InitiateLoadingAsync">Warning</RoarButton>
+<RoarButton Variant="Variant.Danger" Loading="IsLoading" @onclick="InitiateLoadingAsync">Danger</RoarButton>
+
+<h3>Disabled</h3>
+<RoarButton  @onclick="ToggleDisabled">Toggle Status</RoarButton>
+<RoarButton Variant="Variant.Neutral" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Neutral</RoarButton>
+<RoarButton Variant="Variant.Brand" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Brand</RoarButton>
+<RoarButton Variant="Variant.Success" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Success</RoarButton>
+<RoarButton Variant="Variant.Warning" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Warning</RoarButton>
+<RoarButton Variant="Variant.Danger" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Danger</RoarButton>
+
 @code {
+    public bool IsLoading { get; set; } = false;
+    public bool ButtonDisabled { get; set; } = true;
+
+    public async Task InitiateLoadingAsync()
+    {
+        IsLoading = true;
+        await Task.Delay(TimeSpan.FromSeconds(5));
+        IsLoading = false;
+    }
+
+    public void ToggleDisabled() => ButtonDisabled = !ButtonDisabled;
+
     public void SayHello()
     {
         Console.WriteLine("Roar!");
