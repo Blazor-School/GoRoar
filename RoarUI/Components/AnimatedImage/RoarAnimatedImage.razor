@@ -1,0 +1,22 @@
+﻿@namespace RoarUI.Components
+
+<RoarDependency ComponentName="animated-image" />
+<wa-animated-image src="@Src" alt="@Alt" @attributes="AdditionalAttributes" play="@Play">@ChildContent</wa-animated-image>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public string Src { get; set; }
+
+    [Parameter]
+    public string Alt { get; set; } = "";
+
+    [Parameter]
+    public bool Play { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}
