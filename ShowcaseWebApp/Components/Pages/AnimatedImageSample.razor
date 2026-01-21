@@ -1,0 +1,30 @@
+﻿@page "/animated-image-sample"
+
+<h3>GIF</h3>
+<RoarAnimatedImage Src="https://shoelace.style/assets/images/walk.gif" Alt="Animation of untied shoes walking on pavement"></RoarAnimatedImage>
+
+<h3>WEBP</h3>
+<RoarAnimatedImage Src="https://shoelace.style/assets/images/tie.webp" Alt="Animation of a shoe being tied"></RoarAnimatedImage>
+
+<h3>Control the image from outside</h3>
+<RoarAnimatedImage Src="https://shoelace.style/assets/images/walk.gif" Alt="Animation of untied shoes walking on pavement" Play="Play"></RoarAnimatedImage>
+<RoarButton @onclick="(e) => Play = !Play">Toggle</RoarButton>
+
+<h3>Customizing the Control Box</h3>
+<RoarAnimatedImage class="animated-image-custom-control-box" Src="https://shoelace.style/assets/images/walk.gif" Alt="Animation of untied shoes walking on pavement"></RoarAnimatedImage>
+
+<style>
+    .animated-image-custom-control-box::part(control-box) {
+        top: auto;
+        right: auto;
+        bottom: 1rem;
+        left: 1rem;
+        background-color: deeppink;
+        border: none;
+        color: pink;
+    }
+</style>
+
+@code {
+    public bool Play { get; set; } = true;
+}

@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using ShowcaseWebApp.Models
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ShowcaseWebApp</a>
     </div>
@@ -8,23 +9,23 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="button-sample">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Button Sample
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="dev-console">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Dev Console
-            </NavLink>
-        </div>
+        @foreach (var menu in MenuDefinitions)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@menu.Link" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @menu.Name
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
+@code {
+    public List<MenuDefinition> MenuDefinitions { get; set; } = new()
+    {
+        new MenuDefinition("Home", ""),
+        new MenuDefinition("Animated Image Sample", "animated-image-sample"),
+        new MenuDefinition("Button Sample", "button-sample"),
+        new MenuDefinition("Dev Console", "dev-console"),
+    };
+}
