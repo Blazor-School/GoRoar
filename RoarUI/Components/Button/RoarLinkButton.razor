@@ -1,28 +1,43 @@
-﻿@namespace RoarUI.Components
+﻿@namespace RoarUI
 
 <RoarDependency ComponentName="button" />
-<wa-button href="@Href" target="@Target" variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" @attributes="AdditionalAttributes">@ChildContent</wa-button>
+<wa-button href="@Href" target="@Target" variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" @attributes="AdditionalAttributes">@ChildContent</wa-button>
 
 @code {
+    /// <summary>
+    /// The button's theme variant. Defaults to <see cref="Variant.Neutral"/> if not within another element with a variant.
+    /// </summary>
     [Parameter]
     public Variant Variant { get; set; }
 
+    /// <summary>
+    /// The button's visual appearance.
+    /// </summary>
     [Parameter]
     public Appearance Appearance { get; set; }
 
+    /// <summary>
+    /// The button's size.
+    /// </summary>
     [Parameter]
     public Size Size { get; set; }
 
+    /// <summary>
+    /// Draws a pill-style button with rounded edges.
+    /// </summary>
     [Parameter]
     public bool Pill { get; set; }
 
-    [Parameter]
-    public ButtonType Type { get; set; }
-
+    /// <summary>
+    /// The link's URL.
+    /// </summary>
     [Parameter]
     [EditorRequired]
     public string Href { get; set; } = "";
 
+    /// <summary>
+    /// Tells the browser where to open the link. Defaults to <see cref="LinkTarget"/>.
+    /// </summary>
     [Parameter]
     public LinkTarget Target { get; set; }
 

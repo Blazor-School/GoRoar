@@ -1,4 +1,4 @@
-using RoarUI.Utilities;
+using RoarUI;
 using ShowcaseWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using RoarUI.Services;
 
-namespace RoarUI.Utilities;
+namespace RoarUI;
 
 public static class RoarExtensions
 {

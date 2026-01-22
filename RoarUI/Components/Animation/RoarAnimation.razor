@@ -1,0 +1,24 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="animation" />
+
+<wa-animation>
+    @ChildContent
+</wa-animation>
+
+@code {
+    [Parameter]
+    public AnimationName AnimationName { get; set; }
+
+    [Parameter]
+    public bool Play { get; set; }
+
+    [Parameter]
+    public int Delay { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,4 +1,4 @@
-﻿namespace RoarUI.Utilities;
+﻿namespace RoarUI;
 
 internal static class InternalPaths
 {

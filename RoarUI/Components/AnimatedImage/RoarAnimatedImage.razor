@@ -1,16 +1,25 @@
-﻿@namespace RoarUI.Components
+﻿@namespace RoarUI
 
 <RoarDependency ComponentName="animated-image" />
 <wa-animated-image src="@Src" alt="@Alt" @attributes="AdditionalAttributes" play="@Play">@ChildContent</wa-animated-image>
 
 @code {
+    /// <summary>
+    /// The path to the image to load.
+    /// </summary>
     [EditorRequired]
     [Parameter]
     public string Src { get; set; }
 
+    /// <summary>
+    /// A description of the image used by assistive devices.
+    /// </summary>
     [Parameter]
     public string Alt { get; set; } = "";
 
+    /// <summary>
+    /// Plays the animation. When this attribute is remove, the animation will pause.
+    /// </summary>
     [Parameter]
     public bool Play { get; set; } = false;
 

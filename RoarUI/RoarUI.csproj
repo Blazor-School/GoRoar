@@ -24,6 +24,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\RoarUI.Generators\RoarUI.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Update="LICENSE.txt" Pack="True" PackagePath="\" />
 	  <None Update="README.md">
 	    <Pack>True</Pack>
