@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="RoarUI.Generators/RoarUI.Generators.csproj" />
+  <Project Path="RoarUI/RoarUI.csproj" />
+  <Project Path="ShowcaseWebApp/ShowcaseWebApp.csproj" />
+</Solution>

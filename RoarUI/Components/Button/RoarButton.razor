@@ -1,32 +1,60 @@
-﻿@namespace RoarUI.Components
+﻿@namespace RoarUI
 
 <RoarDependency ComponentName="button" />
-<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes">@ChildContent</wa-button>
+
+<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes" with-caret="@WithCaret">@ChildContent</wa-button>
 
 @code {
+    /// <summary>
+    /// The button's theme variant. Defaults to <see cref="Variant.Neutral"/> if not within another element with a variant.
+    /// </summary>
     [Parameter]
     public Variant Variant { get; set; }
 
+    /// <summary>
+    /// The button's visual appearance.
+    /// </summary>
     [Parameter]
     public Appearance Appearance { get; set; }
 
+    /// <summary>
+    /// The button's size.
+    /// </summary>
     [Parameter]
     public Size Size { get; set; }
 
+    /// <summary>
+    /// Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
+    /// </summary>
+    [Parameter]
+    public bool WithCaret { get; set; }
+
+    /// <summary>
+    /// Draws the button in a loading state.
+    /// </summary>
+    [Parameter]
+    public bool Loading { get; set; } = false;
+
+    /// <summary>
+    /// Disables the button. Does not apply to link buttons.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Draws a pill-style button with rounded edges.
+    /// </summary>
     [Parameter]
     public bool Pill { get; set; }
 
+    /// <summary>
+    /// The type of button. Note that the default value is <see cref="ButtonType.Button" /> instead of <see cref="ButtonType.Submit" />, which is opposite of how native <button> elements behave. When the type is <see cref="ButtonType.Submit" />, the button will submit the surrounding form.
+    /// </summary>
     [Parameter]
     public ButtonType Type { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    [Parameter]
-    public bool Loading { get; set; } = false;
-
-    [Parameter]
-    public bool Disabled { get; set; } = false;
 
     [Parameter(CaptureUnmatchedValues = true)] 
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }

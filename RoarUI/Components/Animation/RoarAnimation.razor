@@ -1,0 +1,87 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="animation" />
+
+<wa-animation currentTime="@CurrentTime" delay="@Delay" direction="@Direction" duration="@Duration" easing="@Easing" end-delay="@EndDelay" fill="@Fill" iterations="@Iterations" iteration-start="@IterationStart" name="@AnimationName" play="@Play" playback-rate="@PlaybackRate">
+    @ChildContent
+</wa-animation>
+
+@code {
+    /// <summary>
+    /// Gets and sets the current animation time.
+    /// </summary>
+    [Parameter]
+    public double CurrentTime { get; set; }
+
+    /// <summary>
+    /// The number of milliseconds to delay the start of the animation.
+    /// </summary>
+    [Parameter]
+    public long Delay { get; set; }
+
+    /// <summary>
+    /// Determines the direction of playback as well as the behavior when reaching the end of an iteration.
+    /// </summary>
+    [Parameter]
+    public AnimationDirection Direction { get; set; }
+
+    /// <summary>
+    /// The number of milliseconds each iteration of the animation takes to complete.
+    /// </summary>
+    [Parameter]
+    public long Duration { get; set; } = 1000;
+
+    /// <summary>
+    /// The easing function to use for the animation.
+    /// </summary>
+    [Parameter]
+    public AnimationEasing Easing { get; set; }
+
+    /// <summary>
+    /// The number of milliseconds to delay after the active period of an animation sequence.
+    /// </summary>
+    [Parameter]
+    public long EndDelay { get; set; }
+
+    /// <summary>
+    /// Sets how the animation applies styles to its target before and after its execution.
+    /// </summary>
+    [Parameter]
+    public FillMode Fill { get; set; }
+
+    /// <summary>
+    /// The number of iterations to run before the animation completes.
+    /// </summary>
+    [Parameter]
+    public long Iterations { get; set; } = long.MaxValue;
+
+    /// <summary>
+    /// The offset at which to start the animation, usually between 0 (start) and 1 (end).
+    /// </summary>
+    [Parameter]
+    public long IterationStart { get; set; }
+
+    /// <summary>
+    /// Sets the animation's playback rate. The default is 1, which plays the animation at a normal speed. Setting this to 2, for example, will double the animation's speed. A negative value can be used to reverse the animation. This value can be changed without causing the animation to restart.
+    /// </summary>
+    [Parameter]
+    public double PlaybackRate { get; set; } = 1;
+
+    /// <summary>
+    /// The name of the built-in animation to use.
+    /// </summary>
+    [Parameter]
+    public AnimationName AnimationName { get; set; }
+
+    /// <summary>
+    /// Plays the animation. When omitted, the animation will be paused.
+    /// </summary>
+    [Parameter]
+    public bool Play { get; set; } = true;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}

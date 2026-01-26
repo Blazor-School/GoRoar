@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RoarUI.Services;
 
-namespace RoarUI.Utilities;
+namespace RoarUI;
 
 public static class RoarExtensions
 {
@@ -15,7 +15,7 @@ public static class RoarExtensions
 
     public static IServiceCollection GoRoar(this IServiceCollection services)
     {
-        services.AddScoped<DevConsoleService>();
+        services.AddScoped<RoarDependencyService>();
 
         return services;
     }

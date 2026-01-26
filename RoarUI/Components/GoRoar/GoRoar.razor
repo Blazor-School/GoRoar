@@ -1,10 +1,19 @@
-﻿@namespace RoarUI.Components
+﻿@namespace RoarUI
+@using RoarUI.Services
+@inject RoarDependencyService RoarDependencyService
+@implements IDisposable
 
 @ChildContent
 <script type="module">
     import { setBasePath } from '@Assets[$"{InternalPaths.BaseWebAwesomePath}/webawesome.js"]';
     setBasePath('@InternalPaths.BaseWebAwesomePath');
 </script>
+
+@foreach (var component in RoarDependencyService.Components)
+{
+    <script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(component)]"></script>
+}
+
 @* <style>
     :root {
         --wa-color-neutral-fill-quiet: red;
@@ -21,5 +30,20 @@
 
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
+    }
+
+    public void OnComponentsChangedHandler(object? sender, EventArgs args)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        RoarDependencyService.OnComponentsChanged -= OnComponentsChangedHandler;
+    }
 }
