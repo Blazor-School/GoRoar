@@ -1,9 +1,14 @@
 ﻿@namespace RoarUI
+@using RoarUI.Services
 @inject IJSRuntime JsRuntime
-
-<script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(ComponentName)]"></script>
+@inject RoarDependencyService RoarDependencyService
 
 @code {
     [Parameter]
     public string ComponentName { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        RoarDependencyService.RegisterComponent(ComponentName);
+    }
 }

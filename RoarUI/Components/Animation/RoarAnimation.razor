@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="animation" />
 
-<wa-animation currentTime="@CurrentTime" delay="@Delay" direction="@Direction" duration="@Duration" easing="@Easing" end-delay="@EndDelay" fill="@Fill" iterations="@Iterations" iteration-start="@IterationStart" name="@AnimationName" oncanplay="@Play" playback-rate="@PlaybackRate">
+<wa-animation currentTime="@CurrentTime" delay="@Delay" direction="@Direction" duration="@Duration" easing="@Easing" end-delay="@EndDelay" fill="@Fill" iterations="@Iterations" iteration-start="@IterationStart" name="@AnimationName" play="@Play" playback-rate="@PlaybackRate">
     @ChildContent
 </wa-animation>
 
@@ -29,7 +29,7 @@
     /// The number of milliseconds each iteration of the animation takes to complete.
     /// </summary>
     [Parameter]
-    public long Duration { get; set; }
+    public long Duration { get; set; } = 1000;
 
     /// <summary>
     /// The easing function to use for the animation.
@@ -53,7 +53,7 @@
     /// The number of iterations to run before the animation completes.
     /// </summary>
     [Parameter]
-    public long Iterations { get; set; }
+    public long Iterations { get; set; } = long.MaxValue;
 
     /// <summary>
     /// The offset at which to start the animation, usually between 0 (start) and 1 (end).
@@ -65,7 +65,7 @@
     /// Sets the animation's playback rate. The default is 1, which plays the animation at a normal speed. Setting this to 2, for example, will double the animation's speed. A negative value can be used to reverse the animation. This value can be changed without causing the animation to restart.
     /// </summary>
     [Parameter]
-    public double PlaybackRate { get; set; }
+    public double PlaybackRate { get; set; } = 1;
 
     /// <summary>
     /// The name of the built-in animation to use.
@@ -77,7 +77,7 @@
     /// Plays the animation. When omitted, the animation will be paused.
     /// </summary>
     [Parameter]
-    public bool Play { get; set; }
+    public bool Play { get; set; } = true;
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

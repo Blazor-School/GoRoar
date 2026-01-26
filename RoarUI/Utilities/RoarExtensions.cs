@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using RoarUI.Services;
 
 namespace RoarUI;
 
@@ -14,7 +15,7 @@ public static class RoarExtensions
 
     public static IServiceCollection GoRoar(this IServiceCollection services)
     {
-        services.AddScoped<DevConsoleService>();
+        services.AddScoped<RoarDependencyService>();
 
         return services;
     }

@@ -1,0 +1,197 @@
+﻿@page "/animation-sample"
+
+<h3>Basic</h3>
+<div class="animation-overview">
+    <RoarAnimation AnimationName="AnimationName.Bounce" Duration="2000"><div class="box"></div></RoarAnimation>
+    <RoarAnimation AnimationName="AnimationName.Jello" Duration="2000"><div class="box"></div></RoarAnimation>
+    <RoarAnimation AnimationName="AnimationName.HeartBeat" Duration="2000"><div class="box"></div></RoarAnimation>
+    <RoarAnimation AnimationName="AnimationName.Flip" Duration="2000"><div class="box"></div></RoarAnimation>
+</div>
+
+<h3>Animation & Easing</h3>
+<RoarAnimation AnimationName="SelectedAnimationName" Easing="SelectedEasing" PlaybackRate="@PlaybackRate"><div class="box"></div></RoarAnimation>
+<InputSelect @bind-Value="SelectedAnimationName">
+    <option value="@AnimationName.BackInDown">@AnimationName.BackInDown</option>
+    <option value="@AnimationName.BackInLeft">@AnimationName.BackInLeft</option>
+    <option value="@AnimationName.BackInRight">@AnimationName.BackInRight</option>
+    <option value="@AnimationName.BackInUp">@AnimationName.BackInUp</option>
+    <option value="@AnimationName.BackOutDown">@AnimationName.BackOutDown</option>
+    <option value="@AnimationName.BackOutLeft">@AnimationName.BackOutLeft</option>
+    <option value="@AnimationName.BackOutRight">@AnimationName.BackOutRight</option>
+    <option value="@AnimationName.BackOutUp">@AnimationName.BackOutUp</option>
+
+    <option value="@AnimationName.Bounce">@AnimationName.Bounce</option>
+    <option value="@AnimationName.BounceIn">@AnimationName.BounceIn</option>
+    <option value="@AnimationName.BounceInDown">@AnimationName.BounceInDown</option>
+    <option value="@AnimationName.BounceInLeft">@AnimationName.BounceInLeft</option>
+    <option value="@AnimationName.BounceInRight">@AnimationName.BounceInRight</option>
+    <option value="@AnimationName.BounceInUp">@AnimationName.BounceInUp</option>
+    <option value="@AnimationName.BounceOut">@AnimationName.BounceOut</option>
+    <option value="@AnimationName.BounceOutDown">@AnimationName.BounceOutDown</option>
+    <option value="@AnimationName.BounceOutLeft">@AnimationName.BounceOutLeft</option>
+    <option value="@AnimationName.BounceOutRight">@AnimationName.BounceOutRight</option>
+    <option value="@AnimationName.BounceOutUp">@AnimationName.BounceOutUp</option>
+
+    <option value="@AnimationName.FadeIn">@AnimationName.FadeIn</option>
+    <option value="@AnimationName.FadeInBottomLeft">@AnimationName.FadeInBottomLeft</option>
+    <option value="@AnimationName.FadeInBottomRight">@AnimationName.FadeInBottomRight</option>
+    <option value="@AnimationName.FadeInDown">@AnimationName.FadeInDown</option>
+    <option value="@AnimationName.FadeInDownBig">@AnimationName.FadeInDownBig</option>
+    <option value="@AnimationName.FadeInLeft">@AnimationName.FadeInLeft</option>
+    <option value="@AnimationName.FadeInLeftBig">@AnimationName.FadeInLeftBig</option>
+    <option value="@AnimationName.FadeInRight">@AnimationName.FadeInRight</option>
+    <option value="@AnimationName.FadeInRightBig">@AnimationName.FadeInRightBig</option>
+    <option value="@AnimationName.FadeInTopLeft">@AnimationName.FadeInTopLeft</option>
+    <option value="@AnimationName.FadeInTopRight">@AnimationName.FadeInTopRight</option>
+    <option value="@AnimationName.FadeInUp">@AnimationName.FadeInUp</option>
+    <option value="@AnimationName.FadeInUpBig">@AnimationName.FadeInUpBig</option>
+
+    <option value="@AnimationName.FadeOut">@AnimationName.FadeOut</option>
+    <option value="@AnimationName.FadeOutBottomLeft">@AnimationName.FadeOutBottomLeft</option>
+    <option value="@AnimationName.FadeOutBottomRight">@AnimationName.FadeOutBottomRight</option>
+    <option value="@AnimationName.FadeOutDown">@AnimationName.FadeOutDown</option>
+    <option value="@AnimationName.FadeOutDownBig">@AnimationName.FadeOutDownBig</option>
+    <option value="@AnimationName.FadeOutLeft">@AnimationName.FadeOutLeft</option>
+    <option value="@AnimationName.FadeOutLeftBig">@AnimationName.FadeOutLeftBig</option>
+    <option value="@AnimationName.FadeOutRight">@AnimationName.FadeOutRight</option>
+    <option value="@AnimationName.FadeOutRightBig">@AnimationName.FadeOutRightBig</option>
+    <option value="@AnimationName.FadeOutTopLeft">@AnimationName.FadeOutTopLeft</option>
+    <option value="@AnimationName.FadeOutTopRight">@AnimationName.FadeOutTopRight</option>
+    <option value="@AnimationName.FadeOutUp">@AnimationName.FadeOutUp</option>
+    <option value="@AnimationName.FadeOutUpBig">@AnimationName.FadeOutUpBig</option>
+
+    <option value="@AnimationName.Flash">@AnimationName.Flash</option>
+    <option value="@AnimationName.Flip">@AnimationName.Flip</option>
+    <option value="@AnimationName.FlipInX">@AnimationName.FlipInX</option>
+    <option value="@AnimationName.FlipInY">@AnimationName.FlipInY</option>
+    <option value="@AnimationName.FlipOutX">@AnimationName.FlipOutX</option>
+    <option value="@AnimationName.FlipOutY">@AnimationName.FlipOutY</option>
+
+    <option value="@AnimationName.HeadShake">@AnimationName.HeadShake</option>
+    <option value="@AnimationName.HeartBeat">@AnimationName.HeartBeat</option>
+    <option value="@AnimationName.Hinge">@AnimationName.Hinge</option>
+    <option value="@AnimationName.JackInTheBox">@AnimationName.JackInTheBox</option>
+    <option value="@AnimationName.Jello">@AnimationName.Jello</option>
+
+    <option value="@AnimationName.LightSpeedInLeft">@AnimationName.LightSpeedInLeft</option>
+    <option value="@AnimationName.LightSpeedInRight">@AnimationName.LightSpeedInRight</option>
+    <option value="@AnimationName.LightSpeedOutLeft">@AnimationName.LightSpeedOutLeft</option>
+    <option value="@AnimationName.LightSpeedOutRight">@AnimationName.LightSpeedOutRight</option>
+
+    <option value="@AnimationName.Pulse">@AnimationName.Pulse</option>
+    <option value="@AnimationName.RollIn">@AnimationName.RollIn</option>
+    <option value="@AnimationName.RollOut">@AnimationName.RollOut</option>
+
+    <option value="@AnimationName.RotateIn">@AnimationName.RotateIn</option>
+    <option value="@AnimationName.RotateInDownLeft">@AnimationName.RotateInDownLeft</option>
+    <option value="@AnimationName.RotateInDownRight">@AnimationName.RotateInDownRight</option>
+    <option value="@AnimationName.RotateInUpLeft">@AnimationName.RotateInUpLeft</option>
+    <option value="@AnimationName.RotateInUpRight">@AnimationName.RotateInUpRight</option>
+
+    <option value="@AnimationName.RotateOut">@AnimationName.RotateOut</option>
+    <option value="@AnimationName.RotateOutDownLeft">@AnimationName.RotateOutDownLeft</option>
+    <option value="@AnimationName.RotateOutDownRight">@AnimationName.RotateOutDownRight</option>
+    <option value="@AnimationName.RotateOutUpLeft">@AnimationName.RotateOutUpLeft</option>
+    <option value="@AnimationName.RotateOutUpRight">@AnimationName.RotateOutUpRight</option>
+
+    <option value="@AnimationName.RubberBand">@AnimationName.RubberBand</option>
+    <option value="@AnimationName.Shake">@AnimationName.Shake</option>
+    <option value="@AnimationName.ShakeX">@AnimationName.ShakeX</option>
+    <option value="@AnimationName.ShakeY">@AnimationName.ShakeY</option>
+
+    <option value="@AnimationName.SlideInDown">@AnimationName.SlideInDown</option>
+    <option value="@AnimationName.SlideInLeft">@AnimationName.SlideInLeft</option>
+    <option value="@AnimationName.SlideInRight">@AnimationName.SlideInRight</option>
+    <option value="@AnimationName.SlideInUp">@AnimationName.SlideInUp</option>
+
+    <option value="@AnimationName.SlideOutDown">@AnimationName.SlideOutDown</option>
+    <option value="@AnimationName.SlideOutLeft">@AnimationName.SlideOutLeft</option>
+    <option value="@AnimationName.SlideOutRight">@AnimationName.SlideOutRight</option>
+    <option value="@AnimationName.SlideOutUp">@AnimationName.SlideOutUp</option>
+
+    <option value="@AnimationName.Swing">@AnimationName.Swing</option>
+    <option value="@AnimationName.Tada">@AnimationName.Tada</option>
+    <option value="@AnimationName.Wobble">@AnimationName.Wobble</option>
+
+    <option value="@AnimationName.ZoomIn">@AnimationName.ZoomIn</option>
+    <option value="@AnimationName.ZoomInDown">@AnimationName.ZoomInDown</option>
+    <option value="@AnimationName.ZoomInLeft">@AnimationName.ZoomInLeft</option>
+    <option value="@AnimationName.ZoomInRight">@AnimationName.ZoomInRight</option>
+    <option value="@AnimationName.ZoomInUp">@AnimationName.ZoomInUp</option>
+
+    <option value="@AnimationName.ZoomOut">@AnimationName.ZoomOut</option>
+    <option value="@AnimationName.ZoomOutDown">@AnimationName.ZoomOutDown</option>
+    <option value="@AnimationName.ZoomOutLeft">@AnimationName.ZoomOutLeft</option>
+    <option value="@AnimationName.ZoomOutRight">@AnimationName.ZoomOutRight</option>
+    <option value="@AnimationName.ZoomOutUp">@AnimationName.ZoomOutUp</option>
+</InputSelect>
+
+<InputSelect @bind-Value="SelectedEasing">
+    <option value="@AnimationEasing.Linear">@AnimationEasing.Linear</option>
+    <option value="@AnimationEasing.Ease">@AnimationEasing.Ease</option>
+    <option value="@AnimationEasing.EaseIn">@AnimationEasing.EaseIn</option>
+    <option value="@AnimationEasing.EaseOut">@AnimationEasing.EaseOut</option>
+    <option value="@AnimationEasing.EaseInOut">@AnimationEasing.EaseInOut</option>
+
+    <option value="@AnimationEasing.EaseInSine">@AnimationEasing.EaseInSine</option>
+    <option value="@AnimationEasing.EaseOutSine">@AnimationEasing.EaseOutSine</option>
+    <option value="@AnimationEasing.EaseInOutSine">@AnimationEasing.EaseInOutSine</option>
+
+    <option value="@AnimationEasing.EaseInQuad">@AnimationEasing.EaseInQuad</option>
+    <option value="@AnimationEasing.EaseOutQuad">@AnimationEasing.EaseOutQuad</option>
+    <option value="@AnimationEasing.EaseInOutQuad">@AnimationEasing.EaseInOutQuad</option>
+
+    <option value="@AnimationEasing.EaseInCubic">@AnimationEasing.EaseInCubic</option>
+    <option value="@AnimationEasing.EaseOutCubic">@AnimationEasing.EaseOutCubic</option>
+    <option value="@AnimationEasing.EaseInOutCubic">@AnimationEasing.EaseInOutCubic</option>
+
+    <option value="@AnimationEasing.EaseInQuart">@AnimationEasing.EaseInQuart</option>
+    <option value="@AnimationEasing.EaseOutQuart">@AnimationEasing.EaseOutQuart</option>
+    <option value="@AnimationEasing.EaseInOutQuart">@AnimationEasing.EaseInOutQuart</option>
+
+    <option value="@AnimationEasing.EaseInQuint">@AnimationEasing.EaseInQuint</option>
+    <option value="@AnimationEasing.EaseOutQuint">@AnimationEasing.EaseOutQuint</option>
+    <option value="@AnimationEasing.EaseInOutQuint">@AnimationEasing.EaseInOutQuint</option>
+
+    <option value="@AnimationEasing.EaseInExpo">@AnimationEasing.EaseInExpo</option>
+    <option value="@AnimationEasing.EaseOutExpo">@AnimationEasing.EaseOutExpo</option>
+    <option value="@AnimationEasing.EaseInOutExpo">@AnimationEasing.EaseInOutExpo</option>
+
+    <option value="@AnimationEasing.EaseInCirc">@AnimationEasing.EaseInCirc</option>
+    <option value="@AnimationEasing.EaseOutCirc">@AnimationEasing.EaseOutCirc</option>
+    <option value="@AnimationEasing.EaseInOutCirc">@AnimationEasing.EaseInOutCirc</option>
+
+    <option value="@AnimationEasing.EaseInBack">@AnimationEasing.EaseInBack</option>
+    <option value="@AnimationEasing.EaseOutBack">@AnimationEasing.EaseOutBack</option>
+    <option value="@AnimationEasing.EaseInOutBack">@AnimationEasing.EaseInOutBack</option>
+</InputSelect>
+
+<InputNumber @bind-Value="PlaybackRate" step="0.1" />
+
+<h3>Playing Animations on Demand</h3>
+<RoarAnimation AnimationName="AnimationName.RubberBand" Iterations="1" Play="ShouldPlayAnimation">
+    <RoarButton Variant="Variant.Brand" @onclick="PlayAnimation">Click me</RoarButton>
+</RoarAnimation>
+
+<style>
+    .box {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background-color: var(--wa-color-brand-fill-loud);
+        margin: 1.5rem;
+    }
+</style>
+
+@code {
+    public string SelectedAnimationName { get; set; } = "bounce";
+    public string SelectedEasing { get; set; } = "linear";
+    public double PlaybackRate { get; set; } = 1;
+    public bool ShouldPlayAnimation { get; set; } = false;
+    public Guid PlaySignal { get; set; } = Guid.NewGuid();
+
+    public void PlayAnimation()
+    {
+        ShouldPlayAnimation = true;
+    }
+}

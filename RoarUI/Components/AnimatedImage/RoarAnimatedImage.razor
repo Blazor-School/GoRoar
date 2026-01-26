@@ -1,7 +1,10 @@
 ﻿@namespace RoarUI
 
 <RoarDependency ComponentName="animated-image" />
-<wa-animated-image src="@Src" alt="@Alt" @attributes="AdditionalAttributes" play="@Play">@ChildContent</wa-animated-image>
+
+<wa-animated-image src="@Src" alt="@Alt" @attributes="AdditionalAttributes" play="@Play">
+    @ChildContent
+</wa-animated-image>
 
 @code {
     /// <summary>
