@@ -8,6 +8,12 @@
     import { setBasePath } from '@Assets[$"{InternalPaths.BaseWebAwesomePath}/webawesome.js"]';
     setBasePath('@InternalPaths.BaseWebAwesomePath');
 </script>
+<script>
+    window.executeMethodFromInstance = function (instance, methodName, ...params)
+    {
+        instance[methodName](...params);
+    }
+</script>
 
 @foreach (var component in RoarDependencyService.Components)
 {
