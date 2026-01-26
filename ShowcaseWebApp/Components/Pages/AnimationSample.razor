@@ -173,6 +173,13 @@
     <RoarButton Variant="Variant.Brand" @onclick="PlayAnimation">Click me</RoarButton>
 </RoarAnimation>
 
+<h3>Cancel Animations</h3>
+<RoarAnimation AnimationName="AnimationName.RubberBand" @ref="RoarAnimationToCancel" Iterations="400">
+    <div class="box"></div>
+</RoarAnimation>
+<RoarButton Variant="Variant.Brand" @onclick="CancelAnimationAsync">Cancel animation</RoarButton>
+<RoarButton Variant="Variant.Brand" @onclick="FinishAnimationAsync">Finish animation</RoarButton>
+
 <style>
     .box {
         display: inline-block;
@@ -188,10 +195,20 @@
     public string SelectedEasing { get; set; } = "linear";
     public double PlaybackRate { get; set; } = 1;
     public bool ShouldPlayAnimation { get; set; } = false;
-    public Guid PlaySignal { get; set; } = Guid.NewGuid();
+    public RoarAnimation RoarAnimationToCancel { get; set; }
 
     public void PlayAnimation()
     {
         ShouldPlayAnimation = true;
+    }
+
+    public async Task CancelAnimationAsync()
+    {
+        await RoarAnimationToCancel.CancelAsync();
+    }
+
+    public async Task FinishAnimationAsync()
+    {
+        await RoarAnimationToCancel.FinishAsync();
     }
 }

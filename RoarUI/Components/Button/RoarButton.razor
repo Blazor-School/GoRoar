@@ -1,8 +1,9 @@
 ﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
 
 <RoarDependency ComponentName="button" />
 
-<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes" with-caret="@WithCaret">@ChildContent</wa-button>
+<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
 
 @code {
     /// <summary>
@@ -56,6 +57,24 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)] 
+    [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    /// <summary>
+    /// Removes focus from the button.
+    /// </summary>
+    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync("executeMethodFromInstance", Element, "blur");
+
+    /// <summary>
+    /// Simulates a click on the button.
+    /// </summary>
+    public ValueTask ClickAsync() => JSRuntime.InvokeVoidAsync("executeMethodFromInstance", Element, "click");
+
+    /// <summary>
+    /// Sets focus on the button.
+    /// <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options">https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options</a>
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync("executeMethodFromInstance", Element, "focus", new { preventScroll, focusVisible });
 }
