@@ -57,6 +57,9 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
@@ -77,4 +80,20 @@
     /// <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options">https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options</a>
     /// </summary>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync("executeMethodFromInstance", Element, "focus", new { preventScroll, focusVisible });
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+
+            await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "blur", instance, nameof(TriggerBlurAsync));
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerBlurAsync()
+    {
+        await OnBlur.InvokeAsync();
+    }
 }
