@@ -54,6 +54,24 @@
     [Parameter]
     public ButtonType Type { get; set; }
 
+    /// <summary>
+    /// Emitted when the button loses focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+
+    /// <summary>
+    /// Emitted when the button gains focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnFocus { get; set; }
+
+    /// <summary>
+    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInvalid { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -77,4 +95,34 @@
     /// <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options">https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options</a>
     /// </summary>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync("executeMethodFromInstance", Element, "focus", new { preventScroll, focusVisible });
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+
+            await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "blur", instance, nameof(TriggerBlurAsync));
+            await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "focus", instance, nameof(TriggerFocusAsync));
+            await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "wa-invalid", instance, nameof(TriggerInvalidAsync));
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerBlurAsync()
+    {
+        await OnBlur.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerFocusAsync()
+    {
+        await OnFocus.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerInvalidAsync()
+    {
+        await OnInvalid.InvokeAsync();
+    }
 }

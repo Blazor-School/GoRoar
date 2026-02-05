@@ -1,7 +1,5 @@
 ﻿@namespace RoarUI
 @using RoarUI.Services
-@inject RoarDependencyService RoarDependencyService
-@implements IDisposable
 
 @ChildContent
 <script type="module">
@@ -9,16 +7,18 @@
     setBasePath('@InternalPaths.BaseWebAwesomePath');
 </script>
 <script>
-    window.executeMethodFromInstance = function (instance, methodName, ...params)
+    window.executeMethodFromInstance = function (element, methodName, ...params)
     {
-        instance[methodName](...params);
+        element[methodName](...params);
+    }
+
+    window.subscribeEvent = function(element, eventName, instance, method)
+    {
+        element.addEventListener(eventName, (e) => {
+            instance.invokeMethodAsync(method);
+        });
     }
 </script>
-
-@foreach (var component in RoarDependencyService.Components)
-{
-    <script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(component)]"></script>
-}
 
 @* <style>
     :root {
@@ -37,19 +37,4 @@
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    protected override void OnInitialized()
-    {
-        RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
-    }
-
-    public void OnComponentsChangedHandler(object? sender, EventArgs args)
-    {
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        RoarDependencyService.OnComponentsChanged -= OnComponentsChangedHandler;
-    }
 }

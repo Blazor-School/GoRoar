@@ -1,3 +1,28 @@
 ﻿@namespace RoarUI
+@using RoarUI.Services
+@inject RoarDependencyService RoarDependencyService
+@implements IDisposable
 
 <link rel="stylesheet" href="@Assets[$"{InternalPaths.BaseWebAwesomePath}/styles/webawesome.css"]" />
+
+@foreach (var component in RoarDependencyService.Components)
+{
+    <script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(component)]"></script>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
+    }
+
+    public void OnComponentsChangedHandler(object? sender, EventArgs args)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        RoarDependencyService.OnComponentsChanged -= OnComponentsChangedHandler;
+    }
+}
