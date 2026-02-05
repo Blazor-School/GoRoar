@@ -84,7 +84,7 @@
 <RoarButton Variant="Variant.Danger" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Danger</RoarButton>
 
 <h3>Methods & Events</h3>
-<RoarButton Variant="Variant.Neutral" @ref="Button1" @onclick="SayHello" OnBlur="Button1Blured">Button1</RoarButton>
+<RoarButton Variant="Variant.Neutral" @ref="Button1" @onclick="SayHello" OnBlur="Button1Blured" OnFocus="Button1Focused" OnInvalid="Button1Invalid">Button1</RoarButton>
 
 <RoarButton Variant="Variant.Brand" @onclick="BlurButton1Async">Blur Button1</RoarButton>
 <RoarButton Variant="Variant.Brand" @onclick="ClickButton1Async">Click Button1</RoarButton>
@@ -127,5 +127,15 @@
     public void Button1Blured()
     {
         Console.WriteLine("Button1 blurred!");
+    }
+
+    public void Button1Focused()
+    {
+        Console.WriteLine("Button1 focused!");
+    }
+
+    public void Button1Invalid()
+    {
+        Console.WriteLine("Button1 invalid!");
     }
 }
