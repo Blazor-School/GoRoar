@@ -84,16 +84,26 @@
 <RoarButton Variant="Variant.Danger" Disabled="ButtonDisabled" @onclick="ToggleDisabled">Danger</RoarButton>
 
 <h3>Methods & Events</h3>
-<RoarButton Variant="Variant.Neutral" @ref="Button1" @onclick="SayHello" OnBlur="Button1Blured" OnFocus="Button1Focused" OnInvalid="Button1Invalid">Button1</RoarButton>
+<div>
+    <RoarButton Variant="Variant.Neutral" @ref="Button1" @onclick="SayHello" OnBlur="Button1Blured" OnFocus="Button1Focused" OnInvalid="Button1Invalid">Button1</RoarButton>
 
-<RoarButton Variant="Variant.Brand" @onclick="BlurButton1Async">Blur Button1</RoarButton>
-<RoarButton Variant="Variant.Brand" @onclick="ClickButton1Async">Click Button1</RoarButton>
-<RoarButton Variant="Variant.Brand" @onclick="FocusButton1Async">Focus Button1</RoarButton>
+    <RoarButton Variant="Variant.Brand" @onclick="BlurButton1Async">Blur Button1</RoarButton>
+    <RoarButton Variant="Variant.Brand" @onclick="ClickButton1Async">Click Button1</RoarButton>
+    <RoarButton Variant="Variant.Brand" @onclick="FocusButton1Async">Focus Button1</RoarButton>
+</div>
+
+<div>
+    <RoarLinkButton Href="https://google.com" Variant="Variant.Neutral" @ref="LinkButton1" OnBlur="LinkButton1Blured" OnFocus="LinkButton1Focused" OnInvalid="LinkButton1Invalid">LinkButton1</RoarLinkButton>
+
+    <RoarButton Variant="Variant.Brand" @onclick="BlurLinkButton1Async">Blur LinkButton1</RoarButton>
+    <RoarButton Variant="Variant.Brand" @onclick="FocusLinkButton1Async">Focus LinkButton1</RoarButton>
+</div>
 
 @code {
     public bool IsLoading { get; set; } = false;
     public bool ButtonDisabled { get; set; } = true;
     public RoarButton Button1 { get; set; }
+    public RoarLinkButton LinkButton1 { get; set; }
 
     public async Task InitiateLoadingAsync()
     {
@@ -137,5 +147,30 @@
     public void Button1Invalid()
     {
         Console.WriteLine("Button1 invalid!");
+    }
+
+    public async Task BlurLinkButton1Async()
+    {
+        await LinkButton1.BlurAsync();
+    }
+
+    public async Task FocusLinkButton1Async()
+    {
+        await LinkButton1.FocusAsync();
+    }
+
+    public void LinkButton1Blured()
+    {
+        Console.WriteLine("LinkButton1 blurred!");
+    }
+
+    public void LinkButton1Focused()
+    {
+        Console.WriteLine("LinkButton1 focused!");
+    }
+
+    public void LinkButton1Invalid()
+    {
+        Console.WriteLine("LinkButton1 invalid!");
     }
 }
