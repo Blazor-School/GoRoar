@@ -1,0 +1,32 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="avatar" />
+
+<wa-avatar image="@ImageUrl" label="@Label" loading="@Loading" shape="@Shape"></wa-avatar>
+
+@code {
+    /// <summary>
+    /// The image source to use for the avatar.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public string ImageUrl { get; set; } = "";
+
+    /// <summary>
+    /// A label to use to describe the avatar to assistive devices.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The shape of the avatar.
+    /// </summary>
+    [Parameter]
+    public AvatarShape Shape { get; set; }
+
+    /// <summary>
+    /// Indicates how the browser should load the image.
+    /// </summary>
+    [Parameter]
+    public AvatarLoading Loading { get; set; }
+}
