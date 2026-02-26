@@ -1,0 +1,7 @@
+﻿.avatar-group wa-avatar:not(:first-of-type) {
+    margin-left: calc(-1 * var(--wa-space-m));
+}
+
+.avatar-group wa-avatar {
+    border: solid 2px var(--wa-color-surface-default);
+}
