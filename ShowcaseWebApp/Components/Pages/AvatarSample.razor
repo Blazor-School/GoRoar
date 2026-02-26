@@ -1,0 +1,26 @@
+﻿@page "/avatar-sample"
+
+<h3>Images</h3>
+<RoarImageAvatar ImageUrl="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" Label="Avatar of a gray tabby kitten looking down" />
+<RoarImageAvatar ImageUrl="https://images.unsplash.com/photo-1591871937573-74dbba515c4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" Label="Avatar of a white and grey kitten on grey textile" Loading="AvatarLoading.Lazy" />
+
+<h3>Initials</h3>
+<RoarInitialAvatar Initials="R" Label="Avatar with initials: R" />
+
+<h3>Shapes</h3>
+<RoarInitialAvatar Initials="R" Label="Avatar with initials: R" Shape="AvatarShape.Rounded" />
+<RoarInitialAvatar Initials="R" Label="Avatar with initials: R" Shape="AvatarShape.Circle" />
+<RoarInitialAvatar Initials="R" Label="Avatar with initials: R" Shape="AvatarShape.Square" />
+
+<h3>Avatar Group</h3>
+<RoarAvatarGroup>
+    <RoarImageAvatar ImageUrl="https://images.unsplash.com/photo-1490150028299-bf57d78394e0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80&crop=right" Label="Avatar 1 of 4" />
+    <RoarImageAvatar ImageUrl="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&crop=left&q=80" Label="Avatar 2 of 4" />
+    <RoarImageAvatar ImageUrl="https://images.unsplash.com/photo-1456439663599-95b042d50252?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&crop=left&q=80" Label="Avatar 3 of 4" />
+    <RoarImageAvatar ImageUrl="https://images.unsplash.com/flagged/photo-1554078875-e37cb8b0e27d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&crop=top&q=80" Label="Avatar 4 of 4" />
+    
+</RoarAvatarGroup>
+
+@code {
+
+}
