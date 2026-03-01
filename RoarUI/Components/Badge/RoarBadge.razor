@@ -1,0 +1,28 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="button" />
+
+<wa-badge variant="@Variant" appearance="@Appearance" style="font-size: @(Size)" pill="@Pill" attention="@Attention" @attributes="AdditionalAttributes">@ChildContent</wa-badge>
+
+@code {
+    [Parameter]
+    public Variant Variant { get; set; } = Variant.Brand; // Inconsistency default variant value. That's on WebAwesome
+
+    [Parameter]
+    public Appearance Appearance { get; set; }
+
+    [Parameter]
+    public BadgeSize Size { get; set; }
+
+    [Parameter]
+    public bool Pill { get; set; } = false;
+
+    [Parameter]
+    public BadgeAttention Attention { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}
