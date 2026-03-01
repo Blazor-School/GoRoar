@@ -1,0 +1,96 @@
+﻿@page "/badge-sample"
+
+<h3>Variants</h3>
+<RoarBadge Variant="Variant.Brand">Brand</RoarBadge>
+<RoarBadge Variant="Variant.Success">Success</RoarBadge>
+<RoarBadge Variant="Variant.Neutral">Neutral</RoarBadge>
+<RoarBadge Variant="Variant.Warning">Warning</RoarBadge>
+<RoarBadge Variant="Variant.Danger">Danger</RoarBadge>
+
+<h3>Appearance</h3>
+<div>
+    <RoarBadge Variant="Variant.Brand" Appearance="Appearance.Accent">Accent</RoarBadge>
+    <RoarBadge Variant="Variant.Brand" Appearance="Appearance.FilledOutline">Filled-Outlined</RoarBadge>
+    <RoarBadge Variant="Variant.Brand" Appearance="Appearance.Filled">Filled</RoarBadge>
+    <RoarBadge Variant="Variant.Brand" Appearance="Appearance.Outlined">Outlined</RoarBadge>
+</div>
+
+<div>
+    <RoarBadge Variant="Variant.Success" Appearance="Appearance.Accent">Accent</RoarBadge>
+    <RoarBadge Variant="Variant.Success" Appearance="Appearance.FilledOutline">Filled-Outlined</RoarBadge>
+    <RoarBadge Variant="Variant.Success" Appearance="Appearance.Filled">Filled</RoarBadge>
+    <RoarBadge Variant="Variant.Success" Appearance="Appearance.Outlined">Outlined</RoarBadge>
+</div>
+
+<div>
+    <RoarBadge Variant="Variant.Neutral" Appearance="Appearance.Accent">Accent</RoarBadge>
+    <RoarBadge Variant="Variant.Neutral" Appearance="Appearance.FilledOutline">Filled-Outlined</RoarBadge>
+    <RoarBadge Variant="Variant.Neutral" Appearance="Appearance.Filled">Filled</RoarBadge>
+    <RoarBadge Variant="Variant.Neutral" Appearance="Appearance.Outlined">Outlined</RoarBadge>
+</div>
+
+<div>
+    <RoarBadge Variant="Variant.Warning" Appearance="Appearance.Accent">Accent</RoarBadge>
+    <RoarBadge Variant="Variant.Warning" Appearance="Appearance.FilledOutline">Filled-Outlined</RoarBadge>
+    <RoarBadge Variant="Variant.Warning" Appearance="Appearance.Filled">Filled</RoarBadge>
+    <RoarBadge Variant="Variant.Warning" Appearance="Appearance.Outlined">Outlined</RoarBadge>
+</div>
+
+<div>
+    <RoarBadge Variant="Variant.Danger" Appearance="Appearance.Accent">Accent</RoarBadge>
+    <RoarBadge Variant="Variant.Danger" Appearance="Appearance.FilledOutline">Filled-Outlined</RoarBadge>
+    <RoarBadge Variant="Variant.Danger" Appearance="Appearance.Filled">Filled</RoarBadge>
+    <RoarBadge Variant="Variant.Danger" Appearance="Appearance.Outlined">Outlined</RoarBadge>
+</div>
+
+<h3>Size</h3>
+<RoarBadge Size="BadgeSize.XS">Extreme Small</RoarBadge>
+<RoarBadge Size="BadgeSize.S">Small</RoarBadge>
+<RoarBadge Size="BadgeSize.M">Medium</RoarBadge>
+<RoarBadge Size="BadgeSize.L">Large</RoarBadge>
+<RoarBadge Size="BadgeSize.XL">Extreme Large</RoarBadge>
+<RoarBadge Size="@("15px")">Custom Size</RoarBadge>
+
+<h3>Pill</h3>
+<RoarBadge Pill="true" Variant="Variant.Brand">Brand</RoarBadge>
+<RoarBadge Pill="true" Variant="Variant.Success">Success</RoarBadge>
+<RoarBadge Pill="true" Variant="Variant.Neutral">Neutral</RoarBadge>
+<RoarBadge Pill="true" Variant="Variant.Warning">Warning</RoarBadge>
+<RoarBadge Pill="true" Variant="Variant.Danger">Danger</RoarBadge>
+
+<h3>Drawing Attention</h3>
+<div>
+    <RoarBadge Attention="BadgeAttention.Pulse" Pill="true" Variant="Variant.Brand">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Pulse" Pill="true" Variant="Variant.Success">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Pulse" Pill="true" Variant="Variant.Neutral">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Pulse" Pill="true" Variant="Variant.Warning">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Pulse" Pill="true" Variant="Variant.Danger">1</RoarBadge>
+</div>
+
+<div>
+    <RoarBadge Attention="BadgeAttention.Bounce" Pill="true" Variant="Variant.Brand">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Bounce" Pill="true" Variant="Variant.Success">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Bounce" Pill="true" Variant="Variant.Neutral">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Bounce" Pill="true" Variant="Variant.Warning">1</RoarBadge>
+    <RoarBadge Attention="BadgeAttention.Bounce" Pill="true" Variant="Variant.Danger">1</RoarBadge>
+</div>
+
+<h3>With Buttons</h3>
+<div class="d-flex flex-row gap-3">
+    <RoarButton>
+        Requests
+        <RoarBadge Pill="true" Variant="Variant.Brand">30</RoarBadge>
+    </RoarButton>
+    <RoarButton>
+        Warnings
+        <RoarBadge Pill="true" Variant="Variant.Warning">8</RoarBadge>
+    </RoarButton>
+    <RoarButton>
+        Errors
+        <RoarBadge Pill="true" Variant="Variant.Danger">6</RoarBadge>
+    </RoarButton>
+    <RoarButton>
+        Notice Me
+        <RoarBadge Pill="true" Attention="BadgeAttention.Pulse" Variant="Variant.Danger">100</RoarBadge>
+    </RoarButton>
+</div>

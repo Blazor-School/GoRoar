@@ -3,7 +3,7 @@
 namespace RoarUI.Definitions.Badge;
 
 [StringEnum("BadgeSize", "var(--wa-font-size-xs)")]
-[StringEnumMember("XL", "var(--wa-font-size-xs)")]
+[StringEnumMember("XS", "var(--wa-font-size-xs)")]
 [StringEnumMember("S", "var(--wa-font-size-s)")]
 [StringEnumMember("M", "var(--wa-font-size-m)")]
 [StringEnumMember("L", "var(--wa-font-size-l)")]
