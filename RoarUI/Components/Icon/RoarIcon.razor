@@ -1,0 +1,75 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="animation" />
+
+<wa-icon family="@Family" variant="@Variant" label="@Label" auto-width="@AutoWidth" rotate="@Rotate" flip="@Flip" animation="@Animation" @attributes="InternalAttributes" swap-opacity="@SwapOpacity">
+    @ChildContent
+</wa-icon>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public string Name { get; set; }
+
+    [Parameter]
+    public FontAwesomeVariant Variant { get; set; }
+
+    [Parameter]
+    public FontAwesomeFamily Family { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public IconSize Size { get; set; }
+
+    [Parameter]
+    public bool AutoWidth { get; set; } = false;
+
+    [Parameter]
+    public int Rotate { get; set; }
+
+    [Parameter]
+    public IconFlip Flip { get; set; }
+
+    [Parameter]
+    public IconAnimation Animation { get; set; }
+
+    [Parameter]
+    public string? Color { get; set; }
+
+    [Parameter]
+    public string? PrimaryColor { get; set; }
+
+    [Parameter]
+    public string? SecondaryColor { get; set; }
+
+    [Parameter]
+    public string? PrimaryOpacity { get; set; }
+
+    [Parameter]
+    public string? SecondaryOpacity { get; set; }
+
+    [Parameter]
+    public bool SwapOpacity { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private Dictionary<string, object> InternalAttributes { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("font-size", Size)
+            .AddStyle("color", Color)
+            .AddStyle("--primary-color", PrimaryColor)
+            .AddStyle("--secondary-color", SecondaryColor)
+            .AddStyle("--primary-opacity", PrimaryOpacity)
+            .AddStyle("--secondary-opacity", SecondaryOpacity)
+            .Build();
+    }
+}
