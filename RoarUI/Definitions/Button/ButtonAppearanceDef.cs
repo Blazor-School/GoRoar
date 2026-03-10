@@ -1,13 +1,13 @@
 ﻿using RoarUI.Infrastructure;
 
-namespace RoarUI.Definitions;
+namespace RoarUI.Definitions.Button;
 
-[StringEnum("Appearance", "accent")]
+[StringEnum("ButtonAppearance", "accent")]
 [StringEnumMember("Accent")]
 [StringEnumMember("FilledOutline", "filled-outlined")]
 [StringEnumMember("Filled")]
 [StringEnumMember("Outlined")]
 [StringEnumMember("Plain")]
-internal class AppearanceDef
+internal class ButtonAppearanceDef
 {
 }
