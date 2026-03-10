@@ -26,5 +26,25 @@ internal class AttributeBuilder
         return this;
     }
 
+    public AttributeBuilder AddStyle(string name, double? value)
+    {
+        if (value is not null)
+        {
+            string newStyle = $"{name}:{value}";
+
+            if (_attributes.TryGetValue("style", out object? existing))
+            {
+                string? style = existing?.ToString()?.Trim().TrimEnd(';');
+                _attributes["style"] = $"{style}; {newStyle}";
+            }
+            else
+            {
+                _attributes["style"] = newStyle;
+            }
+        }
+
+        return this;
+    }
+
     public Dictionary<string, object> Build() => _attributes;
 }

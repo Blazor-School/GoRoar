@@ -2,7 +2,7 @@
 
 namespace RoarUI.Definitions.Icon;
 
-[StringEnum("IconSize", "var(--wa-font-size-xs)")]
+[StringEnum("IconSize", "var(--wa-font-size-m)")]
 [StringEnumMember("XS", "var(--wa-font-size-xs)")]
 [StringEnumMember("S", "var(--wa-font-size-s)")]
 [StringEnumMember("M", "var(--wa-font-size-m)")]

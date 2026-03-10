@@ -12,7 +12,7 @@ namespace RoarUI.Definitions.Icon;
 [StringEnumMember("Shake")]
 [StringEnumMember("Spin")]
 [StringEnumMember("SpinPulse", "spin-pulse")]
-[StringEnumMember("SpinReserve", "spin-reserve")]
+[StringEnumMember("SpinResverse", "spin-reverse")]
 internal class IconAnimationDef
 {
 }
