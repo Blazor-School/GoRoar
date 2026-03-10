@@ -1,11 +1,11 @@
 ﻿using RoarUI.Infrastructure;
 
-namespace RoarUI.Definitions;
+namespace RoarUI.Definitions.Button;
 
-[StringEnum("Size", "medium")]
+[StringEnum("ButtonSize", "medium")]
 [StringEnumMember("Small")]
 [StringEnumMember("Medium")]
 [StringEnumMember("Large")]
-internal class SizeDef
+internal class ButtonSizeDef
 {
 }
