@@ -1,0 +1,120 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="icon" />
+
+<wa-icon family="@Family" variant="@Variant" label="@Label" auto-width="@AutoWidth" rotate="@Rotate" flip="@Flip" animation="@Animation" @attributes="InternalAttributes" swap-opacity="@SwapOpacity" name="@Name" library="default">
+    @ChildContent
+</wa-icon>
+
+@code {
+    /// <summary>
+    /// The name of the icon to draw. See Font Awesome icon for more information.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public string Name { get; set; }
+
+    /// <summary>
+    /// The name of the icon's variant. Some variants require a Font Awesome Pro subscription.
+    /// </summary>
+    [Parameter]
+    public FontAwesomeVariant Variant { get; set; }
+
+    /// <summary>
+    /// The family of icons to choose from. Some families require a Font Awesome Pro subscription.
+    /// </summary>
+    [Parameter]
+    public FontAwesomeFamily Family { get; set; }
+
+    /// <summary>
+    /// An alternate description to use for assistive devices. If omitted, the icon will be considered presentational and ignored by assistive devices.
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    /// <summary>
+    /// The size of the icon. This can be a predefined size or a custom CSS size (e.g., "2em", "24px").
+    /// </summary>
+    [Parameter]
+    public IconSize Size { get; set; }
+
+    /// <summary>
+    /// Sets the width of the icon to match the cropped SVG viewBox. This operates like the Font <code>fa-width-auto</code> class.
+    /// </summary>
+    [Parameter]
+    public bool AutoWidth { get; set; } = false;
+
+    /// <summary>
+    /// Sets the rotation degree of the icon.
+    /// </summary>
+    [Parameter]
+    public int Rotate { get; set; }
+
+    /// <summary>
+    /// Sets the flip direction of the icon.
+    /// </summary>
+    [Parameter]
+    public IconFlip Flip { get; set; }
+
+    /// <summary>
+    /// Sets the animation for the icon.
+    /// </summary>
+    [Parameter]
+    public IconAnimation Animation { get; set; }
+
+    /// <summary>
+    /// Sets the color for the icon.
+    /// </summary>
+    [Parameter]
+    public string? Color { get; set; }
+
+    /// <summary>
+    /// Sets the primary color for the icon.
+    /// </summary>
+    [Parameter]
+    public string? PrimaryColor { get; set; }
+
+    /// <summary>
+    /// Sets the secondary color for the icon.
+    /// </summary>
+    [Parameter]
+    public string? SecondaryColor { get; set; }
+
+    /// <summary>
+    /// Sets the primary opacity for the icon.
+    /// </summary>
+    [Parameter]
+    public double? PrimaryOpacity { get; set; }
+
+    /// <summary>
+    /// Sets the secondary opacity for the icon.
+    /// </summary>
+    [Parameter]
+    public double? SecondaryOpacity { get; set; }
+
+    /// <summary>
+    /// Swaps the opacity of duotone icons.
+    /// </summary>
+    [Parameter]
+    public bool SwapOpacity { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private Dictionary<string, object> InternalAttributes { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("font-size", Size)
+            .AddStyle("color", Color)
+            .AddStyle("--primary-color", PrimaryColor)
+            .AddStyle("--secondary-color", SecondaryColor)
+            .AddStyle("--primary-opacity", PrimaryOpacity)
+            .AddStyle("--secondary-opacity", SecondaryOpacity)
+            .Build();
+    }
+}

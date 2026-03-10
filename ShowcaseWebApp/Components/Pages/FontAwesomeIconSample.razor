@@ -1,0 +1,164 @@
+﻿@page "/font-awesome-icon-sample"
+
+<h3>Classic family</h3>
+<RoarIcon Name="eyedropper" />
+<RoarIcon Name="grip-vertical" Variant="FontAwesomeVariant.Regular" />
+<RoarIcon Name="play" Variant="FontAwesomeVariant.Light" />
+<RoarIcon Name="star" Variant="FontAwesomeVariant.Thin" />
+
+<h3>Duetone family</h3>
+<RoarIcon Family="FontAwesomeFamily.Duotone" Name="eyedropper" />
+<RoarIcon Family="FontAwesomeFamily.Duotone" Name="grip-vertical" Variant="FontAwesomeVariant.Regular" />
+<RoarIcon Family="FontAwesomeFamily.Duotone" Name="play" Variant="FontAwesomeVariant.Light" />
+<RoarIcon Family="FontAwesomeFamily.Duotone" Name="star" Variant="FontAwesomeVariant.Thin" />
+
+<h3>Sharp family</h3>
+<RoarIcon Family="FontAwesomeFamily.Sharp" Name="eyedropper" />
+<RoarIcon Family="FontAwesomeFamily.Sharp" Name="grip-vertical" Variant="FontAwesomeVariant.Regular" />
+<RoarIcon Family="FontAwesomeFamily.Sharp" Name="play" Variant="FontAwesomeVariant.Light" />
+<RoarIcon Family="FontAwesomeFamily.Sharp" Name="star" Variant="FontAwesomeVariant.Thin" />
+
+<h3>Sharp Duotone family</h3>
+<RoarIcon Family="FontAwesomeFamily.SharpDuotone" Name="eyedropper" />
+<RoarIcon Family="FontAwesomeFamily.SharpDuotone" Name="grip-vertical" Variant="FontAwesomeVariant.Regular" />
+<RoarIcon Family="FontAwesomeFamily.SharpDuotone" Name="play" Variant="FontAwesomeVariant.Light" />
+<RoarIcon Family="FontAwesomeFamily.SharpDuotone" Name="star" Variant="FontAwesomeVariant.Thin" />
+
+<h3>Brands family</h3>
+<RoarIcon Family="FontAwesomeFamily.Brands" Name="font-awesome" />
+<RoarIcon Family="FontAwesomeFamily.Brands" Name="web-awesome" Variant="FontAwesomeVariant.Regular" />
+<RoarIcon Family="FontAwesomeFamily.Brands" Name="github" Variant="FontAwesomeVariant.Light" />
+<RoarIcon Family="FontAwesomeFamily.Brands" Name="discord" Variant="FontAwesomeVariant.Thin" />
+
+<h3>Labels</h3>
+<RoarIcon Name="star" Label="Favorite" />
+
+<h3>Sizing</h3>
+<RoarIcon Name="bell" Size="IconSize.XS" />
+<RoarIcon Name="heart" Size="IconSize.S" />
+<RoarIcon Name="image" Size="IconSize.M" />
+<RoarIcon Name="microphone" Size="IconSize.L" />
+<RoarIcon Name="search" Size="IconSize.XL" />
+<RoarIcon Name="star" Size="@("50px")" />
+
+<h3>Auto Width</h3>
+<div>
+    <span>Default</span>
+    <RoarIcon Name="exclamation" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon Name="circle-check" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon Name="input-numeric" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon Name="ruler-vertical" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon Name="ruler-horizontal" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon Name="airplay" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+</div>
+
+<div>
+    <span>With auto width</span>
+    <RoarIcon AutoWidth="true" Name="exclamation" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon AutoWidth="true" Name="circle-check" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon AutoWidth="true" Name="input-numeric" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon AutoWidth="true" Name="ruler-vertical" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon AutoWidth="true" Name="ruler-horizontal" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+    <RoarIcon AutoWidth="true" Name="airplay" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+</div>
+
+<h3>Rotating & Flipping</h3>
+<div>
+    <RoarIcon Name="snowboarding" Size="IconSize.XL" />
+    <RoarIcon Rotate="90" Name="snowboarding" Size="IconSize.XL" />
+    <RoarIcon Rotate="180" Name="snowboarding" Size="IconSize.XL" />
+    <RoarIcon Rotate="270" Name="snowboarding" Size="IconSize.XL" />
+    <RoarIcon Flip="IconFlip.X" Name="snowboarding" Size="IconSize.XL" />
+    <RoarIcon Flip="IconFlip.Y" Name="snowboarding" Size="IconSize.XL" />
+    <RoarIcon Flip="IconFlip.Both" Name="snowboarding" Size="IconSize.XL" />
+</div>
+
+<h3>Animation</h3>
+<div>
+    Beat
+    <RoarIcon Name="heart" Animation="IconAnimation.Beat" />
+</div>
+<div>
+    Fade
+    <RoarIcon Name="triangle-exclamation" Animation="IconAnimation.Fade" />
+</div>
+<div>
+    Beat-Fade
+    <RoarIcon Name="triangle-person-digging" Animation="IconAnimation.BeatFade" />
+</div>
+<div>
+    Bounce
+    <RoarIcon Name="frog" Animation="IconAnimation.Bounce" />
+</div>
+<div>
+    Flip
+    <RoarIcon Name="compact-disc" Animation="IconAnimation.Flip" />
+</div>
+<div>
+    Shake
+    <RoarIcon Name="bell" Animation="IconAnimation.Shake" />
+</div>
+<div>
+    Spin
+    <RoarIcon Name="cog" Animation="IconAnimation.Spin" />
+    <RoarIcon Name="cog" Animation="IconAnimation.SpinPulse" />
+    <RoarIcon Name="cog" Animation="IconAnimation.SpinResverse" />
+</div>
+
+<h3>Color</h3>
+<RoarIcon Name="strawberry" Color="salmon" />
+<RoarIcon Name="crab" Color="coral" />
+<RoarIcon Name="sun" Color="gold" />
+<RoarIcon Name="leaf" Color="mediumseagreen" />
+<RoarIcon Name="cloud-showers-heavy" Color="steelblue" />
+<RoarIcon Name="cat-space" Color="mediumpurple" />
+
+<h3>Duotone</h3>
+<div>
+    <RoarIcon PrimaryColor="dodgerblue" SecondaryColor="gold" SecondaryOpacity="1" Name="crow" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon PrimaryColor="sienna" SecondaryColor="red" SecondaryOpacity="1" Name="campfire" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon PrimaryColor="pink" SecondaryColor="palevioletred" SecondaryOpacity="1" Name="birthday-cake" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon PrimaryColor="sandybrown" SecondaryColor="bisque" SecondaryOpacity="1" Name="ear" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon PrimaryColor="mediumseagreen" SecondaryColor="gold" SecondaryOpacity="1" Name="corn" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon PrimaryColor="saddlebrown" SecondaryColor="burlywood" SecondaryOpacity="1" Name="cookie-bite" Family="FontAwesomeFamily.Duotone" />
+</div>
+<div>
+    <RoarIcon Variant="FontAwesomeVariant.Regular" PrimaryColor="dodgerblue" SecondaryColor="gold" SecondaryOpacity="1" Name="crow" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Regular" PrimaryColor="sienna" SecondaryColor="red" SecondaryOpacity="1" Name="campfire" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Regular" PrimaryColor="pink" SecondaryColor="palevioletred" SecondaryOpacity="1" Name="birthday-cake" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Regular" PrimaryColor="sandybrown" SecondaryColor="bisque" SecondaryOpacity="1" Name="ear" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Regular" PrimaryColor="mediumseagreen" SecondaryColor="gold" SecondaryOpacity="1" Name="corn" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Regular" PrimaryColor="saddlebrown" SecondaryColor="burlywood" SecondaryOpacity="1" Name="cookie-bite" Family="FontAwesomeFamily.Duotone" />
+</div>
+<div>
+    <RoarIcon Variant="FontAwesomeVariant.Light" PrimaryColor="dodgerblue" SecondaryColor="gold" SecondaryOpacity="1" Name="crow" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Light" PrimaryColor="sienna" SecondaryColor="red" SecondaryOpacity="1" Name="campfire" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Light" PrimaryColor="pink" SecondaryColor="palevioletred" SecondaryOpacity="1" Name="birthday-cake" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Light" PrimaryColor="sandybrown" SecondaryColor="bisque" SecondaryOpacity="1" Name="ear" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Light" PrimaryColor="mediumseagreen" SecondaryColor="gold" SecondaryOpacity="1" Name="corn" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Light" PrimaryColor="saddlebrown" SecondaryColor="burlywood" SecondaryOpacity="1" Name="cookie-bite" Family="FontAwesomeFamily.Duotone" />
+</div>
+<div>
+    <RoarIcon Variant="FontAwesomeVariant.Thin" PrimaryColor="dodgerblue" SecondaryColor="gold" SecondaryOpacity="1" Name="crow" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Thin" PrimaryColor="sienna" SecondaryColor="red" SecondaryOpacity="1" Name="campfire" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Thin" PrimaryColor="pink" SecondaryColor="palevioletred" SecondaryOpacity="1" Name="birthday-cake" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Thin" PrimaryColor="sandybrown" SecondaryColor="bisque" SecondaryOpacity="1" Name="ear" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Thin" PrimaryColor="mediumseagreen" SecondaryColor="gold" SecondaryOpacity="1" Name="corn" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Variant="FontAwesomeVariant.Thin" PrimaryColor="saddlebrown" SecondaryColor="burlywood" SecondaryOpacity="1" Name="cookie-bite" Family="FontAwesomeFamily.Duotone" />
+</div>
+
+<h3>Swap Duotone Opacity</h3>
+<div>
+    Normal duotone
+    <RoarIcon Name="home" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Name="user" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Name="envelope" Family="FontAwesomeFamily.Duotone" />
+    <RoarIcon Name="calendar" Family="FontAwesomeFamily.Duotone" />
+</div>
+<div>
+    Swap duotone
+    <RoarIcon Name="home" Family="FontAwesomeFamily.Duotone" SwapOpacity="true" />
+    <RoarIcon Name="user" Family="FontAwesomeFamily.Duotone" SwapOpacity="true" />
+    <RoarIcon Name="envelope" Family="FontAwesomeFamily.Duotone" SwapOpacity="true" />
+    <RoarIcon Name="calendar" Family="FontAwesomeFamily.Duotone" SwapOpacity="true" />
+</div>

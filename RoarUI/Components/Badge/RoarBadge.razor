@@ -2,21 +2,36 @@
 
 <RoarDependency ComponentName="badge" />
 
-<wa-badge variant="@Variant" appearance="@Appearance" style="font-size: @(Size)" pill="@Pill" attention="@Attention" @attributes="AdditionalAttributes">@ChildContent</wa-badge>
+<wa-badge variant="@Variant" appearance="@Appearance" pill="@Pill" attention="@Attention" @attributes="InternalAttributes">@ChildContent</wa-badge>
 
 @code {
+    /// <summary>
+    /// The badge's theme variant. Defaults to brand if not within another element with a variant.
+    /// </summary>
     [Parameter]
     public Variant Variant { get; set; } = Variant.Brand; // Inconsistency default variant value. That's on WebAwesome
 
+    /// <summary>
+    /// The badge's visual appearance.
+    /// </summary>
     [Parameter]
     public Appearance Appearance { get; set; }
 
+    /// <summary>
+    /// The badge's size. Can use any valid CSS unit.
+    /// </summary>
     [Parameter]
     public BadgeSize Size { get; set; }
 
+    /// <summary>
+    /// Draws a pill-style badge with rounded edges.
+    /// </summary>
     [Parameter]
     public bool Pill { get; set; } = false;
 
+    /// <summary>
+    /// Adds an animation to draw attention to the badge.
+    /// </summary>
     [Parameter]
     public BadgeAttention Attention { get; set; }
 
@@ -25,4 +40,13 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("font-size", Size)
+            .Build();
+    }
 }
