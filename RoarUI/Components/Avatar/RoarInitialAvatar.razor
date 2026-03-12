@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="avatar" />
 
-<wa-avatar initials="@Initials" label="@Label" shape="@Shape"></wa-avatar>
+<wa-avatar initials="@Initials" label="@Label" shape="@Shape" @attributes="AdditionalAttributes">@ChildContent</wa-avatar>
 
 @code {
     /// <summary>
@@ -23,4 +23,10 @@
     /// </summary>
     [Parameter]
     public AvatarShape Shape { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 }
