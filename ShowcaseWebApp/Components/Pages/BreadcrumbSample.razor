@@ -1,0 +1,90 @@
+﻿@page "/breadcrumb-sample"
+
+<h3>Without Links</h3>
+<RoarBreadcrumb>
+    <RoarBreadcrumbItem>Catalog</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Clothing</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Women's</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Shirts &amp; Tops</RoarBreadcrumbItem>
+</RoarBreadcrumb>
+
+<h3>Breadcrumb Links</h3>
+<RoarBreadcrumb>
+    <RoarBreadcrumbItem Href="https://example.com/home">Homepage</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem Href="https://example.com/home/services">Our Services</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem Href="https://example.com/home/services/digital">Digital Media</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem Href="https://example.com/home/services/digital/web-design">Web Design</RoarBreadcrumbItem>
+</RoarBreadcrumb>
+
+<h3>Start &amp; End Decorations</h3>
+<RoarBreadcrumb>
+    <RoarBreadcrumbItem>
+        <RoarIcon slot="start" Name="house" /> Home
+    </RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Articles</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>
+        <RoarIcon slot="end" Name="tree-palm" /> Traveling
+    </RoarBreadcrumbItem>
+</RoarBreadcrumb>
+
+<h3>Custom Separators</h3>
+<div>
+    <RoarBreadcrumb>
+        <RoarIcon slot="separator" Name="angles-right" />
+        <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Second</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
+    </RoarBreadcrumb>
+</div>
+
+<div>
+    <RoarBreadcrumb>
+        <RoarIcon slot="separator" Name="arrow-right"/>
+        <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Second</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
+    </RoarBreadcrumb>
+</div>
+
+<div>
+    <RoarBreadcrumb>
+        <span slot="separator">/</span>
+        <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Second</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
+    </RoarBreadcrumb>
+</div>
+
+<div>
+    <RoarBreadcrumb>
+        <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Second
+            <RoarIcon slot="separator" Name="hippo" />
+        </RoarBreadcrumbItem>
+        <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
+    </RoarBreadcrumb>
+</div>
+
+<h3>Custom Colors</h3>
+<RoarBreadcrumb class="redcrumbs">
+  <RoarBreadcrumbItem>
+    <RoarIcon slot="start" Name="house" /> Home
+  </RoarBreadcrumbItem>
+  <RoarBreadcrumbItem>Articles</RoarBreadcrumbItem>
+  <RoarBreadcrumbItem>Traveling</RoarBreadcrumbItem>
+</RoarBreadcrumb>
+<style>
+    .redcrumbs wa-breadcrumb-item {
+      color: firebrick;
+    }
+    .redcrumbs wa-breadcrumb-item:last-of-type {
+      color: crimson;
+    }
+    .redcrumbs wa-breadcrumb-item::part(separator) {
+      color: pink;
+    }
+    .redcrumbs wa-breadcrumb-item::part(start),
+    .redcrumbs wa-breadcrumb-item::part(end) {
+      color: currentColor;
+    }
+</style>
