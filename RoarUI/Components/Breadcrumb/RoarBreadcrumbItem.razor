@@ -1,0 +1,33 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="breadcrumb-item" />
+
+<wa-breadcrumb-item @attributes="AdditionalAttributes" href="@Href" rel="@Rel" target="@Target">
+    @ChildContent
+</wa-breadcrumb-item>
+
+@code {
+    /// <summary>
+    /// Optional URL to direct the user to when the breadcrumb item is activated. When set, a link will be rendered internally. When unset, a button will be rendered instead.
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// Tells the browser where to open the link. Only used when <see cref="Href"/> is set.
+    /// </summary>
+    [Parameter]
+    public LinkTarget? Target { get; set; }
+
+    /// <summary>
+    /// The rel attribute to use on the link. Only used when <see cref="Href"/> is set.
+    /// </summary>
+    [Parameter]
+    public string? Rel { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}
