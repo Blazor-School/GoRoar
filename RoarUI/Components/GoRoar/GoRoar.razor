@@ -15,7 +15,7 @@
     window.subscribeEvent = function(element, eventName, instance, method)
     {
         element.addEventListener(eventName, (e) => {
-            instance.invokeMethodAsync(method);
+            instance.invokeMethodAsync(method, e);
         });
     }
 </script>
