@@ -1,3 +1,3 @@
 ﻿namespace RoarUI.Events;
 
-public record WaSelectEventArgs(string? SelectedItem);
+public record WaSelectEventArgs(string? SelectedItem, bool? Checked);

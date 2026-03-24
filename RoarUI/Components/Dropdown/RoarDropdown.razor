@@ -45,6 +45,9 @@
     public Expression<Func<string>>? ValueExpression { get; set; }
 
     [Parameter]
+    public EventCallback<KeyValuePair<string?, bool>> CheckboxItemSelected { get; set; }
+
+    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
@@ -64,6 +67,13 @@
     [JSInvokable]
     public void NotifyValueChanged(WaSelectEventArgs eventArgs)
     {
-        ValueChanged.InvokeAsync(eventArgs.SelectedItem);
+        if (eventArgs.Checked is not null)
+        {
+            CheckboxItemSelected.InvokeAsync(new(eventArgs.SelectedItem, eventArgs.Checked.Value));
+        }
+        else
+        {
+            ValueChanged.InvokeAsync(eventArgs.SelectedItem);
+        }
     }
 }

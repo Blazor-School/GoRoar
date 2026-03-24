@@ -26,6 +26,7 @@ function roarGeneralFunction() {
 
 let roarMapperByWebAwesomeEventName = {
     "WaSelectEventArgs": (e) => ({
-        SelectedItem: e.detail.item.value
+        SelectedItem: e.detail.item.value,
+        Checked: event.detail.item.type === 'checkbox' ? e.detail.item.checked : null
     })
 }

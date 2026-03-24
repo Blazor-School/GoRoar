@@ -1,9 +1,8 @@
 ﻿@page "/dropdown-sample"
 
 <h3>Getting the Selected Item</h3>
-<RoarDropdown Distance="20" @bind-Value="SelectedValue">
-    <RoarButton slot="trigger" WithCaret>View</RoarButton>
-    <h3>Test</h3>
+<RoarDropdown @bind-Value="SelectedValue">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>View</RoarButton>
     <RoarDropdownItem Value="full-screen">Enter full screen</RoarDropdownItem>
     <RoarDropdownItem Value="actual">Actual size</RoarDropdownItem>
     <RoarDropdownItem Value="zoom-in">Zoom in</RoarDropdownItem>
@@ -11,6 +10,101 @@
 </RoarDropdown>
 <p>Selected value: @SelectedValue</p>
 
+<h3>Showing Icons</h3>
+<RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Edit</RoarButton>
+    <RoarDropdownItem Value="cut">
+        <RoarIcon slot="icon" Name="scissors"></RoarIcon>
+        Cut
+    </RoarDropdownItem>
+    <RoarDropdownItem Value="copy">
+        <RoarIcon slot="icon" Name="copy"></RoarIcon>
+        Copy
+    </RoarDropdownItem>
+    <RoarDropdownItem Value="paste">
+        <RoarIcon slot="icon" Name="paste"></RoarIcon>
+        Paste
+    </RoarDropdownItem>
+    <RoarDropdownItem Value="delete" Variant="DropdownItemVariant.Danger">
+        <RoarIcon slot="icon" Name="trash"></RoarIcon>
+        Delete
+    </RoarDropdownItem>
+</RoarDropdown>
+
+@* <h3>Showing Labels & Dividers</h3>
+<RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Device</RoarButton>
+    <h3>Type</h3>
+    <RoarDropdownItem Value="phone">Phone</RoarDropdownItem>
+    <RoarDropdownItem Value="tablet">Tablet</RoarDropdownItem>
+    <RoarDropdownItem Value="desktop">Desktop</RoarDropdownItem>
+    <wa-divider></wa-divider>
+    <RoarDropdownItem Value="more">More options...</RoarDropdownItem>
+</RoarDropdown>
+ *@
+
+@* <h3>Showing Details</h3>
+<RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Message</RoarButton>
+
+    <RoarDropdownItem Value="reply">
+        Reply
+        <span slot="details">⌘R</span>
+    </RoarDropdownItem>
+
+    <RoarDropdownItem Value="forward">
+        Forward
+        <span slot="details">⌘F</span>
+    </RoarDropdownItem>
+
+    <RoarDropdownItem value="move">
+        Move
+        <span slot="details">⌘M</span>
+    </RoarDropdownItem>
+
+    <wa-divider></wa-divider>
+
+    <RoarDropdownItem Value="archive">
+        Archive
+        <span slot="details">⌘A</span>
+    </RoarDropdownItem>
+
+    <RoarDropdownItem Value="delete" Variant="DropdownItemVariant.Danger">
+        Delete
+        <span slot="details">Del</span>
+    </RoarDropdownItem>
+</RoarDropdown> *@
+
+<h3>Checkable Items</h3>
+<RoarDropdown CheckboxItemSelected="OnCheckboxItemSelected">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>View</RoarButton>
+
+    <RoarDropdownCheckboxItem Value="canvas" Checked="@CheckedItems["canvas"]">Show canvas</RoarDropdownCheckboxItem>
+    <RoarDropdownCheckboxItem Value="grid" Checked="@CheckedItems["grid"]">Show grid</RoarDropdownCheckboxItem> @*Users can omit the true value*@
+    <RoarDropdownCheckboxItem Value="source" Checked="@CheckedItems["source"]">Show source</RoarDropdownCheckboxItem>
+    <wa-divider></wa-divider>
+
+    <RoarDropdownItem Value="preferences">Preferences...</RoarDropdownItem>
+</RoarDropdown>
+
+<div>
+    @foreach(var pair in CheckedItems)
+    {
+        <p>@pair.Key: @pair.Value</p>
+    }
+</div>
+
 @code {
     public string SelectedValue { get; set; } = "";
+    public Dictionary<string, bool> CheckedItems { get; set; } = new()
+    {
+        ["canvas"] = true,
+        ["grid"] = true,
+        ["source"] = false
+    };
+
+    public void OnCheckboxItemSelected(KeyValuePair<string,bool> recentCheckboxItem)
+    {
+        CheckedItems[recentCheckboxItem.Key] = recentCheckboxItem.Value;
+    }
 }
