@@ -1,20 +1,16 @@
 ﻿@page "/dropdown-sample"
 
 <h3>Getting the Selected Item</h3>
-<RoarDropdown Distance="20">
+<RoarDropdown Distance="20" @bind-Value="SelectedValue">
     <RoarButton slot="trigger" WithCaret>View</RoarButton>
     <h3>Test</h3>
-    <wa-dropdown-item value="full-screen">Enter full screen</wa-dropdown-item>
+    <RoarDropdownItem Value="full-screen">Enter full screen</RoarDropdownItem>
+    <RoarDropdownItem Value="actual">Actual size</RoarDropdownItem>
+    <RoarDropdownItem Value="zoom-in">Zoom in</RoarDropdownItem>
+    <RoarDropdownItem Value="zoom-out">Zoom out</RoarDropdownItem>
 </RoarDropdown>
-<RoarDropdown Distance="20.9">
-    <RoarButton slot="trigger" WithCaret>View</RoarButton>
-    <h3>Test</h3>
-</RoarDropdown>
-<RoarDropdown Distance="21">
-    <RoarButton slot="trigger" WithCaret>View</RoarButton>
-    <h3>Test</h3>
-</RoarDropdown>
+<p>Selected value: @SelectedValue</p>
 
 @code {
-
+    public string SelectedValue { get; set; } = "";
 }

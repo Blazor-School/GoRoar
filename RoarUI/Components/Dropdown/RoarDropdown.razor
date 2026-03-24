@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" onwa-select="(e)=>console.log(e)" @ref="Element">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @ref="Element">
     @ChildContent
 </wa-dropdown>
 
@@ -23,6 +23,27 @@
     [Parameter]
     public int Skidding { get; set; }
 
+    /// <summary>
+    /// Gets or sets the value of the input. This should be used with two-way binding.
+    /// </summary>
+    /// <example>
+    /// @bind-Value="model.PropertyName"
+    /// </example>
+    [Parameter]
+    public string? Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets a callback that updates the bound value.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound value.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<string>>? ValueExpression { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -31,18 +52,18 @@
 
     internal ElementReference Element { get; set; }
 
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     if (firstRender)
-    //     {
-    //         var instance = DotNetObjectReference.Create(this);
-
-    //         await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "wa-invalid", instance, nameof(TriggerInvalidAsync));
-    //     }
-    // }
-
-    public void Test(EventArgs e)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Console.WriteLine("OK");
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("subscribeEventWithArgs", Element, "wa-select", nameof(WaSelectEventArgs), instance, nameof(NotifyValueChanged));
+        }
+    }
+
+    [JSInvokable]
+    public void NotifyValueChanged(WaSelectEventArgs eventArgs)
+    {
+        ValueChanged.InvokeAsync(eventArgs.SelectedItem);
     }
 }

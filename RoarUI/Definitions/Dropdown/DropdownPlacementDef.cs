@@ -2,8 +2,8 @@
 
 namespace RoarUI.Definitions.Dropdown;
 
-[StringEnumMember("top")]
-[StringEnumMember("Top", "top-start")]
+[StringEnumMember("Top")]
+[StringEnumMember("TopStart", "top-start")]
 [StringEnumMember("TopEnd", "top-end")]
 [StringEnumMember("Bottom")]
 [StringEnumMember("BottomStart", "bottom-start")]
