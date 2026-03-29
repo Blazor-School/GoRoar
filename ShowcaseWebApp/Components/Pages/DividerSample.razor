@@ -1,0 +1,36 @@
+﻿@page "/divider-sample"
+
+<h3>Width</h3>
+<RoarDivider Thickness="4px" />
+
+<h3>Color</h3>
+<RoarDivider Color="tomato" />
+
+<h3>Spacing</h3>
+<div style="text-align: center;">
+    Above
+    <RoarDivider Spacing="2rem" />
+    Below
+</div>
+
+<h3>Orientation</h3>
+<div style="display: flex; align-items: center;">
+    First
+    <RoarDivider Orientation="DividerOrientation.Vertical" />
+    Middle
+    <RoarDivider Orientation="DividerOrientation.Vertical" />
+    Last
+</div>
+
+<h3>Dropdown Dividers</h3>
+<RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Menu</RoarButton>
+
+    <RoarDropdownItem Value="1">Option 1</RoarDropdownItem>
+    <RoarDropdownItem Value="2">Option 2</RoarDropdownItem>
+    <RoarDropdownItem Value="3">Option 3</RoarDropdownItem>
+    <RoarDivider />
+    <RoarDropdownItem Value="4">Option 4</RoarDropdownItem>
+    <RoarDropdownItem Value="5">Option 5</RoarDropdownItem>
+    <RoarDropdownItem Value="6">Option 6</RoarDropdownItem>
+</RoarDropdown>
