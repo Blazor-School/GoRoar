@@ -88,14 +88,135 @@
 </RoarDropdown>
 
 <div>
-    @foreach(var pair in CheckedItems)
+    @foreach (var pair in CheckedItems)
     {
         <p>@pair.Key: @pair.Value</p>
     }
 </div>
 
+<h3>Destructive Items</h3>
+<RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Project</RoarButton>
+
+    <RoarDropdownItem Value="share">
+        <RoarIcon slot="icon" Name="share"></RoarIcon>
+        Share
+    </RoarDropdownItem>
+    <RoarDropdownItem Value="preferences">
+        <RoarIcon slot="icon" Name="gear"></RoarIcon>
+        Preferences
+    </RoarDropdownItem>
+    <wa-divider></wa-divider>
+    <h3>Danger zone</h3>
+    <RoarDropdownItem Value="archive">
+        <RoarIcon slot="icon" Name="archive"></RoarIcon>
+        Archive
+    </RoarDropdownItem>
+    <RoarDropdownItem Value="danger" Variant="DropdownItemVariant.Danger">
+        <RoarIcon slot="icon" Name="trash"></RoarIcon>
+        Delete
+    </RoarDropdownItem>
+</RoarDropdown>
+
+<h3>Placement</h3>
+<RoarDropdown Placement="DropdownPlacement.RightStart">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger">
+        File formats
+        <RoarIcon slot="end" Name="chevron-right"></RoarIcon>
+    </RoarButton>
+
+    <RoarDropdownItem Value="pdf">PDF Document</RoarDropdownItem>
+    <RoarDropdownItem Value="docx">Word Document</RoarDropdownItem>
+    <RoarDropdownItem Value="xlsx">Excel Spreadsheet</RoarDropdownItem>
+    <RoarDropdownItem Value="pptx">PowerPoint Presentation</RoarDropdownItem>
+    <RoarDropdownItem Value="txt">Plain Text</RoarDropdownItem>
+    <RoarDropdownItem Value="json">JSON File</RoarDropdownItem>
+</RoarDropdown>
+
+<h3>Distance</h3>
+<RoarDropdown Distance="30">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Edit</RoarButton>
+
+    <RoarDropdownItem>Cut</RoarDropdownItem>
+    <RoarDropdownItem>CCopy</RoarDropdownItem>
+    <RoarDropdownItem>Paste</RoarDropdownItem>
+    <wa-divider></wa-divider>
+    <RoarDropdownItem>Find</RoarDropdownItem>
+    <RoarDropdownItem>Replace</RoarDropdownItem>
+</RoarDropdown>
+
+<h3>Offset</h3>
+<RoarDropdown Skidding="30">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Edit</RoarButton>
+
+    <RoarDropdownItem>Cut</RoarDropdownItem>
+    <RoarDropdownItem>CCopy</RoarDropdownItem>
+    <RoarDropdownItem>Paste</RoarDropdownItem>
+    <wa-divider></wa-divider>
+    <RoarDropdownItem>Find</RoarDropdownItem>
+    <RoarDropdownItem>Replace</RoarDropdownItem>
+</RoarDropdown>
+
+<h3>Submenus</h3>
+<RoarDropdown ValueChanged="OnSubmenuSelected" CheckboxItemSelected="OnSubmenuCheckboxItemSelected">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Export</RoarButton>
+
+    <RoarDropdownItem>
+        Documents
+        <RoarDropdownItem slot="submenu" Value="pdf">PDF</RoarDropdownItem>
+        <RoarDropdownItem slot="submenu" Value="docx">Word Document</RoarDropdownItem>
+    </RoarDropdownItem>
+
+    <RoarDropdownItem>
+        Spreadsheets
+        <RoarDropdownItem slot="submenu">
+            Excel Formats
+            <RoarDropdownItem slot="submenu" Value="xlsx">Excel (.xlsx)</RoarDropdownItem>
+            <RoarDropdownItem slot="submenu" Value="xls">Excel 97-2003 (.xls)</RoarDropdownItem>
+            <RoarDropdownItem slot="submenu" Value="csv">CSV (.csv)</RoarDropdownItem>
+        </RoarDropdownItem>
+
+        <RoarDropdownItem slot="submenu">
+            Other Formats
+            <RoarDropdownItem slot="submenu" Value="ods">OpenDocument (.ods)</RoarDropdownItem>
+            <RoarDropdownItem slot="submenu" Value="tsv">Tab-separated (.tsv)</RoarDropdownItem>
+            <RoarDropdownItem slot="submenu" Value="json">JSON (.json)</RoarDropdownItem>
+        </RoarDropdownItem>
+
+        <RoarDropdownItem slot="submenu" Value="numbers">Apple Numbers</RoarDropdownItem>
+    </RoarDropdownItem>
+
+    <wa-divider></wa-divider>
+
+    <RoarDropdownItem>
+        Options
+        <RoarDropdownCheckboxItem slot="submenu" Value="compress" Checked="@CheckedItemsSubmenu["compress"]">Compress files</RoarDropdownCheckboxItem>
+        <RoarDropdownCheckboxItem slot="submenu" Value="metadata" Checked="@CheckedItemsSubmenu["metadata"]">Include metadata</RoarDropdownCheckboxItem>
+        <RoarDropdownCheckboxItem slot="submenu" Value="password" Checked="@CheckedItemsSubmenu["password"]">Password protect</RoarDropdownCheckboxItem>
+    </RoarDropdownItem>
+</RoarDropdown>
+<p>Selected submenu: @SelectedSubmenu</p>
+<div>
+    @foreach (var pair in CheckedItemsSubmenu)
+    {
+        <p>@pair.Key: @pair.Value</p>
+    }
+</div>
+
+<h3>Disabling Items</h3>
+<RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Payment method</RoarButton>
+
+    <RoarDropdownItem Value="cash">Cash</RoarDropdownItem>
+    <RoarDropdownItem Value="check" Disabled="true">Personal check</RoarDropdownItem>
+    <RoarDropdownItem Value="credit">Credit card</RoarDropdownItem>
+    <RoarDropdownItem Value="gift-card">Gift card</RoarDropdownItem>
+</RoarDropdown>
+
 @code {
     public string SelectedValue { get; set; } = "";
+    public string SelectedSubmenu { get; set; } = "";
+
     public Dictionary<string, bool> CheckedItems { get; set; } = new()
     {
         ["canvas"] = true,
@@ -103,8 +224,25 @@
         ["source"] = false
     };
 
-    public void OnCheckboxItemSelected(KeyValuePair<string,bool> recentCheckboxItem)
+    public Dictionary<string, bool> CheckedItemsSubmenu { get; set; } = new()
+    {
+        ["compress"] = false,
+        ["metadata"] = true,
+        ["password"] = false
+    };
+
+    public void OnCheckboxItemSelected(KeyValuePair<string, bool> recentCheckboxItem)
     {
         CheckedItems[recentCheckboxItem.Key] = recentCheckboxItem.Value;
+    }
+
+    public void OnSubmenuSelected(string selectedSubmenu)
+    {
+        SelectedSubmenu = selectedSubmenu;
+    }
+
+    public void OnSubmenuCheckboxItemSelected(KeyValuePair<string, bool> recentCheckboxItem)
+    {
+        CheckedItemsSubmenu[recentCheckboxItem.Key] = recentCheckboxItem.Value;
     }
 }
