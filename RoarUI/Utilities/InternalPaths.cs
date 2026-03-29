@@ -2,7 +2,7 @@
 
 internal static class InternalPaths
 {
-    public const string BaseWebAwesomePath = "/_content/RoarUI/webawesome-3.3.1";
+    public const string BaseWebAwesomePath = "/_content/RoarUI/webawesome-3.4.0";
 
     public static string ComposeWebAwesomeComponentJsPath(string componentName)
     {
