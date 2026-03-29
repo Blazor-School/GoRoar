@@ -1,0 +1,45 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="divider" />
+
+<wa-divider orientation="@Orientation" @attributes="InternalAttributes"></wa-divider>
+
+@code {
+    /// <summary>
+    /// The thickness of the divider. It can be any valid CSS value (e.g., "100px", "50%", "2em").
+    /// </summary>
+    [Parameter]
+    public string? Thickness { get; set; }
+
+    /// <summary>
+    /// The color of the divider. It can be any valid CSS value (e.g., "red", "#ff0000", "rgb(255, 0, 0)").
+    /// </summary>
+    [Parameter]
+    public string? Color { get; set; }
+
+    /// <summary>
+    /// Change the amount of space between the divider and it's neighboring elements. It can be any valid CSS value (e.g., "100px", "50%", "2em").
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
+    [Parameter]
+    public DividerOrientation Orientation { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--width", Thickness)
+            .AddStyle("--color", Color)
+            .AddStyle("--spacing", Spacing)
+            .Build();
+    }
+}
