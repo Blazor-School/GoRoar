@@ -1,0 +1,79 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="dropdown" />
+
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @ref="Element">
+    @ChildContent
+</wa-dropdown>
+
+@code {
+    [Parameter]
+    public double Distance { get; set; }
+
+    [Parameter]
+    public bool Open { get; set; } = false;
+
+    [Parameter]
+    public DropdownPlacement Placement { get; set; }
+
+    [Parameter]
+    public DropdownSize Size { get; set; }
+
+    [Parameter]
+    public int Skidding { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value of the input. This should be used with two-way binding.
+    /// </summary>
+    /// <example>
+    /// @bind-Value="model.PropertyName"
+    /// </example>
+    [Parameter]
+    public string? Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets a callback that updates the bound value.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound value.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<string>>? ValueExpression { get; set; }
+
+    [Parameter]
+    public EventCallback<KeyValuePair<string?, bool>> CheckboxItemSelected { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("subscribeEventWithArgs", Element, "wa-select", nameof(WaSelectEventArgs), instance, nameof(NotifyValueChanged));
+        }
+    }
+
+    [JSInvokable]
+    public void NotifyValueChanged(WaSelectEventArgs eventArgs)
+    {
+        if (eventArgs.Checked is not null)
+        {
+            CheckboxItemSelected.InvokeAsync(new(eventArgs.SelectedItem, eventArgs.Checked.Value));
+        }
+        else
+        {
+            ValueChanged.InvokeAsync(eventArgs.SelectedItem);
+        }
+    }
+}

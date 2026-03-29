@@ -6,19 +6,6 @@
     import { setBasePath } from '@Assets[$"{InternalPaths.BaseWebAwesomePath}/webawesome.js"]';
     setBasePath('@InternalPaths.BaseWebAwesomePath');
 </script>
-<script>
-    window.executeMethodFromInstance = function (element, methodName, ...params)
-    {
-        element[methodName](...params);
-    }
-
-    window.subscribeEvent = function(element, eventName, instance, method)
-    {
-        element.addEventListener(eventName, (e) => {
-            instance.invokeMethodAsync(method);
-        });
-    }
-</script>
 
 @* <style>
     :root {
