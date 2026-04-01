@@ -1,4 +1,6 @@
-﻿namespace RoarUI.Utilities;
+﻿using RoarUI.Events;
+
+namespace RoarUI.Utilities;
 
 internal class AttributeBuilder
 {
@@ -42,6 +44,14 @@ internal class AttributeBuilder
                 _attributes["style"] = newStyle;
             }
         }
+
+        return this;
+    }
+
+    public AttributeBuilder AddEventModifier(string eventName, EventModifier modifier, bool value)
+    {
+        string dataAttributeName = $"data-{eventName}{EnumStringConvert.ToStringValue(modifier)}";
+        _attributes[dataAttributeName] = value;
 
         return this;
     }

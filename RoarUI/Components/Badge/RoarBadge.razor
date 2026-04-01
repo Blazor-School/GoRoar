@@ -41,7 +41,7 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private Dictionary<string, object> InternalAttributes = [];
+    internal Dictionary<string, object> InternalAttributes = [];
 
     protected override void OnParametersSet()
     {
