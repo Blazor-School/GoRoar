@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @ref="Element">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-dropdown>
 
@@ -44,6 +44,18 @@
     [Parameter]
     public Expression<Func<string>>? ValueExpression { get; set; }
 
+    /// <summary>
+    /// When true, the dropdown will remain open after an item is selected. When false, the dropdown will be closed after an item is selected.
+    /// </summary>
+    [Parameter]
+    public bool OnSelectPreventDefault { get; set; }
+
+    /// <summary>
+    /// Stop propagation of the select event.
+    /// </summary>
+    [Parameter]
+    public bool OnSelectStopPropagation { get; set; }
+
     [Parameter]
     public EventCallback<KeyValuePair<string?, bool>> CheckboxItemSelected { get; set; }
 
@@ -54,6 +66,15 @@
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     internal ElementReference Element { get; set; }
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddEventModifier(nameof(WaSelectEventArgs), EventModifier.PreventDefault, OnSelectPreventDefault)
+            .AddEventModifier(nameof(WaSelectEventArgs), EventModifier.StopPropagation, OnSelectStopPropagation)
+            .Build();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

@@ -1,7 +1,7 @@
 ﻿@page "/dropdown-sample"
 
 <h3>Getting the Selected Item</h3>
-<RoarDropdown @bind-Value="SelectedValue">
+<RoarDropdown @bind-Value="SelectedValue" OnSelectPreventDefault="KeepMenuOpen">
     <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>View</RoarButton>
     <RoarDropdownItem Value="full-screen">Enter full screen</RoarDropdownItem>
     <RoarDropdownItem Value="actual">Actual size</RoarDropdownItem>
@@ -9,6 +9,9 @@
     <RoarDropdownItem Value="zoom-out">Zoom out</RoarDropdownItem>
 </RoarDropdown>
 <p>Selected value: @SelectedValue</p>
+<label>
+    <InputCheckbox @bind-Value="KeepMenuOpen" /> Keep menu open after selection
+</label>
 
 <h3>Showing Icons</h3>
 <RoarDropdown>
@@ -31,19 +34,19 @@
     </RoarDropdownItem>
 </RoarDropdown>
 
-@* <h3>Showing Labels & Dividers</h3>
+<h3>Showing Labels & Dividers</h3>
 <RoarDropdown>
     <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Device</RoarButton>
     <h3>Type</h3>
     <RoarDropdownItem Value="phone">Phone</RoarDropdownItem>
     <RoarDropdownItem Value="tablet">Tablet</RoarDropdownItem>
     <RoarDropdownItem Value="desktop">Desktop</RoarDropdownItem>
-    <wa-divider></wa-divider>
+    <RoarDivider />
     <RoarDropdownItem Value="more">More options...</RoarDropdownItem>
 </RoarDropdown>
- *@
 
-@* <h3>Showing Details</h3>
+
+<h3>Showing Details</h3>
 <RoarDropdown>
     <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Message</RoarButton>
 
@@ -62,7 +65,7 @@
         <span slot="details">⌘M</span>
     </RoarDropdownItem>
 
-    <wa-divider></wa-divider>
+    <RoarDivider />
 
     <RoarDropdownItem Value="archive">
         Archive
@@ -73,7 +76,7 @@
         Delete
         <span slot="details">Del</span>
     </RoarDropdownItem>
-</RoarDropdown> *@
+</RoarDropdown>
 
 <h3>Checkable Items</h3>
 <RoarDropdown CheckboxItemSelected="OnCheckboxItemSelected">
@@ -82,7 +85,7 @@
     <RoarDropdownCheckboxItem Value="canvas" Checked="@CheckedItems["canvas"]">Show canvas</RoarDropdownCheckboxItem>
     <RoarDropdownCheckboxItem Value="grid" Checked="@CheckedItems["grid"]">Show grid</RoarDropdownCheckboxItem> @*Users can omit the true value*@
     <RoarDropdownCheckboxItem Value="source" Checked="@CheckedItems["source"]">Show source</RoarDropdownCheckboxItem>
-    <wa-divider></wa-divider>
+    <RoarDivider />
 
     <RoarDropdownItem Value="preferences">Preferences...</RoarDropdownItem>
 </RoarDropdown>
@@ -106,7 +109,7 @@
         <RoarIcon slot="icon" Name="gear"></RoarIcon>
         Preferences
     </RoarDropdownItem>
-    <wa-divider></wa-divider>
+    <RoarDivider />
     <h3>Danger zone</h3>
     <RoarDropdownItem Value="archive">
         <RoarIcon slot="icon" Name="archive"></RoarIcon>
@@ -138,9 +141,9 @@
     <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Edit</RoarButton>
 
     <RoarDropdownItem>Cut</RoarDropdownItem>
-    <RoarDropdownItem>CCopy</RoarDropdownItem>
+    <RoarDropdownItem>Copy</RoarDropdownItem>
     <RoarDropdownItem>Paste</RoarDropdownItem>
-    <wa-divider></wa-divider>
+    <RoarDivider />
     <RoarDropdownItem>Find</RoarDropdownItem>
     <RoarDropdownItem>Replace</RoarDropdownItem>
 </RoarDropdown>
@@ -150,9 +153,9 @@
     <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" WithCaret>Edit</RoarButton>
 
     <RoarDropdownItem>Cut</RoarDropdownItem>
-    <RoarDropdownItem>CCopy</RoarDropdownItem>
+    <RoarDropdownItem>Copy</RoarDropdownItem>
     <RoarDropdownItem>Paste</RoarDropdownItem>
-    <wa-divider></wa-divider>
+    <RoarDivider />
     <RoarDropdownItem>Find</RoarDropdownItem>
     <RoarDropdownItem>Replace</RoarDropdownItem>
 </RoarDropdown>
@@ -186,7 +189,7 @@
         <RoarDropdownItem slot="submenu" Value="numbers">Apple Numbers</RoarDropdownItem>
     </RoarDropdownItem>
 
-    <wa-divider></wa-divider>
+    <RoarDivider />
 
     <RoarDropdownItem>
         Options
@@ -214,6 +217,7 @@
 </RoarDropdown>
 
 @code {
+    public bool KeepMenuOpen { get; set; }
     public string SelectedValue { get; set; } = "";
     public string SelectedSubmenu { get; set; } = "";
 

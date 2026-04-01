@@ -19,12 +19,24 @@ function roarGeneralFunction() {
 
     window.subscribeEventWithArgs = function (element, eventName, eventArgsName, instance, method) {
         element.addEventListener(eventName, (e) => {
-            instance.invokeMethodAsync(method, roarMapperByWebAwesomeEventName[eventArgsName](e));
+            let preventDefault = element.dataset[`${eventArgsName.toLowerCase()}preventdefault`];
+
+            if (preventDefault === "") {
+                e.preventDefault();
+            }
+
+            let stopPropagation = element.dataset[`${eventArgsName.toLowerCase()}stoppropagation`];
+
+            if (stopPropagation === "") {
+                e.stopPropagation();
+            }
+
+            instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e));
         });
     }
 }
 
-let roarMapperByWebAwesomeEventName = {
+let roarEventFromHtmlEvent = {
     "WaSelectEventArgs": (e) => ({
         SelectedItem: e.detail.item.value,
         Checked: event.detail.item.type === 'checkbox' ? e.detail.item.checked : null
