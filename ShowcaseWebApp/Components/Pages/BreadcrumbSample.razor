@@ -88,3 +88,39 @@
       color: currentColor;
     }
 </style>
+
+<h3>With Dropdowns</h3>
+<RoarBreadcrumb>
+    <RoarBreadcrumbItem>Homepage</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>
+        <RoarDropdown>
+            <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" Pill Size="ButtonSize.Small">
+                <RoarIcon Label="More options" Name="ellipsis" />
+            </RoarButton>
+        
+            <RoarDropdownCheckboxItem Checked>Web Design</RoarDropdownCheckboxItem>
+            <RoarDropdownCheckboxItem>Web Development</RoarDropdownCheckboxItem>
+            <RoarDropdownCheckboxItem>Marketing</RoarDropdownCheckboxItem>
+        </RoarDropdown>
+    </RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Our Services</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Digital Media</RoarBreadcrumbItem>
+</RoarBreadcrumb>
+
+<RoarBreadcrumb>
+    <RoarBreadcrumbItem>Homepage</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Our Services</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Digital Media</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>
+        Web Design
+        <RoarDropdown slot="end">
+            <RoarButton Appearance="ButtonAppearance.Filled" slot="trigger" Pill Size="ButtonSize.Small">
+                <RoarIcon Label="More options" Name="ellipsis" />
+            </RoarButton>
+        
+            <RoarDropdownCheckboxItem Checked>Web Design</RoarDropdownCheckboxItem>
+            <RoarDropdownCheckboxItem>Web Development</RoarDropdownCheckboxItem>
+            <RoarDropdownCheckboxItem>Marketing</RoarDropdownCheckboxItem>
+        </RoarDropdown>
+    </RoarBreadcrumbItem>
+</RoarBreadcrumb>
