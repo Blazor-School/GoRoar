@@ -1,5 +1,4 @@
 ﻿@namespace RoarUI
-@using RoarUI.Services
 @inject RoarDependencyService RoarDependencyService
 @implements IDisposable
 
@@ -10,6 +9,20 @@
 {
     <script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(component)]"></script>
 }
+
+@* <style>
+    :root {
+        --wa-color-neutral-fill-quiet: red;
+        --wa-color-neutral-fill-normal: red;
+        --wa-color-neutral-fill-loud: red;
+        --wa-color-neutral-border-quiet: red;
+        --wa-color-neutral-border-normal: red;
+        --wa-color-neutral-border-loud: red;
+        --wa-color-neutral-on-quiet: red;
+        --wa-color-neutral-on-normal: #ffffff;
+        --wa-color-neutral-on-loud: #ffffff;
+    }
+</style> *@
 
 @code {
     protected override void OnInitialized()

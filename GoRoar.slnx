@@ -2,4 +2,5 @@
   <Project Path="RoarUI.Generators/RoarUI.Generators.csproj" />
   <Project Path="RoarUI/RoarUI.csproj" />
   <Project Path="ShowcaseWebApp/ShowcaseWebApp.csproj" />
+  <Project Path="ShowcaseWebAssembly/ShowcaseWebAssembly.csproj" Id="26efa0c0-30d4-4f3d-93ea-44fb4c37f28f" />
 </Solution>
