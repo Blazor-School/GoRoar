@@ -1,5 +1,6 @@
 ﻿@namespace RoarUI
 @inject RoarDependencyService RoarDependencyService
+@inject ThemeService ThemeService
 @implements IDisposable
 
 <link rel="stylesheet" href="@Assets[$"{InternalPaths.BaseWebAwesomePath}/styles/webawesome.css"]" />
@@ -8,6 +9,15 @@
 @foreach (var component in RoarDependencyService.Components)
 {
     <script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(component)]"></script>
+}
+
+@if (ThemeService.CustomTheme is not null)
+{
+    <style>
+        :root {
+
+        }
+    </style>
 }
 
 @* <style>
