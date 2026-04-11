@@ -1,7 +1,11 @@
 ﻿@namespace RoarUI
+@using RoarUI.Theme
+@inject ThemeService ThemeService
 
-<h3>RoarDevConsole</h3>
+<input type="text" @bind-value="@Theme.Token.Border.Style" />
+
+<button type="button" @onclick="(e) => ThemeService.LoadTheme(Theme)">Apply</button>
 
 @code {
-
+    public RoarTheme Theme { get; set; } = new();
 }
