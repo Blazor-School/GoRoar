@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace RoarUI;
+namespace RoarUI.Theme;
 
 public class RoarTheme
 {

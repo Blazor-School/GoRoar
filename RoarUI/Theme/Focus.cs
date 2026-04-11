@@ -1,4 +1,4 @@
-﻿namespace RoarUI.Models.Theme;
+﻿namespace RoarUI.Theme;
 
 public class Focus
 {

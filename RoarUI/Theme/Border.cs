@@ -1,4 +1,4 @@
-﻿namespace RoarUI;
+﻿namespace RoarUI.Theme;
 
 public class Border
 {

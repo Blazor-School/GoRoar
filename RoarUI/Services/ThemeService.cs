@@ -1,4 +1,5 @@
-﻿// Must be RoarUI namespace for public services
+﻿using RoarUI.Theme;
+
 namespace RoarUI;
 
 public class ThemeService
