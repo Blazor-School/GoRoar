@@ -195,4 +195,74 @@ public class ColorPalette
     public string Gray10 { get; set; } = "#1b1d26";
     public string Gray05 { get; set; } = "#101219";
     public string Gray { get; set; } = "var(--wa-color-gray-40)";
+
+    public string Brand95 { get; set; } = "var(--wa-color-blue-95)";
+    public string Brand90 { get; set; } = "var(--wa-color-blue-90)";
+    public string Brand80 { get; set; } = "var(--wa-color-blue-80)";
+    public string Brand70 { get; set; } = "var(--wa-color-blue-70)";
+    public string Brand60 { get; set; } = "var(--wa-color-blue-60)";
+    public string Brand50 { get; set; } = "var(--wa-color-blue-50)";
+    public string Brand40 { get; set; } = "var(--wa-color-blue-40)";
+    public string Brand30 { get; set; } = "var(--wa-color-blue-30)";
+    public string Brand20 { get; set; } = "var(--wa-color-blue-20)";
+    public string Brand10 { get; set; } = "var(--wa-color-blue-10)";
+    public string Brand05 { get; set; } = "var(--wa-color-blue-05)";
+    public string Brand { get; set; } = "var(--wa-color-blue)";
+    public string BrandOn { get; set; } = "var(--wa-color-blue-on)";
+
+    public string Neutral95 { get; set; } = "var(--wa-color-gray-95)";
+    public string Neutral90 { get; set; } = "var(--wa-color-gray-90)";
+    public string Neutral80 { get; set; } = "var(--wa-color-gray-80)";
+    public string Neutral70 { get; set; } = "var(--wa-color-gray-70)";
+    public string Neutral60 { get; set; } = "var(--wa-color-gray-60)";
+    public string Neutral50 { get; set; } = "var(--wa-color-gray-50)";
+    public string Neutral40 { get; set; } = "var(--wa-color-gray-40)";
+    public string Neutral30 { get; set; } = "var(--wa-color-gray-30)";
+    public string Neutral20 { get; set; } = "var(--wa-color-gray-20)";
+    public string Neutral10 { get; set; } = "var(--wa-color-gray-10)";
+    public string Neutral05 { get; set; } = "var(--wa-color-gray-05)";
+    public string Neutral { get; set; } = "var(--wa-color-gray)";
+    public string NeutralOn { get; set; } = "var(--wa-color-gray-on)";
+
+    public string Success95 { get; set; } = "var(--wa-color-green-95)";
+    public string Success90 { get; set; } = "var(--wa-color-green-90)";
+    public string Success80 { get; set; } = "var(--wa-color-green-80)";
+    public string Success70 { get; set; } = "var(--wa-color-green-70)";
+    public string Success60 { get; set; } = "var(--wa-color-green-60)";
+    public string Success50 { get; set; } = "var(--wa-color-green-50)";
+    public string Success40 { get; set; } = "var(--wa-color-green-40)";
+    public string Success30 { get; set; } = "var(--wa-color-green-30)";
+    public string Success20 { get; set; } = "var(--wa-color-green-20)";
+    public string Success10 { get; set; } = "var(--wa-color-green-10)";
+    public string Success05 { get; set; } = "var(--wa-color-green-05)";
+    public string Success { get; set; } = "var(--wa-color-green)";
+    public string SuccessOn { get; set; } = "var(--wa-color-green-on)";
+
+    public string Warning95 { get; set; } = "var(--wa-color-yellow-95)";
+    public string Warning90 { get; set; } = "var(--wa-color-yellow-90)";
+    public string Warning80 { get; set; } = "var(--wa-color-yellow-80)";
+    public string Warning70 { get; set; } = "var(--wa-color-yellow-70)";
+    public string Warning60 { get; set; } = "var(--wa-color-yellow-60)";
+    public string Warning50 { get; set; } = "var(--wa-color-yellow-50)";
+    public string Warning40 { get; set; } = "var(--wa-color-yellow-40)";
+    public string Warning30 { get; set; } = "var(--wa-color-yellow-30)";
+    public string Warning20 { get; set; } = "var(--wa-color-yellow-20)";
+    public string Warning10 { get; set; } = "var(--wa-color-yellow-10)";
+    public string Warning05 { get; set; } = "var(--wa-color-yellow-05)";
+    public string Warning { get; set; } = "var(--wa-color-yellow)";
+    public string WarningOn { get; set; } = "var(--wa-color-yellow-on)";
+
+    public string Danger95 { get; set; } = "var(--wa-color-red-95)";
+    public string Danger90 { get; set; } = "var(--wa-color-red-90)";
+    public string Danger80 { get; set; } = "var(--wa-color-red-80)";
+    public string Danger70 { get; set; } = "var(--wa-color-red-70)";
+    public string Danger60 { get; set; } = "var(--wa-color-red-60)";
+    public string Danger50 { get; set; } = "var(--wa-color-red-50)";
+    public string Danger40 { get; set; } = "var(--wa-color-red-40)";
+    public string Danger30 { get; set; } = "var(--wa-color-red-30)";
+    public string Danger20 { get; set; } = "var(--wa-color-red-20)";
+    public string Danger10 { get; set; } = "var(--wa-color-red-10)";
+    public string Danger05 { get; set; } = "var(--wa-color-red-05)";
+    public string Danger { get; set; } = "var(--wa-color-red)";
+    public string DangerOn { get; set; } = "var(--wa-color-red-on)";
 }

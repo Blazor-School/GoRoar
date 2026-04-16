@@ -15,16 +15,299 @@
 {
     <style>
         :root {
-            --wa-border-style: @ThemeService.CustomTheme.Token.Border.Style;
-            --wa-border-width-s: @ThemeService.CustomTheme.Token.Border.WidthS;
-            --wa-border-width-m: @ThemeService.CustomTheme.Token.Border.WidthM;
-            --wa-border-width-L: @ThemeService.CustomTheme.Token.Border.WidthL;
-            --wa-border-radius-pill: @ThemeService.CustomTheme.Token.Border.RadiusPill;
-            --wa-border-radius-circle: @ThemeService.CustomTheme.Token.Border.RadiusCircle;
-            --wa-border-radius-square: @ThemeService.CustomTheme.Token.Border.RadiusSquare;
-            --wa-border-radius-s: @ThemeService.CustomTheme.Token.Border.RadiusS;
-            --wa-border-radius-m: @ThemeService.CustomTheme.Token.Border.RadiusM;
-            --wa-border-radius-l: @ThemeService.CustomTheme.Token.Border.RadiusL;
+        @* ### Start border section ###*@
+        --wa-border-style: @ThemeService.CustomTheme.Token.Border.Style;
+        --wa-border-width-s: @ThemeService.CustomTheme.Token.Border.WidthS;
+        --wa-border-width-m: @ThemeService.CustomTheme.Token.Border.WidthM;
+        --wa-border-width-L: @ThemeService.CustomTheme.Token.Border.WidthL;
+        --wa-border-radius-pill: @ThemeService.CustomTheme.Token.Border.RadiusPill;
+        --wa-border-radius-circle: @ThemeService.CustomTheme.Token.Border.RadiusCircle;
+        --wa-border-radius-square: @ThemeService.CustomTheme.Token.Border.RadiusSquare;
+        --wa-border-radius-s: @ThemeService.CustomTheme.Token.Border.RadiusS;
+        --wa-border-radius-m: @ThemeService.CustomTheme.Token.Border.RadiusM;
+        --wa-border-radius-l: @ThemeService.CustomTheme.Token.Border.RadiusL;
+        @* ### End border section ### *@ @* ### Start red color section ###*@
+        --wa-color-red-95: @ThemeService.CustomTheme.Token.Color.Red95;
+        --wa-color-red-90: @ThemeService.CustomTheme.Token.Color.Red90;
+        --wa-color-red-80: @ThemeService.CustomTheme.Token.Color.Red80;
+        --wa-color-red-70: @ThemeService.CustomTheme.Token.Color.Red70;
+        --wa-color-red-60: @ThemeService.CustomTheme.Token.Color.Red60;
+        --wa-color-red-50: @ThemeService.CustomTheme.Token.Color.Red50;
+        --wa-color-red-40: @ThemeService.CustomTheme.Token.Color.Red40;
+        --wa-color-red-30: @ThemeService.CustomTheme.Token.Color.Red30;
+        --wa-color-red-20: @ThemeService.CustomTheme.Token.Color.Red20;
+        --wa-color-red-10: @ThemeService.CustomTheme.Token.Color.Red10;
+        --wa-color-red-05: @ThemeService.CustomTheme.Token.Color.Red05;
+        --wa-color-red: @ThemeService.CustomTheme.Token.Color.Red;
+        @* ### End red color section ###*@
+        @* ### Start orange color section ###*@
+        --wa-color-orange-95: @ThemeService.CustomTheme.Token.Color.Orange95;
+        --wa-color-orange-90: @ThemeService.CustomTheme.Token.Color.Orange90;
+        --wa-color-orange-80: @ThemeService.CustomTheme.Token.Color.Orange80;
+        --wa-color-orange-70: @ThemeService.CustomTheme.Token.Color.Orange70;
+        --wa-color-orange-60: @ThemeService.CustomTheme.Token.Color.Orange60;
+        --wa-color-orange-50: @ThemeService.CustomTheme.Token.Color.Orange50;
+        --wa-color-orange-40: @ThemeService.CustomTheme.Token.Color.Orange40;
+        --wa-color-orange-30: @ThemeService.CustomTheme.Token.Color.Orange30;
+        --wa-color-orange-20: @ThemeService.CustomTheme.Token.Color.Orange20;
+        --wa-color-orange-10: @ThemeService.CustomTheme.Token.Color.Orange10;
+        --wa-color-orange-05: @ThemeService.CustomTheme.Token.Color.Orange05;
+        --wa-color-orange: @ThemeService.CustomTheme.Token.Color.Orange;
+        @* ### End orange color section ###*@
+        @* ### Start yellow color section ###*@
+        --wa-color-yellow-95: @ThemeService.CustomTheme.Token.Color.Yellow95;
+        --wa-color-yellow-90: @ThemeService.CustomTheme.Token.Color.Yellow90;
+        --wa-color-yellow-80: @ThemeService.CustomTheme.Token.Color.Yellow80;
+        --wa-color-yellow-70: @ThemeService.CustomTheme.Token.Color.Yellow70;
+        --wa-color-yellow-60: @ThemeService.CustomTheme.Token.Color.Yellow60;
+        --wa-color-yellow-50: @ThemeService.CustomTheme.Token.Color.Yellow50;
+        --wa-color-yellow-40: @ThemeService.CustomTheme.Token.Color.Yellow40;
+        --wa-color-yellow-30: @ThemeService.CustomTheme.Token.Color.Yellow30;
+        --wa-color-yellow-20: @ThemeService.CustomTheme.Token.Color.Yellow20;
+        --wa-color-yellow-10: @ThemeService.CustomTheme.Token.Color.Yellow10;
+        --wa-color-yellow-05: @ThemeService.CustomTheme.Token.Color.Yellow05;
+        --wa-color-yellow: @ThemeService.CustomTheme.Token.Color.Yellow;
+        @* ### End yellow color section ###*@
+        @* ### Start green color section ###*@
+        --wa-color-green-95: @ThemeService.CustomTheme.Token.Color.Green95;
+        --wa-color-green-90: @ThemeService.CustomTheme.Token.Color.Green90;
+        --wa-color-green-80: @ThemeService.CustomTheme.Token.Color.Green80;
+        --wa-color-green-70: @ThemeService.CustomTheme.Token.Color.Green70;
+        --wa-color-green-60: @ThemeService.CustomTheme.Token.Color.Green60;
+        --wa-color-green-50: @ThemeService.CustomTheme.Token.Color.Green50;
+        --wa-color-green-40: @ThemeService.CustomTheme.Token.Color.Green40;
+        --wa-color-green-30: @ThemeService.CustomTheme.Token.Color.Green30;
+        --wa-color-green-20: @ThemeService.CustomTheme.Token.Color.Green20;
+        --wa-color-green-10: @ThemeService.CustomTheme.Token.Color.Green10;
+        --wa-color-green-05: @ThemeService.CustomTheme.Token.Color.Green05;
+        --wa-color-green: @ThemeService.CustomTheme.Token.Color.Green;
+        @* ### End green color section ###*@
+        @* ### Start cyan color section ###*@
+        --wa-color-cyan-95: @ThemeService.CustomTheme.Token.Color.Cyan95;
+        --wa-color-cyan-90: @ThemeService.CustomTheme.Token.Color.Cyan90;
+        --wa-color-cyan-80: @ThemeService.CustomTheme.Token.Color.Cyan80;
+        --wa-color-cyan-70: @ThemeService.CustomTheme.Token.Color.Cyan70;
+        --wa-color-cyan-60: @ThemeService.CustomTheme.Token.Color.Cyan60;
+        --wa-color-cyan-50: @ThemeService.CustomTheme.Token.Color.Cyan50;
+        --wa-color-cyan-40: @ThemeService.CustomTheme.Token.Color.Cyan40;
+        --wa-color-cyan-30: @ThemeService.CustomTheme.Token.Color.Cyan30;
+        --wa-color-cyan-20: @ThemeService.CustomTheme.Token.Color.Cyan20;
+        --wa-color-cyan-10: @ThemeService.CustomTheme.Token.Color.Cyan10;
+        --wa-color-cyan-05: @ThemeService.CustomTheme.Token.Color.Cyan05;
+        --wa-color-cyan: @ThemeService.CustomTheme.Token.Color.Cyan;
+        @* ### End cyan color section ###*@
+        @* ### Start blue color section ###*@
+        --wa-color-blue-95: @ThemeService.CustomTheme.Token.Color.Blue95;
+        --wa-color-blue-90: @ThemeService.CustomTheme.Token.Color.Blue90;
+        --wa-color-blue-80: @ThemeService.CustomTheme.Token.Color.Blue80;
+        --wa-color-blue-70: @ThemeService.CustomTheme.Token.Color.Blue70;
+        --wa-color-blue-60: @ThemeService.CustomTheme.Token.Color.Blue60;
+        --wa-color-blue-50: @ThemeService.CustomTheme.Token.Color.Blue50;
+        --wa-color-blue-40: @ThemeService.CustomTheme.Token.Color.Blue40;
+        --wa-color-blue-30: @ThemeService.CustomTheme.Token.Color.Blue30;
+        --wa-color-blue-20: @ThemeService.CustomTheme.Token.Color.Blue20;
+        --wa-color-blue-10: @ThemeService.CustomTheme.Token.Color.Blue10;
+        --wa-color-blue-05: @ThemeService.CustomTheme.Token.Color.Blue05;
+        --wa-color-blue: @ThemeService.CustomTheme.Token.Color.Blue;
+        @* ### End blue color section ###*@
+        @* ### Start indigo color section ###*@
+        --wa-color-indigo-95: @ThemeService.CustomTheme.Token.Color.Indigo95;
+        --wa-color-indigo-90: @ThemeService.CustomTheme.Token.Color.Indigo90;
+        --wa-color-indigo-80: @ThemeService.CustomTheme.Token.Color.Indigo80;
+        --wa-color-indigo-70: @ThemeService.CustomTheme.Token.Color.Indigo70;
+        --wa-color-indigo-60: @ThemeService.CustomTheme.Token.Color.Indigo60;
+        --wa-color-indigo-50: @ThemeService.CustomTheme.Token.Color.Indigo50;
+        --wa-color-indigo-40: @ThemeService.CustomTheme.Token.Color.Indigo40;
+        --wa-color-indigo-30: @ThemeService.CustomTheme.Token.Color.Indigo30;
+        --wa-color-indigo-20: @ThemeService.CustomTheme.Token.Color.Indigo20;
+        --wa-color-indigo-10: @ThemeService.CustomTheme.Token.Color.Indigo10;
+        --wa-color-indigo-05: @ThemeService.CustomTheme.Token.Color.Indigo05;
+        --wa-color-indigo: @ThemeService.CustomTheme.Token.Color.Indigo;
+        @* ### End indigo color section ###*@
+        @* ### Start purple color section ###*@
+        --wa-color-purple-95: @ThemeService.CustomTheme.Token.Color.Purple95;
+        --wa-color-purple-90: @ThemeService.CustomTheme.Token.Color.Purple90;
+        --wa-color-purple-80: @ThemeService.CustomTheme.Token.Color.Purple80;
+        --wa-color-purple-70: @ThemeService.CustomTheme.Token.Color.Purple70;
+        --wa-color-purple-60: @ThemeService.CustomTheme.Token.Color.Purple60;
+        --wa-color-purple-50: @ThemeService.CustomTheme.Token.Color.Purple50;
+        --wa-color-purple-40: @ThemeService.CustomTheme.Token.Color.Purple40;
+        --wa-color-purple-30: @ThemeService.CustomTheme.Token.Color.Purple30;
+        --wa-color-purple-20: @ThemeService.CustomTheme.Token.Color.Purple20;
+        --wa-color-purple-10: @ThemeService.CustomTheme.Token.Color.Purple10;
+        --wa-color-purple-05: @ThemeService.CustomTheme.Token.Color.Purple05;
+        --wa-color-purple: @ThemeService.CustomTheme.Token.Color.Purple;
+        @* ### End purple color section ###*@
+        @* ### Start pink color section ###*@
+        --wa-color-pink-95: @ThemeService.CustomTheme.Token.Color.Pink95;
+        --wa-color-pink-90: @ThemeService.CustomTheme.Token.Color.Pink90;
+        --wa-color-pink-80: @ThemeService.CustomTheme.Token.Color.Pink80;
+        --wa-color-pink-70: @ThemeService.CustomTheme.Token.Color.Pink70;
+        --wa-color-pink-60: @ThemeService.CustomTheme.Token.Color.Pink60;
+        --wa-color-pink-50: @ThemeService.CustomTheme.Token.Color.Pink50;
+        --wa-color-pink-40: @ThemeService.CustomTheme.Token.Color.Pink40;
+        --wa-color-pink-30: @ThemeService.CustomTheme.Token.Color.Pink30;
+        --wa-color-pink-20: @ThemeService.CustomTheme.Token.Color.Pink20;
+        --wa-color-pink-10: @ThemeService.CustomTheme.Token.Color.Pink10;
+        --wa-color-pink-05: @ThemeService.CustomTheme.Token.Color.Pink05;
+        --wa-color-pink: @ThemeService.CustomTheme.Token.Color.Pink;
+        @* ### End pink color section ###*@
+        @* ### Start gray color section ###*@
+        --wa-color-gray-95: @ThemeService.CustomTheme.Token.Color.Gray95;
+        --wa-color-gray-90: @ThemeService.CustomTheme.Token.Color.Gray90;
+        --wa-color-gray-80: @ThemeService.CustomTheme.Token.Color.Gray80;
+        --wa-color-gray-70: @ThemeService.CustomTheme.Token.Color.Gray70;
+        --wa-color-gray-60: @ThemeService.CustomTheme.Token.Color.Gray60;
+        --wa-color-gray-50: @ThemeService.CustomTheme.Token.Color.Gray50;
+        --wa-color-gray-40: @ThemeService.CustomTheme.Token.Color.Gray40;
+        --wa-color-gray-30: @ThemeService.CustomTheme.Token.Color.Gray30;
+        --wa-color-gray-20: @ThemeService.CustomTheme.Token.Color.Gray20;
+        --wa-color-gray-10: @ThemeService.CustomTheme.Token.Color.Gray10;
+        --wa-color-gray-05: @ThemeService.CustomTheme.Token.Color.Gray05;
+        --wa-color-gray: @ThemeService.CustomTheme.Token.Color.Gray;
+        @* ### End gray color section ###*@
+        @* ### Start brand color section ###*@
+        --wa-color-brand-95: @ThemeService.CustomTheme.Token.Color.Brand95;
+        --wa-color-brand-90: @ThemeService.CustomTheme.Token.Color.Brand90;
+        --wa-color-brand-80: @ThemeService.CustomTheme.Token.Color.Brand80;
+        --wa-color-brand-70: @ThemeService.CustomTheme.Token.Color.Brand70;
+        --wa-color-brand-60: @ThemeService.CustomTheme.Token.Color.Brand60;
+        --wa-color-brand-50: @ThemeService.CustomTheme.Token.Color.Brand50;
+        --wa-color-brand-40: @ThemeService.CustomTheme.Token.Color.Brand40;
+        --wa-color-brand-30: @ThemeService.CustomTheme.Token.Color.Brand30;
+        --wa-color-brand-20: @ThemeService.CustomTheme.Token.Color.Brand20;
+        --wa-color-brand-10: @ThemeService.CustomTheme.Token.Color.Brand10;
+        --wa-color-brand-05: @ThemeService.CustomTheme.Token.Color.Brand05;
+        --wa-color-brand-on: @ThemeService.CustomTheme.Token.Color.BrandOn;
+        --wa-color-brand: @ThemeService.CustomTheme.Token.Color.Brand;
+        @* ### End brand color section ###*@
+        @* ### Start neutral color section ###*@
+        --wa-color-neutral-95: @ThemeService.CustomTheme.Token.Color.Neutral95;
+        --wa-color-neutral-90: @ThemeService.CustomTheme.Token.Color.Neutral90;
+        --wa-color-neutral-80: @ThemeService.CustomTheme.Token.Color.Neutral80;
+        --wa-color-neutral-70: @ThemeService.CustomTheme.Token.Color.Neutral70;
+        --wa-color-neutral-60: @ThemeService.CustomTheme.Token.Color.Neutral60;
+        --wa-color-neutral-50: @ThemeService.CustomTheme.Token.Color.Neutral50;
+        --wa-color-neutral-40: @ThemeService.CustomTheme.Token.Color.Neutral40;
+        --wa-color-neutral-30: @ThemeService.CustomTheme.Token.Color.Neutral30;
+        --wa-color-neutral-20: @ThemeService.CustomTheme.Token.Color.Neutral20;
+        --wa-color-neutral-10: @ThemeService.CustomTheme.Token.Color.Neutral10;
+        --wa-color-neutral-05: @ThemeService.CustomTheme.Token.Color.Neutral05;
+        --wa-color-neutral-on: @ThemeService.CustomTheme.Token.Color.NeutralOn;
+        --wa-color-neutral: @ThemeService.CustomTheme.Token.Color.Neutral;
+        @* ### End neutral color section ###*@
+        @* ### Start success color section ###*@
+        --wa-color-success-95: @ThemeService.CustomTheme.Token.Color.Success95;
+        --wa-color-success-90: @ThemeService.CustomTheme.Token.Color.Success90;
+        --wa-color-success-80: @ThemeService.CustomTheme.Token.Color.Success80;
+        --wa-color-success-70: @ThemeService.CustomTheme.Token.Color.Success70;
+        --wa-color-success-60: @ThemeService.CustomTheme.Token.Color.Success60;
+        --wa-color-success-50: @ThemeService.CustomTheme.Token.Color.Success50;
+        --wa-color-success-40: @ThemeService.CustomTheme.Token.Color.Success40;
+        --wa-color-success-30: @ThemeService.CustomTheme.Token.Color.Success30;
+        --wa-color-success-20: @ThemeService.CustomTheme.Token.Color.Success20;
+        --wa-color-success-10: @ThemeService.CustomTheme.Token.Color.Success10;
+        --wa-color-success-05: @ThemeService.CustomTheme.Token.Color.Success05;
+        --wa-color-success-on: @ThemeService.CustomTheme.Token.Color.SuccessOn;
+        --wa-color-success: @ThemeService.CustomTheme.Token.Color.Success;
+        @* ### End success color section ###*@
+        @* ### Start warning color section ###*@
+        --wa-color-warning-95: @ThemeService.CustomTheme.Token.Color.Warning95;
+        --wa-color-warning-90: @ThemeService.CustomTheme.Token.Color.Warning90;
+        --wa-color-warning-80: @ThemeService.CustomTheme.Token.Color.Warning80;
+        --wa-color-warning-70: @ThemeService.CustomTheme.Token.Color.Warning70;
+        --wa-color-warning-60: @ThemeService.CustomTheme.Token.Color.Warning60;
+        --wa-color-warning-50: @ThemeService.CustomTheme.Token.Color.Warning50;
+        --wa-color-warning-40: @ThemeService.CustomTheme.Token.Color.Warning40;
+        --wa-color-warning-30: @ThemeService.CustomTheme.Token.Color.Warning30;
+        --wa-color-warning-20: @ThemeService.CustomTheme.Token.Color.Warning20;
+        --wa-color-warning-10: @ThemeService.CustomTheme.Token.Color.Warning10;
+        --wa-color-warning-05: @ThemeService.CustomTheme.Token.Color.Warning05;
+        --wa-color-warning-on: @ThemeService.CustomTheme.Token.Color.WarningOn;
+        --wa-color-warning: @ThemeService.CustomTheme.Token.Color.Warning;
+        @* ### End warning color section ###*@
+        @* ### Start danger color section ###*@
+        --wa-color-danger-95: @ThemeService.CustomTheme.Token.Color.Danger95;
+        --wa-color-danger-90: @ThemeService.CustomTheme.Token.Color.Danger90;
+        --wa-color-danger-80: @ThemeService.CustomTheme.Token.Color.Danger80;
+        --wa-color-danger-70: @ThemeService.CustomTheme.Token.Color.Danger70;
+        --wa-color-danger-60: @ThemeService.CustomTheme.Token.Color.Danger60;
+        --wa-color-danger-50: @ThemeService.CustomTheme.Token.Color.Danger50;
+        --wa-color-danger-40: @ThemeService.CustomTheme.Token.Color.Danger40;
+        --wa-color-danger-30: @ThemeService.CustomTheme.Token.Color.Danger30;
+        --wa-color-danger-20: @ThemeService.CustomTheme.Token.Color.Danger20;
+        --wa-color-danger-10: @ThemeService.CustomTheme.Token.Color.Danger10;
+        --wa-color-danger-05: @ThemeService.CustomTheme.Token.Color.Danger05;
+        --wa-color-danger-on: @ThemeService.CustomTheme.Token.Color.DangerOn;
+        --wa-color-danger: @ThemeService.CustomTheme.Token.Color.Danger;
+        @* ### End danger color section ###*@
+        @* ### Start foundational colors section ###*@
+        --wa-color-surface-raised: @ThemeService.CustomTheme.Token.Color.SurfaceRaised;
+        --wa-color-surface-default: @ThemeService.CustomTheme.Token.Color.SurfaceDefault;
+        --wa-color-surface-lowered: @ThemeService.CustomTheme.Token.Color.SurfaceLowered;
+        --wa-color-surface-border: @ThemeService.CustomTheme.Token.Color.SurfaceBorder;
+        --wa-color-overlay-modal: @ThemeService.CustomTheme.Token.Color.OverlayModal;
+        --wa-color-overlay-inline: @ThemeService.CustomTheme.Token.Color.OverlayInline;
+        --wa-color-shadow: @ThemeService.CustomTheme.Token.Color.Shadow;
+        --wa-color-focus: @ThemeService.CustomTheme.Token.Color.Focus;
+        --wa-color-mix-hover: @ThemeService.CustomTheme.Token.Color.MixHover;
+        --wa-color-mix-active: @ThemeService.CustomTheme.Token.Color.MixActive;
+        @* ### End foundational colors section ###*@
+        @* ### Start brand colors section ###*@
+        --wa-color-brand-fill-quiet: @ThemeService.CustomTheme.Token.Color.BrandFillQuiet;
+        --wa-color-brand-fill-normal: @ThemeService.CustomTheme.Token.Color.BrandFillNormal;
+        --wa-color-brand-fill-loud: @ThemeService.CustomTheme.Token.Color.BrandFillLoud;
+        --wa-color-brand-border-quiet: @ThemeService.CustomTheme.Token.Color.BrandBorderQuiet;
+        --wa-color-brand-border-normal: @ThemeService.CustomTheme.Token.Color.BrandBorderNormal;
+        --wa-color-brand-border-loud: @ThemeService.CustomTheme.Token.Color.BrandBorderLoud;
+        --wa-color-brand-on-quiet: @ThemeService.CustomTheme.Token.Color.BrandOnQuiet;
+        --wa-color-brand-on-normal: @ThemeService.CustomTheme.Token.Color.BrandOnNormal;
+        --wa-color-brand-on-loud: @ThemeService.CustomTheme.Token.Color.BrandOnLoud;
+        @* ### End brand colors section ###*@
+        @* ### Start success colors section ###*@
+        --wa-color-success-fill-quiet: @ThemeService.CustomTheme.Token.Color.SuccessFillQuiet;
+        --wa-color-success-fill-normal: @ThemeService.CustomTheme.Token.Color.SuccessFillNormal;
+        --wa-color-success-fill-loud: @ThemeService.CustomTheme.Token.Color.SuccessFillLoud;
+        --wa-color-success-border-quiet: @ThemeService.CustomTheme.Token.Color.SuccessBorderQuiet;
+        --wa-color-success-border-normal: @ThemeService.CustomTheme.Token.Color.SuccessBorderNormal;
+        --wa-color-success-border-loud: @ThemeService.CustomTheme.Token.Color.SuccessBorderLoud;
+        --wa-color-success-on-quiet: @ThemeService.CustomTheme.Token.Color.SuccessOnQuiet;
+        --wa-color-success-on-normal: @ThemeService.CustomTheme.Token.Color.SuccessOnNormal;
+        --wa-color-success-on-loud: @ThemeService.CustomTheme.Token.Color.SuccessOnLoud;
+        @* ### End success colors section ###*@
+        @* ### Start neutral colors section ###*@
+        --wa-color-neutral-fill-quiet: @ThemeService.CustomTheme.Token.Color.NeutralFillQuiet;
+        --wa-color-neutral-fill-normal: @ThemeService.CustomTheme.Token.Color.NeutralFillNormal;
+        --wa-color-neutral-fill-loud: @ThemeService.CustomTheme.Token.Color.NeutralFillLoud;
+        --wa-color-neutral-border-quiet: @ThemeService.CustomTheme.Token.Color.NeutralBorderQuiet;
+        --wa-color-neutral-border-normal: @ThemeService.CustomTheme.Token.Color.NeutralBorderNormal;
+        --wa-color-neutral-border-loud: @ThemeService.CustomTheme.Token.Color.NeutralBorderLoud;
+        --wa-color-neutral-on-quiet: @ThemeService.CustomTheme.Token.Color.NeutralOnQuiet;
+        --wa-color-neutral-on-normal: @ThemeService.CustomTheme.Token.Color.NeutralOnNormal;
+        --wa-color-neutral-on-loud: @ThemeService.CustomTheme.Token.Color.NeutralOnLoud;
+        @* ### End neutral colors section ###*@
+        @* ### Start warning colors section ###*@
+        --wa-color-warning-fill-quiet: @ThemeService.CustomTheme.Token.Color.WarningFillQuiet;
+        --wa-color-warning-fill-normal: @ThemeService.CustomTheme.Token.Color.WarningFillNormal;
+        --wa-color-warning-fill-loud: @ThemeService.CustomTheme.Token.Color.WarningFillLoud;
+        --wa-color-warning-border-quiet: @ThemeService.CustomTheme.Token.Color.WarningBorderQuiet;
+        --wa-color-warning-border-normal: @ThemeService.CustomTheme.Token.Color.WarningBorderNormal;
+        --wa-color-warning-border-loud: @ThemeService.CustomTheme.Token.Color.WarningBorderLoud;
+        --wa-color-warning-on-quiet: @ThemeService.CustomTheme.Token.Color.WarningOnQuiet;
+        --wa-color-warning-on-normal: @ThemeService.CustomTheme.Token.Color.WarningOnNormal;
+        --wa-color-warning-on-loud: @ThemeService.CustomTheme.Token.Color.WarningOnLoud;
+        @* ### End warning colors section ###*@
+        @* ### Start danger colors section ###*@
+        --wa-color-danger-fill-quiet: @ThemeService.CustomTheme.Token.Color.DangerFillQuiet;
+        --wa-color-danger-fill-normal: @ThemeService.CustomTheme.Token.Color.DangerFillNormal;
+        --wa-color-danger-fill-loud: @ThemeService.CustomTheme.Token.Color.DangerFillLoud;
+        --wa-color-danger-border-quiet: @ThemeService.CustomTheme.Token.Color.DangerBorderQuiet;
+        --wa-color-danger-border-normal: @ThemeService.CustomTheme.Token.Color.DangerBorderNormal;
+        --wa-color-danger-border-loud: @ThemeService.CustomTheme.Token.Color.DangerBorderLoud;
+        --wa-color-danger-on-quiet: @ThemeService.CustomTheme.Token.Color.DangerOnQuiet;
+        --wa-color-danger-on-normal: @ThemeService.CustomTheme.Token.Color.DangerOnNormal;
+        --wa-color-danger-on-loud: @ThemeService.CustomTheme.Token.Color.DangerOnLoud;
+        @* ### End danger colors section ###*@
         }
     </style>
 }
