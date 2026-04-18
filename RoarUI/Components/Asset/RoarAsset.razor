@@ -14,8 +14,9 @@
 @if (ThemeService.CustomTheme is not null)
 {
     <style>
+        @@layer wa-theme-overrides {
         :root {
-        @* ### Start border section ###*@
+        /* ### Start border section */
         --wa-border-style: @ThemeService.CustomTheme.Token.Border.Style;
         --wa-border-width-s: @ThemeService.CustomTheme.Token.Border.WidthS;
         --wa-border-width-m: @ThemeService.CustomTheme.Token.Border.WidthM;
@@ -26,7 +27,8 @@
         --wa-border-radius-s: @ThemeService.CustomTheme.Token.Border.RadiusS;
         --wa-border-radius-m: @ThemeService.CustomTheme.Token.Border.RadiusM;
         --wa-border-radius-l: @ThemeService.CustomTheme.Token.Border.RadiusL;
-        @* ### End border section ### *@ @* ### Start red color section ###*@
+        /* ### End border section ### */
+        /* ### Start red color section ###*/
         --wa-color-red-95: @ThemeService.CustomTheme.Token.Color.Red95;
         --wa-color-red-90: @ThemeService.CustomTheme.Token.Color.Red90;
         --wa-color-red-80: @ThemeService.CustomTheme.Token.Color.Red80;
@@ -39,8 +41,8 @@
         --wa-color-red-10: @ThemeService.CustomTheme.Token.Color.Red10;
         --wa-color-red-05: @ThemeService.CustomTheme.Token.Color.Red05;
         --wa-color-red: @ThemeService.CustomTheme.Token.Color.Red;
-        @* ### End red color section ###*@
-        @* ### Start orange color section ###*@
+        /* ### End red color section ###*/
+        /* ### Start orange color section ###*/
         --wa-color-orange-95: @ThemeService.CustomTheme.Token.Color.Orange95;
         --wa-color-orange-90: @ThemeService.CustomTheme.Token.Color.Orange90;
         --wa-color-orange-80: @ThemeService.CustomTheme.Token.Color.Orange80;
@@ -53,8 +55,8 @@
         --wa-color-orange-10: @ThemeService.CustomTheme.Token.Color.Orange10;
         --wa-color-orange-05: @ThemeService.CustomTheme.Token.Color.Orange05;
         --wa-color-orange: @ThemeService.CustomTheme.Token.Color.Orange;
-        @* ### End orange color section ###*@
-        @* ### Start yellow color section ###*@
+        /* ### End orange color section ###*/
+        /* ### Start yellow color section ###*/
         --wa-color-yellow-95: @ThemeService.CustomTheme.Token.Color.Yellow95;
         --wa-color-yellow-90: @ThemeService.CustomTheme.Token.Color.Yellow90;
         --wa-color-yellow-80: @ThemeService.CustomTheme.Token.Color.Yellow80;
@@ -67,8 +69,8 @@
         --wa-color-yellow-10: @ThemeService.CustomTheme.Token.Color.Yellow10;
         --wa-color-yellow-05: @ThemeService.CustomTheme.Token.Color.Yellow05;
         --wa-color-yellow: @ThemeService.CustomTheme.Token.Color.Yellow;
-        @* ### End yellow color section ###*@
-        @* ### Start green color section ###*@
+        /* ### End yellow color section ###*/
+        /* ### Start green color section ###*/
         --wa-color-green-95: @ThemeService.CustomTheme.Token.Color.Green95;
         --wa-color-green-90: @ThemeService.CustomTheme.Token.Color.Green90;
         --wa-color-green-80: @ThemeService.CustomTheme.Token.Color.Green80;
@@ -81,8 +83,8 @@
         --wa-color-green-10: @ThemeService.CustomTheme.Token.Color.Green10;
         --wa-color-green-05: @ThemeService.CustomTheme.Token.Color.Green05;
         --wa-color-green: @ThemeService.CustomTheme.Token.Color.Green;
-        @* ### End green color section ###*@
-        @* ### Start cyan color section ###*@
+        /* ### End green color section ###*/
+        /* ### Start cyan color section ###*/
         --wa-color-cyan-95: @ThemeService.CustomTheme.Token.Color.Cyan95;
         --wa-color-cyan-90: @ThemeService.CustomTheme.Token.Color.Cyan90;
         --wa-color-cyan-80: @ThemeService.CustomTheme.Token.Color.Cyan80;
@@ -95,8 +97,8 @@
         --wa-color-cyan-10: @ThemeService.CustomTheme.Token.Color.Cyan10;
         --wa-color-cyan-05: @ThemeService.CustomTheme.Token.Color.Cyan05;
         --wa-color-cyan: @ThemeService.CustomTheme.Token.Color.Cyan;
-        @* ### End cyan color section ###*@
-        @* ### Start blue color section ###*@
+        /* ### End cyan color section ###*/
+        /* ### Start blue color section ###*/
         --wa-color-blue-95: @ThemeService.CustomTheme.Token.Color.Blue95;
         --wa-color-blue-90: @ThemeService.CustomTheme.Token.Color.Blue90;
         --wa-color-blue-80: @ThemeService.CustomTheme.Token.Color.Blue80;
@@ -109,8 +111,8 @@
         --wa-color-blue-10: @ThemeService.CustomTheme.Token.Color.Blue10;
         --wa-color-blue-05: @ThemeService.CustomTheme.Token.Color.Blue05;
         --wa-color-blue: @ThemeService.CustomTheme.Token.Color.Blue;
-        @* ### End blue color section ###*@
-        @* ### Start indigo color section ###*@
+        /* ### End blue color section ###*/
+        /* ### Start indigo color section ###*/
         --wa-color-indigo-95: @ThemeService.CustomTheme.Token.Color.Indigo95;
         --wa-color-indigo-90: @ThemeService.CustomTheme.Token.Color.Indigo90;
         --wa-color-indigo-80: @ThemeService.CustomTheme.Token.Color.Indigo80;
@@ -123,8 +125,8 @@
         --wa-color-indigo-10: @ThemeService.CustomTheme.Token.Color.Indigo10;
         --wa-color-indigo-05: @ThemeService.CustomTheme.Token.Color.Indigo05;
         --wa-color-indigo: @ThemeService.CustomTheme.Token.Color.Indigo;
-        @* ### End indigo color section ###*@
-        @* ### Start purple color section ###*@
+        /* ### End indigo color section ###*/
+        /* ### Start purple color section ###*/
         --wa-color-purple-95: @ThemeService.CustomTheme.Token.Color.Purple95;
         --wa-color-purple-90: @ThemeService.CustomTheme.Token.Color.Purple90;
         --wa-color-purple-80: @ThemeService.CustomTheme.Token.Color.Purple80;
@@ -137,8 +139,8 @@
         --wa-color-purple-10: @ThemeService.CustomTheme.Token.Color.Purple10;
         --wa-color-purple-05: @ThemeService.CustomTheme.Token.Color.Purple05;
         --wa-color-purple: @ThemeService.CustomTheme.Token.Color.Purple;
-        @* ### End purple color section ###*@
-        @* ### Start pink color section ###*@
+        /* ### End purple color section ###*/
+        /* ### Start pink color section ###*/
         --wa-color-pink-95: @ThemeService.CustomTheme.Token.Color.Pink95;
         --wa-color-pink-90: @ThemeService.CustomTheme.Token.Color.Pink90;
         --wa-color-pink-80: @ThemeService.CustomTheme.Token.Color.Pink80;
@@ -151,8 +153,8 @@
         --wa-color-pink-10: @ThemeService.CustomTheme.Token.Color.Pink10;
         --wa-color-pink-05: @ThemeService.CustomTheme.Token.Color.Pink05;
         --wa-color-pink: @ThemeService.CustomTheme.Token.Color.Pink;
-        @* ### End pink color section ###*@
-        @* ### Start gray color section ###*@
+        /* ### End pink color section ###*/
+        /* ### Start gray color section ###*/
         --wa-color-gray-95: @ThemeService.CustomTheme.Token.Color.Gray95;
         --wa-color-gray-90: @ThemeService.CustomTheme.Token.Color.Gray90;
         --wa-color-gray-80: @ThemeService.CustomTheme.Token.Color.Gray80;
@@ -165,8 +167,8 @@
         --wa-color-gray-10: @ThemeService.CustomTheme.Token.Color.Gray10;
         --wa-color-gray-05: @ThemeService.CustomTheme.Token.Color.Gray05;
         --wa-color-gray: @ThemeService.CustomTheme.Token.Color.Gray;
-        @* ### End gray color section ###*@
-        @* ### Start brand color section ###*@
+        /* ### End gray color section ###*/
+        /* ### Start brand color section ###*/
         --wa-color-brand-95: @ThemeService.CustomTheme.Token.Color.Brand95;
         --wa-color-brand-90: @ThemeService.CustomTheme.Token.Color.Brand90;
         --wa-color-brand-80: @ThemeService.CustomTheme.Token.Color.Brand80;
@@ -180,8 +182,8 @@
         --wa-color-brand-05: @ThemeService.CustomTheme.Token.Color.Brand05;
         --wa-color-brand-on: @ThemeService.CustomTheme.Token.Color.BrandOn;
         --wa-color-brand: @ThemeService.CustomTheme.Token.Color.Brand;
-        @* ### End brand color section ###*@
-        @* ### Start neutral color section ###*@
+        /* ### End brand color section ###*/
+        /* ### Start neutral color section ###*/
         --wa-color-neutral-95: @ThemeService.CustomTheme.Token.Color.Neutral95;
         --wa-color-neutral-90: @ThemeService.CustomTheme.Token.Color.Neutral90;
         --wa-color-neutral-80: @ThemeService.CustomTheme.Token.Color.Neutral80;
@@ -195,8 +197,8 @@
         --wa-color-neutral-05: @ThemeService.CustomTheme.Token.Color.Neutral05;
         --wa-color-neutral-on: @ThemeService.CustomTheme.Token.Color.NeutralOn;
         --wa-color-neutral: @ThemeService.CustomTheme.Token.Color.Neutral;
-        @* ### End neutral color section ###*@
-        @* ### Start success color section ###*@
+        /* ### End neutral color section ###*/
+        /* ### Start success color section ###*/
         --wa-color-success-95: @ThemeService.CustomTheme.Token.Color.Success95;
         --wa-color-success-90: @ThemeService.CustomTheme.Token.Color.Success90;
         --wa-color-success-80: @ThemeService.CustomTheme.Token.Color.Success80;
@@ -210,8 +212,8 @@
         --wa-color-success-05: @ThemeService.CustomTheme.Token.Color.Success05;
         --wa-color-success-on: @ThemeService.CustomTheme.Token.Color.SuccessOn;
         --wa-color-success: @ThemeService.CustomTheme.Token.Color.Success;
-        @* ### End success color section ###*@
-        @* ### Start warning color section ###*@
+        /* ### End success color section ###*/
+        /* ### Start warning color section ###*/
         --wa-color-warning-95: @ThemeService.CustomTheme.Token.Color.Warning95;
         --wa-color-warning-90: @ThemeService.CustomTheme.Token.Color.Warning90;
         --wa-color-warning-80: @ThemeService.CustomTheme.Token.Color.Warning80;
@@ -225,8 +227,8 @@
         --wa-color-warning-05: @ThemeService.CustomTheme.Token.Color.Warning05;
         --wa-color-warning-on: @ThemeService.CustomTheme.Token.Color.WarningOn;
         --wa-color-warning: @ThemeService.CustomTheme.Token.Color.Warning;
-        @* ### End warning color section ###*@
-        @* ### Start danger color section ###*@
+        /* ### End warning color section ###*/
+        /* ### Start danger color section ###*/
         --wa-color-danger-95: @ThemeService.CustomTheme.Token.Color.Danger95;
         --wa-color-danger-90: @ThemeService.CustomTheme.Token.Color.Danger90;
         --wa-color-danger-80: @ThemeService.CustomTheme.Token.Color.Danger80;
@@ -240,8 +242,8 @@
         --wa-color-danger-05: @ThemeService.CustomTheme.Token.Color.Danger05;
         --wa-color-danger-on: @ThemeService.CustomTheme.Token.Color.DangerOn;
         --wa-color-danger: @ThemeService.CustomTheme.Token.Color.Danger;
-        @* ### End danger color section ###*@
-        @* ### Start foundational colors section ###*@
+        /* ### End danger color section ###*/
+        /* ### Start foundational colors section ###*/
         --wa-color-surface-raised: @ThemeService.CustomTheme.Token.Color.SurfaceRaised;
         --wa-color-surface-default: @ThemeService.CustomTheme.Token.Color.SurfaceDefault;
         --wa-color-surface-lowered: @ThemeService.CustomTheme.Token.Color.SurfaceLowered;
@@ -252,8 +254,8 @@
         --wa-color-focus: @ThemeService.CustomTheme.Token.Color.Focus;
         --wa-color-mix-hover: @ThemeService.CustomTheme.Token.Color.MixHover;
         --wa-color-mix-active: @ThemeService.CustomTheme.Token.Color.MixActive;
-        @* ### End foundational colors section ###*@
-        @* ### Start brand colors section ###*@
+        /* ### End foundational colors section ###*/
+        /* ### Start brand colors section ###*/
         --wa-color-brand-fill-quiet: @ThemeService.CustomTheme.Token.Color.BrandFillQuiet;
         --wa-color-brand-fill-normal: @ThemeService.CustomTheme.Token.Color.BrandFillNormal;
         --wa-color-brand-fill-loud: @ThemeService.CustomTheme.Token.Color.BrandFillLoud;
@@ -263,8 +265,8 @@
         --wa-color-brand-on-quiet: @ThemeService.CustomTheme.Token.Color.BrandOnQuiet;
         --wa-color-brand-on-normal: @ThemeService.CustomTheme.Token.Color.BrandOnNormal;
         --wa-color-brand-on-loud: @ThemeService.CustomTheme.Token.Color.BrandOnLoud;
-        @* ### End brand colors section ###*@
-        @* ### Start success colors section ###*@
+        /* ### End brand colors section ###*/
+        /* ### Start success colors section ###*/
         --wa-color-success-fill-quiet: @ThemeService.CustomTheme.Token.Color.SuccessFillQuiet;
         --wa-color-success-fill-normal: @ThemeService.CustomTheme.Token.Color.SuccessFillNormal;
         --wa-color-success-fill-loud: @ThemeService.CustomTheme.Token.Color.SuccessFillLoud;
@@ -274,8 +276,8 @@
         --wa-color-success-on-quiet: @ThemeService.CustomTheme.Token.Color.SuccessOnQuiet;
         --wa-color-success-on-normal: @ThemeService.CustomTheme.Token.Color.SuccessOnNormal;
         --wa-color-success-on-loud: @ThemeService.CustomTheme.Token.Color.SuccessOnLoud;
-        @* ### End success colors section ###*@
-        @* ### Start neutral colors section ###*@
+        /* ### End success colors section ###*/
+        /* ### Start neutral colors section ###*/
         --wa-color-neutral-fill-quiet: @ThemeService.CustomTheme.Token.Color.NeutralFillQuiet;
         --wa-color-neutral-fill-normal: @ThemeService.CustomTheme.Token.Color.NeutralFillNormal;
         --wa-color-neutral-fill-loud: @ThemeService.CustomTheme.Token.Color.NeutralFillLoud;
@@ -285,8 +287,8 @@
         --wa-color-neutral-on-quiet: @ThemeService.CustomTheme.Token.Color.NeutralOnQuiet;
         --wa-color-neutral-on-normal: @ThemeService.CustomTheme.Token.Color.NeutralOnNormal;
         --wa-color-neutral-on-loud: @ThemeService.CustomTheme.Token.Color.NeutralOnLoud;
-        @* ### End neutral colors section ###*@
-        @* ### Start warning colors section ###*@
+        /* ### End neutral colors section ###*/
+        /* ### Start warning colors section ###*/
         --wa-color-warning-fill-quiet: @ThemeService.CustomTheme.Token.Color.WarningFillQuiet;
         --wa-color-warning-fill-normal: @ThemeService.CustomTheme.Token.Color.WarningFillNormal;
         --wa-color-warning-fill-loud: @ThemeService.CustomTheme.Token.Color.WarningFillLoud;
@@ -296,8 +298,8 @@
         --wa-color-warning-on-quiet: @ThemeService.CustomTheme.Token.Color.WarningOnQuiet;
         --wa-color-warning-on-normal: @ThemeService.CustomTheme.Token.Color.WarningOnNormal;
         --wa-color-warning-on-loud: @ThemeService.CustomTheme.Token.Color.WarningOnLoud;
-        @* ### End warning colors section ###*@
-        @* ### Start danger colors section ###*@
+        /* ### End warning colors section ###*/
+        /* ### Start danger colors section ###*/
         --wa-color-danger-fill-quiet: @ThemeService.CustomTheme.Token.Color.DangerFillQuiet;
         --wa-color-danger-fill-normal: @ThemeService.CustomTheme.Token.Color.DangerFillNormal;
         --wa-color-danger-fill-loud: @ThemeService.CustomTheme.Token.Color.DangerFillLoud;
@@ -307,7 +309,120 @@
         --wa-color-danger-on-quiet: @ThemeService.CustomTheme.Token.Color.DangerOnQuiet;
         --wa-color-danger-on-normal: @ThemeService.CustomTheme.Token.Color.DangerOnNormal;
         --wa-color-danger-on-loud: @ThemeService.CustomTheme.Token.Color.DangerOnLoud;
-        @* ### End danger colors section ###*@
+        /* ### End danger colors section ###*/
+        /* ### Start focus section ###*/
+        --wa-focus-ring-style: @ThemeService.CustomTheme.Token.Focus.Style;
+        --wa-focus-ring-width: @ThemeService.CustomTheme.Token.Focus.Width;
+        --wa-focus-ring: @ThemeService.CustomTheme.Token.Focus.Ring;
+        --wa-focus-ring-offset: @ThemeService.CustomTheme.Token.Focus.Offset;
+        /* ### End focus section ###*/
+        /* ### Start shadow section ###*/
+        --wa-shadow-s: @ThemeService.CustomTheme.Token.Shadow.S;
+        --wa-shadow-m: @ThemeService.CustomTheme.Token.Shadow.M;
+        --wa-shadow-l: @ThemeService.CustomTheme.Token.Shadow.L;
+        --wa-shadow-offset-x-s: @ThemeService.CustomTheme.Token.Shadow.OffsetXS;
+        --wa-shadow-offset-x-m: @ThemeService.CustomTheme.Token.Shadow.OffsetXM;
+        --wa-shadow-offset-x-l: @ThemeService.CustomTheme.Token.Shadow.OffsetXL;
+        --wa-shadow-offset-y-s: @ThemeService.CustomTheme.Token.Shadow.OffsetYS;
+        --wa-shadow-offset-y-m: @ThemeService.CustomTheme.Token.Shadow.OffsetYM;
+        --wa-shadow-offset-y-l: @ThemeService.CustomTheme.Token.Shadow.OffsetYL;
+        --wa-shadow-blur-s: @ThemeService.CustomTheme.Token.Shadow.BlurS;
+        --wa-shadow-blur-m: @ThemeService.CustomTheme.Token.Shadow.BlurM;
+        --wa-shadow-blur-l: @ThemeService.CustomTheme.Token.Shadow.BlurL;
+        --wa-shadow-spread-s: @ThemeService.CustomTheme.Token.Shadow.SpreadS;
+        --wa-shadow-spread-m: @ThemeService.CustomTheme.Token.Shadow.SpreadM;
+        --wa-shadow-spread-l: @ThemeService.CustomTheme.Token.Shadow.SpreadL;
+        /* ### End shadow section ###*/
+        /* ### Start space section ###*/
+        --wa-space-3xs: @ThemeService.CustomTheme.Token.Space.Space3XS;
+        --wa-space-2xs: @ThemeService.CustomTheme.Token.Space.Space2XS;
+        --wa-space-xs: @ThemeService.CustomTheme.Token.Space.SpaceXS;
+        --wa-space-s: @ThemeService.CustomTheme.Token.Space.SpaceS;
+        --wa-space-m: @ThemeService.CustomTheme.Token.Space.SpaceM;
+        --wa-space-l: @ThemeService.CustomTheme.Token.Space.SpaceL;
+        --wa-space-xl: @ThemeService.CustomTheme.Token.Space.SpaceXL;
+        --wa-space-2xl: @ThemeService.CustomTheme.Token.Space.Space2XL;
+        --wa-space-3xl: @ThemeService.CustomTheme.Token.Space.Space3XL;
+        --wa-space-4xl: @ThemeService.CustomTheme.Token.Space.Space4XL;
+        --wa-space-5xl: @ThemeService.CustomTheme.Token.Space.Space5XL;
+        /* ### End space section ###*/
+        /* ### Start transition section ###*/
+        --wa-transition-slow: @ThemeService.CustomTheme.Token.Transition.Slow;
+        --wa-transition-normal: @ThemeService.CustomTheme.Token.Transition.Normal;
+        --wa-transition-fast: @ThemeService.CustomTheme.Token.Transition.Fast;
+        --wa-transition-easing: @ThemeService.CustomTheme.Token.Transition.Easing;
+        /* ### End transition section ###*/
+        /* ### Start typography section ###*/
+        --wa-font-family-body: @ThemeService.CustomTheme.Token.Typography.FontFamilyBody;
+        --wa-font-family-heading: @ThemeService.CustomTheme.Token.Typography.FontFamilyHeading;
+        --wa-font-family-code: @ThemeService.CustomTheme.Token.Typography.FontFamilyCode;
+        --wa-font-family-longform: @ThemeService.CustomTheme.Token.Typography.FontFamilyLongForm;
+        --wa-font-size-3xs: @ThemeService.CustomTheme.Token.Typography.FontSize3XS;
+        --wa-font-size-2xs: @ThemeService.CustomTheme.Token.Typography.FontSize2XS;
+        --wa-font-size-xs: @ThemeService.CustomTheme.Token.Typography.FontSizeXS;
+        --wa-font-size-s: @ThemeService.CustomTheme.Token.Typography.FontSizeS;
+        --wa-font-size-m: @ThemeService.CustomTheme.Token.Typography.FontSizeM;
+        --wa-font-size-l: @ThemeService.CustomTheme.Token.Typography.FontSizeL;
+        --wa-font-size-xl: @ThemeService.CustomTheme.Token.Typography.FontSizeXL;
+        --wa-font-size-2xl: @ThemeService.CustomTheme.Token.Typography.FontSize2XL;
+        --wa-font-size-3xl: @ThemeService.CustomTheme.Token.Typography.FontSize3XL;
+        --wa-font-size-4xl: @ThemeService.CustomTheme.Token.Typography.FontSize4XL;
+        --wa-font-size-5xl: @ThemeService.CustomTheme.Token.Typography.FontSize5XL;
+        --wa-font-size-smaller: @ThemeService.CustomTheme.Token.Typography.FontSizeSmaller;
+        --wa-font-size-larger: @ThemeService.CustomTheme.Token.Typography.FontSizeLarger;
+        --wa-font-weight-light: @ThemeService.CustomTheme.Token.Typography.FontWeightLight;
+        --wa-font-weight-normal: @ThemeService.CustomTheme.Token.Typography.FontWeightNormal;
+        --wa-font-weight-semibold: @ThemeService.CustomTheme.Token.Typography.FontWeightSemiBold;
+        --wa-font-weight-bold: @ThemeService.CustomTheme.Token.Typography.FontWeightBold;
+        --wa-font-weight-body: @ThemeService.CustomTheme.Token.Typography.FontWeightBody;
+        --wa-font-weight-heading: @ThemeService.CustomTheme.Token.Typography.FontWeightHeading;
+        --wa-font-weight-code: @ThemeService.CustomTheme.Token.Typography.FontWeightCode;
+        --wa-font-weight-longform: @ThemeService.CustomTheme.Token.Typography.FontWeightLongform;
+        --wa-font-weight-action: @ThemeService.CustomTheme.Token.Typography.FontWeightAction;
+        --wa-line-height-condensed: @ThemeService.CustomTheme.Token.Typography.LineHeightCondensed;
+        --wa-line-height-normal: @ThemeService.CustomTheme.Token.Typography.LineHeightNormal;
+        --wa-line-height-expanded: @ThemeService.CustomTheme.Token.Typography.LineHeightExpanded;
+        --wa-link-decoration-default: @ThemeService.CustomTheme.Token.Typography.LinkDecorationDefault;
+        --wa-link-decoration-hover: @ThemeService.CustomTheme.Token.Typography.LinkDecorationHover;
+        /* ### End typography section ###*/
+        /* ### Start component groups section ###*/
+        --wa-form-control-background-color: @ThemeService.CustomTheme.Token.ComponentGroup.BackgroundColor;
+        --wa-form-control-border-color: @ThemeService.CustomTheme.Token.ComponentGroup.BorderColor;
+        --wa-form-control-border-style: @ThemeService.CustomTheme.Token.ComponentGroup.BorderStyle;
+        --wa-form-control-border-width: @ThemeService.CustomTheme.Token.ComponentGroup.BorderWidth;
+        --wa-form-control-border-radius: @ThemeService.CustomTheme.Token.ComponentGroup.BorderRadius;
+        --wa-form-control-activated-color: @ThemeService.CustomTheme.Token.ComponentGroup.ActivatedColor;
+        --wa-form-control-label-color: @ThemeService.CustomTheme.Token.ComponentGroup.LabelColor;
+        --wa-form-control-label-font-weight: @ThemeService.CustomTheme.Token.ComponentGroup.LabelFontWeight;
+        --wa-form-control-label-line-height: @ThemeService.CustomTheme.Token.ComponentGroup.LabelLineHeight;
+        --wa-form-control-value-color: @ThemeService.CustomTheme.Token.ComponentGroup.ValueColor;
+        --wa-form-control-value-font-weight: @ThemeService.CustomTheme.Token.ComponentGroup.ValueFontWeight;
+        --wa-form-control-value-line-height: @ThemeService.CustomTheme.Token.ComponentGroup.ValueLineHeight;
+        --wa-form-control-hint-color: @ThemeService.CustomTheme.Token.ComponentGroup.HintColor;
+        --wa-form-control-hint-font-weight: @ThemeService.CustomTheme.Token.ComponentGroup.HintFontWeight;
+        --wa-form-control-hint-line-height: @ThemeService.CustomTheme.Token.ComponentGroup.HintLineHeight;
+        --wa-form-control-placeholder-color: @ThemeService.CustomTheme.Token.ComponentGroup.PlaceholderColor;
+        --wa-form-control-required-content: @ThemeService.CustomTheme.Token.ComponentGroup.RequiredContent;
+        --wa-form-control-required-content-color: @ThemeService.CustomTheme.Token.ComponentGroup.RequiredContentColor;
+        --wa-form-control-required-content-offset: @ThemeService.CustomTheme.Token.ComponentGroup.RequiredContentOffset;
+        --wa-form-control-padding-block: @ThemeService.CustomTheme.Token.ComponentGroup.PaddingBlock;
+        --wa-form-control-padding-inline: @ThemeService.CustomTheme.Token.ComponentGroup.PaddingInline;
+        --wa-form-control-height: @ThemeService.CustomTheme.Token.ComponentGroup.Height;
+        --wa-form-control-toggle-size: @ThemeService.CustomTheme.Token.ComponentGroup.ToggleSize;
+        --wa-panel-border-style: @ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderStyle;
+        --wa-panel-border-width: @ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderWidth;
+        --wa-panel-border-radius: @ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderRadius;
+        --wa-tooltip-arrow-size: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipArrowSize;
+        --wa-tooltip-background-color: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipBackgroundColor;
+        --wa-tooltip-border-color: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderColor;
+        --wa-tooltip-border-style: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderStyle;
+        --wa-tooltip-border-width: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderWidth;
+        --wa-tooltip-border-radius: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderRadius;
+        --wa-tooltip-content-color: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipContentColor;
+        --wa-tooltip-font-size: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipFontSize;
+        --wa-tooltip-line-height: @ThemeService.CustomTheme.Token.ComponentGroup.TooltipLineHeight;
+        /* ### End component groups section ###*/
+        }
         }
     </style>
 }
@@ -316,6 +431,7 @@
     protected override void OnInitialized()
     {
         RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
+        ThemeService.OnThemeLoaded += OnThemeLoadedHandler;
     }
 
     public void OnComponentsChangedHandler(object? sender, EventArgs args)
@@ -323,8 +439,14 @@
         StateHasChanged();
     }
 
+    public void OnThemeLoadedHandler(object? sender, RoarTheme theme)
+    {
+        StateHasChanged();
+    }
+
     public void Dispose()
     {
         RoarDependencyService.OnComponentsChanged -= OnComponentsChangedHandler;
+        ThemeService.OnThemeLoaded -= OnThemeLoadedHandler;
     }
 }
