@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Remove="bundleconfig.json" />
+		<Content Remove="bundleconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,31 +25,35 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="..\docs\LICENSE.txt">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\docs\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="bundleconfig.json" />
+		<None Include="..\docs\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\docs\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="bundleconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\RoarUI.Generators\RoarUI.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="LICENSE.txt" Pack="True" PackagePath="\" />
-	  <None Update="README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<ProjectReference Include="..\RoarUI.Generators\RoarUI.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="LICENSE.txt" Pack="True" PackagePath="\" />
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 </Project>

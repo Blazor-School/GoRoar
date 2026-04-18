@@ -3,12 +3,12 @@
 @inject ThemeService ThemeService
 @implements IDisposable
 
-<link rel="stylesheet" href="@Assets[$"{InternalPaths.BaseWebAwesomePath}/styles/webawesome.css"]" />
-<link rel="stylesheet" href="@Assets["_content/RoarUI/roar.min.css"]" />
+<link rel="stylesheet" href="@($"{InternalPaths.BaseWebAwesomePath}/styles/webawesome.css")" />
+<link rel="stylesheet" href="_content/RoarUI/roar.min.css" />
 
 @foreach (var component in RoarDependencyService.Components)
 {
-    <script type="module" src="@Assets[InternalPaths.ComposeWebAwesomeComponentJsPath(component)]"></script>
+    <script type="module" src="@InternalPaths.ComposeWebAwesomeComponentJsPath(component)"></script>
 }
 
 @if (ThemeService.CustomTheme is not null)
