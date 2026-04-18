@@ -13,10 +13,10 @@
 
 @if (ThemeService.CustomTheme is not null)
 {
-    <style>
+    <style @key="ThemeService.CustomTheme.Token.Border">
         @@layer wa-theme-overrides {
         :root {
-        /* ### Start border section */
+        /* ### Start border section ### */
         --wa-border-style: @ThemeService.CustomTheme.Token.Border.Style;
         --wa-border-width-s: @ThemeService.CustomTheme.Token.Border.WidthS;
         --wa-border-width-m: @ThemeService.CustomTheme.Token.Border.WidthM;
@@ -28,6 +28,12 @@
         --wa-border-radius-m: @ThemeService.CustomTheme.Token.Border.RadiusM;
         --wa-border-radius-l: @ThemeService.CustomTheme.Token.Border.RadiusL;
         /* ### End border section ### */
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.Color">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start red color section ###*/
         --wa-color-red-95: @ThemeService.CustomTheme.Token.Color.Red95;
         --wa-color-red-90: @ThemeService.CustomTheme.Token.Color.Red90;
@@ -310,12 +316,24 @@
         --wa-color-danger-on-normal: @ThemeService.CustomTheme.Token.Color.DangerOnNormal;
         --wa-color-danger-on-loud: @ThemeService.CustomTheme.Token.Color.DangerOnLoud;
         /* ### End danger colors section ###*/
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.Focus">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start focus section ###*/
         --wa-focus-ring-style: @ThemeService.CustomTheme.Token.Focus.Style;
         --wa-focus-ring-width: @ThemeService.CustomTheme.Token.Focus.Width;
         --wa-focus-ring: @ThemeService.CustomTheme.Token.Focus.Ring;
         --wa-focus-ring-offset: @ThemeService.CustomTheme.Token.Focus.Offset;
         /* ### End focus section ###*/
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.Shadow">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start shadow section ###*/
         --wa-shadow-s: @ThemeService.CustomTheme.Token.Shadow.S;
         --wa-shadow-m: @ThemeService.CustomTheme.Token.Shadow.M;
@@ -333,6 +351,12 @@
         --wa-shadow-spread-m: @ThemeService.CustomTheme.Token.Shadow.SpreadM;
         --wa-shadow-spread-l: @ThemeService.CustomTheme.Token.Shadow.SpreadL;
         /* ### End shadow section ###*/
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.Space">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start space section ###*/
         --wa-space-3xs: @ThemeService.CustomTheme.Token.Space.Space3XS;
         --wa-space-2xs: @ThemeService.CustomTheme.Token.Space.Space2XS;
@@ -346,12 +370,24 @@
         --wa-space-4xl: @ThemeService.CustomTheme.Token.Space.Space4XL;
         --wa-space-5xl: @ThemeService.CustomTheme.Token.Space.Space5XL;
         /* ### End space section ###*/
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.Transition">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start transition section ###*/
         --wa-transition-slow: @ThemeService.CustomTheme.Token.Transition.Slow;
         --wa-transition-normal: @ThemeService.CustomTheme.Token.Transition.Normal;
         --wa-transition-fast: @ThemeService.CustomTheme.Token.Transition.Fast;
         --wa-transition-easing: @ThemeService.CustomTheme.Token.Transition.Easing;
         /* ### End transition section ###*/
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.Typography">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start typography section ###*/
         --wa-font-family-body: @ThemeService.CustomTheme.Token.Typography.FontFamilyBody;
         --wa-font-family-heading: @ThemeService.CustomTheme.Token.Typography.FontFamilyHeading;
@@ -385,6 +421,12 @@
         --wa-link-decoration-default: @ThemeService.CustomTheme.Token.Typography.LinkDecorationDefault;
         --wa-link-decoration-hover: @ThemeService.CustomTheme.Token.Typography.LinkDecorationHover;
         /* ### End typography section ###*/
+        }
+        }
+    </style>
+    <style @key="ThemeService.CustomTheme.Token.ComponentGroup">
+        @@layer wa-theme-overrides {
+        :root {
         /* ### Start component groups section ###*/
         --wa-form-control-background-color: @ThemeService.CustomTheme.Token.ComponentGroup.BackgroundColor;
         --wa-form-control-border-color: @ThemeService.CustomTheme.Token.ComponentGroup.BorderColor;
