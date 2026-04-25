@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoarUI\RoarUI.csproj" />
+    <ProjectReference Include="..\RoarUI.ShowcaseKit\RoarUI.ShowcaseKit.csproj" />
   </ItemGroup>
 
   <ItemGroup>

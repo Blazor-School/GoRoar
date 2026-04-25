@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using RoarUI.ShowcaseKit.Models
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">ShowcaseWebApp</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        @foreach (var menu in MenuDefinitions)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@menu.Link" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @menu.Name
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    public List<MenuDefinition> MenuDefinitions { get; set; } = new()
+    {
+        new MenuDefinition("Home", ""),
+        new MenuDefinition("Animated Image Sample", "animated-image-sample"),
+        new MenuDefinition("Animation Sample", "animation-sample"),
+        new MenuDefinition("Avatar Sample", "avatar-sample"),
+        new MenuDefinition("Badge Sample", "badge-sample"),
+        new MenuDefinition("Button Sample", "button-sample"),
+        new MenuDefinition("Breadcrumb Sample", "breadcrumb-sample"),
+        new MenuDefinition("Divider Sample", "divider-sample"),
+        new MenuDefinition("Dropdown Sample", "dropdown-sample"),
+        new MenuDefinition("Font Awesome Icon Sample", "font-awesome-icon-sample"),
+        new MenuDefinition("Dev Console", "dev-console"),
+    };
+}
