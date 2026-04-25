@@ -8,6 +8,5 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\RoarUI.ShowcaseKit\RoarUI.ShowcaseKit.csproj" />
-		<ProjectReference Include="..\RoarUI\RoarUI.csproj" />
 	</ItemGroup>
 </Project>
