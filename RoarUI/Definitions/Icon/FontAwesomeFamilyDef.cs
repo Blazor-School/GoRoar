@@ -2,11 +2,11 @@
 
 namespace RoarUI.Definitions.Icon;
 
-[StringEnumMember("Classic", "classic")]
-[StringEnumMember("Brands", "brands")]
-[StringEnumMember("Sharp", "sharp")]
-[StringEnumMember("Duotone", "duotone")]
-[StringEnumMember("SharpDuotone", "sharp-duotone")]
+[StringEnumMember("Classic")]
+[StringEnumMember("Brands")]
+[StringEnumMember("Sharp")]
+[StringEnumMember("Duotone")]
+[StringEnumMember("SharpDuotone")]
 [StringEnum("FontAwesomeFamily", "classic")]
 internal class FontAwesomeFamilyDef
 {

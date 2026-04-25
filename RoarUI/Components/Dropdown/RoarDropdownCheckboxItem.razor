@@ -46,8 +46,8 @@
         {
             var instance = DotNetObjectReference.Create(this);
 
-            await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "blur", instance, nameof(TriggerBlurAsync));
-            await JSRuntime.InvokeVoidAsync("subscribeEvent", Element, "focus", instance, nameof(TriggerFocusAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
         }
     }
 

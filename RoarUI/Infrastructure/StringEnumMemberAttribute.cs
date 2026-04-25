@@ -16,5 +16,36 @@
 internal sealed class StringEnumMemberAttribute(string PropertyName, string? Value = null) : Attribute
 {
     public string PropertyName { get; } = PropertyName;
-    public string Value { get; } = string.IsNullOrEmpty(Value) ? char.ToLowerInvariant(PropertyName[0]) + PropertyName[1..] : Value;
+    public string Value { get; } = string.IsNullOrEmpty(Value) ? ToKebabCase(PropertyName) : Value;
+
+    private static string ToKebabCase(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
+        var result = new System.Text.StringBuilder();
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            char c = input[i];
+
+            if (char.IsUpper(c))
+            {
+                if (i > 0)
+                {
+                    result.Append('-');
+                }
+
+                result.Append(char.ToLowerInvariant(c));
+            }
+            else
+            {
+                result.Append(c);
+            }
+        }
+
+        return result.ToString();
+    }
 }

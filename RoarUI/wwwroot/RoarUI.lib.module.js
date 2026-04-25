@@ -34,6 +34,18 @@ function roarGeneralFunction() {
             instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e));
         });
     }
+
+    window.setObjectProperty = function (element, propertyName, value) {
+        element[propertyName] = value;
+    }
+
+    window.getObjectProperty = function (element, propertyName) {
+        return element[propertyName];
+    }
+
+    window.toggleBooleanProperty = function (element, propertyName) {
+        element[propertyName] = !element[propertyName];
+    }
 }
 
 let roarEventFromHtmlEvent = {
