@@ -81,7 +81,7 @@
         if (firstRender)
         {
             var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("subscribeEventWithArgs", Element, "wa-select", nameof(WaSelectEventArgs), instance, nameof(NotifyValueChanged));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-select", nameof(WaSelectEventArgs), instance, nameof(NotifyValueChanged));
         }
     }
 

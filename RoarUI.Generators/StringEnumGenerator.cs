@@ -51,7 +51,9 @@ public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}
 
                 foreach (var member in members)
                 {
-                    string value = string.IsNullOrEmpty((string)member.ConstructorArguments[1].Value) ? $"{char.ToLowerInvariant(member.ConstructorArguments[0].Value.ToString().FirstOrDefault())}{member.ConstructorArguments[0].Value.ToString().Substring(1)}" : (string)member.ConstructorArguments[1].Value;
+                    string propName = member.ConstructorArguments[0].Value!.ToString();
+                    string rawValue = (string?)member.ConstructorArguments[1].Value;
+                    string value = string.IsNullOrEmpty(rawValue) ? ToKebabCase(propName) : rawValue;
 
                     stringBuilder.AppendLine($$"""
     public static readonly {{generatedClassName}} {{member.ConstructorArguments[0].Value}} = new("{{value}}");
@@ -75,5 +77,36 @@ public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}
 
                 spc.AddSource($"{generatedClassName}.g.cs", SourceText.From(stringBuilder.ToString(), Encoding.UTF8));
             });
+    }
+
+    private static string ToKebabCase(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
+        var result = new System.Text.StringBuilder();
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            char c = input[i];
+
+            if (char.IsUpper(c))
+            {
+                if (i > 0)
+                {
+                    result.Append('-');
+                }
+
+                result.Append(char.ToLowerInvariant(c));
+            }
+            else
+            {
+                result.Append(c);
+            }
+        }
+
+        return result.ToString();
     }
 }

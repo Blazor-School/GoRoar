@@ -16,5 +16,5 @@
 internal sealed class StringEnumMemberAttribute(string PropertyName, string? Value = null) : Attribute
 {
     public string PropertyName { get; } = PropertyName;
-    public string Value { get; } = string.IsNullOrEmpty(Value) ? char.ToLowerInvariant(PropertyName[0]) + PropertyName[1..] : Value;
+    public string? Value { get; } = Value;
 }

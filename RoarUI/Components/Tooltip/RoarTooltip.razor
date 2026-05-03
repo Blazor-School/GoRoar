@@ -1,0 +1,120 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="tooltip" />
+
+<wa-tooltip for="@For" placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @attributes="InternalAttributes" @ref="Element" without-arrow="@NoArrow">@ChildContent</wa-tooltip>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public string For { get; set; }
+
+    [Parameter]
+    public TooltipPlacement Placement { get; set; }
+
+    [Parameter]
+    public List<TooltipTrigger> Triggers { get; set; } = [TooltipTrigger.Hover, TooltipTrigger.Focus];
+
+    [Parameter]
+    public bool NoArrow { get; set; } = false;
+
+    [Parameter]
+    public string MaxWidth { get; set; } = "";
+
+    [Parameter]
+    public int Distance { get; set; } = 8;
+
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public int HideDelay { get; set; } = 0;
+
+    [Parameter]
+    public int ShowDelay { get; set; } = 150;
+
+    [Parameter]
+    public int Skidding { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    private string JoinTriggers { get => string.Join(" ", Triggers); }
+    internal Dictionary<string, object> InternalAttributes = [];
+    internal ElementReference Element { get; set; }
+
+    public async Task SetStateAsync(bool open)
+    {
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", open);
+    }
+
+    public async Task ToggleStateAsync()
+    {
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
+    }
+
+    public async ValueTask<bool> GetStateAsync()
+    {
+        return await JSRuntime.InvokeAsync<bool>(JavascriptFunctionNames.GetObjectProperty, Element, "open");
+    }
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--max-width", MaxWidth)
+            .Build();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-hide", instance, nameof(TriggerHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterHideAsync()
+    {
+        await OnAfterHide.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerHideAsync()
+    {
+        await OnHide.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterShowAsync()
+    {
+        await OnAfterShow.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerShowAsync()
+    {
+        await OnShow.InvokeAsync();
+    }
+}

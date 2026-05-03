@@ -18,7 +18,7 @@
       },
       "dotnetRunMessages": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "applicationUrl": "https://localhost:7276"
+      "applicationUrl": "https://localhost:7145"
     },
     "No Debug": {
       "commandName": "Project",
@@ -27,7 +27,7 @@
       },
       "dotnetRunMessages": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "applicationUrl": "https://localhost:7276"
+      "applicationUrl": "https://localhost:7145"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"
