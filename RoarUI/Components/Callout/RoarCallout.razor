@@ -1,0 +1,33 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="callout" />
+
+<wa-callout appearance="@Appearance" size="@Size" variant="@Variant" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-callout>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The callout's theme variant. Defaults to <see cref="CalloutVariant.Brand"/>.
+    /// </summary>
+    [Parameter]
+    public CalloutVariant Variant { get; set; }
+
+    /// <summary>
+    /// The callout's size.
+    /// </summary>
+    [Parameter]
+    public CalloutSize Size { get; set; }
+
+    /// <summary>
+    /// The callout's visual appearance.
+    /// </summary>
+    [Parameter]
+    public CalloutAppearance Appearance { get; set; }
+}
