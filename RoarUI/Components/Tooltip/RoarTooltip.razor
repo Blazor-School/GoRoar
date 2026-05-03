@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="tooltip" />
 
-<wa-tooltip placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @attributes="InternalAttributes" @ref="Element" without-arrow="@NoArrow">@ChildContent</wa-tooltip>
+<wa-tooltip for="@For" placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @attributes="InternalAttributes" @ref="Element" without-arrow="@NoArrow">@ChildContent</wa-tooltip>
 
 @code {
     [Parameter]
@@ -11,6 +11,10 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public string For { get; set; }
 
     [Parameter]
     public TooltipPlacement Placement { get; set; }

@@ -1,0 +1,101 @@
+﻿@page "/tooltip-sample"
+
+<h3>Placement</h3>
+<div class="tooltip-placement-example">
+    <div class="tooltip-placement-example-row">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-top-start"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-top"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-top-end"></RoarButton>
+    </div>
+
+    <div class="tooltip-placement-example-row">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-left-start"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-right-start"></RoarButton>
+    </div>
+
+    <div class="tooltip-placement-example-row">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-left"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-right"></RoarButton>
+    </div>
+
+    <div class="tooltip-placement-example-row">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-left-end"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-right-end"></RoarButton>
+    </div>
+
+    <div class="tooltip-placement-example-row">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-bottom-start"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-bottom"></RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-bottom-end"></RoarButton>
+    </div>
+</div>
+
+<RoarTooltip For="tooltip-top-start" Placement="TooltipPlacement.TopStart">top-start</RoarTooltip>
+<RoarTooltip For="tooltip-top" Placement="TooltipPlacement.Top">top</RoarTooltip>
+<RoarTooltip For="tooltip-top-end" Placement="TooltipPlacement.TopEnd">top-end</RoarTooltip>
+<RoarTooltip For="tooltip-left-start" Placement="TooltipPlacement.LeftStart">left-start</RoarTooltip>
+<RoarTooltip For="tooltip-right-start" Placement="TooltipPlacement.RightStart">right-start</RoarTooltip>
+<RoarTooltip For="tooltip-left" Placement="TooltipPlacement.Left">left</RoarTooltip>
+<RoarTooltip For="tooltip-right" Placement="TooltipPlacement.Right">right</RoarTooltip>
+<RoarTooltip For="tooltip-left-end" Placement="TooltipPlacement.LeftEnd">left-end</RoarTooltip>
+<RoarTooltip For="tooltip-right-end" Placement="TooltipPlacement.RightEnd">right-end</RoarTooltip>
+<RoarTooltip For="tooltip-bottom-start" Placement="TooltipPlacement.BottomStart">bottom-start</RoarTooltip>
+<RoarTooltip For="tooltip-bottom" Placement="TooltipPlacement.Bottom">bottom</RoarTooltip>
+<RoarTooltip For="tooltip-bottom-end" Placement="TooltipPlacement.BottomEnd">bottom-end</RoarTooltip>
+
+<style>
+    .tooltip-placement-example {
+        width: 250px;
+        margin: 1rem;
+    }
+
+        .tooltip-placement-example wa-button {
+            width: 2.5rem;
+        }
+
+    .tooltip-placement-example-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+        .tooltip-placement-example-row:nth-child(1),
+        .tooltip-placement-example-row:nth-child(5) {
+            justify-content: center;
+        }
+</style>
+
+<h3>Click Trigger</h3>
+<RoarButton Appearance="ButtonAppearance.Filled" id="toggle-button">Click to Toggle</RoarButton>
+<RoarTooltip For="toggle-button" Triggers="[TooltipTrigger.Click]">Click again to dismiss</RoarTooltip>
+
+<h3>Manual Trigger</h3>
+<RoarButton Appearance="ButtonAppearance.Filled" style="margin-right: 4rem" @onclick="ManualTriggerTooltipAsync">Toggle Manually</RoarButton>
+<RoarTooltip For="manual-trigger-tooltip" Triggers="[TooltipTrigger.Manual]" @ref="ManualTooptip">This is an avatar!</RoarTooltip>
+<RoarIconAvatar id="manual-trigger-tooltip" Label="User" />
+
+<h3>Removing Arrows</h3>
+<RoarButton id="no-arrow" Appearance="ButtonAppearance.Filled">No Arrow</RoarButton>
+<RoarTooltip For="no-arrow" NoArrow>This is a tooltip with no arrow</RoarTooltip>
+
+<h3>HTML in Tooltips</h3>
+<RoarButton id="rich-tooltip" Appearance="ButtonAppearance.Filled">Hover me</RoarButton>
+<RoarTooltip For="rich-tooltip">
+    <div>I'm not <strong>just</strong> a tooltip, I'm a <em>tooltip</em> with HTML!</div>
+</RoarTooltip>
+
+<h3>Setting a Maximum Width</h3>
+<RoarButton id="wrapping-tooltip" Appearance="ButtonAppearance.Filled">Hover me</RoarButton>
+<RoarTooltip For="wrapping-tooltip" MaxWidth="80px">
+    This tooltip will wrap after only 80 pixels.
+</RoarTooltip>
+
+@code {
+    public RoarTooltip ManualTooptip { get; set; }
+
+    public async Task ManualTriggerTooltipAsync()
+    {
+        await ManualTooptip.ToggleStateAsync();
+    }
+}
