@@ -170,15 +170,15 @@
 
 <h3>Playing Animations on Demand</h3>
 <RoarAnimation AnimationName="AnimationName.RubberBand" Iterations="1" Play="ShouldPlayAnimation">
-    <RoarButton Variant="Variant.Brand" @onclick="PlayAnimation">Click me</RoarButton>
+    <RoarButton Variant="ButtonVariant.Brand" @onclick="PlayAnimation">Click me</RoarButton>
 </RoarAnimation>
 
 <h3>Cancel Animations</h3>
 <RoarAnimation AnimationName="AnimationName.RubberBand" @ref="RoarAnimationToCancel" Iterations="400">
     <div class="box"></div>
 </RoarAnimation>
-<RoarButton Variant="Variant.Brand" @onclick="CancelAnimationAsync">Cancel animation</RoarButton>
-<RoarButton Variant="Variant.Brand" @onclick="FinishAnimationAsync">Finish animation</RoarButton>
+<RoarButton Variant="ButtonVariant.Brand" @onclick="CancelAnimationAsync">Cancel animation</RoarButton>
+<RoarButton Variant="ButtonVariant.Brand" @onclick="FinishAnimationAsync">Finish animation</RoarButton>
 
 <style>
     .box {

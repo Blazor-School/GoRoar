@@ -25,6 +25,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
+    .AddAdditionalAssemblies(typeof(RoarUI.ShowcaseKit.NavMenuShowcase).Assembly)
     .AddInteractiveServerRenderMode();
 
 app.Run();
