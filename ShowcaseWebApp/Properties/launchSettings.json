@@ -1,14 +1,5 @@
 {
   "profiles": {
-    "WSL": {
-      "commandName": "WSL2",
-      "launchUrl": "https://localhost:7145",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "https://localhost:7145"
-      },
-      "distributionName": ""
-    },
     "No Debug": {
       "commandName": "Project",
       "environmentVariables": {

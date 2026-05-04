@@ -1,6 +1,33 @@
 ﻿@page "/callout-sample"
 
-<h3>CalloutSample</h3>
+<h3>Variants</h3>
+<div class="d-flex flex-column gap-3">
+    <RoarCallout Variant="CalloutVariant.Brand">
+        <RoarIcon slot="icon" Name="circle-info" />
+        <strong>This is super informative</strong><br />
+        You can tell by how pretty the callout is.
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Success">
+        <RoarIcon slot="icon" Name="circle-check" />
+        <strong>Your changes have been saved</strong><br />
+        You can safely exit the app now.
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Neutral">
+        <RoarIcon slot="icon" Name="gear" />
+        <strong>Your settings have been updated</strong><br />
+        Settings will take effect on next login.
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Warning">
+        <RoarIcon slot="icon" Name="triangle-exclamation" />
+        <strong>Your session has ended</strong><br />
+        Please login again to continue.
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Danger">
+        <RoarIcon slot="icon" Name="circle-exclamation" />
+        <strong>Your account has been deleted</strong><br />
+        We're very sorry to see you go!
+    </RoarCallout>
+</div>
 
 @code {
 
