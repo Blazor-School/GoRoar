@@ -29,6 +29,53 @@
     </RoarCallout>
 </div>
 
-@code {
+<h3>Appearance</h3>
+<div class="d-flex flex-column gap-3">
+    <RoarCallout Variant="CalloutVariant.Brand" Appearance="CalloutAppearance.Accent">
+        <RoarIcon slot="icon" Name="square-check" />
+        This <strong>accent</strong> callout draws attention
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Brand" Appearance="CalloutAppearance.FilledOutlined">
+        <RoarIcon slot="icon" Name="fill-drip" />
+        This callout is both <strong>filled</strong> and <strong>outlined</strong>
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Brand" Appearance="CalloutAppearance.Filled">
+        <RoarIcon slot="icon" Name="fill" />
+        This callout is only <strong>filled</strong>
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Brand" Appearance="CalloutAppearance.Outlined">
+        <RoarIcon slot="icon" Name="lines-leaning" />
+        Here's an <strong>outlined</strong> callout
+    </RoarCallout>
+    <RoarCallout Variant="CalloutVariant.Brand" Appearance="CalloutAppearance.Plain">
+        <RoarIcon slot="icon" Name="font" />
+        No bells and whistles on this <strong>plain</strong> callout
+    </RoarCallout>
+</div>
 
-}
+<h3>Sizes</h3>
+<div class="d-flex flex-column gap-3">
+    <RoarCallout Size="CalloutSize.Xs">
+        <RoarIcon slot="icon" Name="circle-info" />
+        Extra-small callout for minimal emphasis.
+    </RoarCallout>
+    <RoarCallout Size="CalloutSize.S">
+        <RoarIcon slot="icon" Name="circle-info" />
+        Small callout for a bit of emphasis.
+    </RoarCallout>
+    <RoarCallout Size="CalloutSize.M">
+        <RoarIcon slot="icon" Name="circle-info" />
+        Medium callout, the default size.
+    </RoarCallout>
+    <RoarCallout Size="CalloutSize.L">
+        <RoarIcon slot="icon" Name="circle-info" />
+        Large callout for more emphasis.
+    </RoarCallout>
+    <RoarCallout Size="CalloutSize.Xl">
+        <RoarIcon slot="icon" Name="circle-info" />
+        Extra-large callout for maximum emphasis.
+    </RoarCallout>
+</div>
+
+<h3>Wihout Icons</h3>
+<RoarCallout Variant="CalloutVariant.Brand">Nothing fancy here, just a simple callout.</RoarCallout>
