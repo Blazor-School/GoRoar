@@ -1,0 +1,27 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="card" />
+
+<wa-card appearance="@Appreance" orientation="@Orientation" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-card>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The card's visual appearance.
+    /// </summary>
+    [Parameter]
+    public CardAppreance Appreance { get; set; }
+
+    /// <summary>
+    /// Renders the card's orientation
+    /// </summary>
+    [Parameter]
+    public CardOrientation Orientation { get; set; }
+}
