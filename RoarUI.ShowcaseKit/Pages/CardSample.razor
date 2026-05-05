@@ -1,0 +1,89 @@
+﻿@page "/card-sample"
+
+<h3>Basic Card</h3>
+<RoarCard>This is just a basic card. No media, no header, and no footer. Just your content.</RoarCard>
+
+<h3>Card with Header</h3>
+<RoarCard>
+    <h3 slot="@CardSlot.Header">Header Title</h3>
+    This card has a header. You can put all sorts of things in it!
+    <RoarButton Appearance="ButtonAppearance.Plain" slot="@CardSlot.HeaderActions">
+        <RoarIcon Name="gear" Variant="FontAwesomeVariant.Solid" Label="Settings" />
+    </RoarButton>
+</RoarCard>
+
+@* <h3>Card with Footer</h3>
+<RoarCard>
+    This card has a footer. You can put all sorts of things in it!
+    <RoarRating />
+</RoarCard> *@
+
+<h3>Media</h3>
+<RoarCard>
+    <div slot="@CardSlot.Media" class="wa-frame:landscape">
+        <img src="https://images.unsplash.com/photo-1547191783-94d5f8f6d8b1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80" alt="A kitten walks towards camera on top of pallet." />
+        This card has an image of a kitten walking along a pallet.
+    </div>
+</RoarCard>
+<RoarCard>
+    <video slot="@CardSlot.Media" controls>
+        <source src="https://uploads.webawesome.com/dog-with-glasses.mp4" />
+        <p>Your browser doesn't support HTML video</p>
+    </video>
+    This card has a video of a dog wearing shades.
+</RoarCard>
+
+<h3>Appearance</h3>
+<RoarCard Appreance="CardAppreance.Outlined">
+    <img slot="@CardSlot.Media"
+         src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+         alt="A kitten sits patiently between a terracotta pot and decorative grasses." />
+    Outlined (default)
+</RoarCard>
+<RoarCard Appreance="CardAppreance.FilledOutlined">
+    <img slot="@CardSlot.Media"
+         src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+         alt="A kitten sits patiently between a terracotta pot and decorative grasses." />
+    Filled-outlined
+</RoarCard>
+<RoarCard Appreance="CardAppreance.Plain">
+    <img slot="@CardSlot.Media"
+         src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+         alt="A kitten sits patiently between a terracotta pot and decorative grasses." />
+    Plain
+</RoarCard>
+<RoarCard Appreance="CardAppreance.Filled">
+    <img slot="@CardSlot.Media"
+         src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+         alt="A kitten sits patiently between a terracotta pot and decorative grasses." />
+    Filled
+</RoarCard>
+<RoarCard Appreance="CardAppreance.Accent">
+    <img slot="@CardSlot.Media"
+         src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+         alt="A kitten sits patiently between a terracotta pot and decorative grasses." />
+    Accent
+</RoarCard>
+
+<h3>Orientation</h3>
+<RoarCard class="orientation-demo" Orientation="CardOrientation.Horizontal">
+    <img slot="@CardSlot.Media" src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" alt="A kitten sits patiently between a terracotta pot and decorative grasses." />
+    This card has a horizontal orientation with media, body, and actions arranged side-by-side.
+    <RoarButton slot="@CardSlot.Actions" Variant="ButtonVariant.Neutral" Appearance="ButtonAppearance.Plain">
+        <RoarIcon Name="ellipsis" Label="actions" />
+    </RoarButton>
+</RoarCard>
+
+<style>
+    wa-card {
+        max-width: 300px;
+    }
+
+    .orientation-demo {
+        max-width: unset;
+    }
+
+        .orientation-demo > img[slot='media'] {
+            max-width: 300px;
+        }
+</style>

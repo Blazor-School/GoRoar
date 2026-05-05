@@ -11,7 +11,7 @@
 /// Specifies the string enum struct.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-internal sealed class StringEnumAttribute(string Name, string Default) : Attribute
+internal sealed class StringEnumAttribute(string Name, string Default = "") : Attribute
 {
     public string Name { get; } = Name;
     public string Default { get; } = Default;
