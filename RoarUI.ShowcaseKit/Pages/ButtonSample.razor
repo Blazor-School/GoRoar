@@ -88,6 +88,55 @@
 <RoarButton Type="ButtonType.Submit">Submit Button</RoarButton>
 <RoarButton Type="ButtonType.Reset">Reset Button</RoarButton>
 
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <div class="wa-cluster wa-gap-2xs">
+        <RoarButton Size="ButtonSize.S">
+            <RoarIcon slot="@ButtonSlot.Start" Name="gear" />
+        </RoarButton>
+        <RoarButton Size="ButtonSize.S">
+            <RoarIcon slot="@ButtonSlot.End" Name="undo" />
+        </RoarButton>
+        <RoarButton Size="ButtonSize.S">
+            <RoarIcon slot="@ButtonSlot.Start" Name="link" />
+            <RoarIcon slot="@ButtonSlot.End" Name="arrow-up-right-from-square" />
+        </RoarButton>
+    </div>
+    <div class="wa-cluster wa-gap-2xs">
+        <RoarButton>
+            <RoarIcon slot="@ButtonSlot.Start" Name="gear" />
+        </RoarButton>
+        <RoarButton>
+            <RoarIcon slot="@ButtonSlot.End" Name="undo" />
+        </RoarButton>
+        <RoarButton>
+            <RoarIcon slot="@ButtonSlot.Start" Name="link" />
+            <RoarIcon slot="@ButtonSlot.End" Name="arrow-up-right-from-square" />
+        </RoarButton>
+    </div>
+    <div class="wa-cluster wa-gap-2xs">
+        <RoarButton Size="ButtonSize.L">
+            <RoarIcon slot="@ButtonSlot.Start" Name="gear" />
+        </RoarButton>
+        <RoarButton Size="ButtonSize.L">
+            <RoarIcon slot="@ButtonSlot.End" Name="undo" />
+        </RoarButton>
+        <RoarButton Size="ButtonSize.L">
+            <RoarIcon slot="@ButtonSlot.Start" Name="link" />
+            <RoarIcon slot="@ButtonSlot.End" Name="arrow-up-right-from-square" />
+        </RoarButton>
+    </div>
+</div>
+
+<h3>Caret</h3>
+<div class="wa-cluster wa-gap-2xs">
+    <RoarButton Size="ButtonSize.Xs" WithCaret>Extra Small</RoarButton>
+    <RoarButton Size="ButtonSize.S" WithCaret>Small</RoarButton>
+    <RoarButton Size="ButtonSize.M" WithCaret>Medium</RoarButton>
+    <RoarButton Size="ButtonSize.L" WithCaret>Large</RoarButton>
+    <RoarButton Size="ButtonSize.Xl" WithCaret>Extra Large</RoarButton>
+</div>
+
 <h3>Loading</h3>
 <RoarButton Variant="ButtonVariant.Neutral" Loading="IsLoading" @onclick="InitiateLoadingAsync">Neutral</RoarButton>
 <RoarButton Variant="ButtonVariant.Brand" Loading="IsLoading" @onclick="InitiateLoadingAsync">Brand</RoarButton>

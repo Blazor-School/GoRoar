@@ -19,18 +19,18 @@
 <h3>Start &amp; End Decorations</h3>
 <RoarBreadcrumb>
     <RoarBreadcrumbItem>
-        <RoarIcon slot="start" Name="house" /> Home
+        <RoarIcon slot="@BreadcrumbItemSlot.Start" Name="house" /> Home
     </RoarBreadcrumbItem>
     <RoarBreadcrumbItem>Articles</RoarBreadcrumbItem>
     <RoarBreadcrumbItem>
-        <RoarIcon slot="end" Name="tree-palm" /> Traveling
+        <RoarIcon slot="@BreadcrumbItemSlot.End" Name="tree-palm" /> Traveling
     </RoarBreadcrumbItem>
 </RoarBreadcrumb>
 
 <h3>Custom Separators</h3>
 <div>
     <RoarBreadcrumb>
-        <RoarIcon slot="separator" Name="angles-right" />
+        <RoarIcon slot="@BreadcrumbSlot.Separator" Name="angles-right" />
         <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Second</RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
@@ -39,7 +39,7 @@
 
 <div>
     <RoarBreadcrumb>
-        <RoarIcon slot="separator" Name="arrow-right"/>
+        <RoarIcon slot="@BreadcrumbSlot.Separator" Name="arrow-right" />
         <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Second</RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
@@ -48,7 +48,7 @@
 
 <div>
     <RoarBreadcrumb>
-        <span slot="separator">/</span>
+        <span slot="@BreadcrumbSlot.Separator">/</span>
         <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Second</RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
@@ -58,8 +58,9 @@
 <div>
     <RoarBreadcrumb>
         <RoarBreadcrumbItem>First</RoarBreadcrumbItem>
-        <RoarBreadcrumbItem>Second
-            <RoarIcon slot="separator" Name="hippo" />
+        <RoarBreadcrumbItem>
+            Second
+            <RoarIcon slot="@BreadcrumbItemSlot.Separator" Name="hippo" />
         </RoarBreadcrumbItem>
         <RoarBreadcrumbItem>Third</RoarBreadcrumbItem>
     </RoarBreadcrumb>
@@ -67,26 +68,29 @@
 
 <h3>Custom Colors</h3>
 <RoarBreadcrumb class="redcrumbs">
-  <RoarBreadcrumbItem>
-    <RoarIcon slot="start" Name="house" /> Home
-  </RoarBreadcrumbItem>
-  <RoarBreadcrumbItem>Articles</RoarBreadcrumbItem>
-  <RoarBreadcrumbItem>Traveling</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>
+        <RoarIcon slot="@BreadcrumbItemSlot.Start" Name="house" /> Home
+    </RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Articles</RoarBreadcrumbItem>
+    <RoarBreadcrumbItem>Traveling</RoarBreadcrumbItem>
 </RoarBreadcrumb>
 <style>
     .redcrumbs wa-breadcrumb-item {
-      color: firebrick;
+        color: firebrick;
     }
-    .redcrumbs wa-breadcrumb-item:last-of-type {
-      color: crimson;
-    }
-    .redcrumbs wa-breadcrumb-item::part(separator) {
-      color: pink;
-    }
-    .redcrumbs wa-breadcrumb-item::part(start),
-    .redcrumbs wa-breadcrumb-item::part(end) {
-      color: currentColor;
-    }
+
+        .redcrumbs wa-breadcrumb-item:last-of-type {
+            color: crimson;
+        }
+
+        .redcrumbs wa-breadcrumb-item::part(separator) {
+            color: pink;
+        }
+
+        .redcrumbs wa-breadcrumb-item::part(start),
+        .redcrumbs wa-breadcrumb-item::part(end) {
+            color: currentColor;
+        }
 </style>
 
 <h3>With Dropdowns</h3>
