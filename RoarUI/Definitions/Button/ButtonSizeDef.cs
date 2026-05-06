@@ -2,10 +2,7 @@
 
 namespace RoarUI.Definitions.Button;
 
-[StringEnum("ButtonSize", "medium")]
-[StringEnumMember("Small")]
-[StringEnumMember("Medium")]
-[StringEnumMember("Large")]
+[StringEnum("ButtonSize", "m")]
 [StringEnumMember("Xs")]
 [StringEnumMember("S")]
 [StringEnumMember("M")]
