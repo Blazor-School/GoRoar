@@ -1,0 +1,27 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="button-group" />
+
+<wa-button-group Label="@Label" orientation="@Orientation" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-button-group>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// A label to use for the button group. This won't be displayed on the screen, but it will be announced by assistive devices when interacting with the control and is strongly recommended.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The button group's orientation.
+    /// </summary>
+    [Parameter]
+    public ButtonGroupOrientation Orientation { get; set; }
+}

@@ -2,10 +2,12 @@
 
 namespace RoarUI.Definitions.Dropdown;
 
-[StringEnumMember("Small")]
-[StringEnumMember("Medium")]
-[StringEnumMember("Large")]
-[StringEnum("DropdownSize", "medium")]
+[StringEnum("DropdownSize", "m")]
+[StringEnumMember("Xs")]
+[StringEnumMember("S")]
+[StringEnumMember("M")]
+[StringEnumMember("L")]
+[StringEnumMember("Xl")]
 internal class DropdownSizeDef
 {
 }
