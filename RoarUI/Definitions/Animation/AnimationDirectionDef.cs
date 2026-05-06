@@ -6,7 +6,7 @@ namespace RoarUI.Definitions.Animation;
 [StringEnumMember("Normal")]
 [StringEnumMember("Reverse")]
 [StringEnumMember("Alternate")]
-[StringEnumMember("AlternateReverse", "alternate-reverse")]
+[StringEnumMember("AlternateReverse")]
 internal class AnimationDirectionDef
 {
 }
