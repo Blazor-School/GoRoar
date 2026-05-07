@@ -52,5 +52,8 @@ let roarEventFromHtmlEvent = {
     "WaSelectEventArgs": (e) => ({
         SelectedItem: e.detail.item.value,
         Checked: event.detail.item.type === 'checkbox' ? e.detail.item.checked : null
+    }),
+    "ComparisonChangeEventArgs": (e) => ({
+        Position: e.target.position
     })
 }
