@@ -1,0 +1,125 @@
+﻿@page "/button-group-sample"
+
+<h3>Vertical Button Groups</h3>
+<RoarButtonGroup Orientation="ButtonGroupOrientation.Vertical">
+    <RoarButton Appearance="ButtonAppearance.Filled">Button</RoarButton>
+    <RoarDropdown>
+        <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" WithCaret>Dropdown</RoarButton>
+        <RoarDropdownItem>Item 1</RoarDropdownItem>
+        <RoarDropdownItem>Item 2</RoarDropdownItem>
+        <RoarDropdownItem>Item 3</RoarDropdownItem>
+    </RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled">Button</RoarButton>
+</RoarButtonGroup>
+
+<h3>Pill Buttons</h3>
+<RoarButtonGroup Label="Alignment">
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.Xs" Pill>Left</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.Xs" Pill>Center</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.Xs" Pill>Right</RoarButton>
+</RoarButtonGroup>
+
+<RoarButtonGroup Label="Alignment">
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.S" Pill>Left</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.S" Pill>Center</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.S" Pill>Right</RoarButton>
+</RoarButtonGroup>
+
+<RoarButtonGroup Label="Alignment">
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.M" Pill>Left</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.M" Pill>Center</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.M" Pill>Right</RoarButton>
+</RoarButtonGroup>
+
+<RoarButtonGroup Label="Alignment">
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.L" Pill>Left</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.L" Pill>Center</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.L" Pill>Right</RoarButton>
+</RoarButtonGroup>
+
+<RoarButtonGroup Label="Alignment">
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.Xl" Pill>Left</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.Xl" Pill>Center</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" Size="ButtonSize.Xl" Pill>Right</RoarButton>
+</RoarButtonGroup>
+
+<h3>Dropdowns in Button Groups</h3>
+<RoarButtonGroup Label="Example Button Group">
+    <RoarButton Appearance="ButtonAppearance.Filled">Button</RoarButton>
+    <RoarDropdown>
+        <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" WithCaret>Dropdown</RoarButton>
+        <RoarDropdownItem>Item 1</RoarDropdownItem>
+        <RoarDropdownItem>Item 2</RoarDropdownItem>
+        <RoarDropdownItem>Item 3</RoarDropdownItem>
+    </RoarDropdown>
+    <RoarButton Appearance="ButtonAppearance.Filled">Button</RoarButton>
+</RoarButtonGroup>
+
+<h3>Split Buttons</h3>
+<RoarButtonGroup Label="Example Button Group">
+    <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Brand">Save</RoarButton>
+    <RoarDropdown Placement="DropdownPlacement.BottomEnd">
+        <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" Variant="ButtonVariant.Brand">
+            <RoarIcon Name="chevron-down" Label="More options"></RoarIcon>
+        </RoarButton>
+        <RoarDropdownItem>Save</RoarDropdownItem>
+        <RoarDropdownItem>Save as&hellip;</RoarDropdownItem>
+        <RoarDropdownItem>Save all</RoarDropdownItem>
+    </RoarDropdown>
+</RoarButtonGroup>
+
+<h3>Tooltips in Button Groups</h3>
+<RoarButtonGroup Label="Alignment">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="button-left">Left</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="button-center">Center</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="button-right">Right</RoarButton>
+</RoarButtonGroup>
+
+<RoarTooltip For="button-left">I'm on the left</RoarTooltip>
+<RoarTooltip For="button-center">I'm on the middle</RoarTooltip>
+<RoarTooltip For="button-right">I'm on the right</RoarTooltip>
+
+<h3>Toolbar Example</h3>
+<div class="d-flex flex-row gap-3">
+    <RoarButtonGroup Label="History">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="undo-button">
+            <RoarIcon Name="undo" Variant="FontAwesomeVariant.Solid" Label="Undo" />
+        </RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="redo-button">
+            <RoarIcon Name="redo" Variant="FontAwesomeVariant.Solid" Label="Redo" />
+        </RoarButton>
+    </RoarButtonGroup>
+
+    <RoarButtonGroup Label="Formatting">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="button-bold">
+            <RoarIcon Name="bold" Variant="FontAwesomeVariant.Solid" Label="Bold" />
+        </RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="button-italic">
+            <RoarIcon Name="italic" Variant="FontAwesomeVariant.Solid" Label="Italic" />
+        </RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="button-underline">
+            <RoarIcon Name="underline" Variant="FontAwesomeVariant.Solid" Label="Underline" />
+        </RoarButton>
+    </RoarButtonGroup>
+
+    <RoarButtonGroup Label="Alignment">
+        <RoarButton Appearance="ButtonAppearance.Filled" id="button-align-left">
+            <RoarIcon Name="align-left" Variant="FontAwesomeVariant.Solid" Label="Align Left" />
+        </RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="button-align-center">
+            <RoarIcon Name="align-center" Variant="FontAwesomeVariant.Solid" Label="Align Center" />
+        </RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" id="button-align-right">
+            <RoarIcon Name="align-right" Variant="FontAwesomeVariant.Solid" Label="Align Right" />
+        </RoarButton>
+    </RoarButtonGroup>
+</div>
+
+<RoarTooltip For="undo-button">Undo</RoarTooltip>
+<RoarTooltip For="redo-button">Redo</RoarTooltip>
+<RoarTooltip For="button-bold">Bold</RoarTooltip>
+<RoarTooltip For="button-italic">Italic</RoarTooltip>
+<RoarTooltip For="button-underline">Underline</RoarTooltip>
+<RoarTooltip For="button-align-left">Align Left</RoarTooltip>
+<RoarTooltip For="button-align-center">Align Center</RoarTooltip>
+<RoarTooltip For="button-align-right">Align Right</RoarTooltip>
