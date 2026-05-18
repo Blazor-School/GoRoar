@@ -1,0 +1,16 @@
+﻿@page "/details-sample"
+
+<h3>Expanded Initially</h3>
+<RoarDetails Summary="Toggle Me" Open="DetailsState">
+    This details component is expanded by default. Users can click the summary to collapse it if they want to hide the content.
+</RoarDetails>
+<RoarButton @onclick="() => DetailsState = !DetailsState">Toggle</RoarButton>
+
+<h3>Disabled</h3>
+<RoarDetails Summary="Disabled" Disabled>
+    This content can't be seen because the details component is disabled. Try removing the disabled attribute to reveal what's inside!
+</RoarDetails>
+
+@code {
+    public bool DetailsState { get; set; } = true;
+}

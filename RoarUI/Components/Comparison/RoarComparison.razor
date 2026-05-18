@@ -15,7 +15,7 @@
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     [Parameter]
-    public double Position { get; set; } = 50;
+    public double InitialPosition { get; set; } = 50;
 
     [Parameter]
     public EventCallback<double> OnChange { get; set; }
@@ -32,7 +32,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", Position);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", InitialPosition);
             var instance = DotNetObjectReference.Create(this);
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(ComparisonChangeEventArgs), instance, nameof(NotifyChangeAsync));
         }
