@@ -1,0 +1,45 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="comparison" />
+
+<wa-comparison @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-comparison>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public double Position { get; set; } = 50;
+
+    [Parameter]
+    public EventCallback<double> OnChange { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    [JSInvokable]
+    public async Task NotifyChangeAsync(ComparisonChangeEventArgs args)
+    {
+        await OnChange.InvokeAsync(args.Position);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", Position);
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(ComparisonChangeEventArgs), instance, nameof(NotifyChangeAsync));
+        }
+    }
+
+    public async Task SetPositionAsync(double position)
+    {
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", position);
+    }
+}
