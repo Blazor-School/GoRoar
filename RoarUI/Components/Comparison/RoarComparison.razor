@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="comparison" />
 
-<wa-comparison @attributes="AdditionalAttributes" position="@Position" @ref="Element">
+<wa-comparison @attributes="AdditionalAttributes" @ref="Element">
     @ChildContent
 </wa-comparison>
 
@@ -32,9 +32,14 @@
     {
         if (firstRender)
         {
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", Position);
             var instance = DotNetObjectReference.Create(this);
-
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(ComparisonChangeEventArgs), instance, nameof(NotifyChangeAsync));
         }
+    }
+
+    public async Task SetPositionAsync(double position)
+    {
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", position);
     }
 }
