@@ -18,14 +18,17 @@
     public double Position { get; set; } = 50;
 
     [Parameter]
-    public EventCallback<double> OnChange { get; set; }
+    public EventCallback<double> PositionChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<double>>? PositionExpression { get; set; }
 
     internal ElementReference Element { get; set; }
 
     [JSInvokable]
     public async Task NotifyChangeAsync(ComparisonChangeEventArgs args)
     {
-        await OnChange.InvokeAsync(args.Position);
+        await PositionChanged.InvokeAsync(args.Position);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -1,0 +1,126 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="details" />
+
+<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-details>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The element's visual appearance.
+    /// </summary>
+    [Parameter]
+    public DetailsAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// Disables the details so it can't be toggled.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// The location of the expand/collapse icon.
+    /// </summary>
+    [Parameter]
+    public DetailsIconPlacement IconPlacement { get; set; }
+
+    /// <summary>
+    /// Groups related details elements. When one opens, others with the same name will close.
+    /// </summary>
+    [Parameter]
+    public string Name { get; set; } = "";
+
+    /// <summary>
+    /// Indicates whether or not the details is open. You can toggle this attribute to show and hide the details.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<bool>>? OpenExpression { get; set; }
+
+    /// <summary>
+    /// The summary to show in the header. If you need to display HTML, use the summary slot instead.
+    /// </summary>
+    [Parameter]
+    public string Summary { get; set; } = "";
+
+    /// <summary>
+    /// Emitted after the details closes and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    /// <summary>
+    /// Emitted after the details opens and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the details closes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted when the details opens.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    public ValueTask HideAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "hide");
+    public ValueTask ShowAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "show");
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-hide", instance, nameof(TriggerHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterHideAsync()
+    {
+        await OnAfterHide.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterShowAsync()
+    {
+        await OnAfterShow.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerHideAsync()
+    {
+        await OpenChanged.InvokeAsync(false);
+        await OnHide.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerShowAsync()
+    {
+        await OpenChanged.InvokeAsync(true);
+        await OnShow.InvokeAsync();
+    }
+}
