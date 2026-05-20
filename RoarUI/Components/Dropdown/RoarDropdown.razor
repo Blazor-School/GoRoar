@@ -71,8 +71,8 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier(nameof(WaSelectEventArgs), EventModifier.PreventDefault, OnSelectPreventDefault)
-            .AddEventModifier(nameof(WaSelectEventArgs), EventModifier.StopPropagation, OnSelectStopPropagation)
+            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.PreventDefault, OnSelectPreventDefault)
+            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.StopPropagation, OnSelectStopPropagation)
             .Build();
     }
 
@@ -81,12 +81,12 @@
         if (firstRender)
         {
             var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-select", nameof(WaSelectEventArgs), instance, nameof(NotifyValueChanged));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-select", nameof(DropdownSelectEventArgs), instance, nameof(NotifyValueChanged));
         }
     }
 
     [JSInvokable]
-    public void NotifyValueChanged(WaSelectEventArgs eventArgs)
+    public void NotifyValueChanged(DropdownSelectEventArgs eventArgs)
     {
         if (eventArgs.Checked is not null)
         {

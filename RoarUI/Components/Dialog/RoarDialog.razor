@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="dialog" />
 
-<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @attributes="AdditionalAttributes" @ref="Element">
+<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
 </wa-dialog>
 
@@ -14,26 +14,126 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// The dialog's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the label slot instead.
+    /// </summary>
     [Parameter]
     public string Label { get; set; } = "";
 
+    /// <summary>
+    /// When enabled, the dialog will be closed when the user clicks outside of it.
+    /// </summary>
     [Parameter]
     public bool LightDismiss { get; set; } = false;
 
+    /// <summary>
+    /// Indicates whether or not the dialog is open. Toggle this attribute to show and hide the dialog.
+    /// </summary>
     [Parameter]
     public bool Open { get; set; } = false;
 
     [Parameter]
-    public EventCallback<double> OpenChanged { get; set; }
+    public EventCallback<bool> OpenChanged { get; set; }
 
     [Parameter]
-    public Expression<Func<double>>? OpenExpression { get; set; }
+    public Expression<Func<bool>>? OpenExpression { get; set; }
 
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a footer element so the server-rendered markup includes the footer before the component hydrates on the client.
+    /// </summary>
     [Parameter]
     public bool WithFooter { get; set; } = false;
 
+    /// <summary>
+    /// Disables the header. This will also remove the default close button.
+    /// </summary>
     [Parameter]
     public bool WithoutHeader { get; set; } = false;
 
+    /// <summary>
+    /// Emitted after the dialog closes and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    /// <summary>
+    /// When true, the dialog will remain open after the hide event is emitted. When false, the dialog will be closed after the hide event is emitted.
+    /// </summary>
+    [Parameter]
+    public bool OnHidePreventDefault { get; set; }
+
+    /// <summary>
+    /// Stop propagation of the select event.
+    /// </summary>
+    [Parameter]
+    public bool OnHideStopPropagation { get; set; }
+
+    /// <summary>
+    /// Emitted after the dialog opens and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the dialog is requested to close.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DialogHideEventArgs> OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted when the dialog opens.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DialogHideEventArgs> OnShow { get; set; }
+
     internal ElementReference Element { get; set; }
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
+            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
+            .Build();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-hide", nameof(DialogHideEventArgs), instance, nameof(TriggerHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterHideAsync()
+    {
+        await OnAfterHide.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterShowAsync()
+    {
+        await OnAfterShow.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerHideAsync(DialogHideEventArgs args)
+    {
+        await OpenChanged.InvokeAsync(false);
+        await OnHide.InvokeAsync(args);
+    }
+
+    [JSInvokable]
+    public async Task TriggerShowAsync()
+    {
+        await OpenChanged.InvokeAsync(true);
+        await OnShow.InvokeAsync();
+    }
+
+    public async ValueTask ToggleAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
 }
