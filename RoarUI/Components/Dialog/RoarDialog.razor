@@ -1,0 +1,39 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="dialog" />
+
+<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-dialog>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public bool LightDismiss { get; set; } = false;
+
+    [Parameter]
+    public bool Open { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<double> OpenChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<double>>? OpenExpression { get; set; }
+
+    [Parameter]
+    public bool WithFooter { get; set; } = false;
+
+    [Parameter]
+    public bool WithoutHeader { get; set; } = false;
+
+    internal ElementReference Element { get; set; }
+}
