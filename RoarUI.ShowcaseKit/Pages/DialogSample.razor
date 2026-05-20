@@ -1,0 +1,34 @@
+﻿@page "/dialog-sample"
+
+<h3>Dialog without Header</h3>
+<RoarDialog Label="Dialog" WithoutHeader @bind-Open="DialogWithoutHeaderOpen">
+    Look ma, no header! Sometimes you just need a clean, simple dialog.
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" @onclick="() => DialogWithoutHeaderOpen = !DialogWithoutHeaderOpen">Open Dialog</RoarButton>
+
+<h3>Dialog with Footer</h3>
+<RoarDialog Label="Dialog" @bind-Open="DialogWithFooterOpen">
+    Check out the footer below — it's a great place for actions and buttons.
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" @onclick="() => DialogWithFooterOpen = !DialogWithFooterOpen">Open Dialog</RoarButton>
+
+<h3>Opening and Closing Dialogs Declaratively</h3>
+<RoarDialog Label="Dialog" id="dialog-opening">
+    This dialog was opened declaratively — no JavaScript required!
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-opening">Open Dialog</RoarButton>
+
+<h3>Custom Width</h3>
+<RoarDialog Label="Dialog" id="dialog-custom-width" style="--width: 50vw;">
+    This dialog is wider than the default — handy when you need more room for content.
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-custom-width">Open Dialog</RoarButton>
+
+@code {
+    public bool DialogWithoutHeaderOpen { get; set; } = false;
+    public bool DialogWithFooterOpen { get; set; } = false;
+}
