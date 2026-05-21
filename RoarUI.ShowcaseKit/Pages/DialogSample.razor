@@ -28,7 +28,54 @@
 </RoarDialog>
 <RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-custom-width">Open Dialog</RoarButton>
 
+<h3>Scrolling</h3>
+<RoarDialog Label="Dialog" id="dialog-scrolling">
+    <div style="height: 150vh; border: dashed 2px var(--wa-color-surface-border); padding: 0 1rem;">
+        <p>Scroll down and give it a try! 👇</p>
+    </div>
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-scrolling">Open Dialog</RoarButton>
+
+<h3>Header Actions</h3>
+<RoarDialog Label="Dialog" id="dialog-header-actions">
+    <RoarLinkButton slot="@DialogSlot.HeaderActions" Appearance="ButtonAppearance.Plain" Href="dialog-sample" Target="LinkTarget.Blank">
+        <RoarIcon Name="arrow-up-right-from-square" Variant="FontAwesomeVariant.Solid" Label="Open in new window" />
+    </RoarLinkButton>
+    You can add custom actions to the header, like the icon button up there!
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-header-actions">Open Dialog</RoarButton>
+
+<h3>Light Dismissal</h3>
+<RoarDialog Label="Dialog" id="dialog-light-dismissal" LightDismiss>
+    This dialog will close when you click on the overlay.
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-light-dismissal">Open Dialog</RoarButton>
+
+<h3>Preventing the Dialog from Closing</h3>
+<RoarDialog Label="Dialog" id="dialog-prevent-dismissal" OnHidePreventDefault="DialogPreventDismiss" OnShow="OnDialogPreventDismissShow" @ref="PreventDismissDialog">
+    This dialog will only close when you click the button below.
+    <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" @onclick="ClosePreventDismissDialog">Only this button will close it</RoarButton>
+</RoarDialog>
+<RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-prevent-dismissal">Open Dialog</RoarButton>
+
 @code {
     public bool DialogWithoutHeaderOpen { get; set; } = false;
     public bool DialogWithFooterOpen { get; set; } = false;
+    public bool DialogPreventDismiss { get; set; } = true;
+    public RoarDialog PreventDismissDialog { get; set; }
+
+    public async Task OnDialogPreventDismissShow()
+    {
+        DialogPreventDismiss = true;
+    }
+
+    public async Task ClosePreventDismissDialog()
+    {
+        DialogPreventDismiss = false;
+        await Task.Delay(1); // Render UI before calling close
+        await PreventDismissDialog.HideAsync();
+    }
 }

@@ -84,7 +84,7 @@
     /// Emitted when the dialog opens.
     /// </summary>
     [Parameter]
-    public EventCallback<DialogHideEventArgs> OnShow { get; set; }
+    public EventCallback OnShow { get; set; }
 
     internal ElementReference Element { get; set; }
     internal Dictionary<string, object> InternalAttributes = [];
@@ -92,8 +92,8 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
-            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
+            .AddEventModifier(nameof(DialogHideEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
+            .AddEventModifier(nameof(DialogHideEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
             .Build();
     }
 
@@ -136,4 +136,6 @@
     }
 
     public async ValueTask ToggleAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
+    public async ValueTask HideAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", false);
+    public async ValueTask ShowAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", true);
 }
