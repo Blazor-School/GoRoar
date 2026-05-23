@@ -31,7 +31,7 @@ function roarGeneralFunction() {
                 e.stopPropagation();
             }
 
-            instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e));
+            instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e, element));
         });
     }
 
@@ -49,11 +49,14 @@ function roarGeneralFunction() {
 }
 
 let roarEventFromHtmlEvent = {
-    "WaSelectEventArgs": (e) => ({
+    "DropdownSelectEventArgs": (e) => ({
         SelectedItem: e.detail.item.value,
         Checked: event.detail.item.type === 'checkbox' ? e.detail.item.checked : null
     }),
     "ComparisonChangeEventArgs": (e) => ({
         Position: e.target.position
+    }),
+    "DialogHideEventArgs": (e, element) => ({
+        SelfClose: e.detail.source === element
     })
 }
