@@ -135,7 +135,21 @@
         await OnShow.InvokeAsync();
     }
 
-    public async ValueTask ToggleAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
-    public async ValueTask HideAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", false);
-    public async ValueTask ShowAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", true);
+    public async ValueTask ToggleAsync()
+    {
+        await Task.Delay(1); // Force render
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
+    }
+
+    public async ValueTask HideAsync()
+    {
+        await Task.Delay(1); // Force render
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", false);
+    }
+
+    public async ValueTask ShowAsync()
+    {
+        await Task.Delay(1); // Force render
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", true);
+    }
 }

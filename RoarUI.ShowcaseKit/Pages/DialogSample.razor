@@ -75,7 +75,6 @@
     public async Task ClosePreventDismissDialog()
     {
         DialogPreventDismiss = false;
-        await Task.Delay(1); // Render UI before calling close
         await PreventDismissDialog.HideAsync();
     }
 }
