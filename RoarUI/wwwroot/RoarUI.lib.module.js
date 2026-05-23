@@ -58,5 +58,8 @@ let roarEventFromHtmlEvent = {
     }),
     "DialogHideEventArgs": (e, element) => ({
         SelfClose: e.detail.source === element
+    }),
+    "DrawerHideEventArgs": (e, element) => ({
+        SelfClose: e.detail.source === element
     })
 }
