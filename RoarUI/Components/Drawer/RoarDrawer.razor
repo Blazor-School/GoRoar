@@ -1,11 +1,11 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
 
-<RoarDependency ComponentName="dialog" />
+<RoarDependency ComponentName="drawer" />
 
-<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @attributes="InternalAttributes" @ref="Element">
+<wa-drawer label="@Label" light-dismiss="@LightDismiss" open="@Open" placement="@Placement" with-footer="@WithFooter" without-header="@WithoutHeader" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
-</wa-dialog>
+</wa-drawer>
 
 @code {
     [Parameter]
@@ -15,19 +15,19 @@
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
-    /// The dialog's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the label slot instead.
+    /// The drawer's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the label slot instead.
     /// </summary>
     [Parameter]
     public string Label { get; set; } = "";
 
     /// <summary>
-    /// When enabled, the dialog will be closed when the user clicks outside of it.
+    /// When enabled, the drawer will be closed when the user clicks outside of it.
     /// </summary>
     [Parameter]
     public bool LightDismiss { get; set; } = false;
 
     /// <summary>
-    /// Indicates whether or not the dialog is open. Toggle this attribute to show and hide the dialog.
+    /// Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer.
     /// </summary>
     [Parameter]
     public bool Open { get; set; } = false;
@@ -37,6 +37,12 @@
 
     [Parameter]
     public Expression<Func<bool>>? OpenExpression { get; set; }
+
+    /// <summary>
+    /// The direction from which the drawer will open.
+    /// </summary>
+    [Parameter]
+    public DrawerPlacement Placement { get; set; }
 
     /// <summary>
     /// Only required for SSR. Set to true if you're slotting in a footer element so the server-rendered markup includes the footer before the component hydrates on the client.
@@ -51,13 +57,13 @@
     public bool WithoutHeader { get; set; } = false;
 
     /// <summary>
-    /// Emitted after the dialog closes and all animations are complete.
+    /// Emitted after the drawer closes and all animations are complete.
     /// </summary>
     [Parameter]
     public EventCallback OnAfterHide { get; set; }
 
     /// <summary>
-    /// When true, the dialog will remain open after the hide event is emitted. When false, the dialog will be closed after the hide event is emitted.
+    /// When true, the drawer will remain open after the hide event is emitted. When false, the drawer will be closed after the hide event is emitted.
     /// </summary>
     [Parameter]
     public bool OnHidePreventDefault { get; set; }
@@ -75,13 +81,13 @@
     public EventCallback OnAfterShow { get; set; }
 
     /// <summary>
-    /// Emitted when the dialog is requested to close.
+    /// Emitted when the drawer is requested to close.
     /// </summary>
     [Parameter]
-    public EventCallback<DialogHideEventArgs> OnHide { get; set; }
+    public EventCallback<DrawerHideEventArgs> OnHide { get; set; }
 
     /// <summary>
-    /// Emitted when the dialog opens.
+    /// Emitted when the drawer opens.
     /// </summary>
     [Parameter]
     public EventCallback OnShow { get; set; }
@@ -92,8 +98,8 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier(nameof(DialogHideEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
-            .AddEventModifier(nameof(DialogHideEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
+            .AddEventModifier(nameof(DrawerHideEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
+            .AddEventModifier(nameof(DrawerHideEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
             .Build();
     }
 
@@ -104,7 +110,7 @@
             var instance = DotNetObjectReference.Create(this);
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-hide", nameof(DialogHideEventArgs), instance, nameof(TriggerHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-hide", nameof(DrawerHideEventArgs), instance, nameof(TriggerHideAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
         }
     }
@@ -122,7 +128,7 @@
     }
 
     [JSInvokable]
-    public async Task TriggerHideAsync(DialogHideEventArgs args)
+    public async Task TriggerHideAsync(DrawerHideEventArgs args)
     {
         await OpenChanged.InvokeAsync(false);
         await OnHide.InvokeAsync(args);

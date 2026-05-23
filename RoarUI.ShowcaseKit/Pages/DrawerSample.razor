@@ -1,0 +1,101 @@
+﻿@page "/drawer-sample"
+
+<h3>Drawer without Header</h3>
+<RoarDrawer Label="Drawer" WithoutHeader id="drawer-no-header">
+    Look ma, no header!
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-no-header">Open Drawer</RoarButton>
+
+<h3>Drawer with Footer</h3>
+<RoarDrawer Label="Drawer" id="drawer-with-footer">
+    This drawer has a footer where you can put actions and other controls.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-with-footer">Open Drawer</RoarButton>
+
+<h3>Control Opening and Closing Drawers</h3>
+<RoarDrawer Label="Drawer" @bind-Open="DrawerOpen">
+    This drawer was opened by DrawerOpen property.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" @onclick="() => DrawerOpen = true">Open Drawer</RoarButton>
+
+<h3>Drawer Placement</h3>
+<RoarDrawer Label="Drawer" Placement="@Placement" id="drawer-placement">
+    This drawer was opened by DrawerOpen property.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarDropdown @bind-Value="Placement">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" WithCaret>@Placement</RoarButton>
+    <RoarDropdownItem Value="@DrawerPlacement.Start">Start</RoarDropdownItem>
+    <RoarDropdownItem Value="@DrawerPlacement.End">End</RoarDropdownItem>
+    <RoarDropdownItem Value="@DrawerPlacement.Top">Top</RoarDropdownItem>
+    <RoarDropdownItem Value="@DrawerPlacement.Bottom">Bottom</RoarDropdownItem>
+</RoarDropdown>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-placement">Open Drawer</RoarButton>
+
+<h3>Custom Size</h3>
+<RoarDrawer Label="Drawer" style="--size: 50vw;" id="drawer-custom-size">
+    This drawer is always 50% of the viewport.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-custom-size">Open Drawer</RoarButton>
+
+<h3>Scrolling</h3>
+<RoarDrawer Label="Drawer" id="drawer-scrolling">
+    <div style="height: 150vh; border: dashed 2px var(--wa-color-surface-border); padding: 0 1rem;">
+        <p>Scroll down and give it a try! 👇</p>
+    </div>
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-scrolling">Open Drawer</RoarButton>
+
+<h3>Header Actions</h3>
+<RoarDrawer Label="Drawer" id="drawer-header-actions">
+    <RoarLinkButton slot="@DrawerSlot.HeaderActions" Appearance="ButtonAppearance.Plain" Href="drawer-sample" Target="LinkTarget.Blank">
+        <RoarIcon Name="arrow-up-right-from-square" Variant="FontAwesomeVariant.Solid" Label="Open in new window" />
+    </RoarLinkButton>
+    You can add custom actions to the header, like the button up there to open in a new window.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-header-actions">Open Drawer</RoarButton>
+
+<h3>Light Dismissal</h3>
+<RoarDrawer Label="Drawer" LightDismiss id="drawer-light-dismissal">
+    This drawer will close when you click on the overlay.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-light-dismissal">Open Drawer</RoarButton>
+
+<h3>Preventing the Drawer from Closing</h3>
+<RoarDrawer Label="Drawer" id="drawer-prevent-dismissal" OnHidePreventDefault="DrawerPreventDismiss" OnShow="OnDrawerPreventDismissShow" @ref="PreventDismissDrawer">
+    This Drawer will only close when you click the button below.
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" @onclick="ClosePreventDismissDrawer">Only this button will close it</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-Drawer="open drawer-prevent-dismissal">Open Drawer</RoarButton>
+
+<h3>Setting Initial Focus</h3>
+<RoarDrawer Label="Drawer" LightDismiss id="drawer-initial-focus">
+    <input type="text" autofocus placeholder="I will have focus when the drawer is opened" />
+    <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
+</RoarDrawer>
+<RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-initial-focus">Open Drawer</RoarButton>
+
+@code {
+    public bool DrawerOpen { get; set; } = false;
+    public string Placement { get; set; } = DrawerPlacement.Start;
+    public bool DrawerPreventDismiss { get; set; } = true;
+    public RoarDrawer PreventDismissDrawer { get; set; }
+
+    public async Task OnDrawerPreventDismissShow()
+    {
+        DrawerPreventDismiss = true;
+    }
+
+    public async Task ClosePreventDismissDrawer()
+    {
+        DrawerPreventDismiss = false;
+        await PreventDismissDrawer.HideAsync();
+    }
+}
