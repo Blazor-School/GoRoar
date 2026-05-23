@@ -1,0 +1,23 @@
+﻿@page "/progress-bar-sample"
+
+<h3>Labels</h3>
+<RoarProgressBar Value="50" Label="Upload progress" />
+
+<h3>Custom Height</h3>
+<RoarProgressBar Value="50" style="--track-height: 6px" />
+
+<h3>Showing Values</h3>
+<RoarProgressBar Value="ProgressTracking" />
+<RoarButton Pill Appearance="ButtonAppearance.Filled" Disabled="ProgressTracking is 0" @onclick="() => ProgressTracking = ProgressTracking - 10">
+    <RoarIcon Name="minus" Label="Decrease" />
+</RoarButton>
+<RoarButton Pill Appearance="ButtonAppearance.Filled" Disabled="ProgressTracking is 100" @onclick="() => ProgressTracking = ProgressTracking + 10">
+    <RoarIcon Name="plus" Label="Increase" />
+</RoarButton>
+
+<h3>Indeterminate</h3>
+<RoarProgressBar Indeterminate />
+
+@code {
+    public int ProgressTracking { get; set; } = 50;
+}

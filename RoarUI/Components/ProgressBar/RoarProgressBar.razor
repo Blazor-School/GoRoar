@@ -1,0 +1,33 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="progress-bar" />
+
+<wa-progress-bar indeterminate="@Indeterminate" label="@Label" value="@Value" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-progress-bar>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// When true, percentage is ignored, the label is hidden, and the progress bar is drawn in an indeterminate state.
+    /// </summary>
+    [Parameter]
+    public bool Indeterminate { get; set; } = false;
+
+    /// <summary>
+    /// A custom label for assistive devices.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The current progress as a percentage, 0 to 100.
+    /// </summary>
+    [Parameter]
+    public int Value { get; set; } = 0;
+}
