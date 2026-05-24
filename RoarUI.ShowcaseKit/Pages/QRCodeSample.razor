@@ -1,0 +1,20 @@
+﻿@page "/qr-code-sample"
+
+<h3>Size</h3>
+<RoarQRCode Value="https://blazorschool.com" Size="64" />
+
+<h3>Color</h3>
+<RoarQRCode Value="https://blazorschool.com" style="color: var(--wa-color-indigo-20);background-color: var(--wa-color-indigo-90);border-radius: var(--wa-border-radius-m);padding: 1rem;" />
+
+<h3>Radius</h3>
+<RoarQRCode Value="https://blazorschool.com" Radius="0.5"/>
+
+<h3>Error Correction</h3>
+<div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.L"/></div>
+<div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.M"/></div>
+<div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.Q"/></div>
+<div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.H"/></div>
+
+@code {
+
+}
