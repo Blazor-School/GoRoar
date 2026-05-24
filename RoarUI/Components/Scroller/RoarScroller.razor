@@ -1,0 +1,24 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="scroller" />
+
+<wa-scroller orientation="@Orientation" without-scrollbar="@WithoutScrollbar" without-shadow="@WithoutShadow" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-scroller>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public ScrollerOrientation Orientation { get; set; }
+
+    [Parameter]
+    public bool WithoutScrollbar { get; set; } = false;
+
+    [Parameter]
+    public bool WithoutShadow { get; set; } = false;
+}
