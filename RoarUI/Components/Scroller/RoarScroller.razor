@@ -13,12 +13,21 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// The scroller's orientation.
+    /// </summary>
     [Parameter]
     public ScrollerOrientation Orientation { get; set; }
 
+    /// <summary>
+    /// Removes the visible scrollbar.
+    /// </summary>
     [Parameter]
     public bool WithoutScrollbar { get; set; } = false;
 
+    /// <summary>
+    /// Removes the shadows.
+    /// </summary>
     [Parameter]
     public bool WithoutShadow { get; set; } = false;
 }
