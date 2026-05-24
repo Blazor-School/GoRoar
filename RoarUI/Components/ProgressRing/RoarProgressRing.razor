@@ -1,0 +1,27 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="progress-ring" />
+
+<wa-progress-ring label="@Label" value="@Value" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-progress-ring>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// A custom label for assistive devices.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The current progress as a percentage, 0 to 100.
+    /// </summary>
+    [Parameter]
+    public int Value { get; set; } = 0;
+}
