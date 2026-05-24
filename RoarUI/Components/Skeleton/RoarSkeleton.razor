@@ -1,0 +1,21 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="skeleton" />
+
+<wa-skeleton effect="@Effect" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-skeleton>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Determines which effect the skeleton will use.
+    /// </summary>
+    [Parameter]
+    public SkeletonEffect Effect { get; set; }
+}

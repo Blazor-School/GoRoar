@@ -1,0 +1,82 @@
+﻿@page "/skeleton-sample"
+
+<h3>Effect</h3>
+<RoarSkeleton Effect="SkeletonEffect.None" /> None
+<RoarSkeleton Effect="SkeletonEffect.Sheen" /> Sheen
+<RoarSkeleton Effect="SkeletonEffect.Pulse" /> Pulse
+
+<h3>Paragraphs</h3>
+<RoarSkeleton />
+<RoarSkeleton style="width: 95%" />
+<RoarSkeleton />
+<RoarSkeleton style="width: 90%" />
+<RoarSkeleton style="width: 50%" />
+
+<h3>Avatars</h3>
+<div class="skeleton-avatars">
+    <RoarSkeleton />
+    <RoarSkeleton />
+    <RoarSkeleton />
+</div>
+<style>
+    .skeleton-avatars wa-skeleton {
+        display: inline-flex;
+        width: 3rem;
+        height: 3rem;
+        margin-right: 0.5rem;
+    }
+
+        .skeleton-avatars wa-skeleton:nth-child(1)::part(indicator) {
+            border-radius: 0;
+        }
+
+        .skeleton-avatars wa-skeleton:nth-child(2)::part(indicator) {
+            border-radius: var(--wa-border-radius-m);
+        }
+</style>
+
+<h3>Custom Shape</h3>
+<div class="skeleton-shapes">
+    <RoarSkeleton class="square" />
+    <RoarSkeleton class="circle" />
+    <RoarSkeleton class="triangle" />
+    <RoarSkeleton class="cross" />
+    <RoarSkeleton class="comment" />
+</div>
+<style>
+    .skeleton-shapes wa-skeleton {
+        display: inline-flex;
+        width: 50px;
+        height: 50px;
+    }
+
+    .skeleton-shapes .square::part(indicator) {
+        border-radius: var(--wa-border-radius-m);
+    }
+
+    .skeleton-shapes .circle::part(indicator) {
+        border-radius: var(--wa-border-radius-circle);
+    }
+
+    .skeleton-shapes .triangle::part(indicator) {
+        border-radius: 0;
+        clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    }
+
+    .skeleton-shapes .cross::part(indicator) {
+        border-radius: 0;
+        clip-path: polygon( 20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30% );
+    }
+
+    .skeleton-shapes .comment::part(indicator) {
+        border-radius: 0;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
+    }
+
+    .skeleton-shapes wa-skeleton:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+</style>
+
+<h3>Custom Colors</h3>
+<RoarSkeleton Effect="SkeletonEffect.Sheen" style="--color: tomato; --sheen-color: #ffb094;" />
