@@ -1,0 +1,57 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="qr-code" />
+
+<wa-qr-code background="@Background" error-correction="@ErrorCorrection" fill="@Fill" label="@Label" radius="@Radius" size="@Size" value="@Value" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-qr-code>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The background color. This can be any valid CSS color or transparent. It cannot be a CSS custom property.
+    /// </summary>
+    [Parameter]
+    public string Background { get; set; } = "";
+
+    /// <summary>
+    /// The level of error correction to use.
+    /// </summary>
+    [Parameter]
+    public QRCodeErrorCorrection ErrorCorrection { get; set; }
+
+    /// <summary>
+    /// The fill color. This can be any valid CSS color, but not a CSS custom property.
+    /// </summary>
+    [Parameter]
+    public string Fill { get; set; } = "";
+
+    /// <summary>
+    /// The label for assistive devices to announce. If unspecified, the value will be used instead.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The edge radius of each module. Must be between 0 and 0.5.
+    /// </summary>
+    [Parameter]
+    public double Radius { get; set; } = 0;
+
+    /// <summary>
+    /// The size of the QR code, in pixels.
+    /// </summary>
+    [Parameter]
+    public int Size { get; set; } = 128;
+
+    /// <summary>
+    /// The QR code's value.
+    /// </summary>
+    [Parameter]
+    public string Value { get; set; } = "";
+}
