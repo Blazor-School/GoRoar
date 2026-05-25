@@ -1,0 +1,40 @@
+﻿@page "/split-panel-sample"
+
+<h3>Initial Position</h3>
+<RoarSplitPanel @bind-Position="Position">
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarSplitPanel>
+<div>Position: @Position</div>
+
+<h3>Initial Position in Pixels</h3>
+<RoarPixelSplitPanel @bind-Position="PositionInPixels">
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarPixelSplitPanel>
+<div>Position: @PositionInPixels</div>
+
+<h3>Orientation</h3>
+<RoarSplitPanel Orientation="SplitPanelOrientation.Vertical" style="height: 400px;">
+    <div slot="@SplitPanelSlot.Start" style="height: 100%; background: var(--wa-color-surface-lowered); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 100%; background: var(--wa-color-surface-lowered); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        End
+    </div>
+</RoarSplitPanel>
+
+@code {
+    public double Position { get; set; } = 75;
+    public double PositionInPixels { get; set; } = 150;
+}
