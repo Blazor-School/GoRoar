@@ -6,8 +6,8 @@
 ///
 /// <param name="Value">
 /// Explicitly specifies the value for the property.
-/// If omitted or empty, it is derived by converting
-/// <paramref name="PropertyName"/> to camelCase.
+/// If omitted, it is derived by converting <paramref name="PropertyName"/> to kebab-case.
+/// If supplied, the value is used as-is, including an empty string.
 /// </param>
 /// <summary>
 /// Specifies a property for the string enum.

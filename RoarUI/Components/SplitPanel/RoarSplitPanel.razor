@@ -1,0 +1,83 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="split-panel" />
+
+<wa-split-panel disabled="@Disabled" orientation="@Orientation" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-split-panel>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Disables resizing. Note that the position may still change as a result of resizing the host element.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Sets the split panel's orientation.
+    /// </summary>
+    [Parameter]
+    public SplitPanelOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the container's initial size.
+    /// </summary>
+    [Parameter]
+    public double Position { get; set; } = 50;
+
+    [Parameter]
+    public EventCallback<double> PositionChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<double>>? PositionExpression { get; set; }
+
+    /// <summary>
+    /// If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized.
+    /// </summary>
+    [Parameter]
+    public SplitPanelPrimary Primary { get; set; }
+
+    /// <summary>
+    /// One or more space-separated values at which the divider should snap. Values can be in pixels or percentages, e.g. 100px, 50%.
+    /// </summary>
+    [Parameter]
+    public string Snap { get; set; } = "";
+
+    /// <summary>
+    /// How close the divider must be to a snap point until snapping occurs.
+    /// </summary>
+    [Parameter]
+    public double SnapThreshold { get; set; } = 12;
+
+    /// <summary>
+    /// Emitted when the divider's position changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<SplitPanelRepositionEventArgs> OnReposition { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    [JSInvokable]
+    public async Task TriggerRepositionAsync(SplitPanelRepositionEventArgs args)
+    {
+        await PositionChanged.InvokeAsync(args.Position);
+        await OnReposition.InvokeAsync(args);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", Position);
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-reposition", nameof(SplitPanelRepositionEventArgs), instance, nameof(TriggerRepositionAsync));
+        }
+    }
+}

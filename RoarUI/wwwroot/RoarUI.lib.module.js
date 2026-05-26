@@ -61,5 +61,9 @@ let roarEventFromHtmlEvent = {
     }),
     "DrawerHideEventArgs": (e, element) => ({
         SelfClose: e.detail.source === element
+    }),
+    "SplitPanelRepositionEventArgs": (e) => ({
+        Position: e.target.position,
+        PositionInPixels: e.target.positionInPixels
     })
 }
