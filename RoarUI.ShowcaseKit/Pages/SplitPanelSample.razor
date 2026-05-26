@@ -34,7 +34,129 @@
     </div>
 </RoarSplitPanel>
 
+<h3>Snapping</h3>
+<RoarPixelSplitPanel Snap="100px 50%">
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarPixelSplitPanel>
+
+<h3>Disabled</h3>
+<RoarPixelSplitPanel Disabled>
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarPixelSplitPanel>
+
+<h3>Setting the Primary Panel</h3>
+<RoarSplitPanel Primary="Primary">
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarSplitPanel>
+<RoarDropdown @bind-Value="Primary">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" WithCaret>@Primary</RoarButton>
+    <RoarDropdownItem Value="@SplitPanelPrimary.Start">Start</RoarDropdownItem>
+    <RoarDropdownItem Value="@SplitPanelPrimary.End">End</RoarDropdownItem>
+    <RoarDropdownItem Value="@SplitPanelPrimary.Both">Both</RoarDropdownItem>
+</RoarDropdown>
+
+<h3>Min & Max</h3>
+<RoarSplitPanel style="--min: 150px; --max: calc(100% - 150px);">
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarSplitPanel>
+
+<h3>Nested Split Panels</h3>
+<RoarSplitPanel>
+    <div slot="@SplitPanelSlot.Start" style="height: 400px; background: var(--wa-color-surface-lowered); display: flex; align-items: center; justify-content: center; overflow: hidden">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End">
+        <RoarSplitPanel Orientation="SplitPanelOrientation.Vertical" style="height: 400px;">
+            <div slot="@SplitPanelSlot.Start"
+                 style="height: 100%; background: var(--wa-color-surface-lowered); display: flex; align-items: center; justify-content: center; overflow: hidden">
+                Top
+            </div>
+            <div slot="@SplitPanelSlot.End"
+                 style="height: 100%; background: var(--wa-color-surface-lowered); display: flex; align-items: center; justify-content: center; overflow: hidden">
+                Bottom
+            </div>
+        </RoarSplitPanel>
+    </div>
+</RoarSplitPanel>
+
+<h3>Customizing the Divider</h3>
+<RoarSplitPanel style="--divider-width: 20px;">
+    <RoarIcon slot="@SplitPanelSlot.Divider" Name="grip-vertical" Variant="FontAwesomeVariant.Solid" />
+    <div slot="@SplitPanelSlot.Start"
+         style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        Start
+    </div>
+    <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+        End
+    </div>
+</RoarSplitPanel>
+
+<div class="split-panel-divider">
+    <RoarSplitPanel>
+        <RoarIcon slot="@SplitPanelSlot.Divider" Name="grip-vertical" Variant="FontAwesomeVariant.Solid" />
+        <div slot="@SplitPanelSlot.Start"
+             style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+            Start
+        </div>
+        <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
+            End
+        </div>
+    </RoarSplitPanel>
+</div>
+
+<style>
+    .split-panel-divider wa-split-panel {
+        --divider-width: 4px;
+    }
+
+        .split-panel-divider wa-split-panel::part(divider) {
+            background-color: var(--wa-color-red-50);
+        }
+
+    .split-panel-divider wa-icon {
+        position: absolute;
+        border-radius: var(--wa-border-radius-l);
+        background: var(--wa-color-red-50);
+        color: white;
+        padding: 0.5rem 0.25rem;
+    }
+
+    .split-panel-divider wa-split-panel::part(divider):focus-visible {
+        background-color: var(--wa-color-blue-50);
+    }
+
+    .split-panel-divider wa-split-panel:focus-within wa-icon {
+        background-color: var(--wa-color-blue-50);
+        color: white;
+    }
+</style>
+
 @code {
     public double Position { get; set; } = 75;
     public double PositionInPixels { get; set; } = 150;
+    public string Primary { get; set; } = SplitPanelPrimary.Both;
 }

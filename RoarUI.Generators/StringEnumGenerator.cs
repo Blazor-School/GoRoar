@@ -52,8 +52,8 @@ public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}
                 foreach (var member in members)
                 {
                     string propName = member.ConstructorArguments[0].Value!.ToString();
-                    string rawValue = (string?)member.ConstructorArguments[1].Value;
-                    string value = string.IsNullOrEmpty(rawValue) ? ToKebabCase(propName) : rawValue;
+                    string? rawValue = (string?)member.ConstructorArguments[1].Value;
+                    string value = rawValue is null ? ToKebabCase(propName) : rawValue;
 
                     stringBuilder.AppendLine($$"""
     public static readonly {{generatedClassName}} {{member.ConstructorArguments[0].Value}} = new("{{value}}");
