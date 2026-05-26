@@ -31,8 +31,6 @@ function roarGeneralFunction() {
                 e.stopPropagation();
             }
 
-            console.info(e);
-
             instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e, element));
         });
     }
