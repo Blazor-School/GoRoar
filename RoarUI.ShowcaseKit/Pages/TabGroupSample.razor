@@ -1,0 +1,91 @@
+﻿@page "/tab-group-sample"
+
+<h3>Setting the Active Tab</h3>
+<RoarTabGroup ActiveTabName="advanced">
+    <RoarTab Panel="general">General</RoarTab>
+    <RoarTab Panel="custom">Custom</RoarTab>
+    <RoarTab Panel="advanced">Advanced</RoarTab>
+
+    <RoarTabPanel Name="general">This is the general tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="custom">This is the custom tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="advanced">This is the advanced tab panel.</RoarTabPanel>
+</RoarTabGroup>
+
+<h3>Positional Tabs</h3>
+<RoarTabGroup Placement="Placement">
+    <RoarTab Panel="custom">Custom</RoarTab>
+    <RoarTab Panel="advanced">Advanced</RoarTab>
+    <RoarTab Panel="disabled" Disabled>Disabled</RoarTab>
+
+    <RoarTabPanel Name="general">This is the general tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="custom">This is the custom tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="advanced">This is the advanced tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="disabled">This is the disabled tab panel.</RoarTabPanel>
+</RoarTabGroup>
+
+<RoarDropdown @bind-Value="Placement">
+    <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" WithCaret>@Placement</RoarButton>
+    <RoarDropdownItem Value="@TabGroupPlacement.Top">@TabGroupPlacement.Top</RoarDropdownItem>
+    <RoarDropdownItem Value="@TabGroupPlacement.Bottom">@TabGroupPlacement.Bottom</RoarDropdownItem>
+    <RoarDropdownItem Value="@TabGroupPlacement.Start">@TabGroupPlacement.Start</RoarDropdownItem>
+    <RoarDropdownItem Value="@TabGroupPlacement.End">@TabGroupPlacement.End</RoarDropdownItem>
+</RoarDropdown>
+
+<h3>Dynamic Tab</h3>
+@if (DynamicTabs.Count > 0)
+{
+    <RoarTabGroup>
+        @foreach (string tab in DynamicTabs)
+        {
+            <RoarTab Panel="@tab">@tab</RoarTab>
+            <RoarButton @onclick="() => RemoveTab(tab)" slot="@TabGroupSlot.Nav" tabindex="-1" Appearance="ButtonAppearance.Plain" Size="ButtonSize.S" style="position: relative;left: -1.5em;top: 0.675em;">
+                <RoarIcon Name="xmark" Label="Close the closable tab" />
+            </RoarButton>
+        }
+
+        @foreach (string tab in DynamicTabs)
+        {
+            <RoarTabPanel Name="@tab">@tab</RoarTabPanel>
+        }
+    </RoarTabGroup>
+}
+<RoarButton @onclick="AddTab">Add Tab</RoarButton>
+
+<h3>Scrolling Tabs</h3>
+<RoarTabGroup>
+    @foreach (int tabNo in Enumerable.Range(1, 20))
+    {
+        <RoarTab Panel="@($"Tab {tabNo}")">Tab @tabNo</RoarTab>
+    }
+
+    @foreach (int tabNo in Enumerable.Range(1, 20))
+    {
+        <RoarTabPanel Name="@($"Tab {tabNo}")">Tab @tabNo</RoarTabPanel>
+    }
+</RoarTabGroup>
+
+<h3>Manual Activation</h3>
+<RoarTabGroup Activation="TabGroupActivation.Manual">
+    <RoarTab Panel="general">General</RoarTab>
+    <RoarTab Panel="custom">Custom</RoarTab>
+    <RoarTab Panel="advanced">Advanced</RoarTab>
+
+    <RoarTabPanel Name="general">This is the general tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="custom">This is the custom tab panel.</RoarTabPanel>
+    <RoarTabPanel Name="advanced">This is the advanced tab panel.</RoarTabPanel>
+</RoarTabGroup>
+
+<style>
+    main {
+        width: 25%;
+    }
+</style>
+
+@code {
+    public int TotalCount { get; set; } = 0;
+    public string Placement { get; set; } = TabGroupPlacement.Bottom;
+    public List<string> DynamicTabs { get; set; } = [];
+
+    public void AddTab() => DynamicTabs.Add($"Tab {++TotalCount}");
+    public void RemoveTab(string tab) => DynamicTabs.Remove(tab);
+}

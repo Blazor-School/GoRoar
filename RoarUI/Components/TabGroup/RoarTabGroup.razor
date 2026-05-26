@@ -1,0 +1,84 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="tab-group" />
+
+<wa-tab-group activation="@Activation" active="@ActiveTabName" placement="@Placement" without-scroll-controls="@WithoutScrollControls" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-tab-group>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to manual, the tab will receive focus but will not show until the user presses spacebar or enter.
+    /// </summary>
+    [Parameter]
+    public TabGroupActivation Activation { get; set; }
+
+    /// <summary>
+    /// Sets the active tab.
+    /// </summary>
+    [Parameter]
+    public string ActiveTabName { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> ActiveTabNameChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<string>>? ActiveTabNameExpression { get; set; }
+
+    /// <summary>
+    /// The placement of the tabs.
+    /// </summary>
+    [Parameter]
+    public TabGroupPlacement Placement { get; set; }
+
+    /// <summary>
+    /// Disables the scroll arrows that appear when tabs overflow.
+    /// </summary>
+    [Parameter]
+    public bool WithoutScrollControls { get; set; } = false;
+
+    /// <summary>
+    /// Emitted when a tab is hidden.
+    /// </summary>
+    [Parameter]
+    public EventCallback<TabGroupHideEventArgs> OnTabHide { get; set; }
+
+    /// <summary>
+    /// Emitted when a tab is shown.
+    /// </summary>
+    [Parameter]
+    public EventCallback<TabGroupShowEventArgs> OnTabShow { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    [JSInvokable]
+    public async Task TriggerTabHide(TabGroupHideEventArgs args)
+    {
+        await ActiveTabNameChanged.InvokeAsync(args.ActivatingTabName);
+        await OnTabHide.InvokeAsync(args);
+    }
+
+    [JSInvokable]
+    public async Task TriggerTabShow(TabGroupShowEventArgs args)
+    {
+        await ActiveTabNameChanged.InvokeAsync(args.TabName);
+        await OnTabShow.InvokeAsync(args);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-tab-hide", nameof(TabGroupHideEventArgs), instance, nameof(TriggerTabHide));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-tab-show", nameof(TabGroupHideEventArgs), instance, nameof(TriggerTabShow));
+        }
+    }
+}

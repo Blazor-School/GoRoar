@@ -65,5 +65,12 @@ let roarEventFromHtmlEvent = {
     "SplitPanelRepositionEventArgs": (e) => ({
         Position: e.target.position,
         PositionInPixels: e.target.positionInPixels
+    }),
+    "TabGroupShowEventArgs": (e) => ({
+        TabName: e.detail.name
+    }),
+    "TabGroupHideEventArgs": (e) => ({
+        TabName: e.detail.name,
+        ActivatingTabName: e.target.active
     })
 }

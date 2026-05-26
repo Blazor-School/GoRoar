@@ -1,0 +1,28 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="tab" />
+
+<wa-tab disabled="@Disabled" panel="@Panel" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-tab>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Disables the tab and prevents selection.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// The name of the tab panel this tab is associated with. The panel must be located in the same tab group.
+    /// </summary>
+    [Parameter]
+    public string Panel { get; set; } = "";
+}
