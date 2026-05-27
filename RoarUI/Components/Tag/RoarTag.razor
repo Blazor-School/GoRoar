@@ -1,0 +1,66 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="tag" />
+
+<wa-tag appearance="@Appearance" pill="@Pill" size="@Size" variant="@Variant" with-remove="@WithRemove" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-tag>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The tag's visual appearance.
+    /// </summary>
+    [Parameter]
+    public TagAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// Draws a pill-style tag with rounded edges.
+    /// </summary>
+    [Parameter]
+    public bool Pill { get; set; } = false;
+
+    /// <summary>
+    /// The tag's size.
+    /// </summary>
+    [Parameter]
+    public TagSize Size { get; set; }
+
+    /// <summary>
+    /// The tag's theme variant. Defaults to neutral if not within another element with a variant.
+    /// </summary>
+    [Parameter]
+    public TagVariant Variant { get; set; }
+
+    /// <summary>
+    /// Makes the tag removable and shows a remove button.
+    /// </summary>
+    [Parameter]
+    public bool WithRemove { get; set; } = false;
+
+    /// <summary>
+    /// Emitted when the remove button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnRemove { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    [JSInvokable]
+    public Task TriggerRemove() => OnRemove.InvokeAsync();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-remove", instance, nameof(TriggerRemove));
+        }
+    }
+}
