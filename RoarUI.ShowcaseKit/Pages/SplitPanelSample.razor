@@ -13,7 +13,7 @@
 <div>Position: @Position</div>
 
 <h3>Initial Position in Pixels</h3>
-<RoarPixelSplitPanel @bind-Position="PositionInPixels">
+<RoarSplitPanelInPixels @bind-Position="PositionInPixels">
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         Start
@@ -21,7 +21,7 @@
     <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         End
     </div>
-</RoarPixelSplitPanel>
+</RoarSplitPanelInPixels>
 <div>Position: @PositionInPixels</div>
 
 <h3>Orientation</h3>
@@ -35,7 +35,7 @@
 </RoarSplitPanel>
 
 <h3>Snapping</h3>
-<RoarPixelSplitPanel Snap="100px 50%">
+<RoarSplitPanelInPixels Snap="100px 50%">
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         Start
@@ -43,10 +43,10 @@
     <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         End
     </div>
-</RoarPixelSplitPanel>
+</RoarSplitPanelInPixels>
 
 <h3>Disabled</h3>
-<RoarPixelSplitPanel Disabled>
+<RoarSplitPanelInPixels Disabled>
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         Start
@@ -54,7 +54,7 @@
     <div slot="@SplitPanelSlot.End" style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         End
     </div>
-</RoarPixelSplitPanel>
+</RoarSplitPanelInPixels>
 
 <h3>Setting the Primary Panel</h3>
 <RoarSplitPanel Primary="Primary">

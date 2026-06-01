@@ -1,0 +1,16 @@
+﻿@page "/tree-sample"
+
+<RoarTree @bind-Value="Value">
+    <wa-tree-item expanded>
+        Computers
+        <wa-tree-item selected="@(Value=="laptops")" value="laptops">Laptops</wa-tree-item>
+        <wa-tree-item selected="@(Value=="desktops")" value="desktops">Desktops</wa-tree-item>
+        <wa-tree-item selected="@(Value=="tablets")" value="tablets">Tablets</wa-tree-item>
+    </wa-tree-item>
+</RoarTree>
+
+@Value
+
+@code {
+    public string Value { get; set; } = "laptops";
+}
