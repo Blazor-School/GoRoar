@@ -75,5 +75,8 @@ let roarEventFromHtmlEvent = {
     }),
     "TreeSelectionChangeEventArgs": (e) => ({
         SelectedValue: e.detail.selection[0].getAttribute("value")
+    }),
+    "TreeMultipleSelectionChangeEventArgs": (e) => ({
+        SelectedValues: e.detail.selection.map(item => item.getAttribute("value"))
     })
 }

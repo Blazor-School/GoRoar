@@ -1,16 +1,85 @@
 ﻿@page "/tree-sample"
 
+<h3>Single Select</h3>
 <RoarTree @bind-Value="Value">
-    <wa-tree-item expanded>
-        Computers
-        <wa-tree-item selected="@(Value=="laptops")" value="laptops">Laptops</wa-tree-item>
-        <wa-tree-item selected="@(Value=="desktops")" value="desktops">Desktops</wa-tree-item>
-        <wa-tree-item selected="@(Value=="tablets")" value="tablets">Tablets</wa-tree-item>
-    </wa-tree-item>
+    <RoarTreeItem Value="Electronics" Expanded>
+        Electronics
+        <RoarTreeItem Value="computers" Expanded>
+            Computers
+            <RoarTreeItem Value="laptops">Laptops</RoarTreeItem>
+            <RoarTreeItem Value="desktops">Desktops</RoarTreeItem>
+            <RoarTreeItem Value="tablets">Tablets</RoarTreeItem>
+        </RoarTreeItem>
+        <RoarTreeItem Value="phones">
+            Phones
+            <RoarTreeItem Value="smartphones">Smartphones</RoarTreeItem>
+            <RoarTreeItem Value="accessories">Accessories</RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+    <RoarTreeItem Value="clothing">
+        Clothing
+        <RoarTreeItem Value="shirts">Shirts</RoarTreeItem>
+        <RoarTreeItem Value="pants">Pants</RoarTreeItem>
+        <RoarTreeItem Value="shoes">Shoes</RoarTreeItem>
+    </RoarTreeItem>
+    <RoarTreeItem Value="books">Books</RoarTreeItem>
 </RoarTree>
+<div>Selected Value: @Value</div>
 
-@Value
+<h3>Single Select (Leaf Only)</h3>
+<RoarTree @bind-Value="LeafValue" LeafOnly>
+    <RoarTreeItem Value="Electronics" Expanded>
+        Electronics
+        <RoarTreeItem Value="computers" Expanded>
+            Computers
+            <RoarTreeItem Value="laptops">Laptops</RoarTreeItem>
+            <RoarTreeItem Value="desktops">Desktops</RoarTreeItem>
+            <RoarTreeItem Value="tablets">Tablets</RoarTreeItem>
+        </RoarTreeItem>
+        <RoarTreeItem Value="phones">
+            Phones
+            <RoarTreeItem Value="smartphones">Smartphones</RoarTreeItem>
+            <RoarTreeItem Value="accessories">Accessories</RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+    <RoarTreeItem Value="clothing">
+        Clothing
+        <RoarTreeItem Value="shirts">Shirts</RoarTreeItem>
+        <RoarTreeItem Value="pants">Pants</RoarTreeItem>
+        <RoarTreeItem Value="shoes">Shoes</RoarTreeItem>
+    </RoarTreeItem>
+    <RoarTreeItem Value="books">Books</RoarTreeItem>
+</RoarTree>
+<div>Selected Value: @LeafValue</div>
+
+<h3>Multiple Select</h3>
+<RoarTreeMultipleSelect @bind-Values="Values">
+    <RoarTreeItem Value="Electronics" Expanded>
+        Electronics
+        <RoarTreeItem Value="computers">
+            Computers
+            <RoarTreeItem Value="laptops">Laptops</RoarTreeItem>
+            <RoarTreeItem Value="desktops">Desktops</RoarTreeItem>
+            <RoarTreeItem Value="tablets">Tablets</RoarTreeItem>
+        </RoarTreeItem>
+        <RoarTreeItem Value="phones" Expanded>
+            Phones
+            <RoarTreeItem Value="smartphones">Smartphones</RoarTreeItem>
+            <RoarTreeItem Value="accessories">Accessories</RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+    <RoarTreeItem Value="clothing">
+        Clothing
+        <RoarTreeItem Value="shirts">Shirts</RoarTreeItem>
+        <RoarTreeItem Value="pants">Pants</RoarTreeItem>
+        <RoarTreeItem Value="shoes">Shoes</RoarTreeItem>
+    </RoarTreeItem>
+    <RoarTreeItem Value="books">Books</RoarTreeItem>
+</RoarTreeMultipleSelect>
+<div>Selected Values: @string.Join(", ", Values)</div>
 
 @code {
     public string Value { get; set; } = "laptops";
+    public string LeafValue { get; set; } = "laptops";
+    public List<string> Values { get; set; } = ["phones", "smartphones", "accessories"];
 }

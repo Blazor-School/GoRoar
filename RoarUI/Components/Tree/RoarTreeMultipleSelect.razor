@@ -4,7 +4,7 @@
 <RoarDependency ComponentName="tree" />
 
 <CascadingValue Value="this" Name="Parent" IsFixed>
-    <wa-tree selection="@(LeafOnly ? "leaf" : "single")" @attributes="AdditionalAttributes" @ref="Element">
+    <wa-tree selection="multiple" @attributes="AdditionalAttributes" @ref="Element">
         @ChildContent
     </wa-tree>
 </CascadingValue>
@@ -17,28 +17,25 @@
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     [Parameter]
-    public string Value { get; set; } = "";
+    public List<string> Values { get; set; } = [];
 
     [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
+    public EventCallback<List<string>> ValuesChanged { get; set; }
 
     [Parameter]
-    public Expression<Func<string>>? ValueExpression { get; set; }
-
-    [Parameter]
-    public bool LeafOnly { get; set; } = false;
+    public Expression<Func<List<string>>>? ValuesExpression { get; set; }
 
     internal ElementReference Element { get; set; }
 
     [JSInvokable]
-    public Task TriggerValueChange(TreeSelectionChangeEventArgs args) => ValueChanged.InvokeAsync(args.SelectedValue);
+    public Task TriggerValuesChange(TreeMultipleSelectionChangeEventArgs args) => ValuesChanged.InvokeAsync(args.SelectedValues);
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-selection-change", nameof(TreeSelectionChangeEventArgs), instance, nameof(TriggerValueChange));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-selection-change", nameof(TreeMultipleSelectionChangeEventArgs), instance, nameof(TriggerValuesChange));
         }
     }
 }
