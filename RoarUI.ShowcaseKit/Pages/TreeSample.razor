@@ -78,8 +78,183 @@
 </RoarTreeMultipleSelect>
 <div>Selected Values: @string.Join(", ", Values)</div>
 
+<h3>Sizes</h3>
+<RoarTreeMultipleSelect style="font-size: 1.5rem;">
+    <RoarTreeItem Expanded>
+        Large
+        <RoarTreeItem>Newsletters</RoarTreeItem>
+        <RoarTreeItem>
+            Promotions
+            <RoarTreeItem>Weekly deals</RoarTreeItem>
+            <RoarTreeItem>Seasonal sales</RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+</RoarTreeMultipleSelect>
+
+<h3>Showing Indent Guides</h3>
+<RoarTree style="--indent-guide-width: 1px;">
+    <RoarTreeItem Expanded>
+        Design
+        <RoarTreeItem Expanded>
+            Brand
+            <RoarTreeItem>Colors</RoarTreeItem>
+            <RoarTreeItem>Typography</RoarTreeItem>
+            <RoarTreeItem>Logo</RoarTreeItem>
+        </RoarTreeItem>
+        <RoarTreeItem>
+            Components
+            <RoarTreeItem>Buttons</RoarTreeItem>
+            <RoarTreeItem>Forms</RoarTreeItem>
+            <RoarTreeItem>Navigation</RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+
+    <RoarTreeItem Expanded>
+        Development
+        <RoarTreeItem>Frontend</RoarTreeItem>
+        <RoarTreeItem>Backend</RoarTreeItem>
+        <RoarTreeItem>Infrastructure</RoarTreeItem>
+    </RoarTreeItem>
+
+    <RoarTreeItem>
+        Marketing
+        <RoarTreeItem>Social Media</RoarTreeItem>
+        <RoarTreeItem>Email Campaigns</RoarTreeItem>
+        <RoarTreeItem>Analytics</RoarTreeItem>
+    </RoarTreeItem>
+</RoarTree>
+
+<h3>Lazy Loading</h3>
+<RoarTree>
+    <RoarTreeItem Lazy="true" OnLazyLoad="LoadItemAsync">
+        Remote Repositories
+
+        @foreach(string repository in Repositories)
+        {
+            <RoarTreeItem Value="@repository">
+                @repository
+            </RoarTreeItem>
+        }
+    </RoarTreeItem>
+</RoarTree>
+
+<h3>Customizing the Expand and Collapse Icons</h3>
+<RoarTree class="custom-icons">
+    <RoarIcon Name="square-plus" Variant="FontAwesomeVariant.Solid" slot="@TreeSlot.ExpandIcon" />
+    <RoarIcon Name="square-minus" Variant="FontAwesomeVariant.Solid" slot="@TreeSlot.CollapseIcon" />
+    <RoarTreeItem Expanded>
+        Recipes
+        <RoarTreeItem Expanded>
+            Breakfast
+            <RoarTreeItem>Pancakes</RoarTreeItem>
+            <RoarTreeItem>Omelette</RoarTreeItem>
+            <RoarTreeItem>Granola</RoarTreeItem>
+        </RoarTreeItem>
+        <RoarTreeItem>
+            Lunch
+            <RoarTreeItem>Caesar salad</RoarTreeItem>
+            <RoarTreeItem>Grilled chicken wrap</RoarTreeItem>
+        </RoarTreeItem>
+        <RoarTreeItem>
+            Dinner
+            <RoarTreeItem>Pasta carbonara</RoarTreeItem>
+            <RoarTreeItem>Stir fry</RoarTreeItem>
+            <RoarTreeItem>Roasted salmon</RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+
+    <RoarTreeItem>
+        Desserts
+        <RoarTreeItem>Chocolate cake</RoarTreeItem>
+        <RoarTreeItem>Tiramisu</RoarTreeItem>
+        <RoarTreeItem>Fruit tart</RoarTreeItem>
+    </RoarTreeItem>
+</RoarTree>
+
+<style>
+  .custom-icons wa-tree-item::part(expand-button) {
+    /* Disable the expand/collapse animation */
+    rotate: none;
+  }
+</style>
+
+<h3>With Icons</h3>
+<RoarTree>
+    <RoarTreeItem Expanded>
+        <RoarIcon Name="folder" Variant="FontAwesomeVariant.Regular"/>
+        Documents
+
+        <RoarTreeItem Expanded>
+            <RoarIcon Name="folder" Variant="FontAwesomeVariant.Regular"/>
+            Photos
+            <RoarTreeItem>
+                <RoarIcon Name="image" Variant="FontAwesomeVariant.Regular"/>
+                vacation.jpg
+            </RoarTreeItem>
+            <RoarTreeItem>
+                <RoarIcon Name="image" Variant="FontAwesomeVariant.Regular"/>
+                family-portrait.png
+            </RoarTreeItem>
+            <RoarTreeItem>
+                <RoarIcon Name="image" Variant="FontAwesomeVariant.Regular"/>
+                sunset.jpg
+            </RoarTreeItem>
+        </RoarTreeItem>
+
+        <RoarTreeItem Expanded>
+            <RoarIcon Name="folder" Variant="FontAwesomeVariant.Regular"/>
+            Work
+            <RoarTreeItem>
+                <RoarIcon Name="file-pdf" Variant="FontAwesomeVariant.Regular"/>
+                quarterly-report.pdf
+            </RoarTreeItem>
+            <RoarTreeItem>
+                <RoarIcon Name="file-lines" Variant="FontAwesomeVariant.Regular"/>
+                budget.xls
+            </RoarTreeItem>
+            <RoarTreeItem>
+                <RoarIcon Name="file" Variant="FontAwesomeVariant.Regular"/>
+                meeting-notes.txt
+            </RoarTreeItem>
+        </RoarTreeItem>
+
+        <RoarTreeItem>
+            <RoarIcon Name="folder" Variant="FontAwesomeVariant.Regular"/>
+            Personal
+            <RoarTreeItem>
+                <RoarIcon Name="file" Variant="FontAwesomeVariant.Regular"/>
+                journal.txt
+            </RoarTreeItem>
+            <RoarTreeItem>
+                <RoarIcon Name="file-pdf" Variant="FontAwesomeVariant.Regular"/>
+                resume.pdf
+            </RoarTreeItem>
+        </RoarTreeItem>
+    </RoarTreeItem>
+
+    <RoarTreeItem>
+        <RoarIcon Name="folder" Variant="FontAwesomeVariant.Regular"></RoarIcon>
+        Downloads
+        <RoarTreeItem>
+            <RoarIcon Name="file-zipper" Variant="FontAwesomeVariant.Regular"/>
+            archive.zip
+        </RoarTreeItem>
+        <RoarTreeItem>
+            <RoarIcon Name="file" Variant="FontAwesomeVariant.Regular"/>
+            readme.txt
+        </RoarTreeItem>
+    </RoarTreeItem>
+</RoarTree>
+
 @code {
     public string Value { get; set; } = "laptops";
     public string LeafValue { get; set; } = "laptops";
     public List<string> Values { get; set; } = ["phones", "smartphones", "accessories"];
+    public List<string> Repositories { get; set; } = [];
+
+    public async Task LoadItemAsync()
+    {
+        await Task.Delay(1000);
+        Repositories = new() { "Repo 1", "Repo 2", "Repo 3" };
+    }
 }

@@ -103,15 +103,19 @@
     public async Task TriggerLazyChange()
     {
         await OnLazyChange.InvokeAsync();
-        await LazyChanged.InvokeAsync(!Lazy); // We just reverse the value of Lazy here and assume it's correct.
+        await LazyChanged.InvokeAsync(!Lazy); // We just reverse the value of Lazy here and assume it's correct
     }
 
     [JSInvokable]
-    public Task TriggerLazyLoad() => OnLazyLoad.InvokeAsync();
+    public async Task TriggerLazyLoad()
+    {
+        await OnLazyLoad.InvokeAsync();
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "lazy", false); // Disable lazy mode once the content has been loaded
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(true)
+        if(firstRender)
         {
             var instance = DotNetObjectReference.Create(this);
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-collapse", instance, nameof(TriggerAfterCollapse));
@@ -119,6 +123,7 @@
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-collapse", instance, nameof(TriggerCollapse));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-expand", instance, nameof(TriggerExpand));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-lazy-change", instance, nameof(TriggerLazyChange));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-lazy-load", instance, nameof(TriggerLazyLoad));
         }
     }
 }
