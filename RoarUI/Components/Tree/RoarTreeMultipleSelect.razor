@@ -1,0 +1,41 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="tree" />
+
+<CascadingValue Value="this" Name="Parent" IsFixed>
+    <wa-tree selection="multiple" @attributes="AdditionalAttributes" @ref="Element">
+        @ChildContent
+    </wa-tree>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public List<string> Values { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<List<string>> ValuesChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<List<string>>>? ValuesExpression { get; set; }
+
+    internal ElementReference Element { get; set; }
+
+    [JSInvokable]
+    public Task TriggerValuesChange(TreeMultipleSelectionChangeEventArgs args) => ValuesChanged.InvokeAsync(args.SelectedValues);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-selection-change", nameof(TreeMultipleSelectionChangeEventArgs), instance, nameof(TriggerValuesChange));
+        }
+    }
+}

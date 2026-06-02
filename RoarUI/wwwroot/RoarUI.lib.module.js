@@ -72,5 +72,11 @@ let roarEventFromHtmlEvent = {
     "TabGroupHideEventArgs": (e) => ({
         TabName: e.detail.name,
         ActivatingTabName: e.target.active
+    }),
+    "TreeSelectionChangeEventArgs": (e) => ({
+        SelectedValue: e.detail.selection[0].getAttribute("value")
+    }),
+    "TreeMultipleSelectionChangeEventArgs": (e) => ({
+        SelectedValues: e.detail.selection.map(item => item.getAttribute("value"))
     })
 }
