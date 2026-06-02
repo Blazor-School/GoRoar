@@ -7,8 +7,8 @@ export function afterStarted(blazor) {
 }
 
 function roarGeneralFunction() {
-    window.executeMethodFromInstance = function (element, methodName, ...params) {
-        element[methodName](...params);
+    window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
+        element[functionName](...params);
     }
 
     window.subscribeEvent = function (element, eventName, instance, method) {
@@ -45,6 +45,40 @@ function roarGeneralFunction() {
 
     window.toggleBooleanProperty = function (element, propertyName) {
         element[propertyName] = !element[propertyName];
+    }
+
+    window.observeProperty = function (element, propertyName, instance, methodName) {
+        let previousValue = element[propertyName];
+
+        const propertyObserver = new MutationObserver(() => {
+            const currentValue = element[propertyName];
+
+            if (currentValue === previousValue) {
+                return;
+            }
+
+            instance.invokeMethodAsync(
+                methodName,
+                currentValue
+            );
+        });
+
+        propertyObserver.observe(element, {
+            attributes: true,
+            attributeFilter: [propertyName]
+        });
+
+        const cleanupObserver = new MutationObserver(() => {
+            if (!document.body.contains(element)) {
+                propertyObserver.disconnect();
+                cleanupObserver.disconnect();
+            }
+        });
+
+        cleanupObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     }
 }
 

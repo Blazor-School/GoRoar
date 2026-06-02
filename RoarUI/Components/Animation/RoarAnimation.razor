@@ -91,10 +91,10 @@
     /// <summary>
     /// Clears all keyframe effects caused by this animation and aborts its playback.
     /// </summary>
-    public ValueTask CancelAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "cancel");
+    public ValueTask CancelAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "cancel");
 
     /// <summary>
     /// Sets the playback time to the end of the animation corresponding to the current playback direction.
     /// </summary>
-    public ValueTask FinishAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "finish");
+    public ValueTask FinishAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "finish");
 }

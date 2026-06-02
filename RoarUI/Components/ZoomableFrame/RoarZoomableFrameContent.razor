@@ -1,0 +1,86 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="zoomable-frame" />
+<RoarDependency ComponentName="icon" />
+
+<wa-zoomable-frame allowfullscreen="@AllowFullscreen" loading="@Loading" referrerpolicy="@ReferrerPolicy" sandbox="@Sandbox" srcdoc="@HtmlContent" without-controls="@WithoutControls" without-interaction="@WithoutInteraction" with-theme-sync="@WithThemeSync" zoom="@Zoom" zoom-levels="@ZoomLevelsAttribute" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-zoomable-frame>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public bool AllowFullscreen { get; set; } = false;
+
+    [Parameter]
+    public ZoomableFrameLoading Loading { get; set; }
+
+    [Parameter]
+    public string ReferrerPolicy { get; set; } = "";
+
+    [Parameter]
+    public string Sandbox { get; set; } = "";
+
+    [Parameter]
+    [EditorRequired]
+    public string HtmlContent { get; set; } = "";
+
+    [Parameter]
+    public bool WithoutControls { get; set; } = false;
+
+    [Parameter]
+    public bool WithoutInteraction { get; set; } = false;
+
+    [Parameter]
+    public bool WithThemeSync { get; set; } = false;
+
+    [Parameter]
+    public double Zoom { get; set; } = 1;
+
+    [Parameter]
+    public EventCallback<double> ZoomChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<double>>? ZoomExpression { get; set; }
+
+    [Parameter]
+    public List<int> ZoomLevels { get; set; } = [25, 50, 100, 125, 150, 175, 200];
+
+    [Parameter]
+    public EventCallback OnError { get; set; }
+
+    [Parameter]
+    public EventCallback OnLoad { get; set; }
+
+    internal ElementReference Element { get; set; }
+    internal string ZoomLevelsAttribute => string.Join(" ", ZoomLevels.Select(x => $"{x}%"));
+
+    [JSInvokable]
+    public Task TriggerZoomChange(double zoom) => ZoomChanged.InvokeAsync(zoom);
+
+    [JSInvokable]
+    public Task TriggerError() => OnError.InvokeAsync();
+
+    [JSInvokable]
+    public Task TriggerLoad() => OnLoad.InvokeAsync();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ObserveProperty, Element, "zoom", instance, nameof(TriggerZoomChange));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "error", instance, nameof(TriggerError));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "load", instance, nameof(TriggerLoad));
+        }
+    }
+
+    public async Task ZoomInAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "zoomIn");
+    public async Task ZoomOutAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "zoomOut");
+}

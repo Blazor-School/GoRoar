@@ -43,12 +43,12 @@
     /// <summary>
     /// Removes focus from the button.
     /// </summary>
-    public ValueTask CloseSubmenuAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "closeSubmenu");
+    public ValueTask CloseSubmenuAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "closeSubmenu");
 
     /// <summary>
     /// Simulates a click on the button.
     /// </summary>
-    public ValueTask OpenSubmenuAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "openSubmenu");
+    public ValueTask OpenSubmenuAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "openSubmenu");
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

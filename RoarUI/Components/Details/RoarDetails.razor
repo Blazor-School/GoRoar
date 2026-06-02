@@ -82,8 +82,8 @@
 
     internal ElementReference Element { get; set; }
 
-    public ValueTask HideAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "hide");
-    public ValueTask ShowAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteMethodFromInstance, Element, "show");
+    public ValueTask HideAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "hide");
+    public ValueTask ShowAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "show");
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

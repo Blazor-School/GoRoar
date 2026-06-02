@@ -16,6 +16,9 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// The selected values.
+    /// </summary>
     [Parameter]
     public List<string> Values { get; set; } = [];
 
