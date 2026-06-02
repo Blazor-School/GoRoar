@@ -14,9 +14,15 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// Disables the tree item.
+    /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
 
+    /// <summary>
+    /// Expands the tree item.
+    /// </summary>
     [Parameter]
     public bool Expanded { get; set; } = false;
 
@@ -26,6 +32,9 @@
     [Parameter]
     public Expression<Func<bool>>? ExpandedExpression { get; set; }
 
+    /// <summary>
+    /// Enables lazy loading behavior.
+    /// </summary>
     [Parameter]
     public bool Lazy { get; set; } = false;
 
@@ -35,24 +44,45 @@
     [Parameter]
     public Expression<Func<bool>>? LazyExpression { get; set; }
 
+    /// <summary>
+    /// Emitted after the tree item collapses and all animations are complete.
+    /// </summary>
     [Parameter]
     public EventCallback OnAfterCollapse { get; set; }
 
+    /// <summary>
+    /// Emitted after the tree item expands and all animations are complete.
+    /// </summary>
     [Parameter]
     public EventCallback OnAfterExpand { get; set; }
 
+    /// <summary>
+    /// Emitted when the tree item collapses.
+    /// </summary>
     [Parameter]
     public EventCallback OnCollapse { get; set; }
 
+    /// <summary>
+    /// Emitted when the tree item expands.
+    /// </summary>
     [Parameter]
     public EventCallback OnExpand { get; set; }
 
+    /// <summary>
+    /// Emitted when the tree item's lazy state changes.
+    /// </summary>
     [Parameter]
     public EventCallback OnLazyChange { get; set; }
 
+    /// <summary>
+    /// Emitted when a lazy item is selected. Use this event to asynchronously load data and append items to the tree before expanding. The Lazy will be automatically updated after the content is loaded.
+    /// </summary>
     [Parameter]
     public EventCallback OnLazyLoad { get; set; }
 
+    /// <summary>
+    /// The value of the tree item, which will be used to determine selection. It can be any string and does not have to be unique across tree items.
+    /// </summary>
     [Parameter]
     public string Value { get; set; } = "";
 

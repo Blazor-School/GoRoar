@@ -16,6 +16,9 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// The selected value.
+    /// </summary>
     [Parameter]
     public string? Value { get; set; }
 
@@ -25,6 +28,9 @@
     [Parameter]
     public Expression<Func<string?>>? ValueExpression { get; set; }
 
+    /// <summary>
+    /// Only allow leaf node to be selected.
+    /// </summary>
     [Parameter]
     public bool LeafOnly { get; set; } = false;
 

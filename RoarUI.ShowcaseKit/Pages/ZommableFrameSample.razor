@@ -1,0 +1,25 @@
+﻿@page "/zoomable-frame-sample"
+
+<h3>Loading External Content</h3>
+<RoarZoomableFrame Src="/"/>
+<RoarZoomableFrameContent HtmlContent="<html><body><h1>Hello, World!</h1><p>This is inline content.</p></body></html>"/>
+
+<h3>Controlling Zoom Behavior</h3>
+<RoarZoomableFrame Src="/" Zoom="0.5" ZoomLevels="[50, 75, 100]"/>
+
+<h3>Preventing User Interaction</h3>
+<RoarZoomableFrame Src="/" Zoom="0.5" WithoutInteraction />
+
+<h3>Enabling Theme Sync</h3>
+<RoarZoomableFrame Src="/" Zoom="0.5" WithThemeSync />
+
+<h3>Control the Zoomable Frame</h3>
+<RoarZoomableFrame Src="/" @bind-Zoom="Zoom" WithoutControls @ref="ZoomableFrame"/>
+<RoarButton @onclick="async () => await ZoomableFrame.ZoomInAsync()">Zoom In</RoarButton>
+<RoarButton @onclick="async () => await ZoomableFrame.ZoomOutAsync()">Zoom Out</RoarButton>
+<div>Zoom: @Zoom</div>
+
+@code {
+    public double Zoom { get; set; } = 1;
+    public RoarZoomableFrame ZoomableFrame { get; set; }
+}
