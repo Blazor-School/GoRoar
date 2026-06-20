@@ -112,5 +112,9 @@ let roarEventFromHtmlEvent = {
     }),
     "TreeMultipleSelectionChangeEventArgs": (e) => ({
         SelectedValues: e.detail.selection.map(item => item.getAttribute("value"))
+    }),
+    "CheckboxChangeEventArgs": (e) => ({
+        Checked: e.detail.checked,
+        Indeterminate: e.detail.indeterminate
     })
 }
