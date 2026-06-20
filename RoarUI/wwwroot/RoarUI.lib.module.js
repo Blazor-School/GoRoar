@@ -114,7 +114,7 @@ let roarEventFromHtmlEvent = {
         SelectedValues: e.detail.selection.map(item => item.getAttribute("value"))
     }),
     "CheckboxChangeEventArgs": (e) => ({
-        Checked: e.detail.checked,
-        Indeterminate: e.detail.indeterminate
+        Checked: e.target.checked,
+        Indeterminate: e.target.indeterminate
     })
 }
