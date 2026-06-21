@@ -17,38 +17,65 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// Draws the checkbox in a checked state.
+    /// </summary>
     [Parameter]
     public bool Checked { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets a callback that updates the bound checked state.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> CheckedChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound checked state.
+    /// </summary>
     [Parameter]
     public Expression<Func<bool>> CheckedExpression { get; set; }
 
+    /// <summary>
+    /// Disables the checkbox.
+    /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
 
+    /// <summary>
+    /// The checkbox's hint. If you need to display HTML, use the hint slot instead.
+    /// </summary>
     [Parameter]
     public string Hint { get; set; } = "";
 
+    /// <summary>
+    /// The checkbox's size.
+    /// </summary>
     [Parameter]
     public CheckboxSize Size { get; set; }
 
+    /// <summary>
+    /// Emitted when the checkbox loses focus.
+    /// </summary>
     [Parameter]
     public EventCallback OnBlur { get; set; }
 
+    /// <summary>
+    /// Emitted when the checked state changes.
+    /// </summary>
     [Parameter]
     public EventCallback OnChange { get; set; }
 
+    /// <summary>
+    /// Emitted when the checkbox gains focus.
+    /// </summary>
     [Parameter]
     public EventCallback OnFocus { get; set; }
 
+    /// <summary>
+    /// Emitted when the checkbox receives input.
+    /// </summary>
     [Parameter]
     public EventCallback OnInput { get; set; }
-
-    [Parameter]
-    public EventCallback OnInvalid { get; set; }
 
     internal ElementReference Element { get; set; }
     internal FieldIdentifier FieldIdentifier { get; set; }
@@ -75,19 +102,14 @@
         EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
-    [JSInvokable]
-    public Task TriggerInvalidAsync() => OnInvalid.InvokeAsync();
-
     public override Task SetParametersAsync(ParameterView parameters)
     {
         parameters.SetParameterProperties(this);
 
-        if (CheckedExpression is null)
+        if (CheckedExpression is not null)
         {
-            throw new InvalidOperationException($"{GetType()} requires a value for the 'CheckedExpression' parameter. Normally this is provided automatically when using 'bind-Checked'.");
+            FieldIdentifier = FieldIdentifier.Create(CheckedExpression!);
         }
-
-        FieldIdentifier = FieldIdentifier.Create(CheckedExpression!);
 
         return base.SetParametersAsync(ParameterView.Empty);
     }
@@ -102,13 +124,26 @@
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(CheckboxChangeEventArgs), instance, nameof(TriggerChangeAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(CheckboxChangeEventArgs), instance, nameof(TriggerInputAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-invalid", instance, nameof(TriggerInvalidAsync));
         }
     }
 
+    /// <summary>
+    /// Removes focus from the checkbox.
+    /// </summary>
+    /// <returns></returns>
     public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
+
+    /// <summary>
+    /// Simulates a click on the checkbox.
+    /// </summary>
+    /// <returns></returns>
     public ValueTask ClickAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "click");
+
+    /// <summary>
+    /// Sets focus on the checkbox.
+    /// </summary>
+    /// <param name="preventScroll"></param>
+    /// <param name="focusVisible"></param>
+    /// <returns></returns>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus", new { preventScroll, focusVisible });
-    internal ValueTask ResetValidityAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "resetValidity");
-    internal ValueTask SetCustomValidityAsync(string message) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "setCustomValidity", new { message });
 }
