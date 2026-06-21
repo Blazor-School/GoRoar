@@ -1,0 +1,59 @@
+﻿@page "/checkbox-group-sample"
+
+<h3>Labels</h3>
+<RoarCheckboxGroup Label="Toppings">
+    <RoarCheckbox>Pepperoni</RoarCheckbox>
+    <RoarCheckbox>Mushrooms</RoarCheckbox>
+    <RoarCheckbox>Onions</RoarCheckbox>
+    <RoarCheckbox>Peppers</RoarCheckbox>
+    <RoarCheckbox>Sausage</RoarCheckbox>
+    <RoarCheckbox>Extra cheese</RoarCheckbox>
+</RoarCheckboxGroup>
+
+<h3>Hint</h3>
+<RoarCheckboxGroup Label="Workdays" Hint="Choose as many as you like">
+    <RoarCheckbox>Monday</RoarCheckbox>
+    <RoarCheckbox>Wednesday</RoarCheckbox>
+    <RoarCheckbox>Friday</RoarCheckbox>
+</RoarCheckboxGroup>
+
+<h3>Orientation</h3>
+<RoarCheckboxGroup Orientation="CheckboxGroupOrientation.Horizontal">
+    <RoarCheckbox>Small</RoarCheckbox>
+    <RoarCheckbox>Medium</RoarCheckbox>
+    <RoarCheckbox>Large</RoarCheckbox>
+</RoarCheckboxGroup>
+
+<h3>Sizes</h3> @*Skip for now because depent on roar select*@
+
+<h3>Disabling</h3>
+<RoarCheckboxGroup>
+    <RoarCheckbox Disabled>Insurance</RoarCheckbox>
+    <RoarCheckbox Disabled>Gift wrap</RoarCheckbox>
+    <RoarCheckbox>Express shipping</RoarCheckbox>
+    <RoarCheckbox>Extended warranty</RoarCheckbox>
+</RoarCheckboxGroup>
+
+<h3>Switches</h3> @*Skip for now because we need to implement new group rather than use checkbox group for switches*@
+
+<h3>Required</h3>
+<EditForm Model="this">
+    <DataAnnotationsValidator />
+    <RoarCheckboxGroup Label="Select your icecream flavour: (required)">
+        <div>
+            <RoarCheckbox @bind-Checked="CheckboxGroup1[0]">Mango</RoarCheckbox>
+            <RoarCheckbox @bind-Checked="CheckboxGroup1[1]">Tea leaf</RoarCheckbox>
+            <RoarCheckbox @bind-Checked="CheckboxGroup1[2]">Vanilla</RoarCheckbox>
+            <ValidationMessage For="() => CheckboxGroup1" />
+        </div>
+        <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit">Submit</RoarButton>
+    </RoarCheckboxGroup>
+</EditForm>
+@*
+    When unchecking a checkbox in a group, it does not reset the error. We will ignore this for now.
+*@
+
+@code {
+    [CheckboxGroupRequired(ErrorMessage = "Choose at least 1 option")]
+    public List<bool> CheckboxGroup1 { get; set; } = [false, false, false];
+}
