@@ -56,5 +56,15 @@ internal class AttributeBuilder
         return this;
     }
 
+    public AttributeBuilder AddConditionalAttribute(bool condition, string attributeName, object attributeValue)
+    {
+        if (condition)
+        {
+            _attributes[attributeName] = attributeValue;
+        }
+
+        return this;
+    }
+
     public Dictionary<string, object> Build() => _attributes;
 }

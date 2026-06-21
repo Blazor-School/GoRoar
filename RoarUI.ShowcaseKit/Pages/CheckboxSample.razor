@@ -1,0 +1,38 @@
+﻿@page "/checkbox-sample"
+@using System.Linq.Expressions
+
+<h3>Checked</h3>
+<RoarCheckbox Checked>Checked</RoarCheckbox>
+
+<h3>Indeterminate</h3>
+<RoarIndeterminateCheckbox @bind-Checked="IndeterminateCheck">Indeterminate</RoarIndeterminateCheckbox>
+<RoarButton @onclick="() => IndeterminateCheck = null">Indeterminate state: @(IndeterminateCheck is not null ? IndeterminateCheck.ToString() : "NULL"). Click to set interdeterminate</RoarButton>
+
+<h3>Disabled</h3>
+<RoarCheckbox Disabled>Disabled</RoarCheckbox>
+
+<h3>Sizes</h3>
+<RoarCheckbox Size="CheckboxSize.Xs">Extra Small</RoarCheckbox>
+<RoarCheckbox Size="CheckboxSize.S">Small</RoarCheckbox>
+<RoarCheckbox Size="CheckboxSize.M">Medium</RoarCheckbox>
+<RoarCheckbox Size="CheckboxSize.L">Large</RoarCheckbox>
+<RoarCheckbox Size="CheckboxSize.Xl">Extra Large</RoarCheckbox>
+
+<h3>Hint</h3>
+<RoarCheckbox Hint="What should the user know about the checkbox?">Label</RoarCheckbox>
+
+<h3>Custom Validity</h3>
+<EditForm Model="Form">
+    <DataAnnotationsValidator />
+    <div>
+        <RoarCheckbox @bind-Checked="@Form.CheckMe">Check me</RoarCheckbox>
+        <ValidationMessage For="@(() => Form.CheckMe)"  />
+    </div>
+    <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit">Submit</RoarButton>
+</EditForm>
+
+@code {
+    public CheckboxCustomValidityForm Form { get; set; } = new();
+    public Expression<Func<bool>> CheckMeExpression => () => Form.CheckMe;
+    public bool? IndeterminateCheck { get; set; }
+}

@@ -56,4 +56,8 @@
 		</None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\webawesome-3.9.0\" />
+	</ItemGroup>
+
 </Project>
