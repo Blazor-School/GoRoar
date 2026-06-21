@@ -1,6 +1,6 @@
 ﻿using RoarUI.Validations;
 
-namespace RoarUI.ShowcaseKit.FormModels.Checkbox;
+namespace RoarUI.ShowcaseKit.FormModels;
 
 public class CheckboxGroupIcecreamForm
 {

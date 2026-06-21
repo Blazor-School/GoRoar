@@ -37,14 +37,14 @@
 <h3>Switches</h3> @*Skip for now because we need to implement new group rather than use checkbox group for switches*@
 
 <h3>Required</h3>
-<EditForm Model="this">
+<EditForm Model="Form">
     <DataAnnotationsValidator />
     <RoarCheckboxGroup Label="Select your icecream flavour: (required)">
         <div>
-            <RoarCheckbox @bind-Checked="CheckboxGroup1[0]">Mango</RoarCheckbox>
-            <RoarCheckbox @bind-Checked="CheckboxGroup1[1]">Tea leaf</RoarCheckbox>
-            <RoarCheckbox @bind-Checked="CheckboxGroup1[2]">Vanilla</RoarCheckbox>
-            <ValidationMessage For="() => CheckboxGroup1" />
+            <RoarCheckbox @bind-Checked="Form.CheckboxGroup1[0]">Mango</RoarCheckbox>
+            <RoarCheckbox @bind-Checked="Form.CheckboxGroup1[1]">Tea leaf</RoarCheckbox>
+            <RoarCheckbox @bind-Checked="Form.CheckboxGroup1[2]">Vanilla</RoarCheckbox>
+            <ValidationMessage For="() => Form.CheckboxGroup1" />
         </div>
         <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit">Submit</RoarButton>
     </RoarCheckboxGroup>
@@ -54,6 +54,5 @@
 *@
 
 @code {
-    [CheckboxGroupRequired(ErrorMessage = "Choose at least 1 option")]
-    public List<bool> CheckboxGroup1 { get; set; } = [false, false, false];
+    public CheckboxGroupIcecreamForm Form { get; set; } = new();
 }
