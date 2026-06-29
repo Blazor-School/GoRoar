@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="checkbox-group" />
 
-<wa-checkbox-group hint="@Hint" label="@Label" orientation="@Orientation" @attributes="AdditionalAttributes">
+<wa-checkbox-group hint="@Hint" label="@Label" orientation="@Orientation" @attributes="AdditionalAttributes" with-hint="@WithHint" with-label="@WithLabel">
     @ChildContent
 </wa-checkbox-group>
 
@@ -31,4 +31,16 @@
     /// </summary>
     [Parameter]
     public CheckboxGroupOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; } = false;
+
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; } = false;
 }

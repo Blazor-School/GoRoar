@@ -1,0 +1,156 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="color-picker" />
+
+<h3>RoarColorPicker</h3>
+
+@code {
+    [CascadingParameter]
+    public EditContext? EditContext { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The current value of the color picker. The value's format will vary based the <see cref="Format"/> property.
+    /// </summary>
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    /// <summary>
+    /// Gets or sets a callback that updates the bound value state.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound value state.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<bool>> ValueExpression { get; set; }
+
+    /// <summary>
+    /// Disables the color picker.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// The format to use. If opacity is enabled, these will translate to HEXA, RGBA, HSLA, and HSVA respectively. The color picker will accept user input in any format (including CSS color names) and convert it to the desired format.
+    /// </summary>
+    [Parameter]
+    public ColorPickerFormat Format { get; set; }
+
+    /// <summary>
+    /// The color picker's hint. If you need to display HTML, use the hint slot instead.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The color picker's label. This will not be displayed, but it will be announced by assistive devices. If you need to display HTML, you can use the label slot instead.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// Shows the opacity slider. Enabling this will cause the formatted value to be HEXA, RGBA, or HSLA.
+    /// </summary>
+    [Parameter]
+    public bool EnableOpacity { get; set; } = false;
+
+    /// <summary>
+    /// Indicates whether or not the popup is open. You can toggle this attribute to show and hide the popup.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; }
+
+    /// <summary>
+    /// Gets or sets a callback that updates the bound open state.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound open state.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<bool>> OpenExpression { get; set; }
+
+    /// <summary>
+    /// The preferred placement of the color picker's popup. Note that the actual placement will vary as configured to keep the panel inside of the viewport.
+    /// </summary>
+    [Parameter]
+    public ColorPickerPlacement Placement { get; set; }
+
+    /// <summary>
+    /// Determines the size of the color picker's trigger
+    /// </summary>
+    [Parameter]
+    public ColorPickerSize Size { get; set; }
+
+    /// <summary>
+    /// One or more predefined color swatches to display as presets in the color picker. Use <see cref="ColorPickerSwatches.FromColors(string[])" /> to create swatches from colors. Use <see cref="ColorPickerSwatches.FromSwatchList(ColorPickerSwatch[])" /> to create swatches with color and label
+    /// </summary>
+    [Parameter]
+    public ColorPickerSwatches Swatches { get; set; }
+
+    /// <summary>
+    /// By default, values are lowercase. With this attribute, values will be uppercase instead.
+    /// </summary>
+    [Parameter]
+    public bool Uppercase { get; set; } = false;
+
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; } = false;
+
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; } = false;
+
+    /// <summary>
+    /// Removes the button that lets users toggle between format.
+    /// </summary>
+    [Parameter]
+    public bool WithoutFormatToggle { get; set; } = false;
+
+    /// <summary>
+    /// Emitted when the color picker loses focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+
+    /// <summary>
+    /// Emitted when the color picker's value changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted when the color picker receives focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnFocus { get; set; }
+
+    /// <summary>
+    /// Emitted when the color picker receives input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    internal ElementReference Element { get; set; }
+    internal FieldIdentifier FieldIdentifier { get; set; }
+
+    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
+
+    public ValueTask FocusAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus");
+}
