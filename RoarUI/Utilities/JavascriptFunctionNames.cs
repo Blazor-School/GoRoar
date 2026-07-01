@@ -24,6 +24,11 @@ internal static class JavascriptFunctionNames
     public const string SetObjectProperty = "setObjectProperty";
 
     /// <summary>
+    /// Element, PropertyName, JsonStringValue
+    /// </summary>
+    public const string SetObjectPropertyWithJson = "setObjectPropertyWithJson";
+
+    /// <summary>
     /// Element, PropertyName
     /// </summary>
     public const string GetObjectProperty = "getObjectProperty";

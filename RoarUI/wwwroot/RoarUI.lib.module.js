@@ -39,6 +39,10 @@ function roarGeneralFunction() {
         element[propertyName] = value;
     }
 
+    window.setObjectPropertyWithJson = function (element, propertyName, jsonValue) {
+        element[propertyName] = JSON.parse(jsonValue);
+    }
+
     window.getObjectProperty = function (element, propertyName) {
         return element[propertyName];
     }

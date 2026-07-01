@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="color-picker" />
 
-<wa-color-picker disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" opacity="@EnableOpacity" open="@Open" placement="@Placement" size="@Size" swatches="@Swatches" uppercase="@Uppercase" value="@Value" with-hint="@WithHint" with-label="@WithLabel" without-format-toggle="@WithoutFormatToggle" @attributes="AdditionalAttributes" @ref="Element">
+<wa-color-picker disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" opacity="@Opacity" open="@Open" placement="@Placement" size="@Size" uppercase="@Uppercase" value="@Value" with-hint="@WithHint" with-label="@WithLabel" without-format-toggle="@WithoutFormatToggle" @attributes="AdditionalAttributes" @ref="Element">
     @ChildContent
 </wa-color-picker>
 
@@ -63,7 +63,7 @@
     /// Shows the opacity slider. Enabling this will cause the formatted value to be HEXA, RGBA, or HSLA.
     /// </summary>
     [Parameter]
-    public bool EnableOpacity { get; set; } = false;
+    public bool Opacity { get; set; } = false;
 
     /// <summary>
     /// Indicates whether or not the popup is open. You can toggle this attribute to show and hide the popup.
@@ -218,6 +218,18 @@
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(ColocPickerChangeEventArgs), instance, nameof(TriggerInputAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
+        }
+
+        switch (Swatches.Kind)
+        {
+            case ColorPickerSwatchesKind.Colors:
+                await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "swatches", Swatches.ToString());
+                break;
+            case ColorPickerSwatchesKind.SwatchList:
+                await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectPropertyWithJson, Element, "swatches", Swatches.ToString());
+                break;
+            default:
+                break;
         }
     }
 
