@@ -8,7 +8,7 @@ export function afterStarted(blazor) {
 
 function roarGeneralFunction() {
     window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
-        element[functionName](...params);
+        return element[functionName](...params);
     }
 
     window.subscribeEvent = function (element, eventName, instance, method) {
@@ -116,5 +116,8 @@ let roarEventFromHtmlEvent = {
     "CheckboxChangeEventArgs": (e) => ({
         Checked: e.target.checked,
         Indeterminate: e.target.indeterminate
+    }),
+    "ColocPickerChangeEventArgs": (e) => ({
+        Value: e.target.value,
     })
 }
