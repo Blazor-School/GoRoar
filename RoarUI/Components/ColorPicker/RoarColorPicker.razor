@@ -1,0 +1,291 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+
+<RoarDependency ComponentName="color-picker" />
+
+<wa-color-picker disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" opacity="@Opacity" open="@Open" placement="@Placement" size="@Size" uppercase="@Uppercase" value="@Value" with-hint="@WithHint" with-label="@WithLabel" without-format-toggle="@WithoutFormatToggle" @attributes="AdditionalAttributes" @ref="Element">
+    @ChildContent
+</wa-color-picker>
+
+@code {
+    [CascadingParameter]
+    public EditContext? EditContext { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The current value of the color picker. The value's format will vary based the <see cref="Format"/> property.
+    /// </summary>
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    /// <summary>
+    /// Gets or sets a callback that updates the bound value state.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound value state.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<string>> ValueExpression { get; set; }
+
+    /// <summary>
+    /// Disables the color picker.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// The format to use. If opacity is enabled, these will translate to HEXA, RGBA, HSLA, and HSVA respectively. The color picker will accept user input in any format (including CSS color names) and convert it to the desired format.
+    /// </summary>
+    [Parameter]
+    public ColorPickerFormat Format { get; set; }
+
+    /// <summary>
+    /// The color picker's hint. If you need to display HTML, use the hint slot instead.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The color picker's label. This will not be displayed, but it will be announced by assistive devices. If you need to display HTML, you can use the label slot instead.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// Shows the opacity slider. Enabling this will cause the formatted value to be HEXA, RGBA, or HSLA.
+    /// </summary>
+    [Parameter]
+    public bool Opacity { get; set; } = false;
+
+    /// <summary>
+    /// Indicates whether or not the popup is open. You can toggle this attribute to show and hide the popup.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; }
+
+    /// <summary>
+    /// Gets or sets a callback that updates the bound open state.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the bound open state.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<bool>> OpenExpression { get; set; }
+
+    /// <summary>
+    /// The preferred placement of the color picker's popup. Note that the actual placement will vary as configured to keep the panel inside of the viewport.
+    /// </summary>
+    [Parameter]
+    public ColorPickerPlacement Placement { get; set; }
+
+    /// <summary>
+    /// Determines the size of the color picker's trigger
+    /// </summary>
+    [Parameter]
+    public ColorPickerSize Size { get; set; }
+
+    /// <summary>
+    /// One or more predefined color swatches to display as presets in the color picker. Use <see cref="ColorPickerSwatches.FromColors(string[])" /> to create swatches from colors. Use <see cref="ColorPickerSwatches.FromSwatchList(ColorPickerSwatch[])" /> to create swatches with color and label
+    /// </summary>
+    [Parameter]
+    public ColorPickerSwatches Swatches { get; set; }
+
+    /// <summary>
+    /// By default, values are lowercase. With this attribute, values will be uppercase instead.
+    /// </summary>
+    [Parameter]
+    public bool Uppercase { get; set; } = false;
+
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; } = false;
+
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; } = false;
+
+    /// <summary>
+    /// Removes the button that lets users toggle between format.
+    /// </summary>
+    [Parameter]
+    public bool WithoutFormatToggle { get; set; } = false;
+
+    /// <summary>
+    /// Emitted when the color picker loses focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+
+    /// <summary>
+    /// Emitted when the color picker's value changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted when the color picker receives focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnFocus { get; set; }
+
+    /// <summary>
+    /// Emitted when the color picker receives input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted after the details closes and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    /// <summary>
+    /// Emitted after the details opens and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the details closes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted when the details opens.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    internal ElementReference Element { get; set; }
+    internal FieldIdentifier FieldIdentifier { get; set; }
+
+    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
+    public ValueTask FocusAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus");
+    public ValueTask ShowAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "show");
+    public ValueTask HideAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "hide");
+    public ValueTask<string> GetFormattedValueAsync(ColorPickerFormat format) => JSRuntime.InvokeAsync<string>(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "getFormattedValue", format);
+
+    public ValueTask<string> GetHexStringAsync(double hue, double saturation, double brightness, double alpha)
+    {
+        ValidateRange(hue, nameof(hue), 0, 360);
+        ValidateRange(saturation, nameof(saturation), 0, 100);
+        ValidateRange(brightness, nameof(brightness), 0, 100);
+        ValidateRange(alpha, nameof(alpha), 0, 100);
+
+        return JSRuntime.InvokeAsync<string>(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "getHexString", hue, saturation, brightness, alpha);
+    }
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        parameters.SetParameterProperties(this);
+
+        if (ValueExpression is not null)
+        {
+            FieldIdentifier = FieldIdentifier.Create(ValueExpression!);
+        }
+
+        return base.SetParametersAsync(ParameterView.Empty);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-hide", instance, nameof(TriggerHideAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(ColocPickerChangeEventArgs), instance, nameof(TriggerChangeAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(ColocPickerChangeEventArgs), instance, nameof(TriggerInputAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
+        }
+
+        switch (Swatches.Kind)
+        {
+            case ColorPickerSwatchesKind.Colors:
+                await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "swatches", Swatches.ToString());
+                break;
+            case ColorPickerSwatchesKind.SwatchList:
+                await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectPropertyWithJson, Element, "swatches", Swatches.ToString());
+                break;
+            default:
+                break;
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterHideAsync()
+    {
+        await OnAfterHide.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerAfterShowAsync()
+    {
+        await OnAfterShow.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerHideAsync()
+    {
+        await OnHide.InvokeAsync();
+        await OpenChanged.InvokeAsync(false);
+    }
+
+    [JSInvokable]
+    public async Task TriggerShowAsync()
+    {
+        await OnShow.InvokeAsync();
+        await OpenChanged.InvokeAsync(true);
+    }
+
+    [JSInvokable]
+    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
+
+    [JSInvokable]
+    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
+
+    [JSInvokable]
+    public async Task TriggerChangeAsync(ColocPickerChangeEventArgs args)
+    {
+        await OnChange.InvokeAsync();
+        await ValueChanged.InvokeAsync(args.Value);
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+    }
+
+    [JSInvokable]
+    public async Task TriggerInputAsync(ColocPickerChangeEventArgs args)
+    {
+        await OnInput.InvokeAsync();
+        await ValueChanged.InvokeAsync(args.Value);
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+    }
+
+    private static void ValidateRange(double value, string paramName, double minimum, double maximum)
+    {
+        if (double.IsNaN(value) || value < minimum || value > maximum)
+        {
+            throw new ArgumentOutOfRangeException(paramName, value, $"{paramName} must be between {minimum} and {maximum}.");
+        }
+    }
+}

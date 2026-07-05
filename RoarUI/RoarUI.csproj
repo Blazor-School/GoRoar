@@ -37,6 +37,10 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<None Include="..\docs\NOTICE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 		<None Include="bundleconfig.json" />
 	</ItemGroup>
 
