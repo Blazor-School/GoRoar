@@ -11,8 +11,6 @@ Website: https://webawesome.com/
 License: MIT
 License details: https://webawesome.com/license
 
-The bundled copy is located at RoarUI/wwwroot/webawesome-3.9.0.
-
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
 the Software without restriction, including without limitation the rights to
