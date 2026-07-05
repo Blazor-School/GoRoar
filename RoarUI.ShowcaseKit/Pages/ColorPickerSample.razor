@@ -19,6 +19,29 @@
 <RoarColorPicker Label="Select a color" Swatches="@(ColorPickerSwatches.FromColors("#d0021b", "#f5a623", "#f8e71c", "#8b572a", "#7ed321", "#417505", "#bd10e0", "#9013fe", "#4a90e2", "#50e3c2", "#b8e986", "#000", "#444", "#888", "#ccc", "#fff"))" />
 <RoarColorPicker Label="Select a color" Swatches="@(ColorPickerSwatches.FromSwatchList(new("#d0021b", "Red"), new("#f5a623", "Orange"), new("#f8e71c", "Yellow"), new("#7ed321", "Green"), new("#4a90e2", "Blue"), new("#bd10e0", "Purple"), new("#000", "Black"), new("#fff", "White")))" />
 
+<h3>Placement</h3>
+<div class="wa-gap-m wa-align-items-baseline">
+    <RoarColorPicker Placement="ColorPickerPlacement.TopStart" Label="Select a color" />
+    <RoarColorPicker Placement="ColorPickerPlacement.BottomEnd" Label="Select a color" />
+    <RoarColorPicker Placement="ColorPickerPlacement.Right" Label="Select a color" />
+    <RoarColorPicker Placement="ColorPickerPlacement.Left" Label="Select a color" />
+</div>
+
+<h3>Size</h3>
+<div class="wa-gap-m wa-align-items-baseline">
+    <RoarColorPicker Size="ColorPickerSize.Xs" Label="Select a color" />
+    <RoarColorPicker Size="ColorPickerSize.S" Label="Select a color" />
+    <RoarColorPicker Size="ColorPickerSize.M" Label="Select a color" />
+    <RoarColorPicker Size="ColorPickerSize.L" Label="Select a color" />
+    <RoarColorPicker Size="ColorPickerSize.Xl" Label="Select a color" />
+</div>
+
+<h3>Disabled</h3>
+<RoarColorPicker Disabled Label="Select a color" />
+
+<h3>Hint</h3>
+<RoarColorPicker Label="Select a color" Hint="Choose a color with appropriate contrast!" />
+
 @code {
 
 }
