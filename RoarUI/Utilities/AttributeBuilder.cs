@@ -66,5 +66,15 @@ internal class AttributeBuilder
         return this;
     }
 
+    public AttributeBuilder AddConditionalAttributeWhenMissing(bool condition, string attributeName, object attributeValue)
+    {
+        if (condition && !_attributes.ContainsKey(attributeName))
+        {
+            _attributes[attributeName] = attributeValue;
+        }
+
+        return this;
+    }
+
     public Dictionary<string, object> Build() => _attributes;
 }
