@@ -1,31 +1,14 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
+@inherits RoarUI.Components.Input.RoarInputBase<bool?>
 
 <RoarDependency ComponentName="checkbox" />
 
-<wa-checkbox disabled="@Disabled" hint="@Hint" size="@Size" @attributes="InternalAttributes" @ref="@Element">
+<wa-checkbox checked="@(CurrentValue == true)" indeterminate="@(CurrentValue is null)" disabled="@Disabled" hint="@Hint" size="@Size" @attributes="InternalAttributes" @ref="@Element">
     @ChildContent
 </wa-checkbox>
 
 @code {
-    [CascadingParameter]
-    public EditContext? EditContext { get; set; }
-
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
-
-    [Parameter]
-    public bool? Checked { get; set; } = false;
-
-    [Parameter]
-    public EventCallback<bool?> CheckedChanged { get; set; }
-
-    [Parameter]
-    public Expression<Func<bool?>> CheckedExpression { get; set; }
-
     [Parameter]
     public bool Disabled { get; set; } = false;
 
@@ -51,8 +34,6 @@
     public EventCallback OnInvalid { get; set; }
 
     internal ElementReference Element { get; set; }
-    internal FieldIdentifier FieldIdentifier { get; set; }
-    internal IReadOnlyDictionary<string, object>? InternalAttributes { get; set; }
 
     [JSInvokable]
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
@@ -61,8 +42,7 @@
     public async Task TriggerChangeAsync(CheckboxChangeEventArgs args)
     {
         await OnChange.InvokeAsync();
-        await CheckedChanged.InvokeAsync(ConvertStateFromEvent(args));
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        await SetCurrentValueAsync(ConvertStateFromEvent(args));
     }
 
     [JSInvokable]
@@ -72,30 +52,11 @@
     public async Task TriggerInputAsync(CheckboxChangeEventArgs args)
     {
         await OnInput.InvokeAsync();
-        await CheckedChanged.InvokeAsync(ConvertStateFromEvent(args));
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        await SetCurrentValueAsync(ConvertStateFromEvent(args));
     }
 
     [JSInvokable]
     public Task TriggerInvalidAsync() => OnInvalid.InvokeAsync();
-
-    public override Task SetParametersAsync(ParameterView parameters)
-    {
-        parameters.SetParameterProperties(this);
-
-        if (CheckedExpression is null)
-        {
-            throw new InvalidOperationException($"{GetType()} requires a value for the 'CheckedExpression' parameter. Normally this is provided automatically when using 'bind-Checked'.");
-        }
-
-        FieldIdentifier = FieldIdentifier.Create(CheckedExpression!);
-        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddConditionalAttribute(Checked is null, "indeterminate", true)
-            .AddConditionalAttribute(Checked is not null, "checked", Checked is not null ? Checked.Value : false)
-            .Build();
-
-        return base.SetParametersAsync(ParameterView.Empty);
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -128,4 +89,6 @@
             return args.Checked;
         }
     }
+
+    protected override bool TryParseValueFromString(string? value, out bool? result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
 }

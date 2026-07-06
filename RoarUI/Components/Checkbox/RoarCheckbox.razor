@@ -1,40 +1,14 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
+@inherits RoarUI.Components.Input.RoarInputBase<bool>
 
 <RoarDependency ComponentName="checkbox" />
 
-<wa-checkbox checked="@Checked" disabled="@Disabled" hint="@Hint" size="@Size" @attributes="AdditionalAttributes" @ref="@Element">
+<wa-checkbox checked="@CurrentValue" disabled="@Disabled" hint="@Hint" size="@Size" @attributes="InternalAttributes" @ref="@Element">
     @ChildContent
 </wa-checkbox>
 
 @code {
-    [CascadingParameter]
-    public EditContext? EditContext { get; set; }
-
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
-    /// Draws the checkbox in a checked state.
-    /// </summary>
-    [Parameter]
-    public bool Checked { get; set; } = false;
-
-    /// <summary>
-    /// Gets or sets a callback that updates the bound checked state.
-    /// </summary>
-    [Parameter]
-    public EventCallback<bool> CheckedChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the bound checked state.
-    /// </summary>
-    [Parameter]
-    public Expression<Func<bool>> CheckedExpression { get; set; }
-
     /// <summary>
     /// Disables the checkbox.
     /// </summary>
@@ -78,7 +52,6 @@
     public EventCallback OnInput { get; set; }
 
     internal ElementReference Element { get; set; }
-    internal FieldIdentifier FieldIdentifier { get; set; }
 
     [JSInvokable]
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
@@ -87,8 +60,7 @@
     public async Task TriggerChangeAsync(CheckboxChangeEventArgs args)
     {
         await OnChange.InvokeAsync();
-        await CheckedChanged.InvokeAsync(args.Checked);
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        await SetCurrentValueAsync(args.Checked);
     }
 
     [JSInvokable]
@@ -98,20 +70,7 @@
     public async Task TriggerInputAsync(CheckboxChangeEventArgs args)
     {
         await OnInput.InvokeAsync();
-        await CheckedChanged.InvokeAsync(args.Checked);
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
-    }
-
-    public override Task SetParametersAsync(ParameterView parameters)
-    {
-        parameters.SetParameterProperties(this);
-
-        if (CheckedExpression is not null)
-        {
-            FieldIdentifier = FieldIdentifier.Create(CheckedExpression!);
-        }
-
-        return base.SetParametersAsync(ParameterView.Empty);
+        await SetCurrentValueAsync(args.Checked);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -146,4 +105,6 @@
     /// <param name="focusVisible"></param>
     /// <returns></returns>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus", new { preventScroll, focusVisible });
+
+    protected override bool TryParseValueFromString(string? value, out bool result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
 }

@@ -16,7 +16,6 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     private bool _previousParsingAttemptFailed;
     private ValidationMessageStore? _parsingValidationMessages;
     private Type? _nullableUnderlyingType;
-    private bool _shouldGenerateFieldNames;
 
     internal Dictionary<string, object> InternalAttributes = [];
 
@@ -28,13 +27,6 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
 
     [CascadingParameter]
     private EditContext? CascadedEditContext { get; set; }
-
-    /// <summary>
-    /// The name of the input, submitted as a name/value pair with form data.
-    /// </summary>
-    [Obsolete("Placeholder to resolve this issue. We should resolve it in InternalAttributes")]
-    [Parameter]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The value of the input, submitted as a name/value pair with form data.
@@ -209,12 +201,6 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
             {
                 EditContext = CascadedEditContext;
                 EditContext.OnValidationStateChanged += _validationStateChangedHandler;
-                _shouldGenerateFieldNames = EditContext.ShouldUseFieldIdentifiers;
-            }
-            else
-            {
-                // Ideally we'd know if we were in an SSR context but we don't
-                _shouldGenerateFieldNames = !OperatingSystem.IsBrowser();
             }
 
             _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TValue));
@@ -241,17 +227,10 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
         InvokeAsync(StateHasChanged);
     }
 
-    private void UpdateAdditionalValidationAttributes()
-    {
-        if (EditContext is null)
-        {
-            return;
-        }
-
-        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddConditionalAttributeWhenMissing(FieldBound && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
-            .Build();
-    }
+    private void UpdateAdditionalValidationAttributes() => InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+        .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
+        .AddAttributeWhenMissing("name", FieldIdentifier.FieldName)
+        .Build();
 
     /// <inheritdoc />
     protected virtual void Dispose(bool disposing)

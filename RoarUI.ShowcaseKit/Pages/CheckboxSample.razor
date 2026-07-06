@@ -2,10 +2,10 @@
 @using System.Linq.Expressions
 
 <h3>Checked</h3>
-<RoarCheckbox Checked>Checked</RoarCheckbox>
+<RoarCheckbox Value="true">Checked</RoarCheckbox>
 
 <h3>Indeterminate</h3>
-<RoarIndeterminateCheckbox @bind-Checked="IndeterminateCheck">Indeterminate</RoarIndeterminateCheckbox>
+<RoarIndeterminateCheckbox @bind-Value="IndeterminateCheck">Indeterminate</RoarIndeterminateCheckbox>
 <RoarButton @onclick="() => IndeterminateCheck = null">Indeterminate state: @(IndeterminateCheck is not null ? IndeterminateCheck.ToString() : "NULL"). Click to set interdeterminate</RoarButton>
 
 <h3>Disabled</h3>
@@ -25,7 +25,7 @@
 <EditForm Model="Form">
     <DataAnnotationsValidator />
     <div>
-        <RoarCheckbox @bind-Checked="@Form.CheckMe">Check me</RoarCheckbox>
+        <RoarCheckbox @bind-Value="@Form.CheckMe">Check me</RoarCheckbox>
         <ValidationMessage For="@(() => Form.CheckMe)"  />
     </div>
     <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit">Submit</RoarButton>
@@ -33,6 +33,5 @@
 
 @code {
     public CheckboxCustomValidityForm Form { get; set; } = new();
-    public Expression<Func<bool>> CheckMeExpression => () => Form.CheckMe;
     public bool? IndeterminateCheck { get; set; }
 }
