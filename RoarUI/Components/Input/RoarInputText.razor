@@ -1,0 +1,42 @@
+﻿@namespace RoarUI
+@inject IJSRuntime JSRuntime
+@inherits RoarUI.Components.Input.RoarInputBase<string?>
+
+<h3>RoarInputText</h3>
+
+@code {
+    [Parameter]
+    public InputAppearance Appearance { get; set; }
+
+    [Parameter]
+    public InputAutocapitalize? Autocapitalize { get; set; }
+
+    [Parameter]
+    public string Autocomplete { get; set; } = "off";
+
+    [Parameter]
+    public bool Autocorrect { get; set; } = false;
+
+    [Parameter]
+    public bool Autofocus { get; set; } = false;
+
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public InputEnterKeyHint? EnterKeyHint { get; set; }
+
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    [Parameter]
+    public string Label { get; set; }="";
+
+        protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+
+        return true;
+    }
+}

@@ -58,6 +58,7 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     protected internal FieldIdentifier FieldIdentifier { get; set; }
 
     internal virtual bool FieldBound => ValueExpression is not null || ValueChanged.HasDelegate;
+    private readonly string _generatedName = $"roar-{Guid.NewGuid():N}";
 
     protected async Task SetCurrentValueAsync(TValue? value)
     {
@@ -229,7 +230,7 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
 
     private void UpdateAdditionalValidationAttributes() => InternalAttributes = new AttributeBuilder(AdditionalAttributes)
         .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
-        .AddAttributeWhenMissing("name", FieldIdentifier.FieldName)
+        .AddAttributeWhenMissing("name", ValueExpression is not null ? FieldIdentifier.FieldName : _generatedName)
         .Build();
 
     /// <inheritdoc />
