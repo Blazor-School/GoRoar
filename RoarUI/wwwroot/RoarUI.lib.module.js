@@ -121,7 +121,7 @@ let roarEventFromHtmlEvent = {
         Checked: e.target.checked,
         Indeterminate: e.target.indeterminate
     }),
-    "ColocPickerChangeEventArgs": (e) => ({
+    "InputChangeEventArgs": (e) => ({
         Value: e.target.value,
     })
 }

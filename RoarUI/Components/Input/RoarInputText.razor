@@ -30,9 +30,131 @@
     public string Hint { get; set; } = "";
 
     [Parameter]
-    public string Label { get; set; }="";
+    public string Label { get; set; } = "";
 
-        protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    [Parameter]
+    public bool Pill { get; set; } = false;
+
+    [Parameter]
+    public string Placeholder { get; set; } = "";
+
+    [Parameter]
+    public InputSize Size { get; set; }
+
+    [Parameter]
+    public bool Spellcheck { get; set; }
+
+    [Parameter]
+    public bool WithClear { get; set; } = false;
+
+    [Parameter]
+    public bool WithHint { get; set; } = false;
+
+    [Parameter]
+    public bool WithLabel { get; set; } = false;
+
+    /// <summary>
+    /// Emitted when the control loses focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+
+    /// <summary>
+    /// Emitted when an alteration to the control's value is committed by the user.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted when the control gains focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnFocus { get; set; }
+
+    /// <summary>
+    /// Emitted when the control receives input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted when the clear button is activated.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClear { get; set; }
+
+    [JSInvokable]
+    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
+
+    [JSInvokable]
+    public async Task TriggerChangeAsync(InputChangeEventArgs<string> args)
+    {
+        await OnChange.InvokeAsync();
+        await SetCurrentValueAsync(args.Value);
+    }
+
+    [JSInvokable]
+    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
+
+    [JSInvokable]
+    public async Task TriggerInputAsync(InputChangeEventArgs<string> args)
+    {
+        await OnInput.InvokeAsync();
+        await SetCurrentValueAsync(args.Value);
+    }
+
+    [JSInvokable]
+    public Task TriggerClearAsync() => OnClear.InvokeAsync();
+
+    /// <summary>
+    /// Removes focus from the input.
+    /// </summary>
+    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
+
+    /// <summary>
+    /// Sets focus on the input.
+    /// </summary>
+    /// <param name="preventScroll"></param>
+    /// <param name="focusVisible"></param>
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus", new { preventScroll, focusVisible });
+
+    /// <summary>
+    /// Selects all the text in the input.
+    /// </summary>
+    public ValueTask SelectAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "select");
+
+    /// <summary>
+    /// Replaces a range of text with a new string.
+    /// </summary>
+    /// <param name="replacement"></param>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="selectMode"></param>
+    public ValueTask SetRangeTextAsync(string replacement, int start, int end, InputTextSelectMode selectMode) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "setRangeText", replacement, start, end, selectMode.ToString());
+
+    /// <summary>
+    /// Sets the start and end positions of the text selection (0-based).
+    /// </summary>
+    /// <param name="selectionStart"></param>
+    /// <param name="selectionEnd"></param>
+    /// <param name="selectionDirection"></param>
+    public ValueTask SetSelectionRangeAsync(int selectionStart, int selectionEnd, InputTextSelectionDirection selectionDirection) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "setSelectionRange", selectionStart, selectionEnd, selectionDirection);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var instance = DotNetObjectReference.Create(this);
+
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(InputChangeEventArgs<>), instance, nameof(TriggerChangeAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(InputChangeEventArgs<>), instance, nameof(TriggerInputAsync));
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-clear", instance, nameof(TriggerClearAsync));
+        }
+    }
+
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         result = value;
         validationErrorMessage = null;

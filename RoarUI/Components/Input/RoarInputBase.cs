@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using RoarUI.Utilities;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq.Expressions;
 
 namespace RoarUI.Components.Input;
@@ -13,10 +14,10 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     private bool _hasInitializedParameters;
     private bool _parsingFailed;
     private string? _incomingValueBeforeParsing;
+    private string? _formattedValueExpression;
     private bool _previousParsingAttemptFailed;
     private ValidationMessageStore? _parsingValidationMessages;
     private Type? _nullableUnderlyingType;
-
     internal Dictionary<string, object> InternalAttributes = [];
 
     [Parameter]
@@ -27,6 +28,9 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
 
     [CascadingParameter]
     private EditContext? CascadedEditContext { get; set; }
+
+    [CascadingParameter]
+    private RoarHtmlFieldPrefix? FieldPrefix { get; set; }
 
     /// <summary>
     /// The value of the input, submitted as a name/value pair with form data.
@@ -58,7 +62,7 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     protected internal FieldIdentifier FieldIdentifier { get; set; }
 
     internal virtual bool FieldBound => ValueExpression is not null || ValueChanged.HasDelegate;
-    private readonly string _generatedName = $"roar-{Guid.NewGuid():N}";
+    internal ElementReference Element { get; set; }
 
     protected async Task SetCurrentValueAsync(TValue? value)
     {
@@ -173,6 +177,30 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     protected virtual string? FormatValueAsString(TValue? value) => value?.ToString();
 
     /// <summary>
+    /// Gets the value to be used for the input's name attribute.
+    /// </summary>
+    protected string NameAttributeValue
+    {
+        get
+        {
+            if (AdditionalAttributes?.TryGetValue("name", out object? nameAttributeValue) ?? false)
+            {
+                return Convert.ToString(nameAttributeValue, CultureInfo.InvariantCulture) ?? string.Empty;
+            }
+
+            if (ValueExpression is not null)
+            {
+                return GetFieldName();
+            }
+
+            return field;
+        }
+    } = $"roar-{Guid.NewGuid():N}";
+
+    private string GetFieldName() => _formattedValueExpression ??=
+        FieldPrefix?.GetFieldName(ValueExpression!) ?? RoarExpressionFormatter.FormatLambda(ValueExpression!);
+
+    /// <summary>
     /// Parses a string to create an instance of <typeparamref name="TValue"/>. Derived classes can override this to change how
     /// <see cref="CurrentValueAsString"/> interprets incoming values.
     /// </summary>
@@ -230,7 +258,7 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
 
     private void UpdateAdditionalValidationAttributes() => InternalAttributes = new AttributeBuilder(AdditionalAttributes)
         .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
-        .AddAttributeWhenMissing("name", ValueExpression is not null ? FieldIdentifier.FieldName : _generatedName)
+        .AddAttributeWhenMissing("name", NameAttributeValue)
         .Build();
 
     /// <inheritdoc />
