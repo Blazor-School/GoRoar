@@ -2,7 +2,11 @@
 @inject IJSRuntime JSRuntime
 @inherits RoarUI.Components.Input.RoarInputBase<string?>
 
-<h3>RoarInputText</h3>
+<RoarDependency ComponentName="input" />
+
+<wa-input appearance="@Appearance" autocapitalize="@Autocapitalize" autocomplete="@Autocomplete" autocorrect="@Autocorrect" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" spellcheck="@Spellcheck" type="text" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
+    @ChildContent
+</wa-input>
 
 @code {
     [Parameter]
@@ -39,10 +43,13 @@
     public string Placeholder { get; set; } = "";
 
     [Parameter]
+    public bool ReadOnly { get; set; } = false;
+
+    [Parameter]
     public InputSize Size { get; set; }
 
     [Parameter]
-    public bool Spellcheck { get; set; }
+    public bool Spellcheck { get; set; } = true;
 
     [Parameter]
     public bool WithClear { get; set; } = false;
