@@ -1,0 +1,47 @@
+﻿@page "/input-text-sample"
+
+<h3>Label</h3>
+<RoarInputText Label="What is your name?" />
+
+<h3>Hint</h3>
+<RoarInputText Label="Nickname" Hint="What would you like people to call you?" />
+
+<h3>Placeholder</h3>
+<RoarInputText Label="Search" Placeholder="Search the docs" />
+
+<h3>Clearable</h3>
+<RoarInputText Placeholder="Clearable" WithClear />
+
+<h3>Appearance</h3>
+<RoarInputText Appearance="InputAppearance.Outlined" Placeholder="outlined" />
+<RoarInputText Appearance="InputAppearance.Filled" Placeholder="filled" />
+<RoarInputText Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
+
+<h3>Disabled</h3>
+<RoarInputText Placeholder="Disabled" Disabled />
+
+<h3>Readonly</h3>
+<RoarInputText Label="Account ID" Value="WA-2049" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputText Size="InputSize.Xs" Placeholder="Extra small" />
+    <RoarInputText Size="InputSize.S" Placeholder="Small" />
+    <RoarInputText Size="InputSize.M" Placeholder="Medium" />
+    <RoarInputText Size="InputSize.L" Placeholder="Large" />
+    <RoarInputText Size="InputSize.Xl" Placeholder="Extra large" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputText Placeholder="Search" Pill />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputText Label="Search" Placeholder="Search the docs">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputText>
+    <RoarInputText Label="Website" Placeholder="example.com">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputText>
+</div>
