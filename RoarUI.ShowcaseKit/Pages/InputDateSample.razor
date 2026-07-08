@@ -1,0 +1,52 @@
+﻿@page "/input-date-sample"
+
+<h3>Label</h3>
+<RoarInputDate Label="What is your name?" />
+
+<h3>Hint</h3>
+<RoarInputDate Label="Nickname" Hint="What would you like people to call you?" />
+
+<h3>Clearable</h3>
+<RoarInputDate Placeholder="Clearable" WithClear />
+
+<h3>Appearance</h3>
+<RoarInputDate Appearance="InputAppearance.Outlined" Placeholder="outlined" />
+<RoarInputDate Appearance="InputAppearance.Filled" Placeholder="filled" />
+<RoarInputDate Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
+
+<h3>Disabled</h3>
+<RoarInputDate Placeholder="Disabled" Disabled />
+
+<h3>Readonly</h3>
+<RoarInputDate Label="Account ID" Value="new(2026,9,17)" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputDate Size="InputSize.Xs" Placeholder="Extra small" />
+    <RoarInputDate Size="InputSize.S" Placeholder="Small" />
+    <RoarInputDate Size="InputSize.M" Placeholder="Medium" />
+    <RoarInputDate Size="InputSize.L" Placeholder="Large" />
+    <RoarInputDate Size="InputSize.Xl" Placeholder="Extra large" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputDate Placeholder="Search" Pill />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputDate Label="Search" Placeholder="Search the docs">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputDate>
+    <RoarInputDate Label="Website" Placeholder="example.com">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputDate>
+</div>
+
+<h3>Binding</h3>
+<RoarInputDate @bind-Value="DateSample" />
+@DateSample
+
+@code {
+    public DateOnly? DateSample { get; set; } = new(2028,9,17);
+}
