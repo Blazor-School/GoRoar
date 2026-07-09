@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace RoarUI.Components.Input;
+namespace RoarUI.Utilities;
 
 internal sealed class RoarHtmlFieldPrefix(LambdaExpression initial)
 {

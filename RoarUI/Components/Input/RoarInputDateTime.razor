@@ -1,10 +1,10 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
-@inherits RoarUI.Components.Input.RoarInputBase<DateOnly?>
+@inherits RoarUI.Components.Input.RoarInputBase<DateTime?>
 
 <RoarDependency ComponentName="input" />
 
-<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" readonly="@ReadOnly" size="@Size" spellcheck="@Spellcheck" type="date" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
+<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" readonly="@ReadOnly" size="@Size" spellcheck="@Spellcheck" type="datetime-local" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
 </wa-input>
 
@@ -91,7 +91,7 @@
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<DateOnly> args)
+    public async Task TriggerChangeAsync(InputChangeEventArgs<DateTime> args)
     {
         await OnChange.InvokeAsync();
         await SetCurrentValueAsync(args.Value);
@@ -101,7 +101,7 @@
     public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<DateOnly> args)
+    public async Task TriggerInputAsync(InputChangeEventArgs<DateTime> args)
     {
         await OnInput.InvokeAsync();
         await SetCurrentValueAsync(args.Value);
@@ -158,7 +158,7 @@
         }
     }
 
-    protected override bool TryParseValueFromString(string? value, out DateOnly? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, out DateTime? result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
         {
@@ -169,12 +169,12 @@
         }
         else
         {
-            string _parsingErrorMessage = string.IsNullOrEmpty(ParsingErrorMessage) ? $"The {{0}} field must be a date with format yyyy-MM-dd." : ParsingErrorMessage;
+            string _parsingErrorMessage = string.IsNullOrEmpty(ParsingErrorMessage) ? $"The {{0}} field must be a date with format yyyy-MM-ddTHH:mm:ss." : ParsingErrorMessage;
             validationErrorMessage = string.Format(CultureInfo.InvariantCulture, _parsingErrorMessage, NameAttributeValue);
 
             return false;
         }
     }
 
-    protected override string FormatValueAsString(DateOnly? value) => value.HasValue ? value.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : string.Empty;
+    protected override string FormatValueAsString(DateTime? value) => value.HasValue ? value.Value.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) : string.Empty;
 }
