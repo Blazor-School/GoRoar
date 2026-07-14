@@ -5,7 +5,7 @@
 
 <RoarDependency ComponentName="input" />
 
-<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" readonly="@ReadOnly" size="@Size" type="number" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @step="@_stepAttributeValue" without-spin-buttons="@WithoutSpinButtons" @attributes="InternalAttributes" @ref="Element">
+<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @step="@_stepAttributeValue" without-spin-buttons="@WithoutSpinButtons" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
 </wa-input>
 
@@ -33,6 +33,9 @@
 
     [Parameter]
     public bool Pill { get; set; } = false;
+
+    [Parameter]
+    public string Placeholder { get; set; } = "";
 
     [Parameter]
     public bool ReadOnly { get; set; } = false;
@@ -94,20 +97,22 @@
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<TValue> args)
+    public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
     {
         await OnChange.InvokeAsync();
-        await SetCurrentValueAsync(args.Value);
+        BindConverter.TryConvertTo(args.Value, CultureInfo.InvariantCulture, out TValue? result);
+        await SetCurrentValueAsync(result);
     }
 
     [JSInvokable]
     public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<TValue> args)
+    public async Task TriggerInputAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
     {
         await OnInput.InvokeAsync();
-        await SetCurrentValueAsync(args.Value);
+        BindConverter.TryConvertTo(args.Value, CultureInfo.InvariantCulture, out TValue? result);
+        await SetCurrentValueAsync(result);
     }
 
     [JSInvokable]
