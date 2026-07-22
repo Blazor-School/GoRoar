@@ -45,3 +45,11 @@
         <RoarIcon Name="circle-info" slot="@InputSlot.End" />
     </RoarInputText>
 </div>
+
+<h3>Binding</h3>
+<RoarInputText @bind-Value="UserInput" Placeholder="Type something" />
+@UserInput
+
+@code {
+    public string UserInput { get; set; } = "ROAR!";
+}

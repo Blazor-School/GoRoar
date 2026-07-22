@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace RoarUI.Components.Input;
+namespace RoarUI.Utilities;
 
 internal static class RoarExpressionFormatter
 {

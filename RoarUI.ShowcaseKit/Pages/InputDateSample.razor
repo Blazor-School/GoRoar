@@ -1,0 +1,52 @@
+﻿@page "/input-date-sample"
+
+<h3>Label</h3>
+<RoarInputDate Label="What is your birthday?" />
+
+<h3>Hint</h3>
+<RoarInputDate Label="Birthday" Hint="What is your birthday?" />
+
+<h3>Clearable</h3>
+<RoarInputDate WithClear />
+
+<h3>Appearance</h3>
+<RoarInputDate Appearance="InputAppearance.Outlined" />
+<RoarInputDate Appearance="InputAppearance.Filled" />
+<RoarInputDate Appearance="InputAppearance.FilledOutlined" />
+
+<h3>Disabled</h3>
+<RoarInputDate Disabled />
+
+<h3>Readonly</h3>
+<RoarInputDate Label="Anniversary" Value="new(2026,9,17)" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputDate Size="InputSize.Xs" />
+    <RoarInputDate Size="InputSize.S" />
+    <RoarInputDate Size="InputSize.M" />
+    <RoarInputDate Size="InputSize.L" />
+    <RoarInputDate Size="InputSize.Xl" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputDate Pill />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputDate Label="Start">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputDate>
+    <RoarInputDate Label="End">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputDate>
+</div>
+
+<h3>Binding</h3>
+<RoarInputDate @bind-Value="DateSample" />
+@DateSample
+
+@code {
+    public DateOnly? DateSample { get; set; } = new(2028,9,17);
+}

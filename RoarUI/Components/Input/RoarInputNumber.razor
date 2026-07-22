@@ -1,10 +1,11 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
-@inherits RoarUI.Components.Input.RoarInputBase<string?>
+@inherits RoarUI.Components.Input.RoarInputBase<TValue?>
+@typeparam TValue where TValue : struct
 
 <RoarDependency ComponentName="input" />
 
-<wa-input appearance="@Appearance" autocapitalize="@Autocapitalize" autocomplete="@Autocomplete" autocorrect="@Autocorrect" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" spellcheck="@Spellcheck" type="@Type" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
+<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @step="@_stepAttributeValue" without-spin-buttons="@WithoutSpinButtons" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
 </wa-input>
 
@@ -13,13 +14,7 @@
     public InputAppearance Appearance { get; set; }
 
     [Parameter]
-    public InputAutocapitalize? Autocapitalize { get; set; }
-
-    [Parameter]
     public string Autocomplete { get; set; } = "off";
-
-    [Parameter]
-    public bool Autocorrect { get; set; } = false;
 
     [Parameter]
     public bool Autofocus { get; set; } = false;
@@ -49,12 +44,6 @@
     public InputSize Size { get; set; }
 
     [Parameter]
-    public bool Spellcheck { get; set; } = true;
-
-    [Parameter]
-    public InputTextType Type { get; set; }
-
-    [Parameter]
     public bool WithClear { get; set; } = false;
 
     [Parameter]
@@ -62,6 +51,15 @@
 
     [Parameter]
     public bool WithLabel { get; set; } = false;
+
+    [Parameter]
+    public bool WithoutSpinButtons { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the error message used when displaying an a parsing error.
+    /// </summary>
+    [Parameter]
+    public string ParsingErrorMessage { get; set; } = "The {0} field must be a number.";
 
     /// <summary>
     /// Emitted when the control loses focus.
@@ -93,24 +91,28 @@
     [Parameter]
     public EventCallback OnClear { get; set; }
 
+    private static readonly string _stepAttributeValue = GetStepAttributeValue();
+
     [JSInvokable]
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<string> args)
+    public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
     {
         await OnChange.InvokeAsync();
-        await SetCurrentValueAsync(args.Value);
+        BindConverter.TryConvertTo(args.Value, CultureInfo.InvariantCulture, out TValue? result);
+        await SetCurrentValueAsync(result);
     }
 
     [JSInvokable]
     public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<string> args)
+    public async Task TriggerInputAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
     {
         await OnInput.InvokeAsync();
-        await SetCurrentValueAsync(args.Value);
+        BindConverter.TryConvertTo(args.Value, CultureInfo.InvariantCulture, out TValue? result);
+        await SetCurrentValueAsync(result);
     }
 
     [JSInvokable]
@@ -132,6 +134,16 @@
     /// Selects all the text in the input.
     /// </summary>
     public ValueTask SelectAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "select");
+
+    /// <summary>
+    /// Decrements the value of a numeric input type by the value of the step attribute.
+    /// </summary>
+    public ValueTask StepDownAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "stepDown");
+
+    /// <summary>
+    /// Increments the value of a numeric input type by the value of the step attribute.
+    /// </summary>
+    public ValueTask StepUpAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "stepUp");
 
     /// <summary>
     /// Replaces a range of text with a new string.
@@ -164,11 +176,47 @@
         }
     }
 
-    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, out TValue? result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        result = value;
-        validationErrorMessage = null;
+        if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
+        {
+            Debug.Assert(result != null);
+            validationErrorMessage = null;
 
-        return true;
+            return true;
+        }
+        else
+        {
+            validationErrorMessage = string.Format(CultureInfo.InvariantCulture, ParsingErrorMessage, NameAttributeValue);
+
+            return false;
+        }
+    }
+
+    protected override string? FormatValueAsString(TValue? value) => value switch
+    {
+        null => null,
+        int @int => BindConverter.FormatValue(@int, CultureInfo.InvariantCulture),
+        long @long => BindConverter.FormatValue(@long, CultureInfo.InvariantCulture),
+        short @short => BindConverter.FormatValue(@short, CultureInfo.InvariantCulture),
+        float @float => BindConverter.FormatValue(@float, CultureInfo.InvariantCulture),
+        double @double => BindConverter.FormatValue(@double, CultureInfo.InvariantCulture),
+        decimal @decimal => BindConverter.FormatValue(@decimal, CultureInfo.InvariantCulture),
+        _ => throw new InvalidOperationException($"Unsupported type {value.GetType()}")
+    };
+
+    private static string GetStepAttributeValue()
+    {
+        // Unwrap Nullable<T>, because InputBase already deals with the Nullable aspect
+        // of it for us. We will only get asked to parse the T for nonempty inputs.
+        var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+        if (targetType == typeof(int) || targetType == typeof(long) || targetType == typeof(short) || targetType == typeof(float) || targetType == typeof(double) || targetType == typeof(decimal))
+        {
+            return "any";
+        }
+        else
+        {
+            throw new InvalidOperationException($"The type '{targetType}' is not a supported numeric type.");
+        }
     }
 }

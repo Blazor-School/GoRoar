@@ -1,0 +1,55 @@
+﻿@page "/input-number-sample"
+
+<h3>Label</h3>
+<RoarInputNumber TValue="int" Label="What is your name?" />
+
+<h3>Hint</h3>
+<RoarInputNumber TValue="int" Label="Nickname" Hint="What would you like people to call you?" />
+
+<h3>Placeholder</h3>
+<RoarInputNumber TValue="int" Label="Search" Placeholder="Search the docs" />
+
+<h3>Clearable</h3>
+<RoarInputNumber TValue="int" Placeholder="Clearable" WithClear />
+
+<h3>Appearance</h3>
+<RoarInputNumber TValue="int" Appearance="InputAppearance.Outlined" Placeholder="outlined" />
+<RoarInputNumber TValue="int" Appearance="InputAppearance.Filled" Placeholder="filled" />
+<RoarInputNumber TValue="int" Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
+
+<h3>Disabled</h3>
+<RoarInputNumber TValue="int" Placeholder="Disabled" Disabled />
+
+<h3>Readonly</h3>
+<RoarInputNumber TValue="int" Label="Account ID" Value="2049" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputNumber TValue="int" Size="InputSize.Xs" Placeholder="Extra small" />
+    <RoarInputNumber TValue="int" Size="InputSize.S" Placeholder="Small" />
+    <RoarInputNumber TValue="int" Size="InputSize.M" Placeholder="Medium" />
+    <RoarInputNumber TValue="int" Size="InputSize.L" Placeholder="Large" />
+    <RoarInputNumber TValue="int" Size="InputSize.Xl" Placeholder="Extra large" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputNumber TValue="int" Placeholder="Search" Pill />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputNumber TValue="int" Label="Search" Placeholder="Search the docs">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputNumber>
+    <RoarInputNumber TValue="int" Label="Website" Placeholder="example.com">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputNumber>
+</div>
+
+<h3>Binding</h3>
+<RoarInputNumber TValue="int" @bind-Value="UserInputInt" Placeholder="Type something" />
+@UserInputInt
+
+@code {
+    public int? UserInputInt { get; set; } = 2026;
+}

@@ -1,10 +1,10 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
-@inherits RoarUI.Components.Input.RoarInputBase<string?>
+@inherits RoarUI.Components.Input.RoarInputBase<DateOnly?>
 
 <RoarDependency ComponentName="input" />
 
-<wa-input appearance="@Appearance" autocapitalize="@Autocapitalize" autocomplete="@Autocomplete" autocorrect="@Autocorrect" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" spellcheck="@Spellcheck" type="@Type" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
+<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" readonly="@ReadOnly" size="@Size" type="date" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
 </wa-input>
 
@@ -13,13 +13,7 @@
     public InputAppearance Appearance { get; set; }
 
     [Parameter]
-    public InputAutocapitalize? Autocapitalize { get; set; }
-
-    [Parameter]
     public string Autocomplete { get; set; } = "off";
-
-    [Parameter]
-    public bool Autocorrect { get; set; } = false;
 
     [Parameter]
     public bool Autofocus { get; set; } = false;
@@ -40,19 +34,10 @@
     public bool Pill { get; set; } = false;
 
     [Parameter]
-    public string Placeholder { get; set; } = "";
-
-    [Parameter]
     public bool ReadOnly { get; set; } = false;
 
     [Parameter]
     public InputSize Size { get; set; }
-
-    [Parameter]
-    public bool Spellcheck { get; set; } = true;
-
-    [Parameter]
-    public InputTextType Type { get; set; }
 
     [Parameter]
     public bool WithClear { get; set; } = false;
@@ -62,6 +47,12 @@
 
     [Parameter]
     public bool WithLabel { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the error message used when displaying an a parsing error.
+    /// </summary>
+    [Parameter]
+    public string ParsingErrorMessage { get; set; } = string.Empty;
 
     /// <summary>
     /// Emitted when the control loses focus.
@@ -97,7 +88,7 @@
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<string> args)
+    public async Task TriggerChangeAsync(InputChangeEventArgs<DateOnly> args)
     {
         await OnChange.InvokeAsync();
         await SetCurrentValueAsync(args.Value);
@@ -107,7 +98,7 @@
     public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
 
     [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<string> args)
+    public async Task TriggerInputAsync(InputChangeEventArgs<DateOnly> args)
     {
         await OnInput.InvokeAsync();
         await SetCurrentValueAsync(args.Value);
@@ -164,11 +155,23 @@
         }
     }
 
-    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, out DateOnly? result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        result = value;
-        validationErrorMessage = null;
+        if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
+        {
+            Debug.Assert(result != null);
+            validationErrorMessage = null;
 
-        return true;
+            return true;
+        }
+        else
+        {
+            string _parsingErrorMessage = string.IsNullOrEmpty(ParsingErrorMessage) ? $"The {{0}} field must be a date with format yyyy-MM-dd." : ParsingErrorMessage;
+            validationErrorMessage = string.Format(CultureInfo.InvariantCulture, _parsingErrorMessage, NameAttributeValue);
+
+            return false;
+        }
     }
+
+    protected override string FormatValueAsString(DateOnly? value) => value.HasValue ? value.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : string.Empty;
 }
