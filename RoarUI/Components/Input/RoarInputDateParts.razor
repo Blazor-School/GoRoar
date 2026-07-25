@@ -3,54 +3,48 @@
 @inherits RoarUI.Components.Input.RoarInputBase<TValue>
 @typeparam TValue
 
-<RoarDependency ComponentName="input" />
+<RoarDependency ComponentName="known-date" />
 
-<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" readonly="@ReadOnly" size="@Size" type="date" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes" @ref="Element">
+<wa-known-date appearance="@Appearance" autocomplete="@Autocomplete" value="@CurrentValueAsString" disabled="@Disabled" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" readonly="@ReadOnly" size="@Size" type="date" with-hint="@WithHint" with-label="@WithLabel" locale="@Locale" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
-</wa-input>
+</wa-known-date>
 
 @code {
     /// <summary>
-    /// The input's visual appearance.
+    /// The known date's visual appearance.
     /// </summary>
     [Parameter]
     public InputAppearance Appearance { get; set; }
 
     /// <summary>
-    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to this page on MDN for available values.
+    /// Browser autofill family. When set to bday, the three fields receive bday-day, bday-month, and bday-year respectively. The field-agnostic directives off and on are applied to all three fields. Any other value is forwarded only to the year field.
     /// </summary>
     [Parameter]
     public string Autocomplete { get; set; } = "off";
 
     /// <summary>
-    /// Indicates that the input should receive focus on page load.
-    /// </summary>
-    [Parameter]
-    public bool Autofocus { get; set; } = false;
-
-    /// <summary>
-    /// Disables the form control.
+    /// Disables the known date.
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
 
     /// <summary>
-    /// Used to customize the label or icon of the Enter key on virtual keyboards.
-    /// </summary>
-    [Parameter]
-    public InputEnterKeyHint? EnterKeyHint { get; set; }
-
-    /// <summary>
-    /// The input's hint. If you need to display HTML, use the hint slot instead.
+    /// The known date's hint. If you need to display HTML, use the hint slot instead.
     /// </summary>
     [Parameter]
     public string Hint { get; set; } = "";
 
     /// <summary>
-    /// The input's label. If you need to display HTML, use the label slot instead.
+    /// The known date's label. If you need to display HTML, use the label slot instead.
     /// </summary>
     [Parameter]
     public string Label { get; set; } = "";
+
+    /// <summary>
+    /// BCP-47 locale override.
+    /// </summary>
+    [Parameter]
+    public string Locale { get; set; } = "";
 
     /// <summary>
     /// Draws a pill-style input with rounded edges.
@@ -59,31 +53,25 @@
     public bool Pill { get; set; } = false;
 
     /// <summary>
-    /// Makes the input readonly.
+    /// Makes the fields non-editable.
     /// </summary>
     [Parameter]
     public bool ReadOnly { get; set; } = false;
 
     /// <summary>
-    /// The input's size.
+    /// The known date's size.
     /// </summary>
     [Parameter]
     public InputSize Size { get; set; }
 
     /// <summary>
-    /// Adds a clear button when the input is not empty.
-    /// </summary>
-    [Parameter]
-    public bool WithClear { get; set; } = false;
-
-    /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// Only required for SSR. Set to true if you're slotting in a hint element.
     /// </summary>
     [Parameter]
     public bool WithHint { get; set; } = false;
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// Only required for SSR. Set to true if you're slotting in a label element.
     /// </summary>
     [Parameter]
     public bool WithLabel { get; set; } = false;
@@ -118,12 +106,6 @@
     [Parameter]
     public EventCallback OnInput { get; set; }
 
-    /// <summary>
-    /// Emitted when the clear button is activated.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnClear { get; set; }
-
     [JSInvokable]
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
 
@@ -143,9 +125,6 @@
         await OnInput.InvokeAsync();
         await SetCurrentValueAsStringAsync(args.Value);
     }
-
-    [JSInvokable]
-    public Task TriggerClearAsync() => OnClear.InvokeAsync();
 
     /// <summary>
     /// Removes focus from the input.
@@ -191,7 +170,6 @@
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(InputChangeEventArgs<>), instance, nameof(TriggerChangeAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
             await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(InputChangeEventArgs<>), instance, nameof(TriggerInputAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-clear", instance, nameof(TriggerClearAsync));
         }
     }
 

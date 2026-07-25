@@ -102,7 +102,27 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     protected TValue? CurrentValue
     {
         get => Value;
-        set => _ = SetCurrentValueAsync(value);
+        set
+        {
+            bool hasChanged = !EqualityComparer<TValue>.Default.Equals(value, Value);
+            if (hasChanged)
+            {
+                _parsingFailed = false;
+
+                // If we don't do this, then when the user edits from A to B, we'd:
+                // - Do a render that changes back to A
+                // - Then send the updated value to the parent, which sends the B back to this component
+                // - Do another render that changes it to B again
+                // The unnecessary reversion from B to A can cause selection to be lost while typing
+                // A better solution would be somehow forcing the parent component's render to occur first,
+                // but that would involve a complex change in the renderer to keep the render queue sorted
+                // by component depth or similar.
+                Value = value;
+
+                _ = ValueChanged.InvokeAsync(Value);
+                EditContext?.NotifyFieldChanged(FieldIdentifier);
+            }
+        }
     }
 
     /// <summary>

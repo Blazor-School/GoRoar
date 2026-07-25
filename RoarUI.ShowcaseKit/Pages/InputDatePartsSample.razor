@@ -1,0 +1,59 @@
+﻿@page "/input-date-parts-sample"
+
+<h3>Label</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="What is your birthday?" />
+
+<h3>Hint</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="Birthday" Hint="What is your birthday?" />
+
+<h3>Clearable</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" WithClear />
+
+<h3>Appearance</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Appearance="InputAppearance.Outlined" />
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Appearance="InputAppearance.Filled" />
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Appearance="InputAppearance.FilledOutlined" />
+
+<h3>Disabled</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Disabled />
+
+<h3>Readonly</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="Anniversary" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Size="InputSize.Xs" />
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Size="InputSize.S" />
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Size="InputSize.M" />
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Size="InputSize.L" />
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Size="InputSize.Xl" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Pill />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="Start">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputDateParts>
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="End">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputDateParts>
+</div>
+
+<h3>Binding</h3>
+<RoarInputDateParts @bind-Value="DateSample" />
+@DateSample
+
+<h3>Locale-Aware Field Order</h3>
+<div>
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="Ukrainian order" Locale="uk-UA" />
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="US order" Locale="en-US"/>
+    <RoarInputDateParts Value="new DateOnly(2026, 9, 17)" Label="Japanese order" Locale="ja-JP"/>
+</div>
+
+@code {
+    public DateOnly? DateSample { get; set; } = new(2028, 9, 17);
+}
