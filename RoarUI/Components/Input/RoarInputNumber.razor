@@ -145,8 +145,7 @@
     public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
     {
         await OnChange.InvokeAsync();
-        BindConverter.TryConvertTo(args.Value, CultureInfo.InvariantCulture, out TValue? result);
-        await SetCurrentValueAsync(result);
+        await SetCurrentValueAsStringAsync(args.Value);
     }
 
     [JSInvokable]
