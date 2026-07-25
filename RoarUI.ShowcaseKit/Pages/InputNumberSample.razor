@@ -1,13 +1,13 @@
 ﻿@page "/input-number-sample"
 
 <h3>Label</h3>
-<RoarInputNumber TValue="int" Label="What is your name?" />
+<RoarInputNumber TValue="int" Label="What is your age?" />
 
 <h3>Hint</h3>
-<RoarInputNumber TValue="int" Label="Nickname" Hint="What would you like people to call you?" />
+<RoarInputNumber TValue="int" Label="Age" Hint="What is your age?" />
 
 <h3>Placeholder</h3>
-<RoarInputNumber TValue="int" Label="Search" Placeholder="Search the docs" />
+<RoarInputNumber TValue="int" Label="Age" Placeholder="Enter age" />
 
 <h3>Clearable</h3>
 <RoarInputNumber TValue="int" Placeholder="Clearable" WithClear />
@@ -33,23 +33,30 @@
 </div>
 
 <h3>Pill</h3>
-<RoarInputNumber TValue="int" Placeholder="Search" Pill />
+<RoarInputNumber TValue="int" Placeholder="Age" Pill />
+
+<h3>Without Spin Button</h3>
+<RoarInputNumber TValue="int" Placeholder="Age" WithoutSpinButtons />
 
 <h3>Start & End Decorations</h3>
 <div class="wa-stack">
-    <RoarInputNumber TValue="int" Label="Search" Placeholder="Search the docs">
+    <RoarInputNumber TValue="int" Label="Age" Placeholder="What's your age">
         <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
     </RoarInputNumber>
-    <RoarInputNumber TValue="int" Label="Website" Placeholder="example.com">
+    <RoarInputNumber TValue="int" Label="Age" Placeholder="What's your age">
         <RoarIcon Name="globe" slot="@InputSlot.Start" />
         <RoarIcon Name="circle-info" slot="@InputSlot.End" />
     </RoarInputNumber>
 </div>
 
 <h3>Binding</h3>
-<RoarInputNumber TValue="int" @bind-Value="UserInputInt" Placeholder="Type something" />
+<RoarInputNumber @bind-Value="UserInputInt" Placeholder="Type something" Label="Integer" />
 @UserInputInt
 
+<RoarInputNumber @bind-Value="UserInputLong" Placeholder="Type something" Label="Long" />
+@UserInputLong
+
 @code {
-    public int? UserInputInt { get; set; } = 2026;
+    public int UserInputInt { get; set; } = 2026;
+    public long? UserInputLong { get; set; } = 99999999;
 }

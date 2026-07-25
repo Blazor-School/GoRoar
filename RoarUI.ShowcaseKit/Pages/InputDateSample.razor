@@ -1,43 +1,43 @@
 ﻿@page "/input-date-sample"
 
 <h3>Label</h3>
-<RoarInputDate Label="What is your birthday?" />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Label="What is your birthday?" />
 
 <h3>Hint</h3>
-<RoarInputDate Label="Birthday" Hint="What is your birthday?" />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Label="Birthday" Hint="What is your birthday?" />
 
 <h3>Clearable</h3>
-<RoarInputDate WithClear />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" WithClear />
 
 <h3>Appearance</h3>
-<RoarInputDate Appearance="InputAppearance.Outlined" />
-<RoarInputDate Appearance="InputAppearance.Filled" />
-<RoarInputDate Appearance="InputAppearance.FilledOutlined" />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Appearance="InputAppearance.Outlined" />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Appearance="InputAppearance.Filled" />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Appearance="InputAppearance.FilledOutlined" />
 
 <h3>Disabled</h3>
-<RoarInputDate Disabled />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Disabled />
 
 <h3>Readonly</h3>
-<RoarInputDate Label="Anniversary" Value="new(2026,9,17)" ReadOnly />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Label="Anniversary" ReadOnly />
 
 <h3>Size</h3>
 <div class="wa-stack">
-    <RoarInputDate Size="InputSize.Xs" />
-    <RoarInputDate Size="InputSize.S" />
-    <RoarInputDate Size="InputSize.M" />
-    <RoarInputDate Size="InputSize.L" />
-    <RoarInputDate Size="InputSize.Xl" />
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)" Size="InputSize.Xs" />
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)" Size="InputSize.S" />
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)" Size="InputSize.M" />
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)" Size="InputSize.L" />
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)" Size="InputSize.Xl" />
 </div>
 
 <h3>Pill</h3>
-<RoarInputDate Pill />
+<RoarInputDate Value="new DateOnly(2026, 9, 17)" Pill />
 
 <h3>Start & End Decorations</h3>
 <div class="wa-stack">
-    <RoarInputDate Label="Start">
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)"  Label="Start">
         <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
     </RoarInputDate>
-    <RoarInputDate Label="End">
+    <RoarInputDate Value="new DateOnly(2026, 9, 17)"  Label="End">
         <RoarIcon Name="globe" slot="@InputSlot.Start" />
         <RoarIcon Name="circle-info" slot="@InputSlot.End" />
     </RoarInputDate>
@@ -48,5 +48,5 @@
 @DateSample
 
 @code {
-    public DateOnly? DateSample { get; set; } = new(2028,9,17);
+    public DateOnly DateSample { get; set; } = new(2028,9,17);
 }

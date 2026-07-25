@@ -1,7 +1,7 @@
 ﻿@namespace RoarUI
 @inject IJSRuntime JSRuntime
-@inherits RoarUI.Components.Input.RoarInputBase<TValue?>
-@typeparam TValue where TValue : struct
+@inherits RoarUI.Components.Input.RoarInputBase<TValue>
+@typeparam TValue
 
 <RoarDependency ComponentName="input" />
 
@@ -10,48 +10,93 @@
 </wa-input>
 
 @code {
+    /// <summary>
+    /// The input's visual appearance.
+    /// </summary>
     [Parameter]
     public InputAppearance Appearance { get; set; }
 
+    /// <summary>
+    /// Specifies what permission the browser has to provide assistance in filling out form field values. Refer to this page on MDN for available values.
+    /// </summary>
     [Parameter]
     public string Autocomplete { get; set; } = "off";
 
+    /// <summary>
+    /// Indicates that the input should receive focus on page load.
+    /// </summary>
     [Parameter]
     public bool Autofocus { get; set; } = false;
 
+    /// <summary>
+    /// Disables the form control.
+    /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
 
+    /// <summary>
+    /// Used to customize the label or icon of the Enter key on virtual keyboards.
+    /// </summary>
     [Parameter]
     public InputEnterKeyHint? EnterKeyHint { get; set; }
 
+    /// <summary>
+    /// The input's hint. If you need to display HTML, use the hint slot instead.
+    /// </summary>
     [Parameter]
     public string Hint { get; set; } = "";
 
+    /// <summary>
+    /// The input's label. If you need to display HTML, use the label slot instead.
+    /// </summary>
     [Parameter]
     public string Label { get; set; } = "";
 
+    /// <summary>
+    /// Draws a pill-style input with rounded edges.
+    /// </summary>
     [Parameter]
     public bool Pill { get; set; } = false;
 
+    /// <summary>
+    /// Placeholder text to show as a hint when the input is empty.
+    /// </summary>
     [Parameter]
     public string Placeholder { get; set; } = "";
 
+    /// <summary>
+    /// Makes the input readonly.
+    /// </summary>
     [Parameter]
     public bool ReadOnly { get; set; } = false;
 
+    /// <summary>
+    /// The input's size.
+    /// </summary>
     [Parameter]
     public InputSize Size { get; set; }
 
+    /// <summary>
+    /// Adds a clear button when the input is not empty.
+    /// </summary>
     [Parameter]
     public bool WithClear { get; set; } = false;
 
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// </summary>
     [Parameter]
     public bool WithHint { get; set; } = false;
 
+    /// <summary>
+    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// </summary>
     [Parameter]
     public bool WithLabel { get; set; } = false;
 
+    /// <summary>
+    /// Hides the browser's built-in increment/decrement spin buttons for number inputs.
+    /// </summary>
     [Parameter]
     public bool WithoutSpinButtons { get; set; } = false;
 
@@ -111,8 +156,7 @@
     public async Task TriggerInputAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
     {
         await OnInput.InvokeAsync();
-        BindConverter.TryConvertTo(args.Value, CultureInfo.InvariantCulture, out TValue? result);
-        await SetCurrentValueAsync(result);
+        await SetCurrentValueAsStringAsync(args.Value);
     }
 
     [JSInvokable]
@@ -176,7 +220,7 @@
         }
     }
 
-    protected override bool TryParseValueFromString(string? value, out TValue? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
         {
