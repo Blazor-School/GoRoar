@@ -1,0 +1,59 @@
+﻿@page "/input-date-parts-sample"
+
+<h3>Label</h3>
+<RoarInputDateParts Label="What is your birthday?" />
+
+<h3>Hint</h3>
+<RoarInputDateParts Label="Birthday" Hint="What is your birthday?" />
+
+<h3>Clearable</h3>
+<RoarInputDateParts WithClear />
+
+<h3>Appearance</h3>
+<RoarInputDateParts Appearance="InputAppearance.Outlined" />
+<RoarInputDateParts Appearance="InputAppearance.Filled" />
+<RoarInputDateParts Appearance="InputAppearance.FilledOutlined" />
+
+<h3>Disabled</h3>
+<RoarInputDateParts Disabled />
+
+<h3>Readonly</h3>
+<RoarInputDateParts Label="Anniversary" Value="new(2026, 9, 17)" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputDateParts Size="InputSize.Xs" />
+    <RoarInputDateParts Size="InputSize.S" />
+    <RoarInputDateParts Size="InputSize.M" />
+    <RoarInputDateParts Size="InputSize.L" />
+    <RoarInputDateParts Size="InputSize.Xl" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputDateParts Pill />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputDateParts Label="Start">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputDateParts>
+    <RoarInputDateParts Label="End">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputDateParts>
+</div>
+
+<h3>Binding</h3>
+<RoarInputDateParts @bind-Value="DateSample" />
+@DateSample
+
+<h3>Locale-Aware Field Order</h3>
+<div>
+    <RoarInputDateParts Label="Ukraine order" Locale="uk-UA"/>
+    <RoarInputDateParts Label="US order" Locale="en-US"/>
+    <RoarInputDateParts Label="Japanese order" Locale="ja-JP"/>
+</div>
+
+@code {
+    public DateOnly? DateSample { get; set; } = new(2028, 9, 17);
+}
