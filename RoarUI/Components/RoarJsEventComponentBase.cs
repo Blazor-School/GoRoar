@@ -59,5 +59,9 @@ public class RoarJsEventComponentBase : ComponentBase, IAsyncDisposable
         await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, eventName, ComponentDotNetObjectReference, methodName, SubscriptionId);
     }
 
-    protected ValueTask CallComponentFunctionAsync(string functionName, params object?[]? args) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, functionName, args);
+    protected async ValueTask CallComponentFunctionAsync(string functionName, params object?[] args)
+    {
+        object?[] invocationArguments = [Element, functionName, .. args];
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, invocationArguments);
+    }
 }
