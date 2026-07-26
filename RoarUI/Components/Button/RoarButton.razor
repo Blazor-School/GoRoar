@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inherits RoarComponentBase
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="button" />
 
@@ -81,18 +81,18 @@
     /// <summary>
     /// Removes focus from the button.
     /// </summary>
-    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
+    public ValueTask BlurAsync() => CallComponentFunctionAsync("blur");
 
     /// <summary>
     /// Simulates a click on the button.
     /// </summary>
-    public ValueTask ClickAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "click");
+    public ValueTask ClickAsync() => CallComponentFunctionAsync("click");
 
     /// <summary>
     /// Sets focus on the button.
     /// <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options">https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options</a>
     /// </summary>
-    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus", new { preventScroll, focusVisible });
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentFunctionAsync("focus", new { preventScroll, focusVisible });
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

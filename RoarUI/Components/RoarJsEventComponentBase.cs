@@ -4,18 +4,18 @@ using RoarUI.Utilities;
 
 namespace RoarUI.Components;
 
-public class RoarComponentBase : ComponentBase, IAsyncDisposable
+public class RoarJsEventComponentBase : ComponentBase, IAsyncDisposable
 {
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = default!;
 
     internal readonly string SubscriptionId = Guid.NewGuid().ToString("N");
-    internal DotNetObjectReference<RoarComponentBase> ComponentDotNetObjectReference;
+    internal DotNetObjectReference<RoarJsEventComponentBase> ComponentDotNetObjectReference;
     internal ElementReference Element { get; set; }
     private bool _disposing = false;
     private bool _hasEventSubscriptions = false;
 
-    public RoarComponentBase() => ComponentDotNetObjectReference = DotNetObjectReference.Create(this);
+    public RoarJsEventComponentBase() => ComponentDotNetObjectReference = DotNetObjectReference.Create(this);
 
     public async ValueTask DisposeAsync()
     {
@@ -58,4 +58,6 @@ public class RoarComponentBase : ComponentBase, IAsyncDisposable
         _hasEventSubscriptions = true;
         await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, eventName, ComponentDotNetObjectReference, methodName, SubscriptionId);
     }
+
+    protected ValueTask CallComponentFunctionAsync(string functionName, params object?[]? args) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, functionName, args);
 }
