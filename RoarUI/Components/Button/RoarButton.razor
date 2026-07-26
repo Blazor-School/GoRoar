@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarComponentBase
 
 <RoarDependency ComponentName="button" />
 
@@ -78,8 +78,6 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     /// <summary>
     /// Removes focus from the button.
     /// </summary>
@@ -100,11 +98,9 @@
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-invalid", instance, nameof(TriggerInvalidAsync));
+            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
+            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
+            await RegisterEventAsync("wa-invalid", nameof(TriggerInvalidAsync));
         }
     }
 

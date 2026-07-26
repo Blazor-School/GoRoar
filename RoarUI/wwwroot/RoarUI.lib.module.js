@@ -6,34 +6,59 @@ export function afterStarted(blazor) {
     roarGeneralFunction();
 }
 
+let componentControllers = new Map();
+
+function getEventController(subscriptionId) {
+    if (subscriptionId === null || subscriptionId === undefined || subscriptionId === "") {
+        throw new Error("A subscription ID is required.");
+    }
+
+    let controller = componentControllers.get(subscriptionId);
+
+    if (!controller) {
+        controller = new AbortController();
+        componentControllers.set(subscriptionId, controller);
+    }
+
+    return controller;
+}
+
 function roarGeneralFunction() {
     window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
         return element[functionName](...params);
     }
 
-    window.subscribeEvent = function (element, eventName, instance, method) {
+    window.subscribeEvent = function (element, eventName, instance, method, subscriptionId) {
+        let controller = getEventController(subscriptionId);
+
         element.addEventListener(eventName, (e) => {
             instance.invokeMethodAsync(method);
-        });
+        }, { signal: controller.signal });
     }
 
-    window.subscribeEventWithArgs = function (element, eventName, eventArgsName, instance, method) {
-        element.addEventListener(eventName, (e) => {
-            let preventDefault = element.dataset[`${eventArgsName.toLowerCase()}preventdefault`];
+    window.subscribeEventWithArgs = function (element, eventName, eventArgsName, instance, method, subscriptionId) {
+        let controller = getEventController(subscriptionId);
 
-            if (preventDefault === "") {
+        element.addEventListener(eventName, (e) => {
+            const normalizeEventArgsName = eventArgsName.toLowerCase();
+
+            if (element.dataset[`${normalizeEventArgsName}preventdefault`] === "") {
                 e.preventDefault();
             }
 
-            let stopPropagation = element.dataset[`${eventArgsName.toLowerCase()}stoppropagation`];
-
-            if (stopPropagation === "") {
+            if (element.dataset[`${normalizeEventArgsName}stoppropagation`] === "") {
                 e.stopPropagation();
             }
 
-            instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e, element));
-        });
+            return instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e, element));
+        }, { signal: controller.signal });
     }
+
+    window.unsubscribeEvents = function (subscriptionId) {
+        const controller = getEventController(subscriptionId);
+        controller.abort();
+        componentControllers.delete(subscriptionId);
+    };
 
     window.setObjectProperty = function (element, propertyName, value) {
         element[propertyName] = value;
@@ -54,17 +79,15 @@ function roarGeneralFunction() {
     window.observeProperty = function (element, propertyName, instance, methodName) {
         let previousValue = element[propertyName];
 
-        const propertyObserver = new MutationObserver(() => {
-            const currentValue = element[propertyName];
+        let propertyObserver = new MutationObserver(() => {
+            let currentValue = element[propertyName];
 
             if (currentValue === previousValue) {
                 return;
             }
 
-            instance.invokeMethodAsync(
-                methodName,
-                currentValue
-            );
+            previousValue = currentValue;
+            instance.invokeMethodAsync(methodName, currentValue);
         });
 
         propertyObserver.observe(element, {
@@ -72,7 +95,7 @@ function roarGeneralFunction() {
             attributeFilter: [propertyName]
         });
 
-        const cleanupObserver = new MutationObserver(() => {
+        let cleanupObserver = new MutationObserver(() => {
             if (!document.body.contains(element)) {
                 propertyObserver.disconnect();
                 cleanupObserver.disconnect();
@@ -89,7 +112,7 @@ function roarGeneralFunction() {
 let roarEventFromHtmlEvent = {
     "DropdownSelectEventArgs": (e) => ({
         SelectedItem: e.detail.item.value,
-        Checked: event.detail.item.type === 'checkbox' ? e.detail.item.checked : null
+        Checked: e.detail.item.type === 'checkbox' ? e.detail.item.checked : null
     }),
     "ComparisonChangeEventArgs": (e) => ({
         Position: e.target.position
