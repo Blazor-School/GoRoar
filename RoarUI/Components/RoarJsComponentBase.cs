@@ -11,10 +11,11 @@ public abstract class RoarJsComponentBase : ComponentBase
 
     internal ElementReference Element { get; set; }
 
-    protected ValueTask CallComponentFunctionAsync(string functionName, params object?[] args)
-    {
-        object?[] invocationArguments = [Element, functionName, .. args];
+    protected ValueTask CallComponentVoidFunctionAsync(string functionName, params object?[] args) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, [Element, functionName, .. args]);
 
-        return JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, invocationArguments);
-    }
+    protected ValueTask<TValue> CallComponentFunctionAsync<TValue>(string functionName, params object?[] args) => JSRuntime.InvokeAsync<TValue>(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, [Element, functionName, .. args]);
+
+    protected ValueTask SetComponentPropertyAsync(string propertyName, object value) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, propertyName, value);
+
+    protected ValueTask SetComponentPropertyWithJsonAsync(string propertyName, string json) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectPropertyWithJson, Element, propertyName, json);
 }

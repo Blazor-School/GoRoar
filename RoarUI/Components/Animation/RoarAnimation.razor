@@ -89,10 +89,10 @@
     /// <summary>
     /// Clears all keyframe effects caused by this animation and aborts its playback.
     /// </summary>
-    public ValueTask CancelAsync() => CallComponentFunctionAsync("cancel");
+    public ValueTask CancelAsync() => CallComponentVoidFunctionAsync("cancel");
 
     /// <summary>
     /// Sets the playback time to the end of the animation corresponding to the current playback direction.
     /// </summary>
-    public ValueTask FinishAsync() => CallComponentFunctionAsync("finish");
+    public ValueTask FinishAsync() => CallComponentVoidFunctionAsync("finish");
 }

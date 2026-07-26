@@ -85,13 +85,13 @@
     /// Removes focus from the checkbox.
     /// </summary>
     /// <returns></returns>
-    public ValueTask BlurAsync() => CallComponentFunctionAsync("blur");
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
 
     /// <summary>
     /// Simulates a click on the checkbox.
     /// </summary>
     /// <returns></returns>
-    public ValueTask ClickAsync() => CallComponentFunctionAsync("click");
+    public ValueTask ClickAsync() => CallComponentVoidFunctionAsync("click");
 
     /// <summary>
     /// Sets focus on the checkbox.
@@ -99,7 +99,7 @@
     /// <param name="preventScroll"></param>
     /// <param name="focusVisible"></param>
     /// <returns></returns>
-    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentFunctionAsync("focus", new { preventScroll, focusVisible });
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     protected override bool TryParseValueFromString(string? value, out bool result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
 }

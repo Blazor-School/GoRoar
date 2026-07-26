@@ -1,5 +1,4 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
 @inherits RoarUI.Components.Input.RoarInputBase<string?>
 
 <RoarDependency ComponentName="color-picker" />
@@ -147,11 +146,11 @@
     [Parameter]
     public EventCallback OnShow { get; set; }
 
-    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
-    public ValueTask FocusAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus");
-    public ValueTask ShowAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "show");
-    public ValueTask HideAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "hide");
-    public ValueTask<string> GetFormattedValueAsync(ColorPickerFormat format) => JSRuntime.InvokeAsync<string>(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "getFormattedValue", format);
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+    public ValueTask FocusAsync() => CallComponentVoidFunctionAsync("focus");
+    public ValueTask ShowAsync() => CallComponentVoidFunctionAsync("show");
+    public ValueTask HideAsync() => CallComponentVoidFunctionAsync("hide");
+    public ValueTask<string> GetFormattedValueAsync(ColorPickerFormat format) => CallComponentFunctionAsync<string>("getFormattedValue", format.ToString());
 
     public ValueTask<string> GetHexStringAsync(double hue, double saturation, double brightness, double alpha)
     {
@@ -160,32 +159,30 @@
         ValidateRange(brightness, nameof(brightness), 0, 100);
         ValidateRange(alpha, nameof(alpha), 0, 100);
 
-        return JSRuntime.InvokeAsync<string>(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "getHexString", hue, saturation, brightness, alpha);
+        return CallComponentFunctionAsync<string>("getHexString", hue, saturation, brightness, alpha);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-hide", instance, nameof(TriggerHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(InputChangeEventArgs<>), instance, nameof(TriggerChangeAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(InputChangeEventArgs<>), instance, nameof(TriggerInputAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
+            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
+            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
+            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
+            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
+            await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
+            await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
+            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
+            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
         }
 
         switch (Swatches.Kind)
         {
             case ColorPickerSwatchesKind.Colors:
-                await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "swatches", Swatches.ToString());
+                await SetComponentPropertyAsync("swatches", Swatches.ToString());
                 break;
             case ColorPickerSwatchesKind.SwatchList:
-                await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectPropertyWithJson, Element, "swatches", Swatches.ToString());
+                await SetComponentPropertyWithJsonAsync("swatches", Swatches.ToString());
                 break;
             default:
                 break;
@@ -227,15 +224,15 @@
     [JSInvokable]
     public async Task TriggerChangeAsync(InputChangeEventArgs<string> args)
     {
-        await OnChange.InvokeAsync();
         await SetCurrentValueAsync(args.Value);
+        await OnChange.InvokeAsync();
     }
 
     [JSInvokable]
     public async Task TriggerInputAsync(InputChangeEventArgs<string> args)
     {
-        await OnInput.InvokeAsync();
         await SetCurrentValueAsync(args.Value);
+        await OnInput.InvokeAsync();
     }
 
     private static void ValidateRange(double value, string paramName, double minimum, double maximum)

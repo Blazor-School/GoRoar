@@ -70,13 +70,13 @@
     /// <summary>
     /// Removes focus from the button.
     /// </summary>
-    public ValueTask BlurAsync() => CallComponentFunctionAsync("blur");
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
 
     /// <summary>
     /// Sets focus on the button.
     /// <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options">https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options</a>
     /// </summary>
-    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentFunctionAsync("focus", new { preventScroll, focusVisible });
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

@@ -60,9 +60,9 @@
         }
     }
 
-    public ValueTask BlurAsync() => CallComponentFunctionAsync("blur");
-    public ValueTask ClickAsync() => CallComponentFunctionAsync("click");
-    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentFunctionAsync("focus", new { preventScroll, focusVisible });
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+    public ValueTask ClickAsync() => CallComponentVoidFunctionAsync("click");
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     internal bool? ConvertStateFromEvent(CheckboxChangeEventArgs args)
     {
