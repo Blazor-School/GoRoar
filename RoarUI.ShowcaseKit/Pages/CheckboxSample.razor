@@ -5,7 +5,7 @@
 
 <h3>Indeterminate</h3>
 <RoarIndeterminateCheckbox @bind-Value="IndeterminateCheck">Indeterminate</RoarIndeterminateCheckbox>
-<RoarButton @onclick="() => IndeterminateCheck = null">Indeterminate state: @(IndeterminateCheck is not null ? IndeterminateCheck.ToString() : "NULL"). Click to set interdeterminate</RoarButton>
+<RoarButton @onclick="() => IndeterminateCheck = null">Indeterminate checkbox's value: @(IndeterminateCheck is not null ? IndeterminateCheck.ToString() : "NULL"). Click to set interdeterminate</RoarButton>
 
 <h3>Disabled</h3>
 <RoarCheckbox Disabled>Disabled</RoarCheckbox>

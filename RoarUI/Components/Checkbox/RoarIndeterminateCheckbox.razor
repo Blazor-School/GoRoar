@@ -58,6 +58,9 @@
             await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
             await RegisterEventAsync("input", nameof(CheckboxChangeEventArgs), nameof(TriggerInputAsync));
         }
+
+        await SetComponentPropertyAsync("checked", CurrentValue == true);
+        await SetComponentPropertyAsync("indeterminate", CurrentValue is null);
     }
 
     public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
