@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="details" />
 
@@ -80,21 +80,17 @@
     [Parameter]
     public EventCallback OnShow { get; set; }
 
-    internal ElementReference Element { get; set; }
-
-    public ValueTask HideAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "hide");
-    public ValueTask ShowAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "show");
+    public ValueTask HideAsync() => CallComponentVoidFunctionAsync("hide");
+    public ValueTask ShowAsync() => CallComponentVoidFunctionAsync("show");
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-hide", instance, nameof(TriggerHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
+            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
+            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
+            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
         }
     }
 
