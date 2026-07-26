@@ -1,21 +1,17 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using RoarUI.Utilities;
 
 namespace RoarUI.Components;
 
-public class RoarJsEventComponentBase : ComponentBase, IAsyncDisposable
+public abstract class RoarJsEventComponentBase : RoarJsComponentBase, IAsyncDisposable
 {
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; } = default!;
-
     internal readonly string SubscriptionId = Guid.NewGuid().ToString("N");
     internal DotNetObjectReference<RoarJsEventComponentBase> ComponentDotNetObjectReference;
-    internal ElementReference Element { get; set; }
+
     private bool _disposing = false;
     private bool _hasEventSubscriptions = false;
 
-    public RoarJsEventComponentBase() => ComponentDotNetObjectReference = DotNetObjectReference.Create(this);
+    protected RoarJsEventComponentBase() => ComponentDotNetObjectReference = DotNetObjectReference.Create(this);
 
     public async ValueTask DisposeAsync()
     {
@@ -59,9 +55,9 @@ public class RoarJsEventComponentBase : ComponentBase, IAsyncDisposable
         await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, eventName, ComponentDotNetObjectReference, methodName, SubscriptionId);
     }
 
-    protected async ValueTask CallComponentFunctionAsync(string functionName, params object?[] args)
+    protected async ValueTask RegisterEventAsync(string eventName, string eventArgsName, string methodName)
     {
-        object?[] invocationArguments = [Element, functionName, .. args];
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, invocationArguments);
+        _hasEventSubscriptions = true;
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, eventName, eventArgsName, ComponentDotNetObjectReference, methodName, SubscriptionId);
     }
 }

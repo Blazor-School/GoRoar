@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="animation" />
 
@@ -86,15 +86,13 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     /// <summary>
     /// Clears all keyframe effects caused by this animation and aborts its playback.
     /// </summary>
-    public ValueTask CancelAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "cancel");
+    public ValueTask CancelAsync() => CallComponentFunctionAsync("cancel");
 
     /// <summary>
     /// Sets the playback time to the end of the animation corresponding to the current playback direction.
     /// </summary>
-    public ValueTask FinishAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "finish");
+    public ValueTask FinishAsync() => CallComponentFunctionAsync("finish");
 }

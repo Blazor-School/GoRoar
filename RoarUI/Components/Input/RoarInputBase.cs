@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace RoarUI.Components.Input;
 
-public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
+public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
 {
     private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
 
@@ -62,7 +62,6 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     protected internal FieldIdentifier FieldIdentifier { get; set; }
 
     internal virtual bool FieldBound => ValueExpression is not null || ValueChanged.HasDelegate;
-    internal ElementReference Element { get; set; }
 
     protected async Task SetCurrentValueAsync(TValue? value)
     {
@@ -286,9 +285,11 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     {
     }
 
-    void IDisposable.Dispose()
+    protected override ValueTask DisposeAsyncCore()
     {
         EditContext?.OnValidationStateChanged -= _validationStateChangedHandler;
         Dispose(true);
+
+        return base.DisposeAsyncCore();
     }
 }
