@@ -69,13 +69,11 @@
 
     public void OnDialogPreventDismissShow()
     {
-        DialogPreventDismiss = true;
-        DialogPreventDismissDialogOpen = true;
+        DialogPreventDismissDialogOpen = DialogPreventDismiss = true;
     }
 
     public void ClosePreventDismissDialog()
     {
-        DialogPreventDismiss = false;
-        DialogPreventDismissDialogOpen = false;
+        DialogPreventDismissDialogOpen = DialogPreventDismiss = false;
     }
 }

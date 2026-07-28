@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="drawer" />
 
@@ -92,7 +92,6 @@
     [Parameter]
     public EventCallback OnShow { get; set; }
 
-    internal ElementReference Element { get; set; }
     internal Dictionary<string, object> InternalAttributes = [];
 
     protected override void OnParametersSet()
@@ -107,17 +106,18 @@
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-hide", nameof(DrawerHideEventArgs), instance, nameof(TriggerHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
+            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
+            await RegisterEventAsync("wa-hide", nameof(DrawerHideEventArgs), nameof(TriggerHideAsync));
+            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
         }
     }
 
     [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
+        Open = false;
+        await OpenChanged.InvokeAsync(Open);
         await OnAfterHide.InvokeAsync();
     }
 
@@ -130,32 +130,14 @@
     [JSInvokable]
     public async Task TriggerHideAsync(DrawerHideEventArgs args)
     {
-        await OpenChanged.InvokeAsync(false);
         await OnHide.InvokeAsync(args);
     }
 
     [JSInvokable]
     public async Task TriggerShowAsync()
     {
-        await OpenChanged.InvokeAsync(true);
+        Open = true;
+        await OpenChanged.InvokeAsync(Open);
         await OnShow.InvokeAsync();
-    }
-
-    public async ValueTask ToggleAsync()
-    {
-        await Task.Delay(1); // Force render
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
-    }
-
-    public async ValueTask HideAsync()
-    {
-        await Task.Delay(1); // Force render
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", false);
-    }
-
-    public async ValueTask ShowAsync()
-    {
-        await Task.Delay(1); // Force render
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", true);
     }
 }

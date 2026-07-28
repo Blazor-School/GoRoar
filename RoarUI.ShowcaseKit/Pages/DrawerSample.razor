@@ -69,7 +69,7 @@
 <RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-light-dismissal">Open Drawer</RoarButton>
 
 <h3>Preventing the Drawer from Closing</h3>
-<RoarDrawer Label="Drawer" id="drawer-prevent-dismissal" OnHidePreventDefault="DrawerPreventDismiss" OnShow="OnDrawerPreventDismissShow" @ref="PreventDismissDrawer">
+<RoarDrawer Label="Drawer" id="drawer-prevent-dismissal" OnHidePreventDefault="DrawerPreventDismiss" OnShow="OnDrawerPreventDismissShow" @bind-Open="DrawerPreventDismissOpen">
     This Drawer will only close when you click the button below.
     <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" @onclick="ClosePreventDismissDrawer">Only this button will close it</RoarButton>
 </RoarDrawer>
@@ -86,16 +86,15 @@
     public bool DrawerOpen { get; set; } = false;
     public string Placement { get; set; } = DrawerPlacement.Start;
     public bool DrawerPreventDismiss { get; set; } = true;
-    public RoarDrawer PreventDismissDrawer { get; set; }
+    public bool DrawerPreventDismissOpen { get; set; } = false;
 
-    public async Task OnDrawerPreventDismissShow()
+    public void OnDrawerPreventDismissShow()
     {
-        DrawerPreventDismiss = true;
+        DrawerPreventDismissOpen = DrawerPreventDismiss = true;
     }
 
-    public async Task ClosePreventDismissDrawer()
+    public void ClosePreventDismissDrawer()
     {
-        DrawerPreventDismiss = false;
-        await PreventDismissDrawer.HideAsync();
+        DrawerPreventDismissOpen = DrawerPreventDismiss = false;
     }
 }

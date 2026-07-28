@@ -110,6 +110,8 @@
     [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
+        Open = false;
+        await OpenChanged.InvokeAsync(Open);
         await OnAfterHide.InvokeAsync();
     }
 
@@ -122,8 +124,6 @@
     [JSInvokable]
     public async Task TriggerHideAsync(DialogHideEventArgs args)
     {
-        Open = false;
-        await OpenChanged.InvokeAsync(Open);
         await OnHide.InvokeAsync(args);
     }
 

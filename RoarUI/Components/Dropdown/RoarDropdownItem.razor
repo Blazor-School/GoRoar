@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="dropdown-item" />
 
@@ -38,26 +38,22 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    internal ElementReference Element { get; set; }
+    /// <summary>
+    /// Closes the submenu.
+    /// </summary>
+    public ValueTask CloseSubmenuAsync() => CallComponentVoidFunctionAsync("closeSubmenu");
 
     /// <summary>
-    /// Removes focus from the button.
+    /// Opens the submenu.
     /// </summary>
-    public ValueTask CloseSubmenuAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "closeSubmenu");
-
-    /// <summary>
-    /// Simulates a click on the button.
-    /// </summary>
-    public ValueTask OpenSubmenuAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "openSubmenu");
+    public ValueTask OpenSubmenuAsync() => CallComponentVoidFunctionAsync("openSubmenu");
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
+            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
+            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
         }
     }
 
