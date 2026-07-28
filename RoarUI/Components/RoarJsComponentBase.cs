@@ -15,6 +15,8 @@ public abstract class RoarJsComponentBase : ComponentBase
 
     protected ValueTask<TValue> CallComponentFunctionAsync<TValue>(string functionName, params object?[] args) => JSRuntime.InvokeAsync<TValue>(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, [Element, functionName, .. args]);
 
+    protected ValueTask ToggleComponentPropertyAsync(string propertyName) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, propertyName);
+
     protected ValueTask SetComponentPropertyAsync(string propertyName, object value) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, propertyName, value);
 
     protected ValueTask SetComponentPropertyWithJsonAsync(string propertyName, string json) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectPropertyWithJson, Element, propertyName, json);

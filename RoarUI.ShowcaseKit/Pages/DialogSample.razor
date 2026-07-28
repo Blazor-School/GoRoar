@@ -55,7 +55,7 @@
 <RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-light-dismissal">Open Dialog</RoarButton>
 
 <h3>Preventing the Dialog from Closing</h3>
-<RoarDialog Label="Dialog" id="dialog-prevent-dismissal" OnHidePreventDefault="DialogPreventDismiss" OnShow="OnDialogPreventDismissShow" @ref="PreventDismissDialog">
+<RoarDialog Label="Dialog" id="dialog-prevent-dismissal" OnHidePreventDefault="DialogPreventDismiss" OnShow="OnDialogPreventDismissShow" @bind-Open="DialogPreventDismissDialogOpen">
     This dialog will only close when you click the button below.
     <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" @onclick="ClosePreventDismissDialog">Only this button will close it</RoarButton>
 </RoarDialog>
@@ -65,16 +65,17 @@
     public bool DialogWithoutHeaderOpen { get; set; } = false;
     public bool DialogWithFooterOpen { get; set; } = false;
     public bool DialogPreventDismiss { get; set; } = true;
-    public RoarDialog PreventDismissDialog { get; set; }
+    public bool DialogPreventDismissDialogOpen { get; set; } = false;
 
-    public async Task OnDialogPreventDismissShow()
+    public void OnDialogPreventDismissShow()
     {
         DialogPreventDismiss = true;
+        DialogPreventDismissDialogOpen = true;
     }
 
-    public async Task ClosePreventDismissDialog()
+    public void ClosePreventDismissDialog()
     {
         DialogPreventDismiss = false;
-        await PreventDismissDialog.HideAsync();
+        DialogPreventDismissDialogOpen = false;
     }
 }
