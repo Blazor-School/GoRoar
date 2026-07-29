@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="zoomable-frame" />
 <RoarDependency ComponentName="icon" />
@@ -88,11 +88,14 @@
     [Parameter]
     public EventCallback OnLoad { get; set; }
 
-    internal ElementReference Element { get; set; }
     internal string ZoomLevelsAttribute => string.Join(" ", ZoomLevels.Select(x => $"{x}%"));
 
     [JSInvokable]
-    public Task TriggerZoomChange(double zoom) => ZoomChanged.InvokeAsync(zoom);
+    public async Task TriggerZoomChange(double zoom)
+    {
+        Zoom = zoom;
+        await ZoomChanged.InvokeAsync(Zoom);
+    }
 
     [JSInvokable]
     public Task TriggerError() => OnError.InvokeAsync();
@@ -104,13 +107,12 @@
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ObserveProperty, Element, "zoom", instance, nameof(TriggerZoomChange));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "error", instance, nameof(TriggerError));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "load", instance, nameof(TriggerLoad));
+            await ObserveComponentPropertyAsync("zoom", nameof(TriggerZoomChange));
+            await RegisterEventAsync("error", nameof(TriggerError));
+            await RegisterEventAsync("load", nameof(TriggerLoad));
         }
     }
 
-    public async Task ZoomInAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "zoomIn");
-    public async Task ZoomOutAsync() => await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "zoomOut");
+    public ValueTask ZoomInAsync() => CallComponentVoidFunctionAsync("zoomIn");
+    public ValueTask ZoomOutAsync() => CallComponentVoidFunctionAsync("zoomOut");
 }

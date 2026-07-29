@@ -60,4 +60,6 @@ public abstract class RoarJsEventComponentBase : RoarJsComponentBase, IAsyncDisp
         _hasEventSubscriptions = true;
         await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, eventName, eventArgsName, ComponentDotNetObjectReference, methodName, SubscriptionId);
     }
+
+    protected ValueTask ObserveComponentPropertyAsync(string propertyName, string methodName) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ObserveProperty, Element, propertyName, ComponentDotNetObjectReference, methodName);
 }
