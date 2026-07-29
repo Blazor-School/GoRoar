@@ -1,5 +1,4 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
 @inherits RoarUI.Components.Input.RoarInputBase<bool?>
 
 <RoarDependency ComponentName="checkbox" />
@@ -30,19 +29,14 @@
     [Parameter]
     public EventCallback OnInput { get; set; }
 
-    [Parameter]
-    public EventCallback OnInvalid { get; set; }
-
-    internal ElementReference Element { get; set; }
-
     [JSInvokable]
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
 
     [JSInvokable]
     public async Task TriggerChangeAsync(CheckboxChangeEventArgs args)
     {
-        await OnChange.InvokeAsync();
         await SetCurrentValueAsync(ConvertStateFromEvent(args));
+        await OnChange.InvokeAsync();
     }
 
     [JSInvokable]
@@ -51,32 +45,27 @@
     [JSInvokable]
     public async Task TriggerInputAsync(CheckboxChangeEventArgs args)
     {
-        await OnInput.InvokeAsync();
         await SetCurrentValueAsync(ConvertStateFromEvent(args));
+        await OnInput.InvokeAsync();
     }
-
-    [JSInvokable]
-    public Task TriggerInvalidAsync() => OnInvalid.InvokeAsync();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(CheckboxChangeEventArgs), instance, nameof(TriggerChangeAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "input", nameof(CheckboxChangeEventArgs), instance, nameof(TriggerInputAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-invalid", instance, nameof(TriggerInvalidAsync));
+            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
+            await RegisterEventAsync("change", nameof(CheckboxChangeEventArgs), nameof(TriggerChangeAsync));
+            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
+            await RegisterEventAsync("input", nameof(CheckboxChangeEventArgs), nameof(TriggerInputAsync));
         }
+
+        await SetComponentPropertyAsync("checked", CurrentValue == true);
+        await SetComponentPropertyAsync("indeterminate", CurrentValue is null);
     }
 
-    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
-    public ValueTask ClickAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "click");
-    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus", new { preventScroll, focusVisible });
-    internal ValueTask ResetValidityAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "resetValidity");
-    internal ValueTask SetCustomValidityAsync(string message) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "setCustomValidity", new { message });
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+    public ValueTask ClickAsync() => CallComponentVoidFunctionAsync("click");
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     internal bool? ConvertStateFromEvent(CheckboxChangeEventArgs args)
     {

@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="comparison" />
 
@@ -23,11 +23,10 @@
     [Parameter]
     public Expression<Func<double>>? PositionExpression { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     [JSInvokable]
     public async Task NotifyChangeAsync(ComparisonChangeEventArgs args)
     {
+        Position = args.Position;
         await PositionChanged.InvokeAsync(args.Position);
     }
 
@@ -35,14 +34,8 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", Position);
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "change", nameof(ComparisonChangeEventArgs), instance, nameof(NotifyChangeAsync));
+            await SetComponentPropertyAsync("position", Position);
+            await RegisterEventAsync("change", nameof(ComparisonChangeEventArgs), nameof(NotifyChangeAsync));
         }
-    }
-
-    public async Task SetPositionAsync(double position)
-    {
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", position);
     }
 }

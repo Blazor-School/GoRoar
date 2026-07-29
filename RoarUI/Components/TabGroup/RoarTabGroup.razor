@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="tab-group" />
 
@@ -56,11 +56,10 @@
     [Parameter]
     public EventCallback<TabGroupShowEventArgs> OnTabShow { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     [JSInvokable]
     public async Task TriggerTabHide(TabGroupHideEventArgs args)
     {
+        ActiveTabName = args.ActivatingTabName;
         await ActiveTabNameChanged.InvokeAsync(args.ActivatingTabName);
         await OnTabHide.InvokeAsync(args);
     }
@@ -68,6 +67,7 @@
     [JSInvokable]
     public async Task TriggerTabShow(TabGroupShowEventArgs args)
     {
+        ActiveTabName = args.TabName;
         await ActiveTabNameChanged.InvokeAsync(args.TabName);
         await OnTabShow.InvokeAsync(args);
     }
@@ -76,9 +76,8 @@
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-tab-hide", nameof(TabGroupHideEventArgs), instance, nameof(TriggerTabHide));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-tab-show", nameof(TabGroupHideEventArgs), instance, nameof(TriggerTabShow));
+            await RegisterEventAsync("wa-tab-hide", nameof(TabGroupHideEventArgs), nameof(TriggerTabHide));
+            await RegisterEventAsync("wa-tab-show", nameof(TabGroupShowEventArgs), nameof(TriggerTabShow));
         }
     }
 }

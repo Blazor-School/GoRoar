@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="button" />
 
@@ -78,33 +78,29 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     /// <summary>
     /// Removes focus from the button.
     /// </summary>
-    public ValueTask BlurAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "blur");
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
 
     /// <summary>
     /// Simulates a click on the button.
     /// </summary>
-    public ValueTask ClickAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "click");
+    public ValueTask ClickAsync() => CallComponentVoidFunctionAsync("click");
 
     /// <summary>
     /// Sets focus on the button.
     /// <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options">https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options</a>
     /// </summary>
-    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ExecuteJsFunctionFromJsObject, Element, "focus", new { preventScroll, focusVisible });
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "blur", instance, nameof(TriggerBlurAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "focus", instance, nameof(TriggerFocusAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-invalid", instance, nameof(TriggerInvalidAsync));
+            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
+            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
+            await RegisterEventAsync("wa-invalid", nameof(TriggerInvalidAsync));
         }
     }
 

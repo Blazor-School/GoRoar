@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="split-panel" />
 
@@ -62,11 +62,10 @@
     [Parameter]
     public EventCallback<SplitPanelRepositionEventArgs> OnReposition { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     [JSInvokable]
     public async Task TriggerRepositionAsync(SplitPanelRepositionEventArgs args)
     {
+        Position = args.Position;
         await PositionChanged.InvokeAsync(args.Position);
         await OnReposition.InvokeAsync(args);
     }
@@ -75,9 +74,8 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "position", Position);
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-reposition", nameof(SplitPanelRepositionEventArgs), instance, nameof(TriggerRepositionAsync));
+            await SetComponentPropertyAsync("position", Position);
+            await RegisterEventAsync("wa-reposition", nameof(SplitPanelRepositionEventArgs), nameof(TriggerRepositionAsync));
         }
     }
 }

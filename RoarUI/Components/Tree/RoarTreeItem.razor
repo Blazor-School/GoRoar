@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="tree-item" />
 
@@ -89,7 +89,6 @@
     [CascadingParameter(Name = "Parent")]
     internal object? Parent { get; set; }
 
-    internal ElementReference Element { get; set; }
     internal bool Selected { get; set; } = false;
 
     protected override void OnParametersSet()
@@ -118,42 +117,44 @@
     [JSInvokable]
     public async Task TriggerCollapse()
     {
+        Expanded = false;
+        await ExpandedChanged.InvokeAsync(Expanded);
         await OnCollapse.InvokeAsync();
-        await ExpandedChanged.InvokeAsync(false);
     }
 
     [JSInvokable]
     public async Task TriggerExpand()
     {
+        Expanded = true;
+        await ExpandedChanged.InvokeAsync(Expanded);
         await OnExpand.InvokeAsync();
-        await ExpandedChanged.InvokeAsync(true);
     }
 
     [JSInvokable]
     public async Task TriggerLazyChange()
     {
+        Lazy = await GetComponentPropertyAsync<bool>("lazy");
+        await LazyChanged.InvokeAsync(Lazy);
         await OnLazyChange.InvokeAsync();
-        await LazyChanged.InvokeAsync(!Lazy); // We just reverse the value of Lazy here and assume it's correct
     }
 
     [JSInvokable]
     public async Task TriggerLazyLoad()
     {
         await OnLazyLoad.InvokeAsync();
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "lazy", false); // Disable lazy mode once the content has been loaded
+        await SetComponentPropertyAsync("lazy", false); // Disable lazy mode once the content has been loaded
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-collapse", instance, nameof(TriggerAfterCollapse));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-expand", instance, nameof(TriggerAfterExpand));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-collapse", instance, nameof(TriggerCollapse));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-expand", instance, nameof(TriggerExpand));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-lazy-change", instance, nameof(TriggerLazyChange));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-lazy-load", instance, nameof(TriggerLazyLoad));
+            await RegisterEventAsync("wa-after-collapse", nameof(TriggerAfterCollapse));
+            await RegisterEventAsync("wa-after-expand", nameof(TriggerAfterExpand));
+            await RegisterEventAsync("wa-collapse", nameof(TriggerCollapse));
+            await RegisterEventAsync("wa-expand", nameof(TriggerExpand));
+            await RegisterEventAsync("wa-lazy-change", nameof(TriggerLazyChange));
+            await RegisterEventAsync("wa-lazy-load", nameof(TriggerLazyLoad));
         }
     }
 }

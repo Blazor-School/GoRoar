@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace RoarUI.Components.Input;
 
-public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
+public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
 {
     private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
 
@@ -62,7 +62,6 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     protected internal FieldIdentifier FieldIdentifier { get; set; }
 
     internal virtual bool FieldBound => ValueExpression is not null || ValueChanged.HasDelegate;
-    internal ElementReference Element { get; set; }
 
     protected async Task SetCurrentValueAsync(TValue? value)
     {
@@ -230,6 +229,12 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
     /// <returns>True if the value could be parsed; otherwise false.</returns>
     protected abstract bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue result, [NotNullWhen(false)] out string? validationErrorMessage);
 
+    protected async Task SyncComponentValue()
+    {
+        string? value = await GetComponentPropertyAsync<string?>("value");
+        await SetCurrentValueAsStringAsync(value);
+    }
+
     /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
@@ -276,19 +281,22 @@ public abstract class RoarInputBase<TValue> : ComponentBase, IDisposable
         InvokeAsync(StateHasChanged);
     }
 
-    private void UpdateAdditionalValidationAttributes() => InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+    private void UpdateAdditionalValidationAttributes() => InternalAttributes = CreateAdditionalValidationAttributeBuilder().Build();
+
+    internal virtual AttributeBuilder CreateAdditionalValidationAttributeBuilder() => new AttributeBuilder(AdditionalAttributes)
         .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
-        .AddAttributeWhenMissing("name", NameAttributeValue)
-        .Build();
+        .AddAttributeWhenMissing("name", NameAttributeValue);
 
     /// <inheritdoc />
     protected virtual void Dispose(bool disposing)
     {
     }
 
-    void IDisposable.Dispose()
+    protected override ValueTask DisposeAsyncCore()
     {
         EditContext?.OnValidationStateChanged -= _validationStateChangedHandler;
         Dispose(true);
+
+        return base.DisposeAsyncCore();
     }
 }
