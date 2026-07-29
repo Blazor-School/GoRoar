@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="tree" />
 
@@ -34,17 +34,18 @@
     [Parameter]
     public bool LeafOnly { get; set; } = false;
 
-    internal ElementReference Element { get; set; }
-
     [JSInvokable]
-    public Task TriggerValueChange(TreeSelectionChangeEventArgs args) => ValueChanged.InvokeAsync(args.SelectedValue);
+    public async Task TriggerValueChange(TreeSelectionChangeEventArgs args)
+    {
+        Value = args.SelectedValue;
+        await ValueChanged.InvokeAsync(Value);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEventWithArgs, Element, "wa-selection-change", nameof(TreeSelectionChangeEventArgs), instance, nameof(TriggerValueChange));
+            await RegisterEventAsync("wa-selection-change", nameof(TreeSelectionChangeEventArgs), nameof(TriggerValueChange));
         }
     }
 }
