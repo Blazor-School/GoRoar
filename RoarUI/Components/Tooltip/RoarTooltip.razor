@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="tooltip" />
 
@@ -99,22 +99,12 @@
 
     private string JoinTriggers { get => string.Join(" ", Triggers); }
     internal Dictionary<string, object> InternalAttributes = [];
-    internal ElementReference Element { get; set; }
 
-    public async Task SetStateAsync(bool open)
-    {
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectProperty, Element, "open", open);
-    }
+    public ValueTask SetStateAsync(bool open) => SetComponentPropertyAsync("open", open);
 
-    public async Task ToggleStateAsync()
-    {
-        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.ToggleBooleanProperty, Element, "open");
-    }
+    public ValueTask ToggleStateAsync() => ToggleComponentPropertyAsync("open");
 
-    public async ValueTask<bool> GetStateAsync()
-    {
-        return await JSRuntime.InvokeAsync<bool>(JavascriptFunctionNames.GetObjectProperty, Element, "open");
-    }
+    public ValueTask<bool> GetStateAsync() => GetComponentPropertyAsync<bool>("open");
 
     protected override void OnParametersSet()
     {
@@ -125,14 +115,12 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-hide", instance, nameof(TriggerAfterHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-after-show", instance, nameof(TriggerAfterShowAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-hide", instance, nameof(TriggerHideAsync));
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-show", instance, nameof(TriggerShowAsync));
+            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
+            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
+            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
+            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
         }
     }
 
