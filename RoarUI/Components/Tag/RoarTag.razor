@@ -1,5 +1,5 @@
 ﻿@namespace RoarUI
-@inject IJSRuntime JSRuntime
+@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="tag" />
 
@@ -50,8 +50,6 @@
     [Parameter]
     public EventCallback OnRemove { get; set; }
 
-    internal ElementReference Element { get; set; }
-
     [JSInvokable]
     public Task TriggerRemove() => OnRemove.InvokeAsync();
 
@@ -59,8 +57,7 @@
     {
         if (firstRender)
         {
-            var instance = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SubscribeEvent, Element, "wa-remove", instance, nameof(TriggerRemove));
+            await RegisterEventAsync("wa-remove", nameof(TriggerRemove));
         }
     }
 }
