@@ -25,6 +25,7 @@ public class StringEnumGenerator : IIncrementalGenerator
 
                 string generatedClassName = (string)attribute.ConstructorArguments[0].Value!;
                 string defaultValue = (string)attribute.ConstructorArguments[1].Value!;
+                bool allowNumericConversions = attribute.NamedArguments.FirstOrDefault(x => x.Key == "AllowNumericConversions").Value.Value is true;
 
                 var members = symbol.GetAttributes()
                     .Where(x => x.AttributeClass?.ToDisplayString() == "RoarUI.Infrastructure.StringEnumMemberAttribute")
@@ -69,7 +70,21 @@ public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}
 
     public static implicit operator {{generatedClassName}}(string value) => new(value);
     public static implicit operator string({{generatedClassName}} v) => v.Value;
+""");
 
+                if (allowNumericConversions)
+                {
+                    stringBuilder.AppendLine($$"""
+    public static implicit operator {{generatedClassName}}(short value) => new(value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
+    public static implicit operator {{generatedClassName}}(int value) => new(value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
+    public static implicit operator {{generatedClassName}}(long value) => new(value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
+    public static implicit operator {{generatedClassName}}(float value) => new(value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
+    public static implicit operator {{generatedClassName}}(double value) => new(value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
+    public static implicit operator {{generatedClassName}}(decimal value) => new(value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
+""");
+                }
+
+                stringBuilder.AppendLine($$"""
     public static bool operator ==({{generatedClassName}} left, {{generatedClassName}} right) => left.Equals(right);
     public static bool operator !=({{generatedClassName}} left, {{generatedClassName}} right) => !(left == right);
 }

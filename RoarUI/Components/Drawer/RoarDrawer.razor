@@ -97,8 +97,8 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier(nameof(DrawerHideEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
-            .AddEventModifier(nameof(DrawerHideEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
+            .AddEventModifier("wa-hide", EventModifier.PreventDefault, OnHidePreventDefault)
+            .AddEventModifier("wa-hide", EventModifier.StopPropagation, OnHideStopPropagation)
             .Build();
     }
 

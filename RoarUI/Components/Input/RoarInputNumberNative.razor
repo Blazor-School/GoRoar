@@ -2,11 +2,11 @@
 @inherits RoarUI.Components.Input.RoarInputBase<TValue>
 @typeparam TValue
 
-<RoarDependency ComponentName="number-input" />
+<RoarDependency ComponentName="input" />
 
-<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @attributes="InternalAttributes" @ref="Element">
+<wa-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" without-spin-buttons="@WithoutSpinButtons" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
-</wa-number-input>
+</wa-input>
 
 @code {
     /// <summary>
@@ -76,6 +76,12 @@
     public InputSize Size { get; set; }
 
     /// <summary>
+    /// Adds a clear button when the input is not empty.
+    /// </summary>
+    [Parameter]
+    public bool WithClear { get; set; } = false;
+
+    /// <summary>
     /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
     /// </summary>
     [Parameter]
@@ -88,10 +94,10 @@
     public bool WithLabel { get; set; } = false;
 
     /// <summary>
-    /// Hides the increment/decrement stepper buttons.
+    /// Hides the browser's built-in increment/decrement spin buttons for number inputs.
     /// </summary>
     [Parameter]
-    public bool WithoutSteppers { get; set; } = false;
+    public bool WithoutSpinButtons { get; set; } = false;
 
     /// <summary>
     /// Gets or sets the error message used when displaying an a parsing error.
@@ -124,22 +130,10 @@
     public EventCallback OnInput { get; set; }
 
     /// <summary>
-    /// Emitted before the value changes. Can be cancelled with event.preventDefault() to prevent the value from changing.
+    /// Emitted when the clear button is activated.
     /// </summary>
     [Parameter]
-    public EventCallback OnBeforeInput { get; set; }
-
-    /// <summary>
-    /// Emitted before the value changes. When true, the value will not be changed.
-    /// </summary>
-    [Parameter]
-    public bool OnBeforeInputPreventDefault { get; set; }
-
-    /// <summary>
-    /// Stop propagation of the before input event.
-    /// </summary>
-    [Parameter]
-    public bool OnBeforeInputStopPropagation { get; set; }
+    public EventCallback OnClear { get; set; }
 
     [JSInvokable]
     public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
@@ -162,17 +156,16 @@
     }
 
     [JSInvokable]
-    public Task TriggerBeforeInputAsync() => OnBeforeInput.InvokeAsync();
+    public async Task TriggerClearAsync()
+    {
+        await SyncComponentValue();
+        await OnClear.InvokeAsync();
+    }
 
     /// <summary>
     /// Removes focus from the input.
     /// </summary>
     public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
-
-    /// <summary>
-    /// Selects all the text in the input.
-    /// </summary>
-    public ValueTask SelectAsync() => CallComponentVoidFunctionAsync("select");
 
     /// <summary>
     /// Sets focus on the input.
@@ -207,7 +200,7 @@
             await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
             await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
             await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
-            await RegisterEventAsync("beforeinput", nameof(TriggerBeforeInputAsync));
+            await RegisterEventAsync("wa-clear", nameof(TriggerClearAsync));
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -237,10 +230,6 @@
             return false;
         }
     }
-
-    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
-            .AddEventModifier("beforeinput", EventModifier.PreventDefault, OnBeforeInputPreventDefault)
-            .AddEventModifier("beforeinput", EventModifier.StopPropagation, OnBeforeInputStopPropagation);
 
     protected override string? FormatValueAsString(TValue? value) => value switch
     {

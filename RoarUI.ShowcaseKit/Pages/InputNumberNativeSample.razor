@@ -1,0 +1,64 @@
+﻿@page "/input-number-native-sample"
+
+<h3>Label</h3>
+<RoarInputNumberNative TValue="int" Label="What is your age?" />
+
+<h3>Hint</h3>
+<RoarInputNumberNative TValue="int" Label="Age" Hint="What is your age?" />
+
+<h3>Placeholder</h3>
+<RoarInputNumberNative TValue="int" Label="Age" Placeholder="Enter age" />
+
+<h3>Clearable</h3>
+<RoarInputNumberNative @bind-Value="ClearSample" Placeholder="Clearable" WithClear />
+@ClearSample
+
+<h3>Appearance</h3>
+<RoarInputNumberNative TValue="int" Appearance="InputAppearance.Outlined" Placeholder="outlined" />
+<RoarInputNumberNative TValue="int" Appearance="InputAppearance.Filled" Placeholder="filled" />
+<RoarInputNumberNative TValue="int" Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
+
+<h3>Disabled</h3>
+<RoarInputNumberNative TValue="int" Placeholder="Disabled" Disabled />
+
+<h3>Readonly</h3>
+<RoarInputNumberNative TValue="int" Label="Account ID" Value="2049" ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarInputNumberNative TValue="int" Size="InputSize.Xs" Placeholder="Extra small" />
+    <RoarInputNumberNative TValue="int" Size="InputSize.S" Placeholder="Small" />
+    <RoarInputNumberNative TValue="int" Size="InputSize.M" Placeholder="Medium" />
+    <RoarInputNumberNative TValue="int" Size="InputSize.L" Placeholder="Large" />
+    <RoarInputNumberNative TValue="int" Size="InputSize.Xl" Placeholder="Extra large" />
+</div>
+
+<h3>Pill</h3>
+<RoarInputNumberNative TValue="int" Placeholder="Age" Pill />
+
+<h3>Without Spin Button</h3>
+<RoarInputNumberNative TValue="int" Placeholder="Age" WithoutSpinButtons />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarInputNumberNative TValue="int" Label="Age" Placeholder="What's your age">
+        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    </RoarInputNumberNative>
+    <RoarInputNumberNative TValue="int" Label="Age" Placeholder="What's your age">
+        <RoarIcon Name="globe" slot="@InputSlot.Start" />
+        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    </RoarInputNumberNative>
+</div>
+
+<h3>Binding</h3>
+<RoarInputNumberNative @bind-Value="UserInputInt" Placeholder="Type something" Label="Integer" />
+@UserInputInt
+
+<RoarInputNumberNative @bind-Value="UserInputLong" Placeholder="Type something" Label="Long" />
+@UserInputLong
+
+@code {
+    public int ClearSample { get; set; } = 42;
+    public int UserInputInt { get; set; } = 2026;
+    public long? UserInputLong { get; set; } = 99999999;
+}

@@ -91,8 +91,8 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier(nameof(DialogHideEventArgs), EventModifier.PreventDefault, OnHidePreventDefault)
-            .AddEventModifier(nameof(DialogHideEventArgs), EventModifier.StopPropagation, OnHideStopPropagation)
+            .AddEventModifier("wa-hide", EventModifier.PreventDefault, OnHidePreventDefault)
+            .AddEventModifier("wa-hide", EventModifier.StopPropagation, OnHideStopPropagation)
             .Build();
     }
 
