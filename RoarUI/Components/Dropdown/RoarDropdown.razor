@@ -124,8 +124,8 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.PreventDefault, OnSelectPreventDefault)
-            .AddEventModifier(nameof(DropdownSelectEventArgs), EventModifier.StopPropagation, OnSelectStopPropagation)
+            .AddEventModifier("wa-select", EventModifier.PreventDefault, OnSelectPreventDefault)
+            .AddEventModifier("wa-select", EventModifier.StopPropagation, OnSelectStopPropagation)
             .Build();
     }
 

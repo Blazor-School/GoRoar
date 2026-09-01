@@ -15,4 +15,5 @@ internal sealed class StringEnumAttribute(string Name, string Default = "") : At
 {
     public string Name { get; } = Name;
     public string Default { get; } = Default;
+    public bool AllowNumericConversions { get; set; }
 }

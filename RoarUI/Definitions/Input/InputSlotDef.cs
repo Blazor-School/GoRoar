@@ -10,6 +10,8 @@ namespace RoarUI.Definitions.InputText;
 [StringEnumMember("Label")]
 [StringEnumMember("ShowPasswordIcon")]
 [StringEnumMember("Start")]
+[StringEnumMember("IncrementIcon")]
+[StringEnumMember("DecrementIcon")]
 internal class InputSlotDef
 {
 }

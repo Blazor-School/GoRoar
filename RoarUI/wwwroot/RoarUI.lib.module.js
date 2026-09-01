@@ -23,6 +23,10 @@ function getEventController(subscriptionId) {
     return controller;
 }
 
+function hasEventModifier(element, eventName, modifier) {
+    return element.getAttribute(`data-${eventName}${modifier}`) === "";
+}
+
 function roarGeneralFunction() {
     window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
         return element[functionName](...params);
@@ -32,6 +36,14 @@ function roarGeneralFunction() {
         let controller = getEventController(subscriptionId);
 
         element.addEventListener(eventName, (e) => {
+            if (hasEventModifier(element, eventName, "preventdefault")) {
+                e.preventDefault();
+            }
+
+            if (hasEventModifier(element, eventName, "stoppropagation")) {
+                e.stopPropagation();
+            }
+
             instance.invokeMethodAsync(method);
         }, { signal: controller.signal });
     }
@@ -40,13 +52,11 @@ function roarGeneralFunction() {
         let controller = getEventController(subscriptionId);
 
         element.addEventListener(eventName, (e) => {
-            const normalizeEventArgsName = eventArgsName.toLowerCase();
-
-            if (element.dataset[`${normalizeEventArgsName}preventdefault`] === "") {
+            if (hasEventModifier(element, eventName, "preventdefault")) {
                 e.preventDefault();
             }
 
-            if (element.dataset[`${normalizeEventArgsName}stoppropagation`] === "") {
+            if (hasEventModifier(element, eventName, "stoppropagation")) {
                 e.stopPropagation();
             }
 

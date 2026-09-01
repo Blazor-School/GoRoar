@@ -144,6 +144,7 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
     /// <param name="value"></param>
     protected async Task SetCurrentValueAsStringAsync(string? value)
     {
+        _lastComponentValue = value ?? "";
         _incomingValueBeforeParsing = value;
         _parsingValidationMessages?.Clear();
 
@@ -216,8 +217,8 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
         }
     } = $"roar-{Guid.NewGuid():N}";
 
-    private string GetFieldName() => _formattedValueExpression ??=
-        FieldPrefix?.GetFieldName(ValueExpression!) ?? RoarExpressionFormatter.FormatLambda(ValueExpression!);
+    private string GetFieldName() => _formattedValueExpression ??= FieldPrefix?.GetFieldName(ValueExpression!) ?? RoarExpressionFormatter.FormatLambda(ValueExpression!);
+    private string _lastComponentValue = "";
 
     /// <summary>
     /// Parses a string to create an instance of <typeparamref name="TValue"/>. Derived classes can override this to change how
@@ -275,15 +276,30 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
         return base.SetParametersAsync(ParameterView.Empty);
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        string value = CurrentValueAsString ?? "";
+
+        if (firstRender)
+        {
+            _lastComponentValue = value;
+        }
+        else if (!string.Equals(value, _lastComponentValue, StringComparison.Ordinal))
+        {
+            await SetComponentPropertyAsync("value", value);
+            _lastComponentValue = value;
+        }
+    }
+
     private void OnValidateStateChanged(object? sender, ValidationStateChangedEventArgs eventArgs)
     {
         UpdateAdditionalValidationAttributes();
         InvokeAsync(StateHasChanged);
     }
 
-    private void UpdateAdditionalValidationAttributes() => InternalAttributes = CreateAdditionalValidationAttributeBuilder().Build();
+    private void UpdateAdditionalValidationAttributes() => InternalAttributes = InitializeAttributeBuilder().Build();
 
-    internal virtual AttributeBuilder CreateAdditionalValidationAttributeBuilder() => new AttributeBuilder(AdditionalAttributes)
+    internal virtual AttributeBuilder InitializeAttributeBuilder() => new AttributeBuilder(AdditionalAttributes)
         .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
         .AddAttributeWhenMissing("name", NameAttributeValue);
 

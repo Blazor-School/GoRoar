@@ -1,51 +1,56 @@
 ﻿@page "/input-number-sample"
 
 <h3>Label</h3>
-<RoarInputNumber TValue="int" Label="What is your age?" />
+<RoarInputNumber TValue="int?" Value="null" Label="How many items?" />
 
 <h3>Hint</h3>
-<RoarInputNumber TValue="int" Label="Age" Hint="What is your age?" />
+<RoarInputNumber TValue="int?" Value="null" Label="Order quantity" Hint="Enter the number of items you'd like to order" />
 
 <h3>Placeholder</h3>
-<RoarInputNumber TValue="int" Label="Age" Placeholder="Enter age" />
-
-<h3>Clearable</h3>
-<RoarInputNumber TValue="int" Placeholder="Clearable" WithClear />
+<RoarInputNumber TValue="int?" Value="null" Placeholder="Enter a number" />
 
 <h3>Appearance</h3>
-<RoarInputNumber TValue="int" Appearance="InputAppearance.Outlined" Placeholder="outlined" />
-<RoarInputNumber TValue="int" Appearance="InputAppearance.Filled" Placeholder="filled" />
-<RoarInputNumber TValue="int" Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
+<RoarInputNumber Value="42" Appearance="InputAppearance.Outlined" Placeholder="outlined" />
+<RoarInputNumber Value="42" Appearance="InputAppearance.Filled" Placeholder="filled" />
+<RoarInputNumber Value="42" Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
 
 <h3>Disabled</h3>
-<RoarInputNumber TValue="int" Placeholder="Disabled" Disabled />
+<RoarInputNumber Value="100" Placeholder="Disabled" Disabled />
 
 <h3>Readonly</h3>
-<RoarInputNumber TValue="int" Label="Account ID" Value="2049" ReadOnly />
+<RoarInputNumber TValue="int?" Value="42" ReadOnly />
 
 <h3>Size</h3>
 <div class="wa-stack">
-    <RoarInputNumber TValue="int" Size="InputSize.Xs" Placeholder="Extra small" />
-    <RoarInputNumber TValue="int" Size="InputSize.S" Placeholder="Small" />
-    <RoarInputNumber TValue="int" Size="InputSize.M" Placeholder="Medium" />
-    <RoarInputNumber TValue="int" Size="InputSize.L" Placeholder="Large" />
-    <RoarInputNumber TValue="int" Size="InputSize.Xl" Placeholder="Extra large" />
+    <RoarInputNumber Value="5" Size="InputSize.Xs" Placeholder="Extra small" />
+    <RoarInputNumber Value="10" Size="InputSize.S" Placeholder="Small" />
+    <RoarInputNumber Value="20" Size="InputSize.M" Placeholder="Medium" />
+    <RoarInputNumber Value="30" Size="InputSize.L" Placeholder="Large" />
+    <RoarInputNumber Value="40" Size="InputSize.Xl" Placeholder="Extra large" />
 </div>
 
 <h3>Pill</h3>
-<RoarInputNumber TValue="int" Placeholder="Age" Pill />
+<RoarInputNumber Label="Quantity" Value="5" Pill />
 
-<h3>Without Spin Button</h3>
-<RoarInputNumber TValue="int" Placeholder="Age" WithoutSpinButtons />
+<h3>Min, Max & Step</h3>
+<RoarInputNumber Value="25" min="10" max="100" step="5" Hint="Amount in dollars (10-100, increments of 5)" />
+
+<h3>Hiding the Steppers</h3>
+<RoarInputNumber Value="50" WithoutSteppers Label="No steppers" />
+
+<h3>Custom Stepper Icons</h3>
+<RoarInputNumber Label="Custom icons" Value="5">
+    <RoarIcon slot="@InputSlot.IncrementIcon" Name="circle-plus" />
+    <RoarIcon slot="@InputSlot.DecrementIcon" Name="circle-minus" />
+</RoarInputNumber>
 
 <h3>Start & End Decorations</h3>
 <div class="wa-stack">
-    <RoarInputNumber TValue="int" Label="Age" Placeholder="What's your age">
-        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    <RoarInputNumber TValue="int?" Value="null" Label="Age" Placeholder="Price">
+        <RoarIcon Name="dollar-sign" slot="@InputSlot.Start" />
     </RoarInputNumber>
-    <RoarInputNumber TValue="int" Label="Age" Placeholder="What's your age">
-        <RoarIcon Name="globe" slot="@InputSlot.Start" />
-        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    <RoarInputNumber TValue="int?" Value="null" Label="Age" Placeholder="Quantity">
+        <RoarIcon Name="cart-shopping" slot="@InputSlot.End" />
     </RoarInputNumber>
 </div>
 
