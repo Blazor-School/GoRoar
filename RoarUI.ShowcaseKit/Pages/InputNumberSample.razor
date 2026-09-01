@@ -35,14 +35,22 @@
 <h3>Min, Max & Step</h3>
 <RoarInputNumber Value="25" min="10" max="100" step="5" Hint="Amount in dollars (10-100, increments of 5)" />
 
+<h3>Hiding the Steppers</h3>
+<RoarInputNumber Value="50" WithoutSteppers Label="No steppers" />
+
+<h3>Custom Stepper Icons</h3>
+<RoarInputNumber Label="Custom icons" Value="5">
+    <RoarIcon slot="@InputSlot.IncrementIcon" Name="circle-plus" />
+    <RoarIcon slot="@InputSlot.DecrementIcon" Name="circle-minus" />
+</RoarInputNumber>
+
 <h3>Start & End Decorations</h3>
 <div class="wa-stack">
-    <RoarInputNumber TValue="int?" Value="null" Label="Age" Placeholder="What's your age">
-        <RoarIcon Name="magnifying-glass" slot="@InputSlot.Start" />
+    <RoarInputNumber TValue="int?" Value="null" Label="Age" Placeholder="Price">
+        <RoarIcon Name="dollar-sign" slot="@InputSlot.Start" />
     </RoarInputNumber>
-    <RoarInputNumber TValue="int?" Value="null" Label="Age" Placeholder="What's your age">
-        <RoarIcon Name="globe" slot="@InputSlot.Start" />
-        <RoarIcon Name="circle-info" slot="@InputSlot.End" />
+    <RoarInputNumber TValue="int?" Value="null" Label="Age" Placeholder="Quantity">
+        <RoarIcon Name="cart-shopping" slot="@InputSlot.End" />
     </RoarInputNumber>
 </div>
 
