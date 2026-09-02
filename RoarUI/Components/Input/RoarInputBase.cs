@@ -315,4 +315,64 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
 
         return base.DisposeAsyncCore();
     }
+
+    protected bool TryParseSelectableValueFromString<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TSelectableValue>(string? value, [MaybeNullWhen(false)] out TSelectableValue result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        try
+        {
+            if (typeof(TSelectableValue) == typeof(bool))
+            {
+                if (TryConvertToBool(value, out result))
+                {
+                    validationErrorMessage = null;
+                    return true;
+                }
+            }
+            else if (typeof(TSelectableValue) == typeof(bool?))
+            {
+                if (TryConvertToNullableBool(value, out result))
+                {
+                    validationErrorMessage = null;
+                    return true;
+                }
+            }
+            else if (BindConverter.TryConvertTo<TSelectableValue>(value, CultureInfo.CurrentCulture, out var parsedValue))
+            {
+                result = parsedValue;
+                validationErrorMessage = null;
+                return true;
+            }
+
+            result = default;
+            validationErrorMessage = $"The {NameAttributeValue} field is not valid.";
+            return false;
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new InvalidOperationException($"{GetType()} does not support the type '{typeof(TSelectableValue)}'.", ex);
+        }
+    }
+
+    private static bool TryConvertToBool<TSelectableValue>(string? value, out TSelectableValue result)
+    {
+        if (bool.TryParse(value, out bool @bool))
+        {
+            result = (TSelectableValue)(object)@bool;
+            return true;
+        }
+
+        result = default!;
+        return false;
+    }
+
+    private static bool TryConvertToNullableBool<TSelectableValue>(string? value, out TSelectableValue result)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            result = default!;
+            return true;
+        }
+
+        return TryConvertToBool(value, out result);
+    }
 }

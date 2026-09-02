@@ -4,7 +4,7 @@
 
 <RoarDependency ComponentName="number-input" />
 
-<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @attributes="InternalAttributes" @ref="Element">
+<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @attributes="InternalAttributes" @ref="Element">
     @ChildContent
 </wa-number-input>
 
@@ -76,13 +76,13 @@
     public InputSize Size { get; set; }
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// Only required for SSR.
     /// </summary>
     [Parameter]
     public bool WithHint { get; set; } = false;
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// Only required for SSR.
     /// </summary>
     [Parameter]
     public bool WithLabel { get; set; } = false;

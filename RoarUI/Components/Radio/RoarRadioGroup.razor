@@ -1,0 +1,94 @@
+﻿@namespace RoarUI
+@inherits RoarUI.Components.Input.RoarInputBase<TValue>
+@typeparam TValue
+
+<RoarDependency ComponentName="radio-group" />
+
+<CascadingValue Name="RoarRadioGroupName" Value="NameAttributeValue">
+    <wa-radio-group value="@CurrentValueAsString" disabled="@Disabled" hint="@Hint" label="@Label" orientation="@Orientation" with-hint="@WithHint" with-label="@WithLabel" size="@Size" @attributes="InternalAttributes" @ref="Element">
+        @ChildContent
+    </wa-radio-group>
+</CascadingValue>
+
+@code {
+    /// <summary>
+    /// Disables the radio group and all child radios.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// The radio groups's hint. If you need to display HTML, use the hint slot instead.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The radio group's label. Required for proper accessibility. If you need to display HTML, use the label slot instead.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The orientation in which to show radio items.
+    /// </summary>
+    [Parameter]
+    public RadioGroupOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// The radio group's size. When present, this size will be applied to all <see cref="RoarRadio{TValue}"> items inside.
+    /// </summary>
+    [Parameter]
+    public InputSize? Size { get; set; }
+
+    /// <summary>
+    /// Only required for SSR.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; }
+
+    /// <summary>
+    /// Only required for SSR.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; }
+
+    /// <summary>
+    /// Emitted when the radio group receives user input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted when the radio group's selected value changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue result, [NotNullWhen(false)] out string? validationErrorMessage) => this.TryParseSelectableValueFromString(value, out result, out validationErrorMessage);
+
+    [JSInvokable]
+    public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
+    {
+        await SetCurrentValueAsStringAsync(args.Value);
+        await OnChange.InvokeAsync();
+    }
+
+    [JSInvokable]
+    public async Task TriggerInputAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
+    {
+        await SetCurrentValueAsStringAsync(args.Value);
+        await OnInput.InvokeAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
+            await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

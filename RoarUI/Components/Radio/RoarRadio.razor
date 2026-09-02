@@ -1,0 +1,43 @@
+﻿@namespace RoarUI
+@typeparam TValue
+
+<RoarDependency ComponentName="radio" />
+
+<wa-radio appearance="@Appearance" disabled="@Disabled" name="@GroupName" size="@Size" value="@BindConverter.FormatValue(Value?.ToString())" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-radio>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The radio's visual appearance.
+    /// </summary>
+    [Parameter]
+    public RadioAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// Disables the radio.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [CascadingParameter(Name = "RoarRadioGroupName")]
+    public string GroupName { get; set; } = "";
+
+    /// <summary>
+    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size, which will override this attribute.
+    /// </summary>
+    [Parameter]
+    public InputSize Size { get; set; }
+
+    /// <summary>
+    /// The radio's value. When selected, the radio group will receive this value.
+    /// </summary>
+    [Parameter]
+    public TValue? Value { get; set; }
+}
