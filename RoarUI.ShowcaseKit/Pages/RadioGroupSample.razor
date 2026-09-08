@@ -1,0 +1,85 @@
+﻿@page "/radio-group-sample"
+
+<h3>Initial Value</h3>
+<RoarRadioGroup @bind-Value="InitialValue" name="roast" Label="Coffee roast">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+
+<h3>Hint</h3>
+<RoarRadioGroup Label="Coffee roast" Hint="Pick the roast we'll grind for your order." Value="@("medium")">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+
+<h3>Radio Buttons</h3>
+<RoarRadioGroup Label="Color scheme" Hint="Choose how the interface should appear." Orientation="RadioGroupOrientation.Horizontal" Value="@("auto")">
+    <RoarRadio Appearance="RadioAppearance.Button" Value="@("light")">Light</RoarRadio>
+    <RoarRadio Appearance="RadioAppearance.Button" Value="@("dark")">Dark</RoarRadio>
+    <RoarRadio Appearance="RadioAppearance.Button" Value="@("auto")">Auto</RoarRadio>
+</RoarRadioGroup>
+<RoarRadioGroup Label="Color scheme" Hint="Choose how the interface should appear." Orientation="RadioGroupOrientation.Vertical" Value="@("auto")">
+    <RoarRadio Appearance="RadioAppearance.Button" Value="@("light")">Light</RoarRadio>
+    <RoarRadio Appearance="RadioAppearance.Button" Value="@("dark")">Dark</RoarRadio>
+    <RoarRadio Appearance="RadioAppearance.Button" Value="@("auto")">Auto</RoarRadio>
+</RoarRadioGroup>
+
+<h3>Disabled</h3>
+<RoarRadioGroup Label="Shipping speed" Value="@("")" Disabled>
+    <RoarRadio Value="@("standard")">Standard</RoarRadio>
+    <RoarRadio Value="@("express")">Express</RoarRadio>
+    <RoarRadio Value="@("overnight")">Overnight</RoarRadio>
+</RoarRadioGroup>
+<RoarRadioGroup Label="Shipping speed" Value="@("")">
+    <RoarRadio Value="@("standard")">Standard</RoarRadio>
+    <RoarRadio Value="@("express")">Express</RoarRadio>
+    <RoarRadio Value="@("overnight")" Disabled>Overnight</RoarRadio>
+</RoarRadioGroup>
+
+<h3>Orientation</h3>
+<RoarRadioGroup Label="Shipping speed" Value="@("standard")" Hint="Choose how fast you'd like your order." Orientation="RadioGroupOrientation.Horizontal">
+    <RoarRadio Value="@("standard")">Standard</RoarRadio>
+    <RoarRadio Value="@("express")">Express</RoarRadio>
+    <RoarRadio Value="@("overnight")">Overnight</RoarRadio>
+</RoarRadioGroup>
+
+<h3>Size</h3>
+<RoarRadioGroup Label="Coffee roast" Hint="Pick the roast we'll grind for your order." Value="@("medium")" Size="InputSize.Xs">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+<RoarRadioGroup Label="Coffee roast" Hint="Pick the roast we'll grind for your order." Value="@("medium")" Size="InputSize.S">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+<RoarRadioGroup Label="Coffee roast" Hint="Pick the roast we'll grind for your order." Value="@("medium")" Size="InputSize.M">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+<RoarRadioGroup Label="Coffee roast" Hint="Pick the roast we'll grind for your order." Value="@("medium")" Size="InputSize.L">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+<RoarRadioGroup Label="Coffee roast" Hint="Pick the roast we'll grind for your order." Value="@("medium")" Size="InputSize.Xl">
+    <RoarRadio Value='"light"'>Light roast</RoarRadio>
+    <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+    <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+</RoarRadioGroup>
+
+<RoarRadioGroup Label="Mixed sizes" Value="@("m")">
+    <RoarRadio Value='"xs"' Size="InputSize.Xs">Extra small</RoarRadio>
+    <RoarRadio Value='"s"' Size="InputSize.S">Small</RoarRadio>
+    <RoarRadio Value='"m"' Size="InputSize.M">Medium</RoarRadio>
+    <RoarRadio Value='"l"' Size="InputSize.L">Large</RoarRadio>
+    <RoarRadio Value='"xl"' Size="InputSize.Xl">Extra Large</RoarRadio>
+</RoarRadioGroup>
+
+@code {
+    public string InitialValue { get; set; } = "dark";
+}
