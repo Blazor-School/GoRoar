@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="radio" />
 
-<wa-radio appearance="@Appearance" disabled="@Disabled" name="@GroupName" size="@Size" value="@BindConverter.FormatValue(Value?.ToString())" @attributes="AdditionalAttributes">
+<wa-radio @attributes="AdditionalAttributes" appearance="@Appearance" disabled="@Disabled" name="@GroupName" size="@Size" value="@BindConverter.FormatValue(Value?.ToString())">
     @ChildContent
 </wa-radio>
 
