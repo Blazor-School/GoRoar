@@ -1,9 +1,52 @@
 ﻿export function afterWebStarted(blazor) {
     roarGeneralFunction();
+    registerRoarEvents(blazor);
 }
 
 export function afterStarted(blazor) {
     roarGeneralFunction();
+    registerRoarEvents(blazor);
+}
+
+function registerRoarEvents(blazor) {
+    const events = {
+        roarafterhide: {
+            browserEventName: "wa-after-hide",
+            createEventArgs: () => ({})
+        },
+        roaraftershow: {
+            browserEventName: "wa-after-show",
+            createEventArgs: () => ({})
+        },
+        roarhide: {
+            browserEventName: "wa-hide",
+            createEventArgs: () => ({})
+        },
+        roarshow: {
+            browserEventName: "wa-show",
+            createEventArgs: () => ({})
+        },
+        roarselect: {
+            browserEventName: "wa-select",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-dropdown":
+                        return {
+                            dropdown: {
+                                selectedItem: event.detail?.item?.value ?? null,
+                                checked: event.detail?.item?.type === "checkbox" ? event.detail.item.checked : null
+                            }
+                        };
+                    default:
+                        return {};
+                }
+            }
+        }
+    };
+
+    for (const [eventName, options] of Object.entries(events)) {
+        blazor.registerCustomEventType(eventName, options);
+    }
 }
 
 let componentControllers = new Map();
@@ -120,10 +163,6 @@ function roarGeneralFunction() {
 }
 
 let roarEventFromHtmlEvent = {
-    "DropdownSelectEventArgs": (e) => ({
-        SelectedItem: e.detail.item.value,
-        Checked: e.detail.item.type === 'checkbox' ? e.detail.item.checked : null
-    }),
     "ComparisonChangeEventArgs": (e) => ({
         Position: e.target.position
     }),

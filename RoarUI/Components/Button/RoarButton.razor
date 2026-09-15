@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="button" />
 
-<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
+<wa-button @attributes="AdditionalAttributes" variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
 
 @code {
     /// <summary>
@@ -54,24 +54,6 @@
     [Parameter]
     public ButtonType Type { get; set; }
 
-    /// <summary>
-    /// Emitted when the button loses focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    /// <summary>
-    /// Emitted when the button gains focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
-
-    /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnInvalid { get; set; }
-
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -94,31 +76,4 @@
     /// </summary>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-            await RegisterEventAsync("wa-invalid", nameof(TriggerInvalidAsync));
-        }
-    }
-
-    [JSInvokable]
-    public async Task TriggerBlurAsync()
-    {
-        await OnBlur.InvokeAsync();
-    }
-
-    [JSInvokable]
-    public async Task TriggerFocusAsync()
-    {
-        await OnFocus.InvokeAsync();
-    }
-
-    [JSInvokable]
-    public async Task TriggerInvalidAsync()
-    {
-        await OnInvalid.InvokeAsync();
-    }
 }

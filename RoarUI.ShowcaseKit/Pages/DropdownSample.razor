@@ -1,16 +1,23 @@
 ﻿@page "/dropdown-sample"
 
 <h3>Getting the Selected Item</h3>
-<RoarDropdown @bind-Value="SelectedValue" OnSelectPreventDefault="KeepMenuOpen">
+<p>Selected value: @SelectedValue</p>
+<p>Open: @DropdownOpen</p>
+<p>Events: show @ShowCount, after show @AfterShowCount, hide @HideCount, after hide @AfterHideCount</p>
+<RoarDropdown @bind-Value="SelectedValue" @bind-Open="DropdownOpen" @onroarselect:preventDefault="KeepMenuOpen" OnShow="() => ShowCount++" OnAfterShow="() => AfterShowCount++" OnHide="() => HideCount++" OnAfterHide="() => AfterHideCount++">
+    @* @onroarselect:stopPropagation="StopSelectionPropagation" *@
     <RoarButton Appearance="ButtonAppearance.Filled" slot="@DropdownSlot.Trigger" WithCaret>View</RoarButton>
     <RoarDropdownItem Value="full-screen">Enter full screen</RoarDropdownItem>
     <RoarDropdownItem Value="actual">Actual size</RoarDropdownItem>
     <RoarDropdownItem Value="zoom-in">Zoom in</RoarDropdownItem>
     <RoarDropdownItem Value="zoom-out">Zoom out</RoarDropdownItem>
 </RoarDropdown>
-<p>Selected value: @SelectedValue</p>
+
 <label>
     <InputCheckbox @bind-Value="KeepMenuOpen" /> Keep menu open after selection
+</label>
+<label>
+    <InputCheckbox @bind-Value="StopSelectionPropagation" /> Stop selection propagation
 </label>
 
 <h3>Showing Icons</h3>
@@ -218,6 +225,12 @@
 
 @code {
     public bool KeepMenuOpen { get; set; }
+    public bool StopSelectionPropagation { get; set; }
+    public bool DropdownOpen { get; set; }
+    public int ShowCount { get; set; }
+    public int AfterShowCount { get; set; }
+    public int HideCount { get; set; }
+    public int AfterHideCount { get; set; }
     public string SelectedValue { get; set; } = "";
     public string SelectedSubmenu { get; set; } = "";
 
