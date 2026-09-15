@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace RoarUI.Events;
 
@@ -7,6 +8,8 @@ namespace RoarUI.Events;
 [EventHandler("onroaraftershow", typeof(RoarAfterShowEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarhide", typeof(RoarHideEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarshow", typeof(RoarShowEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarblur", typeof(FocusEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarfocus", typeof(FocusEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 public static class EventHandlers
 {
 }

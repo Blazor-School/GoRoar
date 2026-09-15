@@ -3,9 +3,11 @@
 
 <RoarDependency ComponentName="button" />
 
-<wa-button @attributes="AdditionalAttributes" variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
+<wa-button @attributes="InternalAttributes" variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
 
 @code {
+    private Dictionary<string, object> InternalAttributes = [];
+
     /// <summary>
     /// The button's theme variant. Defaults to <see cref="Variant.Neutral"/> if not within another element with a variant.
     /// </summary>
@@ -59,6 +61,14 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .MapEvent("onblur", "onroarblur")
+            .MapEvent("onfocus", "onroarfocus")
+            .Build();
+    }
 
     /// <summary>
     /// Removes focus from the button.

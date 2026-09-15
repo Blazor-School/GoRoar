@@ -41,6 +41,14 @@ function registerRoarEvents(blazor) {
                         return {};
                 }
             }
+        },
+        roarblur: {
+            browserEventName: "blur",
+            createEventArgs: event => ({ type: event.type })
+        },
+        roarfocus: {
+            browserEventName: "focus",
+            createEventArgs: event => ({ type: event.type })
         }
     };
 

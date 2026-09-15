@@ -48,6 +48,20 @@ internal class AttributeBuilder
         return this;
     }
 
+    public AttributeBuilder MapEvent(string eventName, string mappedEventName)
+    {
+        // Blazor represents event modifiers as internal attributes alongside the handler.
+        foreach (string prefix in new[] { "", "__internal_preventDefault_", "__internal_stopPropagation_" })
+        {
+            if (_attributes.Remove($"{prefix}{eventName}", out object? value))
+            {
+                _attributes[$"{prefix}{mappedEventName}"] = value;
+            }
+        }
+
+        return this;
+    }
+
     public AttributeBuilder AddEventModifier(string eventName, EventModifier modifier, bool value)
     {
         string dataAttributeName = $"data-{eventName}{EnumStringConvert.ToStringValue(modifier)}";
@@ -85,5 +99,6 @@ internal class AttributeBuilder
 
         return this;
     }
+
     public Dictionary<string, object> Build() => _attributes;
 }
