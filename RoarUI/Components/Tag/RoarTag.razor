@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tag" />
 
-<wa-tag appearance="@Appearance" pill="@Pill" size="@Size" variant="@Variant" with-remove="@WithRemove" @attributes="AdditionalAttributes" @ref="Element">
+<wa-tag appearance="@Appearance" pill="@Pill" size="@Size" variant="@Variant" with-remove="@WithRemove" @onroarremove="TriggerRemove" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-tag>
 
@@ -50,14 +50,5 @@
     [Parameter]
     public EventCallback OnRemove { get; set; }
 
-    [JSInvokable]
     public Task TriggerRemove() => OnRemove.InvokeAsync();
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("wa-remove", nameof(TriggerRemove));
-        }
-    }
 }

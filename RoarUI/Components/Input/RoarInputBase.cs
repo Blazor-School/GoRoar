@@ -7,11 +7,12 @@ using System.Linq.Expressions;
 
 namespace RoarUI.Components.Input;
 
-public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
+public abstract class RoarInputBase<TValue> : RoarJsComponentBase, IDisposable
 {
     private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
 
     private bool _hasInitializedParameters;
+    private bool _disposed;
     private bool _parsingFailed;
     private string? _incomingValueBeforeParsing;
     private string? _formattedValueExpression;
@@ -300,6 +301,8 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
     private void UpdateAdditionalValidationAttributes() => InternalAttributes = InitializeAttributeBuilder().Build();
 
     internal virtual AttributeBuilder InitializeAttributeBuilder() => new AttributeBuilder(AdditionalAttributes)
+        .MapEvent("onblur", "onroarblur")
+        .MapEvent("onfocus", "onroarfocus")
         .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
         .AddAttributeWhenMissing("name", NameAttributeValue);
 
@@ -308,12 +311,18 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
     {
     }
 
-    protected override ValueTask DisposeAsyncCore()
+    public void Dispose()
     {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
         EditContext?.OnValidationStateChanged -= _validationStateChangedHandler;
         Dispose(true);
 
-        return base.DisposeAsyncCore();
+        GC.SuppressFinalize(this);
     }
 
     protected bool TryParseSelectableValueFromString<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TSelectableValue>(string? value, [MaybeNullWhen(false)] out TSelectableValue result, [NotNullWhen(false)] out string? validationErrorMessage)

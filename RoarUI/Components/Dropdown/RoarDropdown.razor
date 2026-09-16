@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="args => args.Dropdown is { } selection ? NotifyValueChanged(selection) : Task.CompletedTask" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @attributes="AdditionalAttributes">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-dropdown>
 
@@ -106,15 +106,15 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    public async Task NotifyValueChanged(DropdownSelectEventArgs eventArgs)
+    public async Task NotifyValueChanged(RoarSelectEventArgs eventArgs)
     {
-        if (eventArgs.Checked is not null)
+        if (eventArgs.Dropdown.Checked is not null)
         {
-            await CheckboxItemSelected.InvokeAsync(new(eventArgs.SelectedItem, eventArgs.Checked.Value));
+            await CheckboxItemSelected.InvokeAsync(new(eventArgs.Dropdown.SelectedItem, eventArgs.Dropdown.Checked.Value));
         }
         else
         {
-            await ValueChanged.InvokeAsync(eventArgs.SelectedItem);
+            await ValueChanged.InvokeAsync(eventArgs.Dropdown.SelectedItem);
         }
     }
 

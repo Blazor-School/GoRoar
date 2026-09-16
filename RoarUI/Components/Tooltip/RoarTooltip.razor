@@ -1,9 +1,11 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tooltip" />
 
-<wa-tooltip for="@For" placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @attributes="InternalAttributes" @ref="Element" without-arrow="@NoArrow">@ChildContent</wa-tooltip>
+<wa-tooltip for="@For" placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @ref="Element" without-arrow="@NoArrow" @attributes="InternalAttributes">
+    @ChildContent
+</wa-tooltip>
 
 @code {
     [Parameter]
@@ -113,36 +115,21 @@
             .Build();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
-            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
-            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
-            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
-        }
-    }
-
-    [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
         await OnAfterHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerHideAsync()
     {
         await OnHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerAfterShowAsync()
     {
         await OnAfterShow.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerShowAsync()
     {
         await OnShow.InvokeAsync();

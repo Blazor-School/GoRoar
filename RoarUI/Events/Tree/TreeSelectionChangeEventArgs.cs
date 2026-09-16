@@ -1,3 +1,3 @@
 ﻿namespace RoarUI.Events;
 
-public record TreeSelectionChangeEventArgs(string SelectedValue);
+public record TreeSelectionChangeEventArgs(string? SelectedValue);

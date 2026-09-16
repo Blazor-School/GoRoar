@@ -1,10 +1,10 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsPropertyObserverComponentBase
 
 <RoarDependency ComponentName="zoomable-frame" />
 <RoarDependency ComponentName="icon" />
 
-<wa-zoomable-frame allowfullscreen="@AllowFullscreen" loading="@Loading" referrerpolicy="@ReferrerPolicy" sandbox="@Sandbox" src="@Src" without-controls="@WithoutControls" without-interaction="@WithoutInteraction" with-theme-sync="@WithThemeSync" zoom="@Zoom" zoom-levels="@ZoomLevelsAttribute" @attributes="AdditionalAttributes" @ref="Element">
+<wa-zoomable-frame allowfullscreen="@AllowFullscreen" loading="@Loading" referrerpolicy="@ReferrerPolicy" sandbox="@Sandbox" src="@Src" without-controls="@WithoutControls" without-interaction="@WithoutInteraction" with-theme-sync="@WithThemeSync" zoom="@Zoom" zoom-levels="@ZoomLevelsAttribute" @onerror="TriggerError" @onload="TriggerLoad" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-zoomable-frame>
 
@@ -103,10 +103,8 @@
         await ZoomChanged.InvokeAsync(Zoom);
     }
 
-    [JSInvokable]
     public Task TriggerError() => OnError.InvokeAsync();
 
-    [JSInvokable]
     public Task TriggerLoad() => OnLoad.InvokeAsync();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -114,8 +112,6 @@
         if (firstRender)
         {
             await ObserveComponentPropertyAsync("zoom", nameof(TriggerZoomChange));
-            await RegisterEventAsync("error", nameof(TriggerError));
-            await RegisterEventAsync("load", nameof(TriggerLoad));
         }
     }
 

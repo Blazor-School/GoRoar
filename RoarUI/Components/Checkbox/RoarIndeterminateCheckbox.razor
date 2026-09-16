@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="checkbox" />
 
-<wa-checkbox checked="@(CurrentValue == true)" indeterminate="@(CurrentValue is null)" disabled="@Disabled" hint="@Hint" size="@Size" @attributes="InternalAttributes" @ref="@Element">
+<wa-checkbox checked="@(CurrentValue == true)" indeterminate="@(CurrentValue is null)" disabled="@Disabled" hint="@Hint" size="@Size" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @ref="@Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-checkbox>
 
@@ -18,46 +18,25 @@
     public CheckboxSize Size { get; set; }
 
     [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    [Parameter]
     public EventCallback OnChange { get; set; }
-
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
 
     [Parameter]
     public EventCallback OnInput { get; set; }
 
-    [JSInvokable]
-    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerChangeAsync(CheckboxChangeEventArgs args)
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(ConvertStateFromEvent(args));
+        await SetCurrentValueAsync(ConvertStateFromEvent(args.Checkbox));
         await OnChange.InvokeAsync();
     }
 
-    [JSInvokable]
-    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerInputAsync(CheckboxChangeEventArgs args)
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(ConvertStateFromEvent(args));
+        await SetCurrentValueAsync(ConvertStateFromEvent(args.Checkbox));
         await OnInput.InvokeAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("change", nameof(CheckboxChangeEventArgs), nameof(TriggerChangeAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-            await RegisterEventAsync("input", nameof(CheckboxChangeEventArgs), nameof(TriggerInputAsync));
-        }
 
         await SetComponentPropertyAsync("checked", CurrentValue == true);
         await SetComponentPropertyAsync("indeterminate", CurrentValue is null);

@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="checkbox" />
 
-<wa-checkbox checked="@CurrentValue" disabled="@Disabled" hint="@Hint" size="@Size" @attributes="InternalAttributes" @ref="@Element">
+<wa-checkbox checked="@CurrentValue" disabled="@Disabled" hint="@Hint" size="@Size" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @ref="@Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-checkbox>
 
@@ -27,22 +27,10 @@
     public CheckboxSize Size { get; set; }
 
     /// <summary>
-    /// Emitted when the checkbox loses focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    /// <summary>
     /// Emitted when the checked state changes.
     /// </summary>
     [Parameter]
     public EventCallback OnChange { get; set; }
-
-    /// <summary>
-    /// Emitted when the checkbox gains focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
 
     /// <summary>
     /// Emitted when the checkbox receives input.
@@ -50,35 +38,16 @@
     [Parameter]
     public EventCallback OnInput { get; set; }
 
-    [JSInvokable]
-    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerChangeAsync(CheckboxChangeEventArgs args)
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(args.Checked);
+        await SetCurrentValueAsync(args.Checkbox.Checked);
         await OnChange.InvokeAsync();
     }
 
-    [JSInvokable]
-    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerInputAsync(CheckboxChangeEventArgs args)
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(args.Checked);
+        await SetCurrentValueAsync(args.Checkbox.Checked);
         await OnInput.InvokeAsync();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("change", nameof(CheckboxChangeEventArgs), nameof(TriggerChangeAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-            await RegisterEventAsync("input", nameof(CheckboxChangeEventArgs), nameof(TriggerInputAsync));
-        }
     }
 
     /// <summary>

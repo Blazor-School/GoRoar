@@ -4,7 +4,7 @@
 
 <RoarDependency ComponentName="known-date" />
 
-<wa-known-date appearance="@Appearance" autocomplete="@Autocomplete" value="@CurrentValueAsString" disabled="@Disabled" hint="@Hint" inputmode="text" label="@Label" pill="@Pill" readonly="@ReadOnly" size="@Size" type="date" with-hint="@WithHint" with-label="@WithLabel" locale="@Locale" @attributes="InternalAttributes" @ref="Element">
+<wa-known-date appearance="@Appearance" autocomplete="@Autocomplete" value="@CurrentValueAsString" disabled="@Disabled" hint="@Hint" inputmode="text" label="@Label" pill="@Pill" readonly="@ReadOnly" size="@Size" type="date" with-hint="@WithHint" with-label="@WithLabel" locale="@Locale" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-known-date>
 
@@ -82,22 +82,10 @@
     public string ParsingErrorMessage { get; set; } = string.Empty;
 
     /// <summary>
-    /// Emitted when the control loses focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    /// <summary>
     /// Emitted when an alteration to the control's value is committed by the user.
     /// </summary>
     [Parameter]
     public EventCallback OnChange { get; set; }
-
-    /// <summary>
-    /// Emitted when the control gains focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
 
     /// <summary>
     /// Emitted when the control receives input.
@@ -105,23 +93,15 @@
     [Parameter]
     public EventCallback OnInput { get; set; }
 
-    [JSInvokable]
-    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args)
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsStringAsync(args.Value);
+        await SetCurrentValueAsStringAsync(args.KnownDate.Value);
         await OnChange.InvokeAsync();
     }
 
-    [JSInvokable]
-    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<string?> args)
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsStringAsync(args.Value);
+        await SetCurrentValueAsStringAsync(args.KnownDate.Value);
         await OnInput.InvokeAsync();
     }
 
@@ -136,17 +116,6 @@
     /// <param name="preventScroll"></param>
     /// <param name="focusVisible"></param>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-            await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
-        }
-    }
 
     protected override bool TryParseValueFromString(string? value, out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
     {

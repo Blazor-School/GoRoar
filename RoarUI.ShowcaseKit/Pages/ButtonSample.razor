@@ -173,7 +173,7 @@
 </div>
 
 <div>
-    <RoarLinkButton Href="https://google.com" Variant="ButtonVariant.Neutral" @ref="LinkButton1" OnBlur="LinkButton1Blured" OnFocus="LinkButton1Focused" OnInvalid="LinkButton1Invalid">LinkButton1</RoarLinkButton>
+    <RoarLinkButton Href="https://google.com" Variant="ButtonVariant.Neutral" @ref="LinkButton1" @onblur="LinkButton1Blured" @onfocus="LinkButton1Focused">LinkButton1</RoarLinkButton>
 
     <RoarButton Variant="ButtonVariant.Brand" @onclick="BlurLinkButton1Async">Blur LinkButton1</RoarButton>
     <RoarButton Variant="ButtonVariant.Brand" @onclick="FocusLinkButton1Async">Focus LinkButton1</RoarButton>
@@ -242,10 +242,5 @@
     public void LinkButton1Focused()
     {
         Console.WriteLine("LinkButton1 focused!");
-    }
-
-    public void LinkButton1Invalid()
-    {
-        Console.WriteLine("LinkButton1 invalid!");
     }
 }

@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="button" />
 
-<wa-button @attributes="InternalAttributes" variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
+<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" with-caret="@WithCaret" @ref="Element" @attributes="InternalAttributes">@ChildContent</wa-button>
 
 @code {
     private Dictionary<string, object> InternalAttributes = [];

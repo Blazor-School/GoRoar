@@ -20,7 +20,16 @@ function registerRoarEvents(blazor) {
         },
         roarhide: {
             browserEventName: "wa-hide",
-            createEventArgs: () => ({})
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-dialog":
+                        return { dialog: { selfClose: event.detail?.source === event.target.dialog } };
+                    case "wa-drawer":
+                        return { drawer: { selfClose: event.detail?.source === event.target.drawer } };
+                    default:
+                        return {};
+                }
+            }
         },
         roarshow: {
             browserEventName: "wa-show",
@@ -49,6 +58,94 @@ function registerRoarEvents(blazor) {
         roarfocus: {
             browserEventName: "focus",
             createEventArgs: event => ({ type: event.type })
+        },
+        roarchange: {
+            browserEventName: "change",
+            createEventArgs: createRoarValueEventArgs
+        },
+        roarinput: {
+            browserEventName: "input",
+            createEventArgs: createRoarValueEventArgs
+        },
+        roarreposition: {
+            browserEventName: "wa-reposition",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-split-panel":
+                        return { splitPanel: { position: event.target.position, positionInPixels: event.target.positionInPixels } };
+                    default:
+                        return {};
+                }
+            }
+        },
+        roartabshow: {
+            browserEventName: "wa-tab-show",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-tab-group":
+                        return { tabGroup: { tabName: event.detail.name } };
+                    default:
+                        return {};
+                }
+            }
+        },
+        roartabhide: {
+            browserEventName: "wa-tab-hide",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-tab-group":
+                        return { tabGroup: { tabName: event.detail.name, activatingTabName: event.target.active } };
+                    default:
+                        return {};
+                }
+            }
+        },
+        roarselectionchange: {
+            browserEventName: "wa-selection-change",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-tree":
+                        return { tree: { selectedValue: event.detail.selection[0]?.getAttribute("value") ?? null, selectedValues: event.detail.selection.map(item => item.getAttribute("value")) } };
+                    default:
+                        return {};
+                }
+            }
+        },
+        roarclear: {
+            browserEventName: "wa-clear",
+            createEventArgs: () => ({})
+        },
+        roarbeforeinput: {
+            browserEventName: "beforeinput",
+            createEventArgs: () => ({})
+        },
+        roaraftercollapse: {
+            browserEventName: "wa-after-collapse",
+            createEventArgs: () => ({})
+        },
+        roarafterexpand: {
+            browserEventName: "wa-after-expand",
+            createEventArgs: () => ({})
+        },
+        roarcollapse: {
+            browserEventName: "wa-collapse",
+            createEventArgs: () => ({})
+        },
+        roarexpand: {
+            browserEventName: "wa-expand",
+            createEventArgs: () => ({})
+        },
+        roarlazychange: {
+            browserEventName: "wa-lazy-change",
+            createEventArgs: () => ({})
+        },
+        roarlazyload: {
+            browserEventName: "wa-lazy-load",
+            createEventArgs: () => ({})
+        },
+        roarremove: {
+            browserEventName: "wa-remove",
+            createEventArgs: () => ({})
         }
     };
 
@@ -57,69 +154,33 @@ function registerRoarEvents(blazor) {
     }
 }
 
-let componentControllers = new Map();
-
-function getEventController(subscriptionId) {
-    if (subscriptionId === null || subscriptionId === undefined || subscriptionId === "") {
-        throw new Error("A subscription ID is required.");
+function createRoarValueEventArgs(event) {
+    switch (event.target?.localName) {
+        case "wa-checkbox":
+            return { checkbox: { checked: event.target.checked, indeterminate: event.target.indeterminate } };
+        case "wa-comparison":
+            return { comparison: { position: event.target.position } };
+        case "wa-input":
+            return { input: { value: event.target.value } };
+        case "wa-known-date":
+            return { knownDate: { value: event.target.value } };
+        case "wa-number-input":
+            return { numberInput: { value: event.target.value } };
+        case "wa-radio-group":
+            return { radioGroup: { value: event.target.value } };
+        case "wa-color-picker":
+            return { colorPicker: { value: event.target.value } };
+        default:
+            return {};
     }
-
-    let controller = componentControllers.get(subscriptionId);
-
-    if (!controller) {
-        controller = new AbortController();
-        componentControllers.set(subscriptionId, controller);
-    }
-
-    return controller;
 }
 
-function hasEventModifier(element, eventName, modifier) {
-    return element.getAttribute(`data-${eventName}${modifier}`) === "";
-}
+const propertyObservers = new WeakMap();
 
 function roarGeneralFunction() {
     window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
         return element[functionName](...params);
     }
-
-    window.subscribeEvent = function (element, eventName, instance, method, subscriptionId) {
-        let controller = getEventController(subscriptionId);
-
-        element.addEventListener(eventName, (e) => {
-            if (hasEventModifier(element, eventName, "preventdefault")) {
-                e.preventDefault();
-            }
-
-            if (hasEventModifier(element, eventName, "stoppropagation")) {
-                e.stopPropagation();
-            }
-
-            instance.invokeMethodAsync(method);
-        }, { signal: controller.signal });
-    }
-
-    window.subscribeEventWithArgs = function (element, eventName, eventArgsName, instance, method, subscriptionId) {
-        let controller = getEventController(subscriptionId);
-
-        element.addEventListener(eventName, (e) => {
-            if (hasEventModifier(element, eventName, "preventdefault")) {
-                e.preventDefault();
-            }
-
-            if (hasEventModifier(element, eventName, "stoppropagation")) {
-                e.stopPropagation();
-            }
-
-            return instance.invokeMethodAsync(method, roarEventFromHtmlEvent[eventArgsName](e, element));
-        }, { signal: controller.signal });
-    }
-
-    window.unsubscribeEvents = function (subscriptionId) {
-        const controller = getEventController(subscriptionId);
-        controller.abort();
-        componentControllers.delete(subscriptionId);
-    };
 
     window.setObjectProperty = function (element, propertyName, value) {
         element[propertyName] = value;
@@ -138,6 +199,13 @@ function roarGeneralFunction() {
     }
 
     window.observeProperty = function (element, propertyName, instance, methodName) {
+        let observers = propertyObservers.get(element);
+
+        if (!observers) {
+            observers = [];
+            propertyObservers.set(element, observers);
+        }
+
         let previousValue = element[propertyName];
 
         let propertyObserver = new MutationObserver(() => {
@@ -158,8 +226,11 @@ function roarGeneralFunction() {
 
         let cleanupObserver = new MutationObserver(() => {
             if (!document.body.contains(element)) {
-                propertyObserver.disconnect();
-                cleanupObserver.disconnect();
+                for (const observer of observers) {
+                    observer.disconnect();
+                }
+
+                propertyObservers.delete(element);
             }
         });
 
@@ -167,41 +238,7 @@ function roarGeneralFunction() {
             childList: true,
             subtree: true
         });
-    }
-}
 
-let roarEventFromHtmlEvent = {
-    "ComparisonChangeEventArgs": (e) => ({
-        Position: e.target.position
-    }),
-    "DialogHideEventArgs": (e, element) => ({
-        SelfClose: e.detail.source === element.dialog
-    }),
-    "DrawerHideEventArgs": (e, element) => ({
-        SelfClose: e.detail.source === element.drawer
-    }),
-    "SplitPanelRepositionEventArgs": (e) => ({
-        Position: e.target.position,
-        PositionInPixels: e.target.positionInPixels
-    }),
-    "TabGroupShowEventArgs": (e) => ({
-        TabName: e.detail.name
-    }),
-    "TabGroupHideEventArgs": (e) => ({
-        TabName: e.detail.name,
-        ActivatingTabName: e.target.active
-    }),
-    "TreeSelectionChangeEventArgs": (e) => ({
-        SelectedValue: e.detail.selection[0].getAttribute("value")
-    }),
-    "TreeMultipleSelectionChangeEventArgs": (e) => ({
-        SelectedValues: e.detail.selection.map(item => item.getAttribute("value"))
-    }),
-    "CheckboxChangeEventArgs": (e) => ({
-        Checked: e.target.checked,
-        Indeterminate: e.target.indeterminate
-    }),
-    "InputChangeEventArgs": (e) => ({
-        Value: e.target.value,
-    })
+        observers.push(propertyObserver, cleanupObserver);
+    }
 }

@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="split-panel" />
 
-<wa-split-panel disabled="@Disabled" orientation="@Orientation" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @attributes="AdditionalAttributes" @ref="Element">
+<wa-split-panel disabled="@Disabled" orientation="@Orientation" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @onroarreposition="TriggerRepositionAsync" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-split-panel>
 
@@ -62,12 +62,11 @@
     [Parameter]
     public EventCallback<SplitPanelRepositionEventArgs> OnReposition { get; set; }
 
-    [JSInvokable]
-    public async Task TriggerRepositionAsync(SplitPanelRepositionEventArgs args)
+    public async Task TriggerRepositionAsync(RoarRepositionEventArgs args)
     {
-        Position = args.PositionInPixels;
-        await PositionChanged.InvokeAsync(args.PositionInPixels);
-        await OnReposition.InvokeAsync(args);
+        Position = args.SplitPanel.PositionInPixels;
+        await PositionChanged.InvokeAsync(args.SplitPanel.PositionInPixels);
+        await OnReposition.InvokeAsync(args.SplitPanel);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -75,7 +74,6 @@
         if (firstRender)
         {
             await SetComponentPropertyAsync("positionInPixels", Position);
-            await RegisterEventAsync("wa-reposition", nameof(SplitPanelRepositionEventArgs), nameof(TriggerRepositionAsync));
         }
     }
 }

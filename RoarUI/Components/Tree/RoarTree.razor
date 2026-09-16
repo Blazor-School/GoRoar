@@ -1,10 +1,10 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tree" />
 
 <CascadingValue Value="this" Name="Parent" IsFixed>
-    <wa-tree selection="@(LeafOnly ? "leaf" : "single")" @attributes="AdditionalAttributes" @ref="Element">
+    <wa-tree selection="@(LeafOnly ? "leaf" : "single")" @onroarselectionchange="TriggerSelectionChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
         @ChildContent
     </wa-tree>
 </CascadingValue>
@@ -34,18 +34,11 @@
     [Parameter]
     public bool LeafOnly { get; set; } = false;
 
-    [JSInvokable]
+    private Task TriggerSelectionChangeAsync(RoarSelectionChangeEventArgs args) => TriggerValueChange(new(args.Tree.SelectedValue));
+
     public async Task TriggerValueChange(TreeSelectionChangeEventArgs args)
     {
         Value = args.SelectedValue;
         await ValueChanged.InvokeAsync(Value);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("wa-selection-change", nameof(TreeSelectionChangeEventArgs), nameof(TriggerValueChange));
-        }
     }
 }

@@ -5,7 +5,7 @@
 <RoarDependency ComponentName="radio-group" />
 
 <CascadingValue Name="RoarRadioGroupName" Value="NameAttributeValue">
-    <wa-radio-group @attributes="InternalAttributes" value="@CurrentValueAsString" disabled="@Disabled" hint="@Hint" label="@Label" orientation="@Orientation" with-hint="@WithHint" with-label="@WithLabel" size="@Size" @ref="Element">
+    <wa-radio-group @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" value="@CurrentValueAsString" disabled="@Disabled" hint="@Hint" label="@Label" orientation="@Orientation" with-hint="@WithHint" with-label="@WithLabel" size="@Size" @ref="Element" @attributes="InternalAttributes">
         @ChildContent
     </wa-radio-group>
 </CascadingValue>
@@ -67,28 +67,15 @@
 
     protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue result, [NotNullWhen(false)] out string? validationErrorMessage) => this.TryParseSelectableValueFromString(value, out result, out validationErrorMessage);
 
-    [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args) // We receive value as a string from JS side
     {
-        await SetCurrentValueAsStringAsync(args.Value);
+        await SetCurrentValueAsStringAsync(args.RadioGroup.Value);
         await OnChange.InvokeAsync();
     }
 
-    [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
+    public async Task TriggerInputAsync(RoarInputEventArgs args) // We receive value as a string from JS side
     {
-        await SetCurrentValueAsStringAsync(args.Value);
+        await SetCurrentValueAsStringAsync(args.RadioGroup.Value);
         await OnInput.InvokeAsync();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
-            await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
     }
 }
