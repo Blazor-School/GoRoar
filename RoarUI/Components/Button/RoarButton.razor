@@ -1,11 +1,13 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="button" />
 
-<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" @attributes="AdditionalAttributes" with-caret="@WithCaret" @ref="Element">@ChildContent</wa-button>
+<wa-button variant="@Variant" appearance="@Appearance" size="@Size" pill="@Pill" type="@Type" loading="@Loading" disabled="@Disabled" with-caret="@WithCaret" @ref="Element" @attributes="InternalAttributes">@ChildContent</wa-button>
 
 @code {
+    private Dictionary<string, object> InternalAttributes = [];
+
     /// <summary>
     /// The button's theme variant. Defaults to <see cref="Variant.Neutral"/> if not within another element with a variant.
     /// </summary>
@@ -54,29 +56,19 @@
     [Parameter]
     public ButtonType Type { get; set; }
 
-    /// <summary>
-    /// Emitted when the button loses focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    /// <summary>
-    /// Emitted when the button gains focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
-
-    /// <summary>
-    /// Emitted when the form control has been checked for validity and its constraints aren't satisfied.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnInvalid { get; set; }
-
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .MapEvent("onblur", "onroarblur")
+            .MapEvent("onfocus", "onroarfocus")
+            .Build();
+    }
 
     /// <summary>
     /// Removes focus from the button.
@@ -94,31 +86,4 @@
     /// </summary>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-            await RegisterEventAsync("wa-invalid", nameof(TriggerInvalidAsync));
-        }
-    }
-
-    [JSInvokable]
-    public async Task TriggerBlurAsync()
-    {
-        await OnBlur.InvokeAsync();
-    }
-
-    [JSInvokable]
-    public async Task TriggerFocusAsync()
-    {
-        await OnFocus.InvokeAsync();
-    }
-
-    [JSInvokable]
-    public async Task TriggerInvalidAsync()
-    {
-        await OnInvalid.InvokeAsync();
-    }
 }

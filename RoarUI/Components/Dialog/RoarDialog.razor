@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="dialog" />
 
-<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @attributes="InternalAttributes" @ref="Element">
+<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-dialog>
 
@@ -57,18 +57,6 @@
     public EventCallback OnAfterHide { get; set; }
 
     /// <summary>
-    /// When true, the dialog will remain open after the hide event is emitted. When false, the dialog will be closed after the hide event is emitted.
-    /// </summary>
-    [Parameter]
-    public bool OnHidePreventDefault { get; set; }
-
-    /// <summary>
-    /// Stop propagation of the hide event.
-    /// </summary>
-    [Parameter]
-    public bool OnHideStopPropagation { get; set; }
-
-    /// <summary>
     /// Emitted after the dialog opens and all animations are complete.
     /// </summary>
     [Parameter]
@@ -86,28 +74,6 @@
     [Parameter]
     public EventCallback OnShow { get; set; }
 
-    internal Dictionary<string, object> InternalAttributes = [];
-
-    protected override void OnParametersSet()
-    {
-        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier("wa-hide", EventModifier.PreventDefault, OnHidePreventDefault)
-            .AddEventModifier("wa-hide", EventModifier.StopPropagation, OnHideStopPropagation)
-            .Build();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
-            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
-            await RegisterEventAsync("wa-hide", nameof(DialogHideEventArgs), nameof(TriggerHideAsync));
-            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
-        }
-    }
-
-    [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
         Open = false;
@@ -115,19 +81,16 @@
         await OnAfterHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerAfterShowAsync()
     {
         await OnAfterShow.InvokeAsync();
     }
 
-    [JSInvokable]
-    public async Task TriggerHideAsync(DialogHideEventArgs args)
+    public async Task TriggerHideAsync(RoarHideEventArgs args)
     {
-        await OnHide.InvokeAsync(args);
+        await OnHide.InvokeAsync(args.Dialog);
     }
 
-    [JSInvokable]
     public async Task TriggerShowAsync()
     {
         Open = true;

@@ -9,21 +9,6 @@ internal static class JavascriptFunctionNames
     public const string ExecuteJsFunctionFromJsObject = "executeJsFunctionFromJsObject";
 
     /// <summary>
-    /// Element, JsEventName, DotNetObjectReference, CsharpCallbackMethodName, SubscriptionId
-    /// </summary>
-    public const string SubscribeEvent = "subscribeEvent";
-
-    /// <summary>
-    /// Element, JsEventName, CSharpEventArgsName, DotNetObjectReference, CsharpCallbackMethodName, SubscriptionId
-    /// </summary>
-    public const string SubscribeEventWithArgs = "subscribeEventWithArgs";
-
-    /// <summary>
-    /// SubscriptionId
-    /// </summary>
-    public const string UnsubscribeEvent = "unsubscribeEvents";
-
-    /// <summary>
     /// Element, PropertyName, Value
     /// </summary>
     public const string SetObjectProperty = "setObjectProperty";

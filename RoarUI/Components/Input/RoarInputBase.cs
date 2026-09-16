@@ -7,11 +7,12 @@ using System.Linq.Expressions;
 
 namespace RoarUI.Components.Input;
 
-public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
+public abstract class RoarInputBase<TValue> : RoarJsComponentBase, IDisposable
 {
     private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
 
     private bool _hasInitializedParameters;
+    private bool _disposed;
     private bool _parsingFailed;
     private string? _incomingValueBeforeParsing;
     private string? _formattedValueExpression;
@@ -300,6 +301,8 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
     private void UpdateAdditionalValidationAttributes() => InternalAttributes = InitializeAttributeBuilder().Build();
 
     internal virtual AttributeBuilder InitializeAttributeBuilder() => new AttributeBuilder(AdditionalAttributes)
+        .MapEvent("onblur", "onroarblur")
+        .MapEvent("onfocus", "onroarfocus")
         .AddConditionalAttributeWhenMissing(FieldBound && EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any(), "aria-invalid", "true")
         .AddAttributeWhenMissing("name", NameAttributeValue);
 
@@ -308,11 +311,77 @@ public abstract class RoarInputBase<TValue> : RoarJsEventComponentBase
     {
     }
 
-    protected override ValueTask DisposeAsyncCore()
+    public void Dispose()
     {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
         EditContext?.OnValidationStateChanged -= _validationStateChangedHandler;
         Dispose(true);
 
-        return base.DisposeAsyncCore();
+        GC.SuppressFinalize(this);
+    }
+
+    protected bool TryParseSelectableValueFromString<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TSelectableValue>(string? value, [MaybeNullWhen(false)] out TSelectableValue result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        try
+        {
+            if (typeof(TSelectableValue) == typeof(bool))
+            {
+                if (TryConvertToBool(value, out result))
+                {
+                    validationErrorMessage = null;
+                    return true;
+                }
+            }
+            else if (typeof(TSelectableValue) == typeof(bool?))
+            {
+                if (TryConvertToNullableBool(value, out result))
+                {
+                    validationErrorMessage = null;
+                    return true;
+                }
+            }
+            else if (BindConverter.TryConvertTo<TSelectableValue>(value, CultureInfo.CurrentCulture, out var parsedValue))
+            {
+                result = parsedValue;
+                validationErrorMessage = null;
+                return true;
+            }
+
+            result = default;
+            validationErrorMessage = $"The {NameAttributeValue} field is not valid.";
+            return false;
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new InvalidOperationException($"{GetType()} does not support the type '{typeof(TSelectableValue)}'.", ex);
+        }
+    }
+
+    private static bool TryConvertToBool<TSelectableValue>(string? value, out TSelectableValue result)
+    {
+        if (bool.TryParse(value, out bool @bool))
+        {
+            result = (TSelectableValue)(object)@bool;
+            return true;
+        }
+
+        result = default!;
+        return false;
+    }
+
+    private static bool TryConvertToNullableBool<TSelectableValue>(string? value, out TSelectableValue result)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            result = default!;
+            return true;
+        }
+
+        return TryConvertToBool(value, out result);
     }
 }

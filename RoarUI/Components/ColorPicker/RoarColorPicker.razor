@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="color-picker" />
 
-<wa-color-picker disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" opacity="@Opacity" open="@Open" placement="@Placement" size="@Size" uppercase="@Uppercase" value="@Value" with-hint="@WithHint" with-label="@WithLabel" without-format-toggle="@WithoutFormatToggle" @attributes="InternalAttributes" @ref="Element">
+<wa-color-picker disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" opacity="@Opacity" open="@Open" placement="@Placement" size="@Size" uppercase="@Uppercase" value="@Value" with-hint="@WithHint" with-label="@WithLabel" without-format-toggle="@WithoutFormatToggle" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-color-picker>
 
@@ -99,22 +99,10 @@
     public bool WithoutFormatToggle { get; set; } = false;
 
     /// <summary>
-    /// Emitted when the color picker loses focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    /// <summary>
     /// Emitted when the color picker's value changes.
     /// </summary>
     [Parameter]
     public EventCallback OnChange { get; set; }
-
-    /// <summary>
-    /// Emitted when the color picker receives focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
 
     /// <summary>
     /// Emitted when the color picker receives input.
@@ -164,18 +152,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
-            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
-            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
-            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
-            await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
-            await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-        }
-
         switch (Swatches.Kind)
         {
             case ColorPickerSwatchesKind.Colors:
@@ -189,49 +165,37 @@
         }
     }
 
-    [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
         await OnAfterHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerAfterShowAsync()
     {
         await OnAfterShow.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerHideAsync()
     {
         await OnHide.InvokeAsync();
         await OpenChanged.InvokeAsync(false);
     }
 
-    [JSInvokable]
     public async Task TriggerShowAsync()
     {
         await OnShow.InvokeAsync();
         await OpenChanged.InvokeAsync(true);
     }
 
-    [JSInvokable]
-    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
-
-    [JSInvokable]
-    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<string> args)
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(args.Value);
+        await SetCurrentValueAsync(args.ColorPicker.Value);
         await OnChange.InvokeAsync();
     }
 
-    [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<string> args)
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(args.Value);
+        await SetCurrentValueAsync(args.ColorPicker.Value);
         await OnInput.InvokeAsync();
     }
 

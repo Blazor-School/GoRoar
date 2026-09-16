@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="comparison" />
 
-<wa-comparison @attributes="AdditionalAttributes" @ref="Element">
+<wa-comparison @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-comparison>
 
@@ -23,11 +23,10 @@
     [Parameter]
     public Expression<Func<double>>? PositionExpression { get; set; }
 
-    [JSInvokable]
-    public async Task NotifyChangeAsync(ComparisonChangeEventArgs args)
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        Position = args.Position;
-        await PositionChanged.InvokeAsync(args.Position);
+        Position = args.Comparison.Position;
+        await PositionChanged.InvokeAsync(args.Comparison.Position);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -35,7 +34,6 @@
         if (firstRender)
         {
             await SetComponentPropertyAsync("position", Position);
-            await RegisterEventAsync("change", nameof(ComparisonChangeEventArgs), nameof(NotifyChangeAsync));
         }
     }
 }

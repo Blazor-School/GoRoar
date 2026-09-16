@@ -39,20 +39,16 @@
 <h3>Required</h3>
 <EditForm Model="Form">
     <DataAnnotationsValidator />
-    <RoarCheckboxGroup Label="Select your icecream flavour: (required)">
+    <RoarCheckboxGroup Label="Select your icecream flavour: (required)" For="() => Form.CheckboxGroup1">
         <div>
-            <RoarCheckbox @bind-Checked="Form.CheckboxGroup1[0]">Mango</RoarCheckbox>
-            <RoarCheckbox @bind-Checked="Form.CheckboxGroup1[1]">Tea leaf</RoarCheckbox>
-            <RoarCheckbox @bind-Checked="Form.CheckboxGroup1[2]">Vanilla</RoarCheckbox>
+            <RoarCheckbox @bind-Value="Form.CheckboxGroup1[0]">Mango</RoarCheckbox>
+            <RoarCheckbox @bind-Value="Form.CheckboxGroup1[1]">Tea leaf</RoarCheckbox>
+            <RoarCheckbox @bind-Value="Form.CheckboxGroup1[2]">Vanilla</RoarCheckbox>
             <ValidationMessage For="() => Form.CheckboxGroup1" />
         </div>
         <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit">Submit</RoarButton>
     </RoarCheckboxGroup>
 </EditForm>
-@*
-    When unchecking a checkbox in a group, it does not reset the error. We will ignore this for now.
-*@
-
 @code {
     public CheckboxGroupIcecreamForm Form { get; set; } = new();
 }

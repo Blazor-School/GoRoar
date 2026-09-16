@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="details" />
 
-<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @attributes="AdditionalAttributes" @ref="Element">
+<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-details>
 
@@ -83,37 +83,22 @@
     public ValueTask HideAsync() => CallComponentVoidFunctionAsync("hide");
     public ValueTask ShowAsync() => CallComponentVoidFunctionAsync("show");
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
-            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
-            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
-            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
-        }
-    }
-
-    [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
         await OnAfterHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerAfterShowAsync()
     {
         await OnAfterShow.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerHideAsync()
     {
         await OpenChanged.InvokeAsync(false);
         await OnHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerShowAsync()
     {
         await OpenChanged.InvokeAsync(true);

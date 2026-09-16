@@ -1,6 +1,4 @@
-﻿using RoarUI.Events;
-
-namespace RoarUI.Utilities;
+﻿namespace RoarUI.Utilities;
 
 internal class AttributeBuilder
 {
@@ -48,10 +46,16 @@ internal class AttributeBuilder
         return this;
     }
 
-    public AttributeBuilder AddEventModifier(string eventName, EventModifier modifier, bool value)
+    public AttributeBuilder MapEvent(string eventName, string mappedEventName)
     {
-        string dataAttributeName = $"data-{eventName}{EnumStringConvert.ToStringValue(modifier)}";
-        _attributes[dataAttributeName] = value;
+        // Blazor represents event modifiers as internal attributes alongside the handler.
+        foreach (string prefix in new[] { "", "__internal_preventDefault_", "__internal_stopPropagation_" })
+        {
+            if (_attributes.Remove($"{prefix}{eventName}", out object? value))
+            {
+                _attributes[$"{prefix}{mappedEventName}"] = value;
+            }
+        }
 
         return this;
     }
@@ -85,5 +89,6 @@ internal class AttributeBuilder
 
         return this;
     }
+
     public Dictionary<string, object> Build() => _attributes;
 }

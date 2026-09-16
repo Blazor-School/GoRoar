@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tree-item" />
 
-<wa-tree-item disabled="@Disabled" expanded="@Expanded" lazy="@Lazy" selected="@Selected" value="@Value" @attributes="AdditionalAttributes" @ref="Element">
+<wa-tree-item disabled="@Disabled" expanded="@Expanded" lazy="@Lazy" selected="@Selected" value="@Value" @onroaraftercollapse="TriggerAfterCollapse" @onroarafterexpand="TriggerAfterExpand" @onroarcollapse="TriggerCollapse" @onroarexpand="TriggerExpand" @onroarlazychange="TriggerLazyChange" @onroarlazyload="TriggerLazyLoad" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-tree-item>
 
@@ -108,13 +108,10 @@
         }
     }
 
-    [JSInvokable]
     public Task TriggerAfterCollapse() => OnAfterCollapse.InvokeAsync();
 
-    [JSInvokable]
     public Task TriggerAfterExpand() => OnAfterExpand.InvokeAsync();
 
-    [JSInvokable]
     public async Task TriggerCollapse()
     {
         Expanded = false;
@@ -122,7 +119,6 @@
         await OnCollapse.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerExpand()
     {
         Expanded = true;
@@ -130,7 +126,6 @@
         await OnExpand.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerLazyChange()
     {
         Lazy = await GetComponentPropertyAsync<bool>("lazy");
@@ -138,23 +133,9 @@
         await OnLazyChange.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerLazyLoad()
     {
         await OnLazyLoad.InvokeAsync();
         await SetComponentPropertyAsync("lazy", false); // Disable lazy mode once the content has been loaded
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if(firstRender)
-        {
-            await RegisterEventAsync("wa-after-collapse", nameof(TriggerAfterCollapse));
-            await RegisterEventAsync("wa-after-expand", nameof(TriggerAfterExpand));
-            await RegisterEventAsync("wa-collapse", nameof(TriggerCollapse));
-            await RegisterEventAsync("wa-expand", nameof(TriggerExpand));
-            await RegisterEventAsync("wa-lazy-change", nameof(TriggerLazyChange));
-            await RegisterEventAsync("wa-lazy-load", nameof(TriggerLazyLoad));
-        }
     }
 }

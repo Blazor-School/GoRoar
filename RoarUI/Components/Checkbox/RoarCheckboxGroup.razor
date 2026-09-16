@@ -3,16 +3,27 @@
 
 <RoarDependency ComponentName="checkbox-group" />
 
-<wa-checkbox-group hint="@Hint" label="@Label" orientation="@Orientation" @attributes="AdditionalAttributes" with-hint="@WithHint" with-label="@WithLabel">
-    @ChildContent
-</wa-checkbox-group>
+<CascadingValue Value="this">
+    <wa-checkbox-group hint="@Hint" label="@Label" orientation="@Orientation" with-hint="@WithHint" with-label="@WithLabel" @attributes="AdditionalAttributes">
+        @ChildContent
+    </wa-checkbox-group>
+</CascadingValue>
 
 @code {
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Identifies the form field represented by the checkbox group.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<object>>? For { get; set; }
 
     /// <summary>
     /// The checkbox group's hint. If you need to display HTML, use the hint slot instead.
@@ -33,14 +44,22 @@
     public CheckboxGroupOrientation Orientation { get; set; }
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// Only required for SSR.
     /// </summary>
     [Parameter]
     public bool WithHint { get; set; } = false;
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// Only required for SSR.
     /// </summary>
     [Parameter]
     public bool WithLabel { get; set; } = false;
+
+    internal void NotifyGroupChanged()
+    {
+        if (EditContext is not null && For is not null)
+        {
+            EditContext.NotifyFieldChanged(FieldIdentifier.Create(For));
+        }
+    }
 }

@@ -4,7 +4,7 @@
 
 <RoarDependency ComponentName="number-input" />
 
-<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" name="@NameAttributeValue" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @attributes="InternalAttributes" @ref="Element">
+<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarbeforeinput="TriggerBeforeInputAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-number-input>
 
@@ -76,13 +76,13 @@
     public InputSize Size { get; set; }
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a hint element so the server-rendered markup includes the hint before the component hydrates on the client.
+    /// Only required for SSR.
     /// </summary>
     [Parameter]
     public bool WithHint { get; set; } = false;
 
     /// <summary>
-    /// Only required for SSR. Set to true if you're slotting in a label element so the server-rendered markup includes the label before the component hydrates on the client.
+    /// Only required for SSR.
     /// </summary>
     [Parameter]
     public bool WithLabel { get; set; } = false;
@@ -100,22 +100,10 @@
     public string ParsingErrorMessage { get; set; } = "The {0} field must be a number.";
 
     /// <summary>
-    /// Emitted when the control loses focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnBlur { get; set; }
-
-    /// <summary>
     /// Emitted when an alteration to the control's value is committed by the user.
     /// </summary>
     [Parameter]
     public EventCallback OnChange { get; set; }
-
-    /// <summary>
-    /// Emitted when the control gains focus.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnFocus { get; set; }
 
     /// <summary>
     /// Emitted when the control receives input.
@@ -129,39 +117,18 @@
     [Parameter]
     public EventCallback OnBeforeInput { get; set; }
 
-    /// <summary>
-    /// Emitted before the value changes. When true, the value will not be changed.
-    /// </summary>
-    [Parameter]
-    public bool OnBeforeInputPreventDefault { get; set; }
-
-    /// <summary>
-    /// Stop propagation of the before input event.
-    /// </summary>
-    [Parameter]
-    public bool OnBeforeInputStopPropagation { get; set; }
-
-    [JSInvokable]
-    public Task TriggerBlurAsync() => OnBlur.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerChangeAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsStringAsync(args.Value);
+        await SetCurrentValueAsStringAsync(args.NumberInput.Value);
         await OnChange.InvokeAsync();
     }
 
-    [JSInvokable]
-    public Task TriggerFocusAsync() => OnFocus.InvokeAsync();
-
-    [JSInvokable]
-    public async Task TriggerInputAsync(InputChangeEventArgs<string?> args) // We receive value as a string from JS side
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsStringAsync(args.Value);
+        await SetCurrentValueAsStringAsync(args.NumberInput.Value);
         await OnInput.InvokeAsync();
     }
 
-    [JSInvokable]
     public Task TriggerBeforeInputAsync() => OnBeforeInput.InvokeAsync();
 
     /// <summary>
@@ -199,20 +166,6 @@
         await SyncComponentValue();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await RegisterEventAsync("blur", nameof(TriggerBlurAsync));
-            await RegisterEventAsync("change", nameof(InputChangeEventArgs<>), nameof(TriggerChangeAsync));
-            await RegisterEventAsync("focus", nameof(TriggerFocusAsync));
-            await RegisterEventAsync("input", nameof(InputChangeEventArgs<>), nameof(TriggerInputAsync));
-            await RegisterEventAsync("beforeinput", nameof(TriggerBeforeInputAsync));
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
     protected override bool TryParseValueFromString(string? value, out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (string.IsNullOrEmpty(value))
@@ -237,10 +190,6 @@
             return false;
         }
     }
-
-    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
-            .AddEventModifier("beforeinput", EventModifier.PreventDefault, OnBeforeInputPreventDefault)
-            .AddEventModifier("beforeinput", EventModifier.StopPropagation, OnBeforeInputStopPropagation);
 
     protected override string? FormatValueAsString(TValue? value) => value switch
     {

@@ -1,9 +1,8 @@
 ﻿@namespace RoarUI
-@inherits RoarJsEventComponentBase
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @ref="Element" @attributes="InternalAttributes">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-dropdown>
 
@@ -72,18 +71,6 @@
     public Expression<Func<string?>>? ValueExpression { get; set; }
 
     /// <summary>
-    /// When true, the dropdown will remain open after an item is selected. When false, the dropdown will be closed after an item is selected.
-    /// </summary>
-    [Parameter]
-    public bool OnSelectPreventDefault { get; set; }
-
-    /// <summary>
-    /// Stop propagation of the select event.
-    /// </summary>
-    [Parameter]
-    public bool OnSelectStopPropagation { get; set; }
-
-    /// <summary>
     /// Emitted when the dropdown is about to hide.
     /// </summary>
     [Parameter]
@@ -119,42 +106,18 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    internal Dictionary<string, object> InternalAttributes = [];
-
-    protected override void OnParametersSet()
+    public async Task NotifyValueChanged(RoarSelectEventArgs eventArgs)
     {
-        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddEventModifier("wa-select", EventModifier.PreventDefault, OnSelectPreventDefault)
-            .AddEventModifier("wa-select", EventModifier.StopPropagation, OnSelectStopPropagation)
-            .Build();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        if (eventArgs.Dropdown.Checked is not null)
         {
-            await RegisterEventAsync("wa-select", nameof(DropdownSelectEventArgs), nameof(NotifyValueChanged));
-            await RegisterEventAsync("wa-after-hide", nameof(TriggerAfterHideAsync));
-            await RegisterEventAsync("wa-after-show", nameof(TriggerAfterShowAsync));
-            await RegisterEventAsync("wa-hide", nameof(TriggerHideAsync));
-            await RegisterEventAsync("wa-show", nameof(TriggerShowAsync));
-        }
-    }
-
-    [JSInvokable]
-    public async Task NotifyValueChanged(DropdownSelectEventArgs eventArgs)
-    {
-        if (eventArgs.Checked is not null)
-        {
-            await CheckboxItemSelected.InvokeAsync(new(eventArgs.SelectedItem, eventArgs.Checked.Value));
+            await CheckboxItemSelected.InvokeAsync(new(eventArgs.Dropdown.SelectedItem, eventArgs.Dropdown.Checked.Value));
         }
         else
         {
-            await ValueChanged.InvokeAsync(eventArgs.SelectedItem);
+            await ValueChanged.InvokeAsync(eventArgs.Dropdown.SelectedItem);
         }
     }
 
-    [JSInvokable]
     public async Task TriggerAfterHideAsync()
     {
         Open = false;
@@ -162,19 +125,16 @@
         await OnAfterHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerAfterShowAsync()
     {
         await OnAfterShow.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerHideAsync()
     {
         await OnHide.InvokeAsync();
     }
 
-    [JSInvokable]
     public async Task TriggerShowAsync()
     {
         Open = true;
