@@ -8,6 +8,9 @@
 </wa-checkbox>
 
 @code {
+    [CascadingParameter]
+    private RoarCheckboxGroup? Group { get; set; }
+
     /// <summary>
     /// Disables the checkbox.
     /// </summary>
@@ -41,6 +44,7 @@
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
         await SetCurrentValueAsync(args.Checkbox.Checked);
+        Group?.NotifyGroupChanged();
         await OnChange.InvokeAsync();
     }
 
