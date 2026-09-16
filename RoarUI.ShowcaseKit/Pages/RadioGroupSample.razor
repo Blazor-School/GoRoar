@@ -80,6 +80,32 @@
     <RoarRadio Value='"xl"' Size="InputSize.Xl">Extra Large</RoarRadio>
 </RoarRadioGroup>
 
+<h3>Validation</h3>
+<EditForm Model="RequiredForm">
+    <DataAnnotationsValidator />
+    <RoarRadioGroup Label="Coffee roast*" @bind-Value="RequiredForm.SelectedCoffee">
+        <RoarRadio Value='"light"'>Light roast</RoarRadio>
+        <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+        <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+    </RoarRadioGroup>
+    <ValidationMessage For="() => RequiredForm.SelectedCoffee" />
+    <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit" style="width:fit-content">Submit</RoarButton>
+</EditForm>
+
+<h3>Custom Validity</h3>
+<EditForm Model="CustomValidityForm">
+    <DataAnnotationsValidator />
+    <RoarRadioGroup Label="Coffee roast*" @bind-Value="CustomValidityForm.SelectedCoffee">
+        <RoarRadio Value='"light"'>Light roast</RoarRadio>
+        <RoarRadio Value='"medium"'>Medium roast</RoarRadio>
+        <RoarRadio Value='"dark"'>Dark roast</RoarRadio>
+    </RoarRadioGroup>
+    <ValidationMessage For="() => CustomValidityForm.SelectedCoffee" />
+    <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Neutral" Type="ButtonType.Submit" style="width:fit-content">Submit</RoarButton>
+</EditForm>
+
 @code {
     public string InitialValue { get; set; } = "dark";
+    public RadioGroupRequiredForm RequiredForm { get; set; } = new();
+    public RadioGroupCustomValidityForm CustomValidityForm { get; set; } = new();
 }
