@@ -1,0 +1,118 @@
+﻿@namespace RoarUI
+@inherits RoarUI.Components.Input.RoarInputBase<string?>
+
+<RoarDependency ComponentName="input" />
+
+<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@AutoSubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" effectiveLength="@EffectiveLength" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-otp-input>
+
+@code {
+    /// <summary>
+    /// Visual appearance of the segments.
+    /// </summary>
+    [Parameter]
+    public InputOtpApperance Appearance { get; set; }
+
+    /// <summary>
+    /// The autocomplete attribute forwarded to the underlying input.
+    /// </summary>
+    [Parameter]
+    public string Autocomplete { get; set; } = "one-time-code";
+
+    /// <summary>
+    /// Automatically focuses the field when the page loads.
+    /// </summary>
+    [Parameter]
+    public bool Autofocus { get; set; } = false;
+
+    /// <summary>
+    /// When true, the form is submitted automatically once all segments are filled.
+    /// </summary>
+    [Parameter]
+    public bool AutoSubmit { get; set; } = false;
+
+    /// <summary>
+    /// Case transformation applied to entered characters.
+    /// </summary>
+    [Parameter]
+    public InputOtpCase Case { get; set; }
+
+    /// <summary>
+    /// Disables the form control.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Segment format string using # as a segment placeholder and any other character as a literal separator. Setting format overrides length (the segment count is derived from the number of # characters).
+    /// </summary>
+    [Parameter]
+    public string Format { get; set; } = "";
+
+    /// <summary>
+    /// Number of segments derived from format (count of #) or length.
+    /// </summary>
+    [Parameter]
+    public int EffectiveLength { get; set; } = 6;
+
+    /// <summary>
+    /// Hint text shown below the segments. Use the hint slot for HTML content.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// A label shown above the segments. Use the label slot for HTML content.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// Number of character segments to display. Overridden by format when set.
+    /// </summary>
+    [Parameter]
+    public int Length { get; set; } = 6;
+
+    /// <summary>
+    /// Makes the field readonly — the value displays but cannot be edited by the user.
+    /// </summary>
+    [Parameter]
+    public bool Readonly { get; set; } = false;
+
+    /// <summary>
+    /// When true, entered characters are displayed as --mask-char instead of their real value.
+    /// </summary>
+    [Parameter]
+    public bool Mask { get; set; } = false;
+
+    /// <summary>
+    /// The size of each segment.
+    /// </summary>
+    [Parameter]
+    public InputSize Size { get; set; }
+
+    /// <summary>
+    /// Allowed character class.
+    /// </summary>
+    [Parameter]
+    public InputOtpType Type { get; set; }
+
+    /// <summary>
+    /// When true, empty segments show --mask-char as a hint instead of appearing blank, similar to how a password field communicates its expected length before anything is typed.
+    /// </summary>
+    [Parameter]
+    public bool WithMask { get; set; } = false;
+
+    public ValueTask Blur() => CallComponentVoidFunctionAsync("blur");
+    public ValueTask Focus() => CallComponentVoidFunctionAsync("focus");
+    public ValueTask Clear() => CallComponentVoidFunctionAsync("clear");
+
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+
+        return true;
+    }
+}
