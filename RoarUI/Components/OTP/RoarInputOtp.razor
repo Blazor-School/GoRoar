@@ -1,9 +1,9 @@
 ﻿@namespace RoarUI
 @inherits RoarUI.Components.Input.RoarInputBase<string?>
 
-<RoarDependency ComponentName="input" />
+<RoarDependency ComponentName="otp-input" />
 
-<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@AutoSubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" effectiveLength="@EffectiveLength" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @ref="Element" @attributes="InternalAttributes">
+<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@Autosubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" effectiveLength="@EffectiveLength" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarclear="TriggerClearAsync" @onroarcomplete="TriggerCompleteAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-otp-input>
 
@@ -30,7 +30,7 @@
     /// When true, the form is submitted automatically once all segments are filled.
     /// </summary>
     [Parameter]
-    public bool AutoSubmit { get; set; } = false;
+    public bool Autosubmit { get; set; } = false;
 
     /// <summary>
     /// Case transformation applied to entered characters.
@@ -104,6 +104,30 @@
     [Parameter]
     public bool WithMask { get; set; } = false;
 
+    /// <summary>
+    /// Emitted once when all segments are filled.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnComplete { get; set; }
+
+    /// <summary>
+    /// Emitted when the value changes and the field loses focus.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted when a character is entered or removed.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted when the control's value is cleared.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClear { get; set; }
+
     public ValueTask Blur() => CallComponentVoidFunctionAsync("blur");
     public ValueTask Focus() => CallComponentVoidFunctionAsync("focus");
     public ValueTask Clear() => CallComponentVoidFunctionAsync("clear");
@@ -115,4 +139,19 @@
 
         return true;
     }
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        await SetCurrentValueAsync(args.Input.Value);
+        await OnChange.InvokeAsync();
+    }
+
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
+    {
+        await SetCurrentValueAsync(args.Input.Value);
+        await OnInput.InvokeAsync();
+    }
+
+    public Task TriggerClearAsync() => OnClear.InvokeAsync();
+    public Task TriggerCompleteAsync() => OnComplete.InvokeAsync();
 }

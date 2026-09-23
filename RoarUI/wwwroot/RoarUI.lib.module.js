@@ -146,6 +146,10 @@ function registerRoarEvents(blazor) {
         roarremove: {
             browserEventName: "wa-remove",
             createEventArgs: () => ({})
+        },
+        roarcomplete: {
+            browserEventName: "wa-complete",
+            createEventArgs: () => ({})
         }
     };
 
@@ -161,6 +165,7 @@ function createRoarValueEventArgs(event) {
         case "wa-comparison":
             return { comparison: { position: event.target.position } };
         case "wa-input":
+        case "wa-otp-input":
             return { input: { value: event.target.value } };
         case "wa-known-date":
             return { knownDate: { value: event.target.value } };

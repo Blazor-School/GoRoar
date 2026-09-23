@@ -1,0 +1,64 @@
+﻿@page "/input-otp-sample"
+
+<h3>Label</h3>
+<RoarInputOtp Label="Security code" />
+
+<h3>Hint</h3>
+<RoarInputOtp Label="Sign-in code" Hint="Check your email for a 6-digit code." />
+
+<h3>Length</h3>
+<RoarInputOtp Label="Card PIN" Length="4" />
+<RoarInputOtp Label="Backup code" Length="8" />
+
+<h3>Type</h3>
+<RoarInputOtp Label="Numeric" Type="InputOtpType.Numeric" />
+<RoarInputOtp Label="Alpha" Type="InputOtpType.Alpha" />
+<RoarInputOtp Label="Alphanumeric" Type="InputOtpType.Alphanumeric" />
+
+<h3>Format</h3>
+<RoarInputOtp Label="Invite code" Type="InputOtpType.Alphanumeric" Format="### ###" />
+<RoarInputOtp Label="License key" Type="InputOtpType.Alphanumeric" Format="####-####-####" />
+
+<h3>Case</h3>
+<RoarInputOtp Label="Upper" Type="InputOtpType.Alpha" Case="InputOtpCase.Upper" />
+<RoarInputOtp Label="Lower" Type="InputOtpType.Alpha" Case="InputOtpCase.Lower" />
+
+<h3>Mask</h3>
+<RoarInputOtp Label="PIN" Mask Length="4" />
+<RoarInputOtp Label="PIN" Mask WithMask Length="4" />
+<RoarInputOtp Label="PIN" Mask WithMask Length="4" style="--mask-char: '_'" />
+
+<h3>Appearance</h3>
+<RoarInputOtp Label="Outlined" Appearance="InputOtpApperance.Outlined" />
+<RoarInputOtp Label="Filled" Appearance="InputOtpApperance.Filled" />
+<RoarInputOtp Label="Filled outlined" Appearance="InputOtpApperance.FilledOutlined" />
+<RoarInputOtp Label="Contained" Appearance="InputOtpApperance.Contained" />
+
+<h3>Size</h3>
+<RoarInputOtp Label="Extra small" Size="InputSize.Xs" />
+<RoarInputOtp Label="Small" Size="InputSize.S" />
+<RoarInputOtp Label="Medium" Size="InputSize.M" />
+<RoarInputOtp Label="Large" Size="InputSize.L" />
+<RoarInputOtp Label="Extra large" Size="InputSize.Xl" />
+
+<h3>Disabled</h3>
+<RoarInputOtp Label="Verification code" Disabled Value="391824" />
+
+<h3>Readonly</h3>
+<RoarInputOtp Label="Confirmation code" Readonly Value="483920" />
+
+<h3>Pasting</h3>
+<RoarInputOtp Label="Paste your code below" />
+
+<h3>Autosubmit</h3>
+<EditForm Model="AutoSubmitForm" OnSubmit="SubmitForm">
+    <RoarInputOtp Label="SMS verification code" @bind-Value="AutoSubmitForm.Code" Autosubmit />
+    <p>@SubmitMessage</p>
+</EditForm>
+
+@code {
+    public string SubmitMessage { get; set; } = "";
+    public AutoSubmitForm AutoSubmitForm { get; set; } = new();
+
+    public void SubmitForm() => SubmitMessage = $"Form submitted with code: {AutoSubmitForm.Code}";
+}
