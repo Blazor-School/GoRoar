@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="otp-input" />
 
-<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@Autosubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" effectiveLength="@EffectiveLength" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarclear="TriggerClearAsync" @onroarcomplete="TriggerCompleteAsync" @ref="Element" @attributes="InternalAttributes">
+<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@Autosubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarclear="TriggerClearAsync" @onroarcomplete="TriggerCompleteAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-otp-input>
 
@@ -49,12 +49,6 @@
     /// </summary>
     [Parameter]
     public string Format { get; set; } = "";
-
-    /// <summary>
-    /// Number of segments derived from format (count of #) or length.
-    /// </summary>
-    [Parameter]
-    public int EffectiveLength { get; set; } = 6;
 
     /// <summary>
     /// Hint text shown below the segments. Use the hint slot for HTML content.
@@ -152,6 +146,15 @@
         await OnInput.InvokeAsync();
     }
 
-    public Task TriggerClearAsync() => OnClear.InvokeAsync();
-    public Task TriggerCompleteAsync() => OnComplete.InvokeAsync();
+    public async Task TriggerClearAsync()
+    {
+        await SyncComponentValue();
+        await OnClear.InvokeAsync();
+    }
+
+    public async Task TriggerCompleteAsync()
+    {
+        await SyncComponentValue();
+        await OnComplete.InvokeAsync();
+    }
 }
