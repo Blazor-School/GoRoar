@@ -15,6 +15,8 @@ namespace RoarUI.Events;
 [EmptyEventArgs("RoarRemoveEventArgs")]
 [EmptyEventArgs("RoarShowEventArgs")]
 [EmptyEventArgs("RoarCompleteEventArgs")]
+[EmptyEventArgs("RoarErrorEventArgs")]
+[EmptyEventArgs("RoarCopyEventArgs")]
 internal class EmptyEventArgsDef
 {
 }

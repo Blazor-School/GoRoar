@@ -48,7 +48,14 @@
 <RoarInputOtp Label="Confirmation code" Readonly Value="483920" />
 
 <h3>Pasting</h3>
-<RoarInputOtp Label="Paste your code below" />
+<RoarCopyButton Value="2027">
+    <RoarButton Appearance="ButtonAppearance.Filled">
+        <RoarIcon slot="@ButtonSlot.Start" Name="clipboard" />
+        Copy code: 2027
+    </RoarButton>
+</RoarCopyButton>
+<RoarDivider />
+<RoarInputOtp Label="Paste your code below" Length="4" />
 
 <h3>Autosubmit</h3>
 <EditForm Model="AutoSubmitForm" OnSubmit="SubmitForm">

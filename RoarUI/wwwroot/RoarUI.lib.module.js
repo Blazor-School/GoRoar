@@ -150,6 +150,14 @@ function registerRoarEvents(blazor) {
         roarcomplete: {
             browserEventName: "wa-complete",
             createEventArgs: () => ({})
+        },
+        roarcopy: {
+            browserEventName: "wa-copy",
+            createEventArgs: () => ({})
+        },
+        roarerror: {
+            browserEventName: "wa-error",
+            createEventArgs: () => ({})
         }
     };
 

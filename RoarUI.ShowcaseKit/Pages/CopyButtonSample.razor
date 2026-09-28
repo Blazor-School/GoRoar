@@ -1,0 +1,88 @@
+﻿@page "/copy-button-sample"
+
+<h3>Copying from Other Elements</h3>
+<span id="my-phone">+1 (234) 456-7890</span>
+<RoarCopyButton From="my-phone" />
+
+<div class="d-flex">
+    <RoarInputText id="my-input" Value="User input" />
+    <RoarCopyButton From="my-input.value" />
+</div>
+
+<a id="my-link" href="https://blazorschool.com/">BlazorSchool Website</a>
+<RoarCopyButton From="my-link[href]" />
+
+<h3>Custom Labels</h3>
+<RoarCopyButton Value="Custom labels are easy" CopyLabel="Click to copy" SuccessLabel="You did it!" ErrorLabel="Whoops, your browser doesn't support this!" />
+
+<h3>Custom Icons</h3>
+<RoarCopyButton Value="Copied from a custom button">
+    <RoarIcon slot="@CopyButtonSlot.CopyIcon" Name="clipboard" Variant="FontAwesomeVariant.Regular" />
+    <RoarIcon slot="@CopyButtonSlot.SuccessIcon" Name="thumbs-up" Variant="FontAwesomeVariant.Solid" />
+    <RoarIcon slot="@CopyButtonSlot.ErrorIcon" Name="xmark" Variant="FontAwesomeVariant.Solid" />
+</RoarCopyButton>
+
+<h3>Custom Trigger</h3>
+<RoarCopyButton Value="You can copy anything with a custom trigger!">
+    <RoarButton Appearance="ButtonAppearance.Filled">Copy to Clipboard</RoarButton>
+</RoarCopyButton>
+
+<RoarCopyButton Value="https://blazorschool.com">
+    <button type="button" class="wa-filled">Copy to Clipboard</button>
+</RoarCopyButton>
+
+<h3>Disabled</h3>
+<RoarCopyButton Value="You can't cope me" Disabled />
+
+<h3>Handling Error</h3>
+<RoarCopyButton From="i-do-not-exist" />
+
+<h3>Feedback Duration</h3>
+<RoarCopyButton Value="Roar!" FeedbackDuration="1000" />
+
+<h3>Tooltip Mode</h3>
+<RoarCopyButton Value="Roar!" Tooltip="CopyButtonTooltip.Full" />
+<RoarCopyButton Value="Roar!" Tooltip="CopyButtonTooltip.Copy" />
+<RoarCopyButton Value="Roar!" Tooltip="CopyButtonTooltip.None" />
+
+<h3>Tooltip Placement</h3>
+<RoarCopyButton Value="Above" TooltipPlacement="TooltipPlacement.Top" />
+<RoarCopyButton Value="Right" TooltipPlacement="TooltipPlacement.Right" />
+<RoarCopyButton Value="Below" TooltipPlacement="TooltipPlacement.Bottom" />
+<RoarCopyButton Value="Left" TooltipPlacement="TooltipPlacement.Left" />
+
+<h3>Customizing</h3>
+<RoarCopyButton Value="I'm so stylish" class="custom-styles">
+    <RoarIcon slot="@CopyButtonSlot.CopyIcon" Name="clipboard" />
+    <RoarIcon slot="@CopyButtonSlot.SuccessIcon" Name="thumbs-up" />
+    <RoarIcon slot="@CopyButtonSlot.ErrorIcon" Name="xmark" />
+</RoarCopyButton>
+<style>
+    .custom-styles,
+    .custom-styles::part(success-icon),
+    .custom-styles::part(error-icon) {
+        color: white;
+    }
+
+        .custom-styles::part(button) {
+            background-color: #ff1493;
+            border: solid 2px #ff7ac1;
+            border-right-color: #ad005c;
+            border-bottom-color: #ad005c;
+            border-radius: 6px;
+            transition: all var(--wa-transition-slow) var(--wa-transition-easing);
+        }
+
+            .custom-styles::part(button):hover {
+                transform: scale(1.05);
+            }
+
+            .custom-styles::part(button):active {
+                transform: translateY(1px);
+            }
+
+            .custom-styles::part(button):focus-visible {
+                outline: dashed 2px deeppink;
+                outline-offset: 4px;
+            }
+</style>
