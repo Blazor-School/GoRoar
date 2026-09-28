@@ -153,7 +153,14 @@ function registerRoarEvents(blazor) {
         },
         roarcopy: {
             browserEventName: "wa-copy",
-            createEventArgs: () => ({})
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-copy-button":
+                        return { copyButton: { value: event.detail.value } };
+                    default:
+                        return {};
+                }
+            }
         },
         roarerror: {
             browserEventName: "wa-error",

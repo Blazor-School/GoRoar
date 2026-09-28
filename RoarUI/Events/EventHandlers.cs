@@ -27,7 +27,7 @@ namespace RoarUI.Events;
 [EventHandler("onroarlazychange", typeof(global::RoarUI.Events.RoarLazyChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarlazyload", typeof(global::RoarUI.Events.RoarLazyLoadEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarremove", typeof(global::RoarUI.Events.RoarRemoveEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
-[EventHandler("onroarcopy", typeof(global::RoarUI.Events.RoarCopyEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarcopy", typeof(RoarCopyEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarerror", typeof(global::RoarUI.Events.RoarErrorEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 public static class EventHandlers
 {
