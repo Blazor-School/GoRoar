@@ -1,0 +1,81 @@
+﻿@namespace RoarUI
+
+<RoarDependency ComponentName="copy-button" />
+
+<wa-copy-button copy-label="@CopyLabel" disabled="@Disabled" error-label="@ErrorLabel" feedback-duration="@FeedbackDuration" from="@From" success-label="@SuccessLabel" tooltip="@Tooltip" tooltip-placement="@TooltipPlacement" value="@Value" @onroarcopy="OnCopy" @onroarerror="OnError" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-copy-button>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// A custom label to use as the accessible name and tooltip text in the default copy state.
+    /// </summary>
+    [Parameter]
+    public string CopyLabel { get; set; } = "";
+
+    /// <summary>
+    /// Disables the copy button.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// A custom label to show in the tooltip when a copy error occurs.
+    /// </summary>
+    [Parameter]
+    public string ErrorLabel { get; set; } = "";
+
+    /// <summary>
+    /// The length of time to show feedback before restoring the default trigger.
+    /// </summary>
+    [Parameter]
+    public int FeedbackDuration { get; set; } = 1000;
+
+    /// <summary>
+    /// An id that references an element in the same document from which data will be copied. If both this and value are present, this value will take precedence. By default, the target element's textContent will be copied. To copy an attribute, append the attribute name wrapped in square brackets, e.g. from="el[value]". To copy a property, append a dot and the property name, e.g. from="el.value".
+    /// </summary>
+    [Parameter]
+    public string From { get; set; } = "";
+
+    /// <summary>
+    /// A custom label to show in the tooltip after copying.
+    /// </summary>
+    [Parameter]
+    public string SuccessLabel { get; set; } = "";
+
+    /// <summary>
+    /// Controls the built-in tooltip. full (default) shows the tooltip on hover and focus and during copy feedback. copy keeps the tooltip silent on hover/focus and only shows it briefly to confirm a successful or failed copy. none disables the tooltip entirely. Applies to both the default and custom triggers.
+    /// </summary>
+    [Parameter]
+    public CopyButtonTooltip Tooltip { get; set; }
+
+    /// <summary>
+    /// The preferred placement of the tooltip.
+    /// </summary>
+    [Parameter]
+    public CopyButtonTooltipPlacement TooltipPlacement { get; set; }
+
+    /// <summary>
+    /// The text value to copy.
+    /// </summary>
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    /// <summary>
+    /// Emitted when the data has been copied.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RoarCopyEventArgs> OnCopy { get; set; }
+
+    /// <summary>
+    /// Emitted when the data could not be copied.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RoarErrorEventArgs> OnError { get; set; }
+}

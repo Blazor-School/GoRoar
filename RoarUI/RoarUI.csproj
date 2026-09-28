@@ -17,6 +17,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Events\NewFolder\**" />
+	  <Content Remove="Events\NewFolder\**" />
+	  <EmbeddedResource Remove="Events\NewFolder\**" />
+	  <None Remove="Events\NewFolder\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
 	</ItemGroup>
 
