@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="otp-input" />
 
-<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@Autosubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarclear="TriggerClearAsync" @onroarcomplete="TriggerCompleteAsync" @ref="Element" @attributes="InternalAttributes">
+<wa-otp-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" autosubmit="@Autosubmit" case="@Case" value="@CurrentValueAsString" disabled="@Disabled" format="@Format" hint="@Hint" label="@Label" length="@Length" mask="@Mask" readonly="@Readonly" size="@Size" type="@Type" with-mask="@WithMask" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarclear="TriggerClearAsync" @onroarcomplete="TriggerCompleteAsync" @onroarcomplete:preventDefault="PreventAutoSubmit" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-otp-input>
 
@@ -31,6 +31,12 @@
     /// </summary>
     [Parameter]
     public bool Autosubmit { get; set; } = false;
+
+    /// <summary>
+    /// Prevents automatic form submission when all segments are filled. The completion callback still runs.
+    /// </summary>
+    [Parameter]
+    public bool PreventAutoSubmit { get; set; } = false;
 
     /// <summary>
     /// Case transformation applied to entered characters.

@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="dialog" />
 
-<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-dialog>
 
@@ -25,6 +25,18 @@
     /// </summary>
     [Parameter]
     public bool LightDismiss { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the dialog from closing when a hide event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepOpen { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the dialog from opening when a show event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepClosed { get; set; } = false;
 
     /// <summary>
     /// Indicates whether or not the dialog is open. Toggle this attribute to show and hide the dialog.
@@ -93,8 +105,12 @@
 
     public async Task TriggerShowAsync()
     {
-        Open = true;
-        await OpenChanged.InvokeAsync(Open);
+        if (!KeepClosed)
+        {
+            Open = true;
+            await OpenChanged.InvokeAsync(Open);
+        }
+
         await OnShow.InvokeAsync();
     }
 }

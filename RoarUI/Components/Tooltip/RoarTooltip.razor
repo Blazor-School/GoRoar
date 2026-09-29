@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="tooltip" />
 
-<wa-tooltip for="@For" placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @ref="Element" without-arrow="@NoArrow" @attributes="InternalAttributes">
+<wa-tooltip for="@For" placement="@Placement" trigger="@JoinTriggers" distance="@Distance" disabled="@Disabled" hide-delay="@HideDelay" show-delay="@ShowDelay" skidding="@Skidding" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepVisible" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepHidden" @ref="Element" without-arrow="@NoArrow" @attributes="InternalAttributes">
     @ChildContent
 </wa-tooltip>
 
@@ -56,6 +56,18 @@
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the tooltip from hiding when a hide event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepVisible { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the tooltip from showing when a show event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepHidden { get; set; } = false;
 
     /// <summary>
     /// The amount of time to wait before hiding the tooltip when the user mouses out.
