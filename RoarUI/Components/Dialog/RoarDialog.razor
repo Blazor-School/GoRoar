@@ -88,27 +88,31 @@
 
     public async Task TriggerAfterHideAsync()
     {
-        Open = false;
-        await OpenChanged.InvokeAsync(Open);
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterHide.InvokeAsync();
     }
 
     public async Task TriggerAfterShowAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterShow.InvokeAsync();
     }
 
     public async Task TriggerHideAsync(RoarHideEventArgs args)
     {
+        if (KeepOpen)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
         await OnHide.InvokeAsync(args.Dialog);
     }
 
     public async Task TriggerShowAsync()
     {
-        if (!KeepClosed)
+        if (KeepClosed)
         {
-            Open = true;
-            await OpenChanged.InvokeAsync(Open);
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         }
 
         await OnShow.InvokeAsync();

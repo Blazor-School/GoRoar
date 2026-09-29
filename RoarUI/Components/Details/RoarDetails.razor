@@ -97,19 +97,21 @@
 
     public async Task TriggerAfterHideAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterHide.InvokeAsync();
     }
 
     public async Task TriggerAfterShowAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterShow.InvokeAsync();
     }
 
     public async Task TriggerHideAsync()
     {
-        if (!KeepExpanded)
+        if (KeepExpanded)
         {
-            await OpenChanged.InvokeAsync(false);
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         }
 
         await OnHide.InvokeAsync();
@@ -117,9 +119,9 @@
 
     public async Task TriggerShowAsync()
     {
-        if (!KeepCollapsed)
+        if (KeepCollapsed)
         {
-            await OpenChanged.InvokeAsync(true);
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         }
 
         await OnShow.InvokeAsync();

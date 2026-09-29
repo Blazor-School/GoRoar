@@ -1,8 +1,9 @@
 ﻿@namespace RoarUI
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarselect:preventDefault="KeepOpenOnSelect" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @attributes="AdditionalAttributes">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarselect:preventDefault="KeepOpenOnSelect" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-dropdown>
 
@@ -138,27 +139,31 @@
 
     public async Task TriggerAfterHideAsync()
     {
-        Open = false;
-        await OpenChanged.InvokeAsync(Open);
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterHide.InvokeAsync();
     }
 
     public async Task TriggerAfterShowAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterShow.InvokeAsync();
     }
 
     public async Task TriggerHideAsync()
     {
+        if (KeepOpen)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
         await OnHide.InvokeAsync();
     }
 
     public async Task TriggerShowAsync()
     {
-        if (!KeepClosed)
+        if (KeepClosed)
         {
-            Open = true;
-            await OpenChanged.InvokeAsync(Open);
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         }
 
         await OnShow.InvokeAsync();

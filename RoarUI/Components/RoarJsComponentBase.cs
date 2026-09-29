@@ -22,4 +22,18 @@ public abstract class RoarJsComponentBase : ComponentBase
     protected ValueTask SetComponentPropertyWithJsonAsync(string propertyName, string json) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SetObjectPropertyWithJson, Element, propertyName, json);
 
     protected ValueTask<TValue> GetComponentPropertyAsync<TValue>(string propertyName) => JSRuntime.InvokeAsync<TValue>(JavascriptFunctionNames.GetObjectProperty, Element, propertyName);
+
+    protected async Task SyncComponentPropertyAsync<TValue>(string parameterName, string propertyName, EventCallback<TValue> valueChanged)
+    {
+        var parameter = GetType().GetProperty(parameterName) ?? throw new ArgumentException("Component parameter was not found.", nameof(parameterName));
+        var value = await GetComponentPropertyAsync<TValue>(propertyName);
+
+        if (EqualityComparer<TValue>.Default.Equals((TValue)parameter.GetValue(this)!, value))
+        {
+            return;
+        }
+
+        parameter.SetValue(this, value);
+        await valueChanged.InvokeAsync(value);
+    }
 }

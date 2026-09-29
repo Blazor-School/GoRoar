@@ -210,7 +210,8 @@ function roarGeneralFunction() {
         element[propertyName] = JSON.parse(jsonValue);
     }
 
-    window.getObjectProperty = function (element, propertyName) {
+    window.getObjectProperty = async function (element, propertyName) {
+        await element.updateComplete;
         return element[propertyName];
     }
 
