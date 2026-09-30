@@ -1,0 +1,78 @@
+@namespace RoarUI
+@inherits RoarJsPropertyObserverComponentBase
+
+<RoarDependency ComponentName="accordion-item" />
+
+<wa-accordion-item disabled="@Disabled" expanded="@Expanded" label="@Label" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-accordion-item>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Disables the accordion item so it can't be toggled.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Expands the accordion item.
+    /// </summary>
+    [Parameter]
+    public bool Expanded { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> ExpandedChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<bool>>? ExpandedExpression { get; set; }
+
+    /// <summary>
+    /// The text label shown in the header. Use the label slot for HTML content.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ObserveComponentPropertyAsync("expanded", nameof(TriggerExpandedChangeAsync));
+        }
+    }
+
+    [JSInvokable]
+    public async Task TriggerExpandedChangeAsync(bool expanded)
+    {
+        if (Expanded != expanded)
+        {
+            Expanded = expanded;
+            await ExpandedChanged.InvokeAsync(Expanded);
+        }
+    }
+
+    /// <summary>
+    /// Expands the accordion item with animation.
+    /// </summary>
+    public ValueTask ExpandAsync() => CallComponentVoidFunctionAsync("expand");
+
+    /// <summary>
+    /// Collapses the accordion item with animation.
+    /// </summary>
+    public ValueTask CollapseAsync() => CallComponentVoidFunctionAsync("collapse");
+
+    /// <summary>
+    /// Toggles the accordion item's expanded state.
+    /// </summary>
+    public ValueTask ToggleAsync() => CallComponentVoidFunctionAsync("toggle");
+
+    /// <summary>
+    /// Focuses the accordion item's trigger button.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
+}

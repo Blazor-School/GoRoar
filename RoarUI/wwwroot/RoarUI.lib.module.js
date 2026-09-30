@@ -121,19 +121,47 @@ function registerRoarEvents(blazor) {
         },
         roaraftercollapse: {
             browserEventName: "wa-after-collapse",
-            createEventArgs: () => ({})
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-accordion":
+                        return { accordion: { item: { id: item.id, label: item.label, expanded: item.expanded, disabled: item.disabled } } };
+                    default:
+                        return {};
+                }
+            }
         },
         roarafterexpand: {
             browserEventName: "wa-after-expand",
-            createEventArgs: () => ({})
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-accordion":
+                        return { accordion: { item: { id: item.id, label: item.label, expanded: item.expanded, disabled: item.disabled } } };
+                    default:
+                        return {};
+                }
+            }
         },
         roarcollapse: {
             browserEventName: "wa-collapse",
-            createEventArgs: () => ({})
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-accordion":
+                        return { accordion: { item: { id: item.id, label: item.label, expanded: item.expanded, disabled: item.disabled } } };
+                    default:
+                        return {};
+                }
+            }
         },
         roarexpand: {
             browserEventName: "wa-expand",
-            createEventArgs: () => ({})
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-accordion":
+                        return { accordion: { item: { id: item.id, label: item.label, expanded: item.expanded, disabled: item.disabled } } };
+                    default:
+                        return {};
+                }
+            }
         },
         roarlazychange: {
             browserEventName: "wa-lazy-change",
