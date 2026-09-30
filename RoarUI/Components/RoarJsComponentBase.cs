@@ -28,12 +28,10 @@ public abstract class RoarJsComponentBase : ComponentBase
         var parameter = GetType().GetProperty(parameterName) ?? throw new ArgumentException("Component parameter was not found.", nameof(parameterName));
         var value = await GetComponentPropertyAsync<TValue>(propertyName);
 
-        if (EqualityComparer<TValue>.Default.Equals((TValue)parameter.GetValue(this)!, value))
+        if (!EqualityComparer<TValue>.Default.Equals((TValue)parameter.GetValue(this)!, value))
         {
-            return;
+            parameter.SetValue(this, value);
+            await valueChanged.InvokeAsync(value);
         }
-
-        parameter.SetValue(this, value);
-        await valueChanged.InvokeAsync(value);
     }
 }
