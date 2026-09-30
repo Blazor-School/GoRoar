@@ -4,7 +4,7 @@
 
 <RoarDependency ComponentName="number-input" />
 
-<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarbeforeinput="TriggerBeforeInputAsync" @ref="Element" @attributes="InternalAttributes">
+<wa-number-input appearance="@Appearance" autocomplete="@Autocomplete" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="text" label="@Label" pill="@Pill" placeholder="@Placeholder" readonly="@ReadOnly" size="@Size" type="number" with-hint="@WithHint" with-label="@WithLabel" without-steppers="@WithoutSteppers" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarbeforeinput="TriggerBeforeInputAsync" @onroarbeforeinput:preventDefault="PreventValueChange" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-number-input>
 
@@ -70,6 +70,12 @@
     public bool ReadOnly { get; set; } = false;
 
     /// <summary>
+    /// Prevents value changes that raise a beforeinput event. Programmatic value updates are unaffected.
+    /// </summary>
+    [Parameter]
+    public bool PreventValueChange { get; set; } = false;
+
+    /// <summary>
     /// The input's size.
     /// </summary>
     [Parameter]
@@ -112,7 +118,7 @@
     public EventCallback OnInput { get; set; }
 
     /// <summary>
-    /// Emitted before the value changes. Can be cancelled with event.preventDefault() to prevent the value from changing.
+    /// Emitted before the value changes. Set PreventValueChange to prevent the change.
     /// </summary>
     [Parameter]
     public EventCallback OnBeforeInput { get; set; }

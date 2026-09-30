@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="details" />
 
-<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepExpanded" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepCollapsed" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-details>
 
@@ -25,6 +25,18 @@
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the details from collapsing when a hide event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepExpanded { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the details from expanding when a show event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepCollapsed { get; set; } = false;
 
     /// <summary>
     /// The location of the expand/collapse icon.
@@ -85,23 +97,33 @@
 
     public async Task TriggerAfterHideAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterHide.InvokeAsync();
     }
 
     public async Task TriggerAfterShowAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterShow.InvokeAsync();
     }
 
     public async Task TriggerHideAsync()
     {
-        await OpenChanged.InvokeAsync(false);
+        if (KeepExpanded)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
         await OnHide.InvokeAsync();
     }
 
     public async Task TriggerShowAsync()
     {
-        await OpenChanged.InvokeAsync(true);
+        if (KeepCollapsed)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
         await OnShow.InvokeAsync();
     }
 }

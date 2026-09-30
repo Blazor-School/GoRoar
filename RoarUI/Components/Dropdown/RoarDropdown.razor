@@ -1,8 +1,9 @@
 ﻿@namespace RoarUI
+@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarshow="TriggerShowAsync" @attributes="AdditionalAttributes">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarselect:preventDefault="KeepOpenOnSelect" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-dropdown>
 
@@ -12,6 +13,24 @@
     /// </summary>
     [Parameter]
     public double Distance { get; set; }
+
+    /// <summary>
+    /// Prevents the dropdown from closing when a hide event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepOpen { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the dropdown from opening when a show event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepClosed { get; set; } = false;
+
+    /// <summary>
+    /// Keeps the menu open after selection and prevents navigation for link items. Selection callbacks still run.
+    /// </summary>
+    [Parameter]
+    public bool KeepOpenOnSelect { get; set; } = false;
 
     /// <summary>
     /// Opens or closes the dropdown.
@@ -120,25 +139,33 @@
 
     public async Task TriggerAfterHideAsync()
     {
-        Open = false;
-        await OpenChanged.InvokeAsync(Open);
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterHide.InvokeAsync();
     }
 
     public async Task TriggerAfterShowAsync()
     {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
         await OnAfterShow.InvokeAsync();
     }
 
     public async Task TriggerHideAsync()
     {
+        if (KeepOpen)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
         await OnHide.InvokeAsync();
     }
 
     public async Task TriggerShowAsync()
     {
-        Open = true;
-        await OpenChanged.InvokeAsync(Open);
+        if (KeepClosed)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
         await OnShow.InvokeAsync();
     }
 }
