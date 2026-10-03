@@ -1,0 +1,17 @@
+@namespace RoarUI
+
+<RoarDependency ComponentName="carousel-item" />
+
+<wa-carousel-item @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-carousel-item>
+
+@code {
+    internal ElementReference Element { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}

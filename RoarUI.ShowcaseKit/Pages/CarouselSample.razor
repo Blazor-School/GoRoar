@@ -1,0 +1,324 @@
+@page "/carousel-sample"
+@using Microsoft.JSInterop
+
+<h3>Pagination</h3>
+<RoarCarousel Pagination>
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+
+<h3>Navigation</h3>
+<RoarCarousel Navigation>
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+
+<h3>Loop</h3>
+<RoarCarousel Loop Navigation Pagination>
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+
+<h3>Autoplay</h3>
+<RoarCarousel Autoplay Loop Pagination>
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+
+<h3>Orientation</h3>
+<RoarCarousel class="vertical" Pagination Orientation="CarouselOrientation.Vertical">
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+
+<style>
+    .vertical {
+        max-height: 400px;
+    }
+
+        .vertical::part(carousel) {
+            grid-template-areas: 'slides slides pagination';
+        }
+
+        .vertical::part(pagination) {
+            flex-direction: column;
+        }
+
+        .vertical::part(navigation) {
+            transform: rotate(90deg);
+            display: flex;
+        }
+</style>
+
+<h3>Aspect Ratio</h3>
+<RoarCarousel class="aspect-ratio" Navigation Pagination style="@($"--aspect-ratio: {AspectRatio};")">
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+<RoarDivider />
+<div class="wa-cluster">
+    <RoarDependency ComponentName="select" />
+    <RoarDependency ComponentName="option" />
+    <wa-select label="Aspect ratio" name="aspect" value="@AspectRatio" @onchange="ChangeAspectRatio">
+        <wa-option value="1/1">1/1</wa-option>
+        <wa-option value="3/2">3/2</wa-option>
+        <wa-option value="16/9">16/9</wa-option>
+    </wa-select>
+</div>
+
+<h3>Multiple Slides per View</h3>
+<RoarCarousel Navigation Pagination SlidesPerPage="2" SlidesPerMove="2">
+    <RoarCarouselItem style="background: red;">Slide 1</RoarCarouselItem>
+    <RoarCarouselItem style="background: orange;">Slide 2</RoarCarouselItem>
+    <RoarCarouselItem style="background: yellow;">Slide 3</RoarCarouselItem>
+    <RoarCarouselItem style="background: green;">Slide 4</RoarCarouselItem>
+    <RoarCarouselItem style="background: blue;">Slide 5</RoarCarouselItem>
+    <RoarCarouselItem style="background: purple;">Slide 6</RoarCarouselItem>
+</RoarCarousel>
+
+<h3>Scroll Hint</h3>
+<RoarCarousel class="scroll-hint" Pagination style="--scroll-hint: 10%;">
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+
+<h3>Mouse Dragging</h3>
+<div class="mouse-dragging">
+    <RoarCarousel Pagination MouseDragging="MouseDraggingEnabled">
+        <RoarCarouselItem>
+            <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+        </RoarCarouselItem>
+        <RoarCarouselItem>
+            <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+        </RoarCarouselItem>
+        <RoarCarouselItem>
+            <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+        </RoarCarouselItem>
+        <RoarCarouselItem>
+            <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+        </RoarCarouselItem>
+        <RoarCarouselItem>
+            <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+        </RoarCarouselItem>
+    </RoarCarousel>
+    <RoarDivider />
+    <RoarDependency ComponentName="switch" />
+    <wa-switch @onchange="ToggleMouseDraggingAsync" @ref="MouseDraggingToggle">Enable mouse dragging</wa-switch>
+</div>
+
+<h3>Adding &amp; Removing Slides</h3>
+<RoarCarousel class="dynamic-carousel" Pagination Navigation Loop>
+    @foreach (int number in Enumerable.Range(1, DynamicSlideCount))
+    {
+        <RoarCarouselItem @key="number" style="@($"background: {SlideColors[(number - 1) % SlideColors.Length]};")">Slide @number</RoarCarouselItem>
+    }
+</RoarCarousel>
+<RoarDivider />
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="dynamic-add" @onclick="() => DynamicSlideCount++">Add slide</RoarButton>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="dynamic-remove" Disabled="@(DynamicSlideCount <= 1)" @onclick="RemoveSlide">Remove slide</RoarButton>
+</div>
+
+<h3>Thumbnail Gallery</h3>
+<RoarCarousel class="carousel-thumbnails" Navigation Loop OnSlideChange="HandleThumbnailSlideChangeAsync" @ref="ThumbnailCarousel">
+    <RoarCarouselItem>
+        <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A river winding through an evergreen forest (by Luca Bravo on Unsplash)" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" />
+    </RoarCarouselItem>
+    <RoarCarouselItem>
+        <img alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" />
+    </RoarCarouselItem>
+</RoarCarousel>
+<div class="thumbnails">
+    <div class="scroller">
+        <img alt="Thumbnail by 1" class="image @(ActiveThumbnailIndex == 0 ? "active" : "")" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" @onclick="async () => await ThumbnailCarousel.GoToSlideAsync(0)" @ref="ThumbnailElements[0]" />
+        <img alt="Thumbnail by 2" class="image @(ActiveThumbnailIndex == 1 ? "active" : "")" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=10" @onclick="async () => await ThumbnailCarousel.GoToSlideAsync(1)" @ref="ThumbnailElements[1]" />
+        <img alt="Thumbnail by 3" class="image @(ActiveThumbnailIndex == 2 ? "active" : "")" src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?q=10" @onclick="async () => await ThumbnailCarousel.GoToSlideAsync(2)" @ref="ThumbnailElements[2]" />
+        <img alt="Thumbnail by 4" class="image @(ActiveThumbnailIndex == 3 ? "active" : "")" src="https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?q=10" @onclick="async () => await ThumbnailCarousel.GoToSlideAsync(3)" @ref="ThumbnailElements[3]" />
+        <img alt="Thumbnail by 5" class="image @(ActiveThumbnailIndex == 4 ? "active" : "")" src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=10" @onclick="async () => await ThumbnailCarousel.GoToSlideAsync(4)" @ref="ThumbnailElements[4]" />
+    </div>
+</div>
+
+<style>
+    .dynamic-carousel {
+        --aspect-ratio: 3 / 2;
+    }
+
+    .dynamic-carousel wa-carousel-item {
+        flex: 0 0 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--wa-font-size-2xl);
+    }
+
+    .carousel-thumbnails {
+        --slide-aspect-ratio: 3 / 2;
+    }
+
+    .thumbnails {
+        display: flex;
+        justify-content: center;
+    }
+
+    .scroller {
+        display: flex;
+        gap: var(--wa-space-s);
+        overflow-x: auto;
+        scrollbar-width: none;
+        scroll-behavior: smooth;
+        scroll-padding: var(--wa-space-s);
+    }
+
+    .scroller::-webkit-scrollbar {
+        display: none;
+    }
+
+    .image {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        opacity: 0.3;
+        will-change: opacity;
+        transition: 250ms opacity;
+        cursor: pointer;
+    }
+
+    .image.active {
+        opacity: 1;
+    }
+</style>
+
+@code {
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; } = default!;
+
+    public string AspectRatio { get; set; } = "3/2";
+    public bool MouseDraggingEnabled { get; set; } = false;
+    public ElementReference MouseDraggingToggle { get; set; }
+    public int DynamicSlideCount { get; set; } = 3;
+    public string[] SlideColors { get; set; } = ["red", "orange", "yellow", "green", "blue", "purple"];
+    public RoarCarousel ThumbnailCarousel { get; set; } = default!;
+    public int ActiveThumbnailIndex { get; set; } = 0;
+    public ElementReference[] ThumbnailElements { get; set; } = new ElementReference[5];
+
+    public void ChangeAspectRatio(ChangeEventArgs args) => AspectRatio = args.Value?.ToString() ?? "3/2";
+
+    public async Task ToggleMouseDraggingAsync()
+    {
+        MouseDraggingEnabled = await JSRuntime.InvokeAsync<bool>("getObjectProperty", MouseDraggingToggle, "checked");
+    }
+
+    public void RemoveSlide()
+    {
+        if (DynamicSlideCount > 1)
+        {
+            DynamicSlideCount--;
+        }
+    }
+
+    public async Task HandleThumbnailSlideChangeAsync(CarouselSlideChangeEventArgs args)
+    {
+        ActiveThumbnailIndex = args.Index;
+        await JSRuntime.InvokeVoidAsync("executeJsFunctionFromJsObject", ThumbnailElements[ActiveThumbnailIndex], "scrollIntoView", new { block = "nearest" });
+    }
+}

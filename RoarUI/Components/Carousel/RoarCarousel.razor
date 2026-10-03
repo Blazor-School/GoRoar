@@ -1,0 +1,103 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="carousel" />
+
+<wa-carousel autoplay="@Autoplay" autoplay-interval="@AutoplayInterval" loop="@Loop" mouse-dragging="@MouseDragging" navigation="@Navigation" orientation="@Orientation" pagination="@Pagination" slides-per-move="@SlidesPerMove" slides-per-page="@SlidesPerPage" @onroarslidechange="TriggerSlideChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-carousel>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// When set, the slides will scroll automatically when the user is not interacting with them.
+    /// </summary>
+    [Parameter]
+    public bool Autoplay { get; set; } = false;
+
+    /// <summary>
+    /// Specifies the amount of time, in milliseconds, between each automatic scroll.
+    /// </summary>
+    [Parameter]
+    public int AutoplayInterval { get; set; } = 3000;
+
+    /// <summary>
+    /// When set, allows the user to navigate the carousel in the same direction indefinitely.
+    /// </summary>
+    [Parameter]
+    public bool Loop { get; set; } = false;
+
+    /// <summary>
+    /// When set, it is possible to scroll through the slides by dragging them with the mouse.
+    /// </summary>
+    [Parameter]
+    public bool MouseDragging { get; set; } = false;
+
+    /// <summary>
+    /// When set, show the carousel's navigation.
+    /// </summary>
+    [Parameter]
+    public bool Navigation { get; set; } = false;
+
+    /// <summary>
+    /// Specifies the orientation in which the carousel will lay out.
+    /// </summary>
+    [Parameter]
+    public CarouselOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// When set, show the carousel's pagination indicators.
+    /// </summary>
+    [Parameter]
+    public bool Pagination { get; set; } = false;
+
+    /// <summary>
+    /// Specifies the number of slides the carousel will advance when scrolling, useful when specifying a slides-per-page greater than one. It can't be higher than slides-per-page.
+    /// </summary>
+    [Parameter]
+    public int SlidesPerMove { get; set; } = 1;
+
+    /// <summary>
+    /// Specifies how many slides should be shown at a given time.
+    /// </summary>
+    [Parameter]
+    public int SlidesPerPage { get; set; } = 1;
+
+    /// <summary>
+    /// Emitted when the active slide changes. Index is zero-based.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CarouselSlideChangeEventArgs> OnSlideChange { get; set; }
+
+    /// <summary>
+    /// Move the carousel backward by slides-per-move slides.
+    /// </summary>
+    public ValueTask PreviousAsync(CarouselScrollBehavior behavior = default) => CallComponentVoidFunctionAsync("previous", behavior.Value);
+
+    /// <summary>
+    /// Move the carousel forward by slides-per-move slides.
+    /// </summary>
+    public ValueTask NextAsync(CarouselScrollBehavior behavior = default) => CallComponentVoidFunctionAsync("next", behavior.Value);
+
+    /// <summary>
+    /// Scrolls the carousel to the slide specified by index (zero-based).
+    /// </summary>
+    public ValueTask GoToSlideAsync(int index, CarouselScrollBehavior behavior = default) => CallComponentVoidFunctionAsync("goToSlide", index, behavior.Value);
+
+    /// <summary>
+    /// Adds a carousel item as the last real slide.
+    /// </summary>
+    public ValueTask AddSlideAsync(RoarCarouselItem slide) => CallComponentVoidFunctionAsync("addSlide", slide.Element);
+
+    /// <summary>
+    /// Removes the real slide at the specified index.
+    /// </summary>
+    public ValueTask RemoveSlideAsync(int index) => CallComponentVoidFunctionAsync("removeSlide", index);
+
+    public Task TriggerSlideChangeAsync(RoarSlideChangeEventArgs args) => OnSlideChange.InvokeAsync(args.Carousel);
+}

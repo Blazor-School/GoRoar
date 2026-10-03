@@ -100,6 +100,17 @@ function registerRoarEvents(blazor) {
                 }
             }
         },
+        roarslidechange: {
+            browserEventName: "wa-slide-change",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-carousel":
+                        return { carousel: { index: event.detail.index, slide: event.detail.slide ? { id: event.detail.slide.id } : null } };
+                    default:
+                        return {};
+                }
+            }
+        },
         roarselectionchange: {
             browserEventName: "wa-selection-change",
             createEventArgs: event => {

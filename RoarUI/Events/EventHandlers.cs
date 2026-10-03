@@ -16,6 +16,7 @@ namespace RoarUI.Events;
 [EventHandler("onroarreposition", typeof(RoarRepositionEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroartabshow", typeof(RoarTabShowEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroartabhide", typeof(RoarTabHideEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarslidechange", typeof(RoarSlideChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarselectionchange", typeof(RoarSelectionChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarinput", typeof(RoarInputEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarclear", typeof(global::RoarUI.Events.RoarClearEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
