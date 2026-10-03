@@ -1,0 +1,232 @@
+@page "/accordion-sample"
+
+<h3>Expanded Initially</h3>
+<RoarAccordion>
+    <RoarAccordionItem Label="Already open" Expanded>
+        This item is expanded by default. Click the header to collapse it.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Click to open">
+        This item starts collapsed. Click the header to expand it.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Disabled</h3>
+<RoarAccordion>
+    <RoarAccordionItem Label="Active item" Expanded>
+        This item can be expanded and collapsed normally.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Disabled item" Disabled>
+        This item is disabled and cannot be toggled.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Heading Level</h3>
+<RoarAccordion HeadingLevel="AccordionHeadingLevel.H2">
+    <RoarAccordionItem Label="Section one">
+        This trigger is wrapped in an <code>&lt;h2&gt;</code>.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Section two">
+        Match the level to where this accordion sits in your document outline.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Size</h3>
+<RoarAccordion style="font-size: 0.875rem;">
+    <RoarAccordionItem Label="Small accordion">
+        Text and icon scale down together.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        Content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+<RoarAccordion>
+    <RoarAccordionItem Label="Default accordion">
+        The default size.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        Content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+<RoarAccordion style="font-size: 1.25rem;">
+    <RoarAccordionItem Label="Large accordion">
+        Everything scales up together.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        Content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Appearance</h3>
+<RoarAccordion>
+    <RoarAccordionItem Label="Outlined (default)">
+        This is the default outlined appearance. It has a subtle border that helps it stand out without being too flashy.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        More content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<RoarAccordion Appearance="AccordionAppearance.FilledOutlined">
+    <RoarAccordionItem Label="Filled-outlined">
+        The filled-outlined appearance combines a filled header with an outlined body. It gives the summary a bit more visual weight while keeping the content area clean.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        More content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<RoarAccordion Appearance="AccordionAppearance.Filled">
+    <RoarAccordionItem Label="Filled">
+        The filled appearance adds a background color to the entire component. Use this when you want the details to really pop on the page.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        More content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<RoarAccordion Appearance="AccordionAppearance.Plain">
+    <RoarAccordionItem Label="Plain">
+        No bells and whistles on this one. The plain appearance strips away borders and backgrounds for a minimalist look.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        More content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Mode</h3>
+<RoarAccordion Mode="AccordionMode.Single">
+    <RoarAccordionItem Label="Section one" Expanded>
+        Opening another section will automatically collapse this one. Only one section can be open at a time.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Section two">
+        Try opening this section to see section one collapse automatically.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Section three">
+        Clicking an already-open section won't close it — open another instead.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<RoarAccordion Mode="AccordionMode.SingleCollapsible">
+    <RoarAccordionItem Label="Filters">
+        Opening another section will collapse this one, and clicking the open section closes it.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Sort">
+        Try opening this section to see section one collapse automatically.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Display">
+        Zero open sections is a valid state in this mode.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Icon Placement</h3>
+<RoarAccordion IconPlacement="AccordionIconPlacement.Start">
+    <RoarAccordionItem Label="Start">
+        Icon is at the start of the header.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Another item">
+        More content here.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Custom Icon</h3>
+<RoarAccordion>
+    <RoarAccordionItem Label="Rotate a custom icon" class="circle-plus">
+        <RoarIcon slot="@AccordionItemSlot.Icon" Name="circle-plus" Variant="FontAwesomeVariant.Regular" />
+        Replace the default chevron and customize how it rotates.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Swap the icon instead" class="plus-minus">
+        <RoarIcon slot="@AccordionItemSlot.Icon" Name="square-plus" Variant="FontAwesomeVariant.Regular" data-when="collapsed" />
+        <RoarIcon slot="@AccordionItemSlot.Icon" Name="square-minus" Variant="FontAwesomeVariant.Regular" data-when="expanded" />
+        Prevent the rotation and swap + for − when the item expands.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<style>
+    /* Customize the rotation when expanded */
+    .circle-plus[expanded]::part(icon) {
+        rotate: 225deg;
+    }
+
+    /* Prevent the default rotation animation… */
+    .plus-minus::part(icon) {
+        rotate: none;
+    }
+
+    /* …and swap the icon based on the expanded state */
+    .plus-minus [data-when='expanded'] {
+        display: none;
+    }
+
+    .plus-minus[expanded] [data-when='collapsed'] {
+        display: none;
+    }
+
+    .plus-minus[expanded] [data-when='expanded'] {
+        display: inline-flex;
+    }
+</style>
+
+<h3>HTML in the Label</h3>
+<RoarAccordion>
+    <RoarAccordionItem>
+        <div slot="label" class="wa-split">
+            <span>Tasks</span>
+            <RoarBadge Appearance="BadgeAppearance.Filled" Variant="BadgeVariant.Success" style="font-size: var(--wa-font-size-xs);">3 ready</RoarBadge>
+        </div>
+        All three tasks are ready to be reviewed.
+    </RoarAccordionItem>
+    <RoarAccordionItem>
+        <div slot="label" class="wa-split">
+            <span>Issues</span>
+            <RoarBadge Appearance="BadgeAppearance.Filled" Variant="BadgeVariant.Danger" style="font-size: var(--wa-font-size-xs);">2 open</RoarBadge>
+        </div>
+        There are two open issues that need your attention.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<h3>Expand & Collapse All</h3>
+<RoarAccordion>
+    <RoarAccordionItem Label="Section one" Expanded="ExpandedSample">
+        Content for the first section.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Section two" Expanded="ExpandedSample">
+        Content for the second section.
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Section three" Expanded="ExpandedSample">
+        Content for the third section.
+    </RoarAccordionItem>
+</RoarAccordion>
+
+<RoarButton @onclick="() => ExpandedSample = true" Appearance="ButtonAppearance.Filled">Expand All</RoarButton>
+<RoarButton @onclick="() => ExpandedSample = false" Appearance="ButtonAppearance.Filled">Collapse All</RoarButton>
+
+<h3>Nested Accordion</h3>
+<RoarAccordion>
+    <RoarAccordionItem Label="Fruits">
+        <RoarAccordion Mode="AccordionMode.Single">
+            <RoarAccordionItem Label="Apples">
+                Crisp, sweet, and great for pies.
+            </RoarAccordionItem>
+            <RoarAccordionItem Label="Oranges">
+                Juicy and packed with vitamin C.
+            </RoarAccordionItem>
+            <RoarAccordionItem Label="Bananas">
+                Soft, sweet, and easy to peel.
+            </RoarAccordionItem>
+        </RoarAccordion>
+    </RoarAccordionItem>
+    <RoarAccordionItem Label="Vegetables">
+        <RoarAccordion Mode="AccordionMode.Single">
+            <RoarAccordionItem Label="Carrots">
+                Crunchy and rich in beta carotene.
+            </RoarAccordionItem>
+            <RoarAccordionItem Label="Broccoli">
+                A nutrient-dense cruciferous vegetable.
+            </RoarAccordionItem>
+        </RoarAccordion>
+    </RoarAccordionItem>
+</RoarAccordion>
+
+@code {
+    public bool ExpandedSample { get; set; } = false;
+}

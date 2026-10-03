@@ -1,0 +1,91 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="accordion" />
+
+<wa-accordion appearance="@Appearance" heading-level="@HeadingLevel" icon-placement="@IconPlacement" mode="@Mode" @onroarexpand="TriggerExpandAsync" @onroarexpand:preventDefault="KeepCollapsed" @onroarafterexpand="TriggerAfterExpandAsync" @onroarcollapse="TriggerCollapseAsync" @onroarcollapse:preventDefault="KeepExpanded" @onroaraftercollapse="TriggerAfterCollapseAsync" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-accordion>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The accordion's visual appearance.
+    /// </summary>
+    [Parameter]
+    public AccordionAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// The heading level for child item triggers (1–6), or none to omit the heading wrapper.
+    /// </summary>
+    [Parameter]
+    public AccordionHeadingLevel HeadingLevel { get; set; }
+
+    /// <summary>
+    /// The location of the expand/collapse icon in child items.
+    /// </summary>
+    [Parameter]
+    public AccordionIconPlacement IconPlacement { get; set; }
+
+    /// <summary>
+    /// Controls whether multiple items, one item, or at most one item can be expanded.
+    /// </summary>
+    [Parameter]
+    public AccordionMode Mode { get; set; }
+
+    /// <summary>
+    /// Prevents an item from collapsing when a collapse event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepExpanded { get; set; } = false;
+
+    /// <summary>
+    /// Prevents an item from expanding when an expand event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepCollapsed { get; set; } = false;
+
+    /// <summary>
+    /// Emitted before an item expands. KeepCollapsed cancels the action.
+    /// </summary>
+    [Parameter]
+    public EventCallback<AccordionEventArgs> OnExpand { get; set; }
+
+    /// <summary>
+    /// Emitted after an item finishes expanding.
+    /// </summary>
+    [Parameter]
+    public EventCallback<AccordionEventArgs> OnAfterExpand { get; set; }
+
+    /// <summary>
+    /// Emitted before an item collapses. KeepExpanded cancels the action.
+    /// </summary>
+    [Parameter]
+    public EventCallback<AccordionEventArgs> OnCollapse { get; set; }
+
+    /// <summary>
+    /// Emitted after an item finishes collapsing.
+    /// </summary>
+    [Parameter]
+    public EventCallback<AccordionEventArgs> OnAfterCollapse { get; set; }
+
+    /// <summary>
+    /// Expands all enabled items. Has no effect in single or single-collapsible mode.
+    /// </summary>
+    public ValueTask ExpandAllAsync() => CallComponentVoidFunctionAsync("expandAll");
+
+    /// <summary>
+    /// Collapses all accordion items.
+    /// </summary>
+    public ValueTask CollapseAllAsync() => CallComponentVoidFunctionAsync("collapseAll");
+
+    public Task TriggerExpandAsync(RoarExpandEventArgs args) => OnExpand.InvokeAsync(args.Accordion);
+    public Task TriggerAfterExpandAsync(RoarAfterExpandEventArgs args) => OnAfterExpand.InvokeAsync(args.Accordion);
+    public Task TriggerCollapseAsync(RoarCollapseEventArgs args) => OnCollapse.InvokeAsync(args.Accordion);
+    public Task TriggerAfterCollapseAsync(RoarAfterCollapseEventArgs args) => OnAfterCollapse.InvokeAsync(args.Accordion);
+}
