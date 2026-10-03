@@ -1,175 +1,224 @@
 @page "/select-sample"
 
-<h3>Single Selection</h3>
-<RoarSelect @bind-Value="Country" Label="Country" Hint="Choose your destination." Placeholder="Select a country" WithClear id="country" OnInput='() => CountryEvent = $"Input: {Country}"' OnChange='() => CountryEvent = $"Change: {Country}"' OnClear='() => CountryEvent = $"Clear: {Country}"'>
+<h3>Label</h3>
+<RoarSelect TValue="string" Label="Country">
     <RoarOption Value='"us"'>United States</RoarOption>
     <RoarOption Value='"ca"'>Canada</RoarOption>
     <RoarOption Value='"mx"'>Mexico</RoarOption>
 </RoarSelect>
-<p id="country-value">Selected: @Country</p>
-<p id="country-event">@CountryEvent</p>
-<RoarButton @onclick='() => Country = "mx"'>Choose Mexico</RoarButton>
 
-<h3>Typed and Nullable Values</h3>
-<RoarSelect @bind-Value="Number" Label="Number" Placeholder="Select a number" WithClear id="number" OnClear='() => NumberEvent = $"Clear: {Number?.ToString() ?? "none"}"'>
-    <RoarOption Value="1">One</RoarOption>
-    <RoarOption Value="2">Two</RoarOption>
-    <RoarOption Value="3">Three</RoarOption>
+<h3>Hint</h3>
+<RoarSelect TValue="string" Label="Experience" Hint="Tell us how comfortable you are with the command line.">
+    <RoarOption Value='"1"'>Novice</RoarOption>
+    <RoarOption Value='"2"'>Intermediate</RoarOption>
+    <RoarOption Value='"3"'>Advanced</RoarOption>
 </RoarSelect>
-<p id="number-value">Selected: @(Number?.ToString() ?? "none")</p>
-<p id="number-event">@NumberEvent</p>
-<RoarSelect @bind-Value="Priority" Label="Priority" id="priority">
-    <RoarOption Value="SelectPriority.Low">Low</RoarOption>
-    <RoarOption Value="SelectPriority.Normal">Normal</RoarOption>
-    <RoarOption Value="SelectPriority.High">High</RoarOption>
+
+<h3>Placeholder</h3>
+<RoarSelect TValue="string" Placeholder="Select one">
+    <RoarOption Value='"option-1"'>Option 1</RoarOption>
+    <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    <RoarOption Value='"option-3"'>Option 3</RoarOption>
 </RoarSelect>
-<p id="priority-value">Priority: @Priority</p>
 
-<h3>Multiple Selection</h3>
-<RoarSelectMultiple @bind-Value="Toppings" Label="Toppings" Placeholder="Choose toppings" WithClear MaxOptionsVisible="2" id="toppings" OnInput='() => ToppingsEvent = $"Input: {string.Join(", ", Toppings)}"' OnChange='() => ToppingsEvent = $"Change: {string.Join(", ", Toppings)}"' OnClear='() => ToppingsEvent = $"Clear: {Toppings.Length} selected"'>
-    <RoarOption Value="1">Mushrooms</RoarOption>
-    <RoarOption Value="2">Olives</RoarOption>
-    <RoarOption Value="3">Peppers</RoarOption>
-    <RoarOption Value="4">Onions</RoarOption>
-</RoarSelectMultiple>
-<p id="toppings-value">Selected: @string.Join(", ", Toppings)</p>
-<p id="toppings-event">@ToppingsEvent</p>
-<RoarButton @onclick="() => Toppings = [2, 4]">Choose olives and onions</RoarButton>
-<RoarButton @onclick="() => Toppings = []">Clear toppings</RoarButton>
-
-<h3>Initially Selected Options</h3>
-<RoarSelect TValue="string" Label="Default branch" id="initial-single">
-    <RoarOption Value='"main"' Selected>main</RoarOption>
+<h3>Initial Value</h3>
+<RoarSelect @bind-Value="DefaultBranch" Label="Default branch">
+    <RoarOption Value='"master"'>master</RoarOption>
     <RoarOption Value='"develop"'>develop</RoarOption>
+    <RoarOption Value='"staging"'>staging</RoarOption>
 </RoarSelect>
-<RoarSelectMultiple TValue="string" Label="Default notifications" id="initial-multiple">
-    <RoarOption Value='"mentions"' Selected>Mentions</RoarOption>
-    <RoarOption Value='"replies"' Selected>Replies</RoarOption>
-    <RoarOption Value='"reactions"'>Reactions</RoarOption>
+<RoarSelectMultiple @bind-Value="Toppings" Label="Toppings">
+    <RoarOption Value='"mushrooms"'>Mushrooms</RoarOption>
+    <RoarOption Value='"olives"'>Olives</RoarOption>
+    <RoarOption Value='"peppers"'>Peppers</RoarOption>
+    <RoarOption Value='"onions"'>Onions</RoarOption>
 </RoarSelectMultiple>
 
-<h3>Appearance and Pill</h3>
+<h3>Appearance</h3>
 <div class="wa-stack">
-    @foreach (var appearance in new[] { InputAppearance.Outlined, InputAppearance.Filled, InputAppearance.FilledOutlined })
-    {
-        <RoarSelect TValue="string" Appearance="appearance" Label="@appearance.ToString()" Placeholder="Choose one">
-            <RoarOption Value='"one"'>Option one</RoarOption>
-            <RoarOption Value='"two"'>Option two</RoarOption>
-        </RoarSelect>
-    }
-    <RoarSelect TValue="string" Label="Pill" Pill Placeholder="Choose one">
-        <RoarOption Value='"one"'>Option one</RoarOption>
-        <RoarOption Value='"two"'>Option two</RoarOption>
+    <RoarSelect Appearance="InputAppearance.Outlined" Value='"outlined"'>
+        <RoarOption Value='"outlined"'>outlined</RoarOption>
+    </RoarSelect>
+    <RoarSelect Appearance="InputAppearance.Filled" Value='"filled"'>
+        <RoarOption Value='"filled"'>filled</RoarOption>
+    </RoarSelect>
+    <RoarSelect Appearance="InputAppearance.FilledOutlined" Value='"filled-outlined"'>
+        <RoarOption Value='"filled-outlined"'>filled-outlined</RoarOption>
     </RoarSelect>
 </div>
+
+<h3>Pill</h3>
+<RoarSelect TValue="string" Pill Placeholder="Select one">
+    <RoarOption Value='"option-1"'>Option 1</RoarOption>
+    <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    <RoarOption Value='"option-3"'>Option 3</RoarOption>
+</RoarSelect>
 
 <h3>Size</h3>
 <div class="wa-stack">
-    @foreach (var size in new[] { InputSize.Xs, InputSize.S, InputSize.M, InputSize.L, InputSize.Xl })
-    {
-        <RoarSelect TValue="string" Size="size" Label="@size.ToString()" Placeholder="Choose one">
-            <RoarOption Value='"one"'>Option one</RoarOption>
-            <RoarOption Value='"two"'>Option two</RoarOption>
-        </RoarSelect>
-    }
+    <RoarSelect TValue="string" Size="InputSize.Xs" Placeholder="Extra small">
+        <RoarOption Value='"option-1"'>Option 1</RoarOption>
+        <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    </RoarSelect>
+    <RoarSelect TValue="string" Size="InputSize.S" Placeholder="Small">
+        <RoarOption Value='"option-1"'>Option 1</RoarOption>
+        <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    </RoarSelect>
+    <RoarSelect TValue="string" Size="InputSize.M" Placeholder="Medium">
+        <RoarOption Value='"option-1"'>Option 1</RoarOption>
+        <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    </RoarSelect>
+    <RoarSelect TValue="string" Size="InputSize.L" Placeholder="Large">
+        <RoarOption Value='"option-1"'>Option 1</RoarOption>
+        <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    </RoarSelect>
+    <RoarSelect TValue="string" Size="InputSize.Xl" Placeholder="Extra large">
+        <RoarOption Value='"option-1"'>Option 1</RoarOption>
+        <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    </RoarSelect>
 </div>
 
 <h3>Disabled</h3>
-<RoarSelect TValue="string" Label="Disabled select" Disabled Value='"standard"' id="disabled-select">
-    <RoarOption Value='"standard"'>Standard</RoarOption>
-    <RoarOption Value='"express"'>Express</RoarOption>
-</RoarSelect>
-<RoarSelect TValue="string" Label="Disabled option" id="disabled-option">
-    <RoarOption Value='"standard"'>Standard</RoarOption>
-    <RoarOption Value='"express"' Disabled>Express</RoarOption>
+<RoarSelect TValue="string" Placeholder="Disabled" Disabled>
+    <RoarOption Value='"option-1"'>Option 1</RoarOption>
+    <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    <RoarOption Value='"option-3"'>Option 3</RoarOption>
 </RoarSelect>
 
-<h3>Slots and Grouping</h3>
-<RoarSelect @bind-Value="Contact" Placement="SelectPlacement.Top" WithLabel WithHint id="slots">
-    <span slot="@SelectSlot.Label">Preferred <strong>contact method</strong></span>
-    <span slot="@SelectSlot.Hint">Choose how we can reach you.</span>
-    <RoarIcon slot="@SelectSlot.Start" Name="address-book" />
-    <small>Direct</small>
-    <RoarOption Value='"email"' Label="Email">
-        <RoarIcon slot="@OptionSlot.Start" Name="envelope" />
-        Email
-        <span slot="@OptionSlot.End">Recommended</span>
-    </RoarOption>
-    <RoarOption Value='"phone"'>Phone</RoarOption>
-    <RoarDivider />
-    <small>Online</small>
-    <RoarOption Value='"chat"'>Chat</RoarOption>
+<h3>Clearable</h3>
+<RoarSelect @bind-Value="ClearableValue" WithClear>
+    <RoarOption Value='"option-1"'>Option 1</RoarOption>
+    <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    <RoarOption Value='"option-3"'>Option 3</RoarOption>
 </RoarSelect>
 
-<h3>Open State and Methods</h3>
-<RoarSelect @bind-Value="MethodValue" @bind-Open="MenuOpen" Label="Menu" @ref="MethodSelect" id="methods">
-    <RoarOption Value='"one"'>Option one</RoarOption>
-    <RoarOption Value='"two"'>Option two</RoarOption>
-</RoarSelect>
-<p id="menu-open">Open: @MenuOpen</p>
-<RoarButton @onclick="() => MenuOpen = !MenuOpen">Toggle menu</RoarButton>
-<RoarButton @onclick="async () => await MethodSelect.ShowAsync()">Show menu</RoarButton>
-<RoarButton @onclick="async () => await MethodSelect.HideAsync()">Hide menu</RoarButton>
-<RoarButton @onclick="async () => await MethodSelect.FocusAsync()">Focus menu</RoarButton>
-
-<h3>Loading Options Later</h3>
-<RoarSelect @bind-Value="LazyValue" Label="Single delayed option" Placeholder="Waiting for an option" id="lazy-single">
-    <RoarOption Value='"first"'>First</RoarOption>
-    @if (OptionsLoaded)
-    {
-        <RoarOption Value='"later"'>Loaded later</RoarOption>
-    }
-</RoarSelect>
-<RoarSelectMultiple @bind-Value="LazyValues" Label="Multiple delayed options" id="lazy-multiple">
-    <RoarOption Value='"first"'>First</RoarOption>
-    @if (OptionsLoaded)
-    {
-        <RoarOption Value='"later"'>Loaded later</RoarOption>
-    }
+<h3>Multiple</h3>
+<RoarSelectMultiple @bind-Value="Notifications" Label="Notify me about" WithClear>
+    <RoarOption Value='"mentions"'>Mentions</RoarOption>
+    <RoarOption Value='"replies"'>Replies</RoarOption>
+    <RoarOption Value='"reactions"'>Reactions</RoarOption>
+    <RoarOption Value='"follows"'>New followers</RoarOption>
+    <RoarOption Value='"releases"'>Releases</RoarOption>
 </RoarSelectMultiple>
-<RoarButton @onclick="() => OptionsLoaded = true" Disabled="OptionsLoaded">Load remaining options</RoarButton>
-<p id="lazy-values">Selected: @LazyValue / @string.Join(", ", LazyValues)</p>
 
-<h3>Form Validation</h3>
-<EditForm Model="RequiredForm" OnValidSubmit='() => FormResult = "Submitted"' OnInvalidSubmit='() => FormResult = "Choose a country and at least one topping."' novalidate>
-    <DataAnnotationsValidator />
-    <RoarSelect @bind-Value="RequiredForm.Country" Label="Country" Placeholder="Choose a country" WithClear id="required-country">
-        <RoarOption Value="1">United States</RoarOption>
-        <RoarOption Value="2">Canada</RoarOption>
+<h3>Grouping Options</h3>
+<RoarSelect TValue="string" Label="Add a language" Placeholder="Select one">
+    <small>Frontend</small>
+    <RoarOption Value='"ts"'>TypeScript</RoarOption>
+    <RoarOption Value='"css"'>CSS</RoarOption>
+    <RoarDivider />
+    <small>Backend</small>
+    <RoarOption Value='"go"'>Go</RoarOption>
+    <RoarOption Value='"rust"'>Rust</RoarOption>
+    <RoarOption Value='"python"'>Python</RoarOption>
+</RoarSelect>
+
+<h3>Placement</h3>
+<RoarSelect TValue="string" Placement="SelectPlacement.Top" Placeholder="Opens upward">
+    <RoarOption Value='"option-1"'>Option 1</RoarOption>
+    <RoarOption Value='"option-2"'>Option 2</RoarOption>
+    <RoarOption Value='"option-3"'>Option 3</RoarOption>
+</RoarSelect>
+
+<h3>Start & End Decorations</h3>
+<RoarSelect TValue="string" Label="Destination" Placeholder="Where to?" WithClear>
+    <RoarIcon slot="@SelectSlot.Start" Name="plane-departure" Variant="FontAwesomeVariant.Solid" />
+    <RoarOption Value='"lax"'>Los Angeles</RoarOption>
+    <RoarOption Value='"jfk"'>New York</RoarOption>
+    <RoarOption Value='"nrt"'>Tokyo</RoarOption>
+</RoarSelect>
+
+<h3>Lazy Loading Options</h3>
+<div>
+    <RoarSelect @bind-Value="SingleWithOptions" Label="Single select (with existing options)">
+        @foreach (var option in SingleOptions)
+        {
+            <RoarOption Value="option">@option.ToUpper()</RoarOption>
+        }
     </RoarSelect>
-    <ValidationMessage For="() => RequiredForm.Country" />
-    <RoarSelectMultiple @bind-Value="RequiredForm.Toppings" Label="Toppings" WithClear id="required-toppings">
-        <RoarOption Value="1">Mushrooms</RoarOption>
-        <RoarOption Value="2">Olives</RoarOption>
+    <RoarDivider />
+    <RoarButton Appearance="ButtonAppearance.Filled" Type="ButtonType.Button" @onclick="AddFooOption">Add "foo" option</RoarButton>
+    Selected: @SingleWithOptions
+</div>
+<div>
+    <RoarSelect @bind-Value="SingleWithoutOptions" name="select-2" Label="Single select (with no existing options)">
+        @foreach (var option in EmptySingleOptions)
+        {
+            <RoarOption Value="option">@option.ToUpper()</RoarOption>
+        }
+    </RoarSelect>
+    <RoarDivider />
+    <RoarButton Appearance="ButtonAppearance.Filled" Type="ButtonType.Button" @onclick="AddFooOptionForEmpty">Add "foo" option</RoarButton>
+    Selected: @SingleWithoutOptions
+</div>
+<div>
+    <RoarSelectMultiple @bind-Value="MultipleWithOptions" name="select-3" Label="Multiple select (with existing selected options)">
+        @foreach (var option in MultipleOptions)
+        {
+            <RoarOption Value="option">@option.ToUpper()</RoarOption>
+        }
     </RoarSelectMultiple>
-    <ValidationMessage For="() => RequiredForm.Toppings" />
-    <RoarButton Type="ButtonType.Submit">Submit choices</RoarButton>
-    <RoarButton Type="ButtonType.Reset">Reset choices</RoarButton>
-</EditForm>
-<p id="form-result">@FormResult</p>
+    <RoarDivider />
+    <RoarButton Appearance="ButtonAppearance.Filled" Type="ButtonType.Button" @onclick="AddSelectedFooOption">Add "foo" option (selected)</RoarButton>
+    Selected: @string.Join(", ", MultipleWithOptions)
+</div>
+<div>
+    <RoarSelectMultiple @bind-Value="MultipleWithoutOptions" name="select-4" Label="Multiple select (with no existing options)">
+        @foreach (var option in EmptyMultipleOptions)
+        {
+            <RoarOption Value="option">@option.ToUpper()</RoarOption>
+        }
+    </RoarSelectMultiple>
+    <RoarDivider />
+    <RoarButton Appearance="ButtonAppearance.Filled" Type="ButtonType.Button" @onclick="AddSelectedFooOptionForEmpty">Add "foo" option</RoarButton>
+    Selected: @string.Join(", ", MultipleWithoutOptions)
+</div>
+<RoarButton Appearance="ButtonAppearance.Filled" Type="ButtonType.Button" @onclick="ResetLazyOptions">Reset</RoarButton>
 
 @code {
-    public string? Country { get; set; } = "ca";
-    public string CountryEvent { get; set; } = "";
-    public int? Number { get; set; } = 2;
-    public string NumberEvent { get; set; } = "";
-    public SelectPriority Priority { get; set; } = SelectPriority.Normal;
-    public int[] Toppings { get; set; } = [1, 3];
-    public string ToppingsEvent { get; set; } = "";
-    public string Contact { get; set; } = "email";
-    public string MethodValue { get; set; } = "one";
-    public bool MenuOpen { get; set; }
-    public RoarSelect<string> MethodSelect { get; set; } = default!;
-    public string LazyValue { get; set; } = "later";
-    public string[] LazyValues { get; set; } = ["first", "later"];
-    public bool OptionsLoaded { get; set; }
-    public SelectRequiredForm RequiredForm { get; set; } = new();
-    public string FormResult { get; set; } = "";
+    private string DefaultBranch { get; set; } = "master";
+    private string[] Toppings { get; set; } = ["mushrooms", "olives"];
+    private string? ClearableValue { get; set; } = "option-1";
+    private string[] Notifications { get; set; } = ["mentions", "replies"];
+    private string SingleWithOptions { get; set; } = "";
+    private string SingleWithoutOptions { get; set; } = "";
+    private string[] MultipleWithOptions { get; set; } = ["bar", "baz"];
+    private string[] MultipleWithoutOptions { get; set; } = [];
+    private HashSet<string> SingleOptions { get; } = ["bar", "baz"];
+    private HashSet<string> EmptySingleOptions { get; } = [];
+    private HashSet<string> MultipleOptions { get; } = ["bar", "baz"];
+    private HashSet<string> EmptyMultipleOptions { get; } = [];
 
-    public enum SelectPriority
+    private void AddFooOptionForEmpty()
     {
-        Low,
-        Normal,
-        High
+        SingleWithoutOptions = "foo";
+        EmptySingleOptions.Add("foo");
     }
+
+    private void AddFooOption()
+    {
+        SingleWithOptions = "foo";
+        SingleOptions.Add("foo");
+    }
+
+    private void AddSelectedFooOption()
+    {
+        MultipleOptions.Add("foo");
+        MultipleWithOptions = [.. MultipleWithOptions, "foo"];
+    }
+
+    private void AddSelectedFooOptionForEmpty()
+    {
+        EmptyMultipleOptions.Add("foo");
+        MultipleWithoutOptions = [.. MultipleWithoutOptions, "foo"];
+    }
+
+    private void ResetLazyOptions()
+    {
+        SingleWithOptions = "foo";
+        SingleWithoutOptions = "foo";
+        MultipleWithOptions = ["bar", "baz"];
+        MultipleWithoutOptions = ["foo"];
+    }
+
 }
