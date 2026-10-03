@@ -1,0 +1,262 @@
+@namespace RoarUI
+@inherits RoarUI.Components.Input.RoarInputBase<TValue[]>
+@typeparam TValue
+
+<RoarDependency ComponentName="select" />
+
+<wa-select multiple max-options-visible="@MaxOptionsVisible" appearance="@Appearance" disabled="@Disabled" hint="@Hint" label="@Label" open="@Open" pill="@Pill" placeholder="@Placeholder" placement="@Placement" size="@Size" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @onroarclear="TriggerClearAsync" @onroarshow="TriggerShowAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarafterhide="TriggerAfterHideAsync" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-select>
+
+@code {
+    /// <summary>
+    /// The select's visual appearance.
+    /// </summary>
+    [Parameter]
+    public InputAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// Disables the select.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// The select's hint. Use the hint slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The select's accessible label. Use the label slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// Opens or closes the listbox.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; }
+
+    /// <summary>
+    /// Draws a select with rounded edges.
+    /// </summary>
+    [Parameter]
+    public bool Pill { get; set; }
+
+    /// <summary>
+    /// Text displayed when the select is empty.
+    /// </summary>
+    [Parameter]
+    public string Placeholder { get; set; } = "";
+
+    /// <summary>
+    /// The preferred listbox placement.
+    /// </summary>
+    [Parameter]
+    public SelectPlacement Placement { get; set; }
+
+    /// <summary>
+    /// The select's size.
+    /// </summary>
+    [Parameter]
+    public InputSize Size { get; set; }
+
+    /// <summary>
+    /// Adds a button to clear the selection.
+    /// </summary>
+    [Parameter]
+    public bool WithClear { get; set; }
+
+    /// <summary>
+    /// Includes the hint slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; }
+
+    /// <summary>
+    /// Includes the label slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; }
+
+    /// <summary>
+    /// Updates the bound open state.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>
+    /// Identifies the bound open state.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<bool>>? OpenExpression { get; set; }
+
+    /// <summary>
+    /// Emitted after a user changes the selection.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted after the select receives user input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted after the selection is cleared.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClear { get; set; }
+
+    /// <summary>
+    /// Emitted when the listbox begins opening.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    /// <summary>
+    /// Emitted after the listbox opens and its animation completes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the listbox begins closing.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted after the listbox closes and its animation completes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    private string _lastSelectValue = "[]";
+
+    /// <summary>
+    /// The maximum number of selected tags to display. Zero removes the limit.
+    /// </summary>
+    [Parameter]
+    public int MaxOptionsVisible { get; set; } = 3;
+
+    protected override string FormatValueAsString(TValue[]? value) => System.Text.Json.JsonSerializer.Serialize(value?.Select(item => Convert.ToString(item, CultureInfo.CurrentCulture)).ToArray() ?? []);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // JSON is only an internal representation for the input base's parsing and validation.
+        // Web Awesome always receives an actual JavaScript array.
+        string value = CurrentValueAsString ?? "[]";
+        string[] values = JsonSerializer.Deserialize<string[]>(value) ?? [];
+
+        if (firstRender)
+        {
+            await SetComponentPropertyAsync("defaultValue", values);
+            await SetComponentPropertyAsync("value", values);
+        }
+        else if (!string.Equals(value, _lastSelectValue, StringComparison.Ordinal))
+        {
+            await SetComponentPropertyAsync("value", values);
+        }
+
+        _lastSelectValue = value;
+    }
+
+    protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue[] result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        string[] values = JsonSerializer.Deserialize<string[]>(value ?? "[]") ?? [];
+        var parsedValues = new TValue[values.Length];
+
+        for (int index = 0; index < values.Length; index++)
+        {
+            if (!TryParseSelectableValueFromString<TValue>(values[index], out var parsedValue, out validationErrorMessage))
+            {
+                result = default;
+                return false;
+            }
+
+            parsedValues[index] = parsedValue;
+        }
+
+        result = Value is not null && Value.SequenceEqual(parsedValues) ? Value : parsedValues;
+        validationErrorMessage = null;
+        return true;
+    }
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        _lastSelectValue = JsonSerializer.Serialize(args.Select?.Values ?? []);
+        await SetCurrentValueAsStringAsync(_lastSelectValue);
+        await OnChange.InvokeAsync();
+    }
+
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
+    {
+        _lastSelectValue = JsonSerializer.Serialize(args.Select?.Values ?? []);
+        await SetCurrentValueAsStringAsync(_lastSelectValue);
+        await OnInput.InvokeAsync();
+    }
+
+    public async Task TriggerClearAsync()
+    {
+        string[] values = await GetComponentPropertyAsync<string[]?>("value") ?? [];
+        _lastSelectValue = JsonSerializer.Serialize(values);
+        await SetCurrentValueAsStringAsync(_lastSelectValue);
+        await OnClear.InvokeAsync();
+    }
+
+    public async Task TriggerShowAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnShow.InvokeAsync();
+    }
+
+    public async Task TriggerAfterShowAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterShow.InvokeAsync();
+    }
+
+    public async Task TriggerHideAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnHide.InvokeAsync();
+    }
+
+    public async Task TriggerAfterHideAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterHide.InvokeAsync();
+    }
+
+    /// <summary>
+    /// Shows the listbox.
+    /// </summary>
+    public async ValueTask ShowAsync()
+    {
+        await CallComponentVoidFunctionAsync("show");
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+    }
+
+    /// <summary>
+    /// Hides the listbox.
+    /// </summary>
+    public async ValueTask HideAsync()
+    {
+        await CallComponentVoidFunctionAsync("hide");
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+    }
+
+    /// <summary>
+    /// Sets focus on the select.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false) => CallComponentVoidFunctionAsync("focus", new { preventScroll });
+
+    /// <summary>
+    /// Removes focus from the select.
+    /// </summary>
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+}

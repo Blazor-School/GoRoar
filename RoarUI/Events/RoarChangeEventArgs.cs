@@ -9,4 +9,5 @@ public class RoarChangeEventArgs : EventArgs
     public NumberInputChangeEventArgs? NumberInput { get; set; }
     public RadioGroupChangeEventArgs? RadioGroup { get; set; }
     public ColorPickerChangeEventArgs? ColorPicker { get; set; }
+    public SelectChangeEventArgs? Select { get; set; }
 }

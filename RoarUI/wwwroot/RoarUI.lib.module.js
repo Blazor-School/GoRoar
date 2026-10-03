@@ -229,6 +229,17 @@ function createRoarValueEventArgs(event) {
             return { radioGroup: { value: event.target.value } };
         case "wa-color-picker":
             return { colorPicker: { value: event.target.value } };
+        case "wa-select": {
+            const value = event.target.value;
+            event.target.value = value ?? [];
+
+            if (event.target.multiple) {
+                return { select: { values: value ?? [] } };
+            }
+            else {
+                return { select: { value } };
+            }
+        }
         default:
             return {};
     }
@@ -241,7 +252,12 @@ function roarGeneralFunction() {
         return element[functionName](...params);
     }
 
-    window.setObjectProperty = function (element, propertyName, value) {
+    window.setObjectProperty = async function (element, propertyName, value) {
+        if (element.localName.includes("-")) {
+            await customElements.whenDefined(element.localName);
+        }
+
+        await element.updateComplete;
         element[propertyName] = value;
     }
 
