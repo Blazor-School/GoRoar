@@ -189,8 +189,7 @@
         </RoarCarouselItem>
     </RoarCarousel>
     <RoarDivider />
-    <RoarDependency ComponentName="switch" />
-    <wa-switch @onchange="ToggleMouseDraggingAsync" @ref="MouseDraggingToggle">Enable mouse dragging</wa-switch>
+    <RoarSwitch @bind-Value="MouseDraggingEnabled">Enable mouse dragging</RoarSwitch>
 </div>
 
 <h3>Adding &amp; Removing Slides</h3>
@@ -296,11 +295,6 @@
     public RoarCarousel ThumbnailCarousel { get; set; } = default!;
     public int ActiveThumbnailIndex { get; set; } = 0;
     public ElementReference[] ThumbnailElements { get; set; } = new ElementReference[5];
-
-    public async Task ToggleMouseDraggingAsync()
-    {
-        MouseDraggingEnabled = await JSRuntime.InvokeAsync<bool>("getObjectProperty", MouseDraggingToggle, "checked");
-    }
 
     public void RemoveSlide()
     {
