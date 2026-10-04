@@ -19,6 +19,11 @@ internal static class JavascriptFunctionNames
     public const string SetObjectPropertyWithJson = "setObjectPropertyWithJson";
 
     /// <summary>
+    /// Specific for RoarSelectMultiple
+    /// </summary>
+    public const string SelectSetGetTag = "selectSetGetTag";
+
+    /// <summary>
     /// Element, PropertyName
     /// </summary>
     public const string GetObjectProperty = "getObjectProperty";

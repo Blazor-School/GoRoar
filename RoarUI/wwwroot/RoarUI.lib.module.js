@@ -261,6 +261,11 @@ function roarGeneralFunction() {
         element[propertyName] = value;
     }
 
+    window.selectSetGetTag = async function (element, htmlByValue) {
+        await window.setObjectProperty(element, "getTag", item => Object.hasOwn(htmlByValue, item.value) ? htmlByValue[item.value] : "");
+        await element.updateComplete;
+    };
+
     window.setObjectPropertyWithJson = function (element, propertyName, jsonValue) {
         element[propertyName] = JSON.parse(jsonValue);
     }

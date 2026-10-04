@@ -478,12 +478,12 @@
 
     public void OnComponentsChangedHandler(object? sender, EventArgs args)
     {
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     public void OnThemeLoadedHandler(object? sender, RoarTheme theme)
     {
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()

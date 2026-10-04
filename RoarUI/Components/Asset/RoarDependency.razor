@@ -6,11 +6,5 @@
     [Parameter]
     public string ComponentName { get; set; } = "";
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            RoarDependencyService.RegisterComponent(ComponentName);
-        }
-    }
+    protected override void OnInitialized() => RoarDependencyService.RegisterComponent(ComponentName);
 }

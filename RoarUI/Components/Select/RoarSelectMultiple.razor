@@ -1,6 +1,9 @@
 @namespace RoarUI
+@using Microsoft.Extensions.Logging
 @inherits RoarUI.Components.Input.RoarInputBase<TValue[]>
 @typeparam TValue
+@inject IServiceProvider ServiceProvider
+@inject ILoggerFactory LoggerFactory
 
 <RoarDependency ComponentName="select" />
 
@@ -9,6 +12,12 @@
 </wa-select>
 
 @code {
+    /// <summary>
+    /// Renders each selected value as static HTML. Include a tag with data-value for removal; Blazor event handlers aren't preserved.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<TValue>? TagTemplate { get; set; }
+
     /// <summary>
     /// The select's visual appearance.
     /// </summary>
@@ -162,6 +171,11 @@
             await SetComponentPropertyAsync("value", values);
         }
 
+        if (TagTemplate is not null)
+        {
+            await SetTag(TagTemplate, Value ?? []);
+        }
+
         _lastSelectValue = value;
     }
 
@@ -259,4 +273,26 @@
     /// Removes focus from the select.
     /// </summary>
     public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+
+    protected async ValueTask SetTag(RenderFragment<TValue?> template, IEnumerable<TValue> values)
+    {
+        var htmlByValue = new Dictionary<string, string>(StringComparer.Ordinal);
+
+        if (template is not null)
+        {
+            await using var renderer = new HtmlRenderer(ServiceProvider, LoggerFactory);
+
+            await renderer.Dispatcher.InvokeAsync(async () =>
+            {
+                foreach (var value in values)
+                {
+                    var parameters = ParameterView.FromDictionary(new Dictionary<string, object?> { [nameof(LayoutView.ChildContent)] = template(value) });
+                    var output = await renderer.RenderComponentAsync<LayoutView>(parameters);
+                    htmlByValue[Convert.ToString(value, CultureInfo.CurrentCulture) ?? ""] = output.ToHtmlString();
+                }
+            });
+        }
+
+        await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SelectSetGetTag, Element, htmlByValue);
+    }
 }
