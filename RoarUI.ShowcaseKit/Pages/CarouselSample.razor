@@ -134,15 +134,11 @@
     </RoarCarouselItem>
 </RoarCarousel>
 <RoarDivider />
-<div class="wa-cluster">
-    <RoarDependency ComponentName="select" />
-    <RoarDependency ComponentName="option" />
-    <wa-select label="Aspect ratio" name="aspect" value="@AspectRatio" @onchange="ChangeAspectRatio">
-        <wa-option value="1/1">1/1</wa-option>
-        <wa-option value="3/2">3/2</wa-option>
-        <wa-option value="16/9">16/9</wa-option>
-    </wa-select>
-</div>
+<RoarSelect Label="Aspect ratio" @bind-Value="@AspectRatio">
+    <RoarOption Value='"1/1"'>1/1</RoarOption>
+    <RoarOption Value='"3/2"'>3/2</RoarOption>
+    <RoarOption Value='"16/9"'>16/9</RoarOption>
+</RoarSelect>
 
 <h3>Multiple Slides per View</h3>
 <RoarCarousel Navigation Pagination SlidesPerPage="2" SlidesPerMove="2">
@@ -243,13 +239,13 @@
         --aspect-ratio: 3 / 2;
     }
 
-    .dynamic-carousel wa-carousel-item {
-        flex: 0 0 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: var(--wa-font-size-2xl);
-    }
+        .dynamic-carousel wa-carousel-item {
+            flex: 0 0 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--wa-font-size-2xl);
+        }
 
     .carousel-thumbnails {
         --slide-aspect-ratio: 3 / 2;
@@ -269,9 +265,9 @@
         scroll-padding: var(--wa-space-s);
     }
 
-    .scroller::-webkit-scrollbar {
-        display: none;
-    }
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
 
     .image {
         width: 64px;
@@ -283,9 +279,9 @@
         cursor: pointer;
     }
 
-    .image.active {
-        opacity: 1;
-    }
+        .image.active {
+            opacity: 1;
+        }
 </style>
 
 @code {
@@ -300,8 +296,6 @@
     public RoarCarousel ThumbnailCarousel { get; set; } = default!;
     public int ActiveThumbnailIndex { get; set; } = 0;
     public ElementReference[] ThumbnailElements { get; set; } = new ElementReference[5];
-
-    public void ChangeAspectRatio(ChangeEventArgs args) => AspectRatio = args.Value?.ToString() ?? "3/2";
 
     public async Task ToggleMouseDraggingAsync()
     {
