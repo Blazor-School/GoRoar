@@ -216,6 +216,8 @@ function createRoarValueEventArgs(event) {
     switch (event.target?.localName) {
         case "wa-checkbox":
             return { checkbox: { checked: event.target.checked, indeterminate: event.target.indeterminate } };
+        case "wa-switch":
+            return { switch: { checked: event.target.checked } };
         case "wa-comparison":
             return { comparison: { position: event.target.position } };
         case "wa-input":
