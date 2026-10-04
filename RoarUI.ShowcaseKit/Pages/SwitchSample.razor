@@ -1,0 +1,63 @@
+@page "/switch-sample"
+
+<h3>Label</h3>
+<RoarSwitch>Subscribe to the newsletter</RoarSwitch>
+
+<h3>Hint</h3>
+<RoarSwitch Hint="You can change this at any time in settings.">Email me about new releases</RoarSwitch>
+<RoarSwitch WithHint>
+    Email me about new releases
+    <span slot="@SwitchSlot.Hint">You can change this in <strong>settings</strong>.</span>
+</RoarSwitch>
+
+<h3>Initial Value</h3>
+<RoarSwitch Value="true">Remember this device</RoarSwitch>
+
+<h3>Disabled</h3>
+<RoarSwitch Disabled>Sync over cellular</RoarSwitch>
+<RoarSwitch Disabled Value="true">Sync enabled</RoarSwitch>
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarSwitch Size="SwitchSize.Xs">Extra Small</RoarSwitch>
+    <RoarSwitch Size="SwitchSize.S">Small</RoarSwitch>
+    <RoarSwitch Size="SwitchSize.M">Medium</RoarSwitch>
+    <RoarSwitch Size="SwitchSize.L">Large</RoarSwitch>
+    <RoarSwitch Size="SwitchSize.Xl">Extra Large</RoarSwitch>
+</div>
+
+<h3>Custom Properties</h3>
+<RoarSwitch style="--width: 80px; --height: 40px; --thumb-size: 36px;">Really big</RoarSwitch>
+
+<h3>Binding and Events</h3>
+<RoarSwitch @bind-Value="NotificationsEnabled" OnChange="() => ChangeCount++" OnInput="() => InputCount++">Enable notifications</RoarSwitch>
+<p>Enabled: @NotificationsEnabled. Changes: @ChangeCount. Inputs: @InputCount.</p>
+<RoarButton @onclick="() => NotificationsEnabled = !NotificationsEnabled">Toggle from C#</RoarButton>
+
+<h3>Methods</h3>
+<RoarSwitch @ref="MethodSwitch" @bind-Value="MethodEnabled" @onfocus="() => FocusCount++" @onblur="() => BlurCount++">Control with methods</RoarSwitch>
+<p>Enabled: @MethodEnabled. Focus events: @FocusCount. Blur events: @BlurCount.</p>
+<RoarButton @onclick="async () => await MethodSwitch!.FocusAsync()">Focus</RoarButton>
+<RoarButton @onclick="async () => await MethodSwitch!.BlurAsync()">Blur</RoarButton>
+<RoarButton @onclick="async () => await MethodSwitch!.ClickAsync()">Click</RoarButton>
+
+<h3>Validation</h3>
+<EditForm Model="Form" OnValidSubmit="() => Submitted = true">
+    <DataAnnotationsValidator />
+    <RoarSwitch @bind-Value="Form.NotificationsEnabled">Enable notifications to continue</RoarSwitch>
+    <ValidationMessage For="@(() => Form.NotificationsEnabled)" />
+    <RoarButton Type="ButtonType.Submit">Submit</RoarButton>
+</EditForm>
+<p>Submitted: @Submitted</p>
+
+@code {
+    private bool NotificationsEnabled { get; set; }
+    private int ChangeCount { get; set; }
+    private int InputCount { get; set; }
+    private RoarSwitch? MethodSwitch { get; set; }
+    private bool MethodEnabled { get; set; }
+    private int FocusCount { get; set; }
+    private int BlurCount { get; set; }
+    private SwitchSettingsForm Form { get; } = new();
+    private bool Submitted { get; set; }
+}
