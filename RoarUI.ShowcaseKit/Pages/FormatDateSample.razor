@@ -1,0 +1,40 @@
+@page "/format-date-sample"
+
+<h3>Overview</h3>
+<RoarFormatDate Date="SampleDate" />
+
+<h3>Date &amp; Time Format</h3>
+<RoarFormatDate Date="SampleDate" Month="FormatDateMonth.Long" Day="FormatDateNumeric.Numeric" Year="FormatDateNumeric.Numeric" /><br />
+<RoarFormatDate Date="SampleDate" Hour="FormatDateNumeric.Numeric" Minute="FormatDateNumeric.Numeric" /><br />
+<RoarFormatDate Date="SampleDate" Weekday="FormatDateText.Long" /><br />
+<RoarFormatDate Date="SampleDate" Month="FormatDateMonth.Long" /><br />
+<RoarFormatDate Date="SampleDate" Year="FormatDateNumeric.Numeric" /><br />
+<RoarFormatDate Date="SampleDate" /><br />
+<RoarFormatDate />
+
+<h3>Hour Format</h3>
+<RoarFormatDate Date="SampleDate" Hour="FormatDateNumeric.Numeric" Minute="FormatDateNumeric.Numeric" HourFormat="FormatDateHourFormat.TwelveHour" /><br />
+<RoarFormatDate Date="SampleDate" Hour="FormatDateNumeric.Numeric" Minute="FormatDateNumeric.Numeric" HourFormat="FormatDateHourFormat.TwentyFourHour" />
+
+<h3>Localization</h3>
+English: <RoarFormatDate Date="SampleDate" lang="en" /><br />
+French: <RoarFormatDate Date="SampleDate" lang="fr" /><br />
+Russian: <RoarFormatDate Date="SampleDate" lang="ru" />
+
+<h3>Time Zones</h3>
+UTC: <RoarFormatDate Date="SampleDate" Hour="FormatDateNumeric.TwoDigit" Minute="FormatDateNumeric.TwoDigit" Second="FormatDateNumeric.TwoDigit" TimeZone="UTC" TimeZoneName="FormatDateTimeZoneName.Short" HourFormat="FormatDateHourFormat.TwentyFourHour" /><br />
+New York: <RoarFormatDate Date="SampleDate" Hour="FormatDateNumeric.TwoDigit" Minute="FormatDateNumeric.TwoDigit" Second="FormatDateNumeric.TwoDigit" TimeZone="America/New_York" TimeZoneName="FormatDateTimeZoneName.Long" HourFormat="FormatDateHourFormat.TwentyFourHour" />
+
+<h3>Two-Digit Date &amp; Era</h3>
+<RoarFormatDate Date="SampleDate" Day="FormatDateNumeric.TwoDigit" Month="FormatDateMonth.TwoDigit" Year="FormatDateNumeric.TwoDigit" Era="FormatDateText.Short" TimeZone="UTC" />
+
+<h3>Updating the Date</h3>
+<RoarFormatDate Date="SelectedDate" Month="SelectedMonth" Day="FormatDateNumeric.Numeric" Year="FormatDateNumeric.Numeric" TimeZone="UTC" /><br />
+<RoarButton @onclick="() => SelectedDate = SelectedDate.AddDays(1)">Next Day</RoarButton>
+<RoarButton @onclick="() => SelectedMonth = SelectedMonth is null ? FormatDateMonth.Long : (FormatDateMonth?)null">Toggle Month Format</RoarButton>
+
+@code {
+    public DateTimeOffset SampleDate { get; set; } = new(2025, 12, 2, 15, 4, 5, TimeSpan.FromHours(-5));
+    public DateTimeOffset SelectedDate { get; set; } = new(2025, 12, 2, 15, 4, 5, TimeSpan.FromHours(-5));
+    public FormatDateMonth? SelectedMonth { get; set; } = FormatDateMonth.Long;
+}

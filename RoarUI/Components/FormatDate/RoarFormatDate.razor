@@ -1,0 +1,83 @@
+@namespace RoarUI
+@using System.Globalization
+
+<RoarDependency ComponentName="format-date" />
+
+<wa-format-date @key="(Weekday, Era, Year, Month, Day, Hour, Minute, Second, TimeZoneName, TimeZone)" date="@Date.ToString("O", CultureInfo.InvariantCulture)" weekday="@Weekday" era="@Era" year="@Year" month="@Month" day="@Day" hour="@Hour" minute="@Minute" second="@Second" time-zone-name="@TimeZoneName" time-zone="@TimeZone" hour-format="@HourFormat" @attributes="AdditionalAttributes"></wa-format-date>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The date/time to format. Defaults to the current date and time when the component is created.
+    /// </summary>
+    [Parameter]
+    public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
+
+    /// <summary>
+    /// The format for displaying the weekday.
+    /// </summary>
+    [Parameter]
+    public FormatDateText? Weekday { get; set; }
+
+    /// <summary>
+    /// The format for displaying the era.
+    /// </summary>
+    [Parameter]
+    public FormatDateText? Era { get; set; }
+
+    /// <summary>
+    /// The format for displaying the year.
+    /// </summary>
+    [Parameter]
+    public FormatDateNumeric? Year { get; set; }
+
+    /// <summary>
+    /// The format for displaying the month.
+    /// </summary>
+    [Parameter]
+    public FormatDateMonth? Month { get; set; }
+
+    /// <summary>
+    /// The format for displaying the day.
+    /// </summary>
+    [Parameter]
+    public FormatDateNumeric? Day { get; set; }
+
+    /// <summary>
+    /// The format for displaying the hour.
+    /// </summary>
+    [Parameter]
+    public FormatDateNumeric? Hour { get; set; }
+
+    /// <summary>
+    /// The format for displaying the minute.
+    /// </summary>
+    [Parameter]
+    public FormatDateNumeric? Minute { get; set; }
+
+    /// <summary>
+    /// The format for displaying the second.
+    /// </summary>
+    [Parameter]
+    public FormatDateNumeric? Second { get; set; }
+
+    /// <summary>
+    /// The format for displaying the time zone name.
+    /// </summary>
+    [Parameter]
+    public FormatDateTimeZoneName? TimeZoneName { get; set; }
+
+    /// <summary>
+    /// The IANA time zone to express the time in. Defaults to the browser's time zone.
+    /// </summary>
+    [Parameter]
+    public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// Whether to use the locale's default, 12-hour, or 24-hour time.
+    /// </summary>
+    [Parameter]
+    public FormatDateHourFormat HourFormat { get; set; }
+}
