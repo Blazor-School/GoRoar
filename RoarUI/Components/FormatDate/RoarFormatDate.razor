@@ -3,17 +3,17 @@
 
 <RoarDependency ComponentName="format-date" />
 
-<wa-format-date @key="(Weekday, Era, Year, Month, Day, Hour, Minute, Second, TimeZoneName, TimeZone)" date="@Date.ToString("O", CultureInfo.InvariantCulture)" weekday="@Weekday" era="@Era" year="@Year" month="@Month" day="@Day" hour="@Hour" minute="@Minute" second="@Second" time-zone-name="@TimeZoneName" time-zone="@TimeZone" hour-format="@HourFormat" @attributes="AdditionalAttributes"></wa-format-date>
+<wa-format-date date="@Date.ToString("O", CultureInfo.InvariantCulture)" weekday="@Weekday" era="@Era" year="@Year" month="@Month" day="@Day" hour="@Hour" minute="@Minute" second="@Second" time-zone-name="@TimeZoneName" time-zone="@TimeZone" hour-format="@HourFormat" @attributes="AdditionalAttributes"></wa-format-date>
 
 @code {
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
-    /// The date/time to format. Defaults to the current date and time when the component is created.
+    /// The date/time to format. If not set, the current date and time will be used.
     /// </summary>
     [Parameter]
-    public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
+    public DateTime Date { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// The format for displaying the weekday.

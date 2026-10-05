@@ -3,8 +3,7 @@
 
 <RoarDependency ComponentName="format-number" />
 
-@* Recreate the element when digit options change so clearing an option restores Intl defaults instead of passing null. *@
-<wa-format-number @key="(MinimumIntegerDigits, MinimumFractionDigits, MaximumFractionDigits, MinimumSignificantDigits, MaximumSignificantDigits)" value="@Value.ToString(CultureInfo.InvariantCulture)" type="@Type" without-grouping="@WithoutGrouping" currency="@Currency" currency-display="@CurrencyDisplay" minimum-integer-digits="@MinimumIntegerDigits" minimum-fraction-digits="@MinimumFractionDigits" maximum-fraction-digits="@MaximumFractionDigits" minimum-significant-digits="@MinimumSignificantDigits" maximum-significant-digits="@MaximumSignificantDigits" @attributes="AdditionalAttributes"></wa-format-number>
+<wa-format-number value="@Value.ToString(CultureInfo.InvariantCulture)" type="@Type" without-grouping="@WithoutGrouping" currency="@Currency" currency-display="@CurrencyDisplay" minimum-integer-digits="@MinimumIntegerDigits" minimum-fraction-digits="@MinimumFractionDigits" maximum-fraction-digits="@MaximumFractionDigits" minimum-significant-digits="@MinimumSignificantDigits" maximum-significant-digits="@MaximumSignificantDigits" @attributes="AdditionalAttributes"></wa-format-number>
 
 @code {
     [Parameter(CaptureUnmatchedValues = true)]

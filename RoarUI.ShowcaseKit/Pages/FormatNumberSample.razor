@@ -1,9 +1,5 @@
 @page "/format-number-sample"
 
-<h3>Overview</h3>
-<RoarFormatNumber Value="NumberToFormat" />
-<RoarInputNumberNative @bind-Value="NumberToFormat" Label="Number to Format" step="any" style="max-width: 180px;" />
-
 <h3>Percentage</h3>
 <RoarFormatNumber Type="FormatNumberType.Percent" Value="0" /><br />
 <RoarFormatNumber Type="FormatNumberType.Percent" Value="0.25" /><br />
@@ -14,7 +10,7 @@
 <h3>Localization</h3>
 English: <RoarFormatNumber Value="2000" lang="en" MinimumFractionDigits="2" /><br />
 German: <RoarFormatNumber Value="2000" lang="de" MinimumFractionDigits="2" /><br />
-Russian: <RoarFormatNumber Value="2000" lang="ru" MinimumFractionDigits="2" />
+Ukrainian: <RoarFormatNumber Value="2000" lang="uk" MinimumFractionDigits="2" />
 
 <h3>Currency</h3>
 <RoarFormatNumber Type="FormatNumberType.Currency" Currency="USD" Value="2000" lang="en-US" /><br />

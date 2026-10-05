@@ -1,32 +1,24 @@
 @page "/format-bytes-sample"
 
-<h3>Overview</h3>
-<p>The file is <RoarFormatBytes Value="NumberToFormat" /> in size.</p>
-<RoarInputNumberNative @bind-Value="NumberToFormat" Label="Number to Format" step="any" style="max-width: 180px;" />
-
 <h3>Bytes</h3>
-<RoarFormatBytes Value="12" /><br />
-<RoarFormatBytes Value="1200" /><br />
-<RoarFormatBytes Value="1200000" /><br />
+<RoarFormatBytes Value="12" />
+<RoarFormatBytes Value="1200" />
+<RoarFormatBytes Value="1200000" />
 <RoarFormatBytes Value="1200000000" />
 
 <h3>Bits</h3>
-<RoarFormatBytes Value="12" Unit="FormatBytesUnit.Bit" /><br />
-<RoarFormatBytes Value="1200" Unit="FormatBytesUnit.Bit" /><br />
-<RoarFormatBytes Value="1200000" Unit="FormatBytesUnit.Bit" /><br />
+<RoarFormatBytes Value="12" Unit="FormatBytesUnit.Bit" />
+<RoarFormatBytes Value="1200" Unit="FormatBytesUnit.Bit" />
+<RoarFormatBytes Value="1200000" Unit="FormatBytesUnit.Bit" />
 <RoarFormatBytes Value="1200000000" Unit="FormatBytesUnit.Bit" />
 
 <h3>Localization</h3>
-<RoarFormatBytes Value="12" lang="de" /><br />
-<RoarFormatBytes Value="1200" lang="de" /><br />
-<RoarFormatBytes Value="1200000" lang="de" /><br />
+<RoarFormatBytes Value="12" lang="de" />
+<RoarFormatBytes Value="1200" lang="de" />
+<RoarFormatBytes Value="1200000" lang="de" />
 <RoarFormatBytes Value="1200000000" lang="de" />
 
 <h3>Display</h3>
-<RoarFormatBytes Value="1200" Display="FormatBytesDisplay.Long" /><br />
-<RoarFormatBytes Value="1200" Display="FormatBytesDisplay.Short" /><br />
+<RoarFormatBytes Value="1200" Display="FormatBytesDisplay.Long" />
+<RoarFormatBytes Value="1200" Display="FormatBytesDisplay.Short" />
 <RoarFormatBytes Value="1200" Display="FormatBytesDisplay.Narrow" />
-
-@code {
-    public double NumberToFormat { get; set; } = 1000;
-}

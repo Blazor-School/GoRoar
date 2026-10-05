@@ -10,7 +10,7 @@
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
-    /// The number to format.
+    /// The number to format in bytes.
     /// </summary>
     [Parameter]
     public double Value { get; set; } = 0;
@@ -22,7 +22,7 @@
     public FormatBytesUnit Unit { get; set; }
 
     /// <summary>
-    /// Determines whether to display long, short, or narrow unit names.
+    /// Determines how to display the result, e.g. "100 bytes", "100 b", or "100b".
     /// </summary>
     [Parameter]
     public FormatBytesDisplay Display { get; set; }
