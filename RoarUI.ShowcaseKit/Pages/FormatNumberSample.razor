@@ -1,0 +1,41 @@
+@page "/format-number-sample"
+
+<h3>Percentage</h3>
+<RoarFormatNumber Type="FormatNumberType.Percent" Value="0" /><br />
+<RoarFormatNumber Type="FormatNumberType.Percent" Value="0.25" /><br />
+<RoarFormatNumber Type="FormatNumberType.Percent" Value="0.50" /><br />
+<RoarFormatNumber Type="FormatNumberType.Percent" Value="0.75" /><br />
+<RoarFormatNumber Type="FormatNumberType.Percent" Value="1" />
+
+<h3>Localization</h3>
+English: <RoarFormatNumber Value="2000" lang="en" MinimumFractionDigits="2" /><br />
+German: <RoarFormatNumber Value="2000" lang="de" MinimumFractionDigits="2" /><br />
+Ukrainian: <RoarFormatNumber Value="2000" lang="uk" MinimumFractionDigits="2" />
+
+<h3>Currency</h3>
+<RoarFormatNumber Type="FormatNumberType.Currency" Currency="USD" Value="2000" lang="en-US" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Currency="GBP" Value="2000" lang="en-GB" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Currency="EUR" Value="2000" lang="de" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Currency="RUB" Value="2000" lang="ru" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Currency="CNY" Value="2000" lang="zh-cn" />
+
+<h3>Currency Display</h3>
+<RoarFormatNumber Type="FormatNumberType.Currency" Value="2000" CurrencyDisplay="FormatNumberCurrencyDisplay.Symbol" lang="en-US" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Value="2000" CurrencyDisplay="FormatNumberCurrencyDisplay.NarrowSymbol" lang="en-US" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Value="2000" CurrencyDisplay="FormatNumberCurrencyDisplay.Code" lang="en-US" /><br />
+<RoarFormatNumber Type="FormatNumberType.Currency" Value="2000" CurrencyDisplay="FormatNumberCurrencyDisplay.Name" lang="en-US" />
+
+<h3>Without Grouping</h3>
+<RoarFormatNumber Value="1234567.89" WithoutGrouping />
+
+<h3>Digit Options</h3>
+<RoarFormatNumber Value="12" MinimumIntegerDigits="4" WithoutGrouping /><br />
+<RoarFormatNumber Value="12.3456" MinimumFractionDigits="2" MaximumFractionDigits="2" /><br />
+<RoarFormatNumber Value="12" MinimumSignificantDigits="4" /><br />
+<RoarFormatNumber Value="12345.6789" MaximumSignificantDigits="SignificantDigits" /><br />
+<RoarButton @onclick="() => SignificantDigits = SignificantDigits is null ? 4 : null">Toggle Significant Digits</RoarButton>
+
+@code {
+    public double NumberToFormat { get; set; } = 1000;
+    public int? SignificantDigits { get; set; } = 4;
+}

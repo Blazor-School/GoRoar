@@ -1,0 +1,25 @@
+@page "/format-date-sample"
+
+<h3>Date & Time Format</h3>
+<div><RoarFormatDate Month="FormatDateMonth.Long" Day="FormatDateNumeric.Numeric" Year="FormatDateNumeric.Numeric" /></div>
+<div><RoarFormatDate Hour="FormatDateNumeric.Numeric" Minute="FormatDateNumeric.Numeric" /></div>
+<div><RoarFormatDate Weekday="FormatDateText.Long" /></div>
+<div><RoarFormatDate Month="FormatDateMonth.Long" /></div>
+<div><RoarFormatDate Year="FormatDateNumeric.Numeric" /></div>
+<div><RoarFormatDate /></div>
+
+<h3>Hour Format</h3>
+<div><RoarFormatDate Hour="FormatDateNumeric.Numeric" Minute="FormatDateNumeric.Numeric" HourFormat="FormatDateHourFormat.TwelveHour" /></div>
+<div><RoarFormatDate Hour="FormatDateNumeric.Numeric" Minute="FormatDateNumeric.Numeric" HourFormat="FormatDateHourFormat.TwentyFourHour" /></div>
+
+<h3>Localization</h3>
+<div>English: <RoarFormatDate lang="en" /></div>
+<div>French: <RoarFormatDate lang="fr" /></div>
+<div>Ukrainian: <RoarFormatDate lang="uk" /></div>
+
+<h3>Time Zones</h3>
+<div>UTC: <RoarFormatDate Hour="FormatDateNumeric.TwoDigit" Minute="FormatDateNumeric.TwoDigit" Second="FormatDateNumeric.TwoDigit" TimeZone="UTC" TimeZoneName="FormatDateTimeZoneName.Short" HourFormat="FormatDateHourFormat.TwentyFourHour" /></div>
+<div>New York: <RoarFormatDate Hour="FormatDateNumeric.TwoDigit" Minute="FormatDateNumeric.TwoDigit" Second="FormatDateNumeric.TwoDigit" TimeZone="America/New_York" TimeZoneName="FormatDateTimeZoneName.Long" HourFormat="FormatDateHourFormat.TwentyFourHour" /></div>
+
+<h3>Two-Digit Date & Era</h3>
+<div><RoarFormatDate Day="FormatDateNumeric.TwoDigit" Month="FormatDateMonth.TwoDigit" Year="FormatDateNumeric.TwoDigit" Era="FormatDateText.Short" TimeZone="UTC" /></div>

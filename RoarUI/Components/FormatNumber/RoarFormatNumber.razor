@@ -1,0 +1,71 @@
+@namespace RoarUI
+@using System.Globalization
+
+<RoarDependency ComponentName="format-number" />
+
+<wa-format-number value="@Value.ToString(CultureInfo.InvariantCulture)" type="@Type" without-grouping="@WithoutGrouping" currency="@Currency" currency-display="@CurrencyDisplay" minimum-integer-digits="@MinimumIntegerDigits" minimum-fraction-digits="@MinimumFractionDigits" maximum-fraction-digits="@MaximumFractionDigits" minimum-significant-digits="@MinimumSignificantDigits" maximum-significant-digits="@MaximumSignificantDigits" @attributes="AdditionalAttributes"></wa-format-number>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The number to format.
+    /// </summary>
+    [Parameter]
+    public double Value { get; set; } = 0;
+
+    /// <summary>
+    /// The formatting style to use.
+    /// </summary>
+    [Parameter]
+    public FormatNumberType Type { get; set; }
+
+    /// <summary>
+    /// Turns off grouping separators.
+    /// </summary>
+    [Parameter]
+    public bool WithoutGrouping { get; set; } = false;
+
+    /// <summary>
+    /// The ISO 4217 currency code to use when formatting currency.
+    /// </summary>
+    [Parameter]
+    public string Currency { get; set; } = "USD";
+
+    /// <summary>
+    /// How to display the currency.
+    /// </summary>
+    [Parameter]
+    public FormatNumberCurrencyDisplay CurrencyDisplay { get; set; }
+
+    /// <summary>
+    /// The minimum number of integer digits to use, from 1 to 21.
+    /// </summary>
+    [Parameter]
+    public int? MinimumIntegerDigits { get; set; }
+
+    /// <summary>
+    /// The minimum number of fraction digits to use, from 0 to 100.
+    /// </summary>
+    [Parameter]
+    public int? MinimumFractionDigits { get; set; }
+
+    /// <summary>
+    /// The maximum number of fraction digits to use, from 0 to 100.
+    /// </summary>
+    [Parameter]
+    public int? MaximumFractionDigits { get; set; }
+
+    /// <summary>
+    /// The minimum number of significant digits to use, from 1 to 21.
+    /// </summary>
+    [Parameter]
+    public int? MinimumSignificantDigits { get; set; }
+
+    /// <summary>
+    /// The maximum number of significant digits to use, from 1 to 21.
+    /// </summary>
+    [Parameter]
+    public int? MaximumSignificantDigits { get; set; }
+}

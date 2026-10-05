@@ -1,0 +1,29 @@
+@namespace RoarUI
+@using System.Globalization
+
+<RoarDependency ComponentName="format-bytes" />
+
+<wa-format-bytes value="@Value.ToString(CultureInfo.InvariantCulture)" unit="@Unit" display="@Display" @attributes="AdditionalAttributes"></wa-format-bytes>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The number to format in bytes.
+    /// </summary>
+    [Parameter]
+    public double Value { get; set; } = 0;
+
+    /// <summary>
+    /// The type of unit to display.
+    /// </summary>
+    [Parameter]
+    public FormatBytesUnit Unit { get; set; }
+
+    /// <summary>
+    /// Determines how to display the result, e.g. "100 bytes", "100 b", or "100b".
+    /// </summary>
+    [Parameter]
+    public FormatBytesDisplay Display { get; set; }
+}
