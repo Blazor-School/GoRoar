@@ -1,0 +1,80 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="page" />
+
+<wa-page disable-sticky="@JoinDisableSticky" disable-navigation-toggle="@DisableNavigationToggle" mobile-breakpoint="@MobileBreakpoint" navigation-placement="@NavigationPlacement" nav-open="@NavOpen" nonce="@Nonce" @onroarafterhide="TriggerNavigationChangeAsync" @onroaraftershow="TriggerNavigationChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-page>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The sections that should not be sticky: banner, header, subheader, menu, and aside. An empty list keeps all sections sticky.
+    /// </summary>
+    [Parameter]
+    public List<PageStickySection> DisableSticky { get; set; } = [];
+
+    /// <summary>
+    /// Determines whether or not to hide the default hamburger button. This will automatically flip to "true" if you add an element with data-toggle-nav anywhere in the element light DOM. Generally this will be set for you and you don't need to do anything, unless you're using SSR, in which case you should set this manually for initial page loads. If you set this yourself, automatic detection is skipped. This is useful when your toggle lives inside another component's shadow root, where it can't be detected.
+    /// </summary>
+    [Parameter]
+    public bool DisableNavigationToggle { get; set; } = false;
+
+    /// <summary>
+    /// At what page width to hide the "navigation" slot and collapse into a hamburger button. Accepts both numbers (interpreted as px) and CSS lengths (e.g. 50em), which are resolved based on the root element.
+    /// </summary>
+    [Parameter]
+    public string MobileBreakpoint { get; set; } = "768px";
+
+    /// <summary>
+    /// Where to place the navigation when in the mobile viewport.
+    /// </summary>
+    [Parameter]
+    public PageNavigationPlacement NavigationPlacement { get; set; }
+
+    /// <summary>
+    /// Whether or not the navigation drawer is open. Note, the navigation drawer is only "open" on mobile views.
+    /// </summary>
+    [Parameter]
+    public bool NavOpen { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> NavOpenChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<bool>>? NavOpenExpression { get; set; }
+
+    /// <summary>
+    /// The nonce for the injected mobile styles. Falls back to window.litNonce when omitted.
+    /// </summary>
+    [Parameter]
+    public string? Nonce { get; set; }
+
+    private string JoinDisableSticky { get => string.Join(" ", DisableSticky); }
+
+    /// <summary>
+    /// Shows the mobile navigation drawer.
+    /// </summary>
+    public ValueTask ShowNavigationAsync() => CallComponentVoidFunctionAsync("showNavigation");
+
+    /// <summary>
+    /// Hides the mobile navigation drawer.
+    /// </summary>
+    public ValueTask HideNavigationAsync() => CallComponentVoidFunctionAsync("hideNavigation");
+
+    /// <summary>
+    /// Toggles the mobile navigation drawer.
+    /// </summary>
+    public ValueTask ToggleNavigationAsync() => CallComponentVoidFunctionAsync("toggleNavigation");
+
+    public async Task TriggerNavigationChangeAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(NavOpen), "navOpen", NavOpenChanged);
+    }
+}

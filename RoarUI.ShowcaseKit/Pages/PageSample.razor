@@ -1,0 +1,83 @@
+@page "/page-sample"
+@using Microsoft.AspNetCore.Components.Routing
+
+<h3>Page Layout</h3>
+<p>Resize the window to see navigation collapse into a drawer. Use RoarPage inside a Blazor layout with its Body as the main content.</p>
+
+<RoarPage @ref="Page" @bind-NavOpen="NavOpen" MobileBreakpoint="@MobileBreakpoint" NavigationPlacement="@NavigationPlacement" DisableSticky="@DisableSticky" id="page-layout">
+    <div slot="@PageSlot.Banner">Welcome to the RoarUI page example</div>
+    <header slot="@PageSlot.Header">
+        <strong>RoarUI</strong>
+        <RoarButton data-toggle-nav>Menu</RoarButton>
+    </header>
+    <div slot="@PageSlot.Subheader">Components / Page</div>
+    <div slot="@PageSlot.NavigationHeader"><strong>Navigation</strong></div>
+    <nav slot="@PageSlot.Navigation" aria-label="Page example">
+        <NavLink href="page-sample" Match="NavLinkMatch.All">Page</NavLink>
+        <NavLink href="drawer-sample">Drawer</NavLink>
+        <NavLink href="split-panel-sample">Split Panel</NavLink>
+    </nav>
+    <div slot="@PageSlot.NavigationFooter">
+        <span>Built with Blazor</span>
+        <RoarButton id="page-navigation-hide" class="wa-mobile-only" @onclick="async () => await Page.HideNavigationAsync()">Hide Navigation</RoarButton>
+    </div>
+    <header slot="@PageSlot.MainHeader"><h4>Responsive Navigation</h4></header>
+    <main id="main-content">
+        <p>The same navigation content is displayed in the desktop sidebar and the mobile drawer.</p>
+        <p id="page-navigation-state">Navigation open: @NavOpen</p>
+
+        <div class="wa-mobile-only">
+            <h5>Control Navigation</h5>
+            <RoarButton id="page-show" @onclick="async () => await Page.ShowNavigationAsync()">Show</RoarButton>
+            <RoarButton id="page-toggle" @onclick="async () => await Page.ToggleNavigationAsync()">Toggle</RoarButton>
+            <RoarButton id="page-bind" @onclick="() => NavOpen = !NavOpen">Toggle Bound Value</RoarButton>
+        </div>
+
+        <h5>Mobile Breakpoint</h5>
+        <RoarDropdown @bind-Value="MobileBreakpoint">
+            <RoarButton slot="@DropdownSlot.Trigger" WithCaret>@MobileBreakpoint</RoarButton>
+            <RoarDropdownItem Value="768px">768px</RoarDropdownItem>
+            <RoarDropdownItem Value="50em">50em</RoarDropdownItem>
+            <RoarDropdownItem Value="2000px">2000px (resize to preview mobile navigation)</RoarDropdownItem>
+        </RoarDropdown>
+        <p>After changing the breakpoint, resize the window to update the layout view.</p>
+
+        <h5>Navigation Placement</h5>
+        <RoarDropdown @bind-Value="NavigationPlacement">
+            <RoarButton slot="@DropdownSlot.Trigger" WithCaret>@NavigationPlacement</RoarButton>
+            <RoarDropdownItem Value="@PageNavigationPlacement.Start">Start</RoarDropdownItem>
+            <RoarDropdownItem Value="@PageNavigationPlacement.End">End</RoarDropdownItem>
+        </RoarDropdown>
+
+        <h5>Sticky Sections</h5>
+        <RoarCheckbox @bind-Value="DisableStickySections">Disable sticky sections</RoarCheckbox>
+    </main>
+    <footer slot="@PageSlot.MainFooter">Main content footer</footer>
+    <aside slot="@PageSlot.Aside"><p>Use the aside for a table of contents or related information.</p></aside>
+    <footer slot="@PageSlot.Footer">Page footer</footer>
+    <span slot="@PageSlot.SkipToContent">Skip to the page example</span>
+</RoarPage>
+
+<style>
+    #page-layout {
+        --aside-width: 16rem;
+    }
+
+        #page-layout[view='mobile'] {
+            --menu-width: auto;
+            --aside-width: auto;
+        }
+
+            #page-layout[view='mobile'] [slot='aside'] {
+                display: none;
+            }
+</style>
+
+@code {
+    public RoarPage Page { get; set; } = default!;
+    public bool NavOpen { get; set; } = false;
+    public string MobileBreakpoint { get; set; } = "768px";
+    public string NavigationPlacement { get; set; } = PageNavigationPlacement.Start;
+    public bool DisableStickySections { get; set; } = false;
+    public List<PageStickySection> DisableSticky => DisableStickySections ? [PageStickySection.Banner, PageStickySection.Header, PageStickySection.Subheader, PageStickySection.Menu, PageStickySection.Aside] : [];
+}
