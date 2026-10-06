@@ -1,0 +1,126 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="pagination" />
+
+<wa-pagination appearance="@Appearance" boundary-count="@BoundaryCount" disabled="@Disabled" format="@Format" hide-single-page="@HideSinglePage" href-template="@HrefTemplate" label="@Label" page="@Page" page-size="@PageSize" sibling-count="@SiblingCount" total="@Total" with-edges="@WithEdges" without-nav="@WithoutNav" with-summary="@WithSummary" @onroarbeforepagechange="TriggerBeforePageChangeAsync" @onroarbeforepagechange:preventDefault="PreventPageChange" @onroarpagechange="TriggerPageChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-pagination>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The pagination's visual appearance.
+    /// </summary>
+    [Parameter]
+    public PaginationAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// The number of pages to always show at the start and end.
+    /// </summary>
+    [Parameter]
+    public int BoundaryCount { get; set; } = 1;
+
+    /// <summary>
+    /// Disables the pagination.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// The pagination's layout. The default standard format shows the full page list with ellipses; compact collapses it into a short "1 of 5" label flanked by the previous and next buttons, useful in tight spaces like toolbars and cards.
+    /// </summary>
+    [Parameter]
+    public PaginationFormat Format { get; set; }
+
+    /// <summary>
+    /// Renders nothing when there's only one page.
+    /// </summary>
+    [Parameter]
+    public bool HideSinglePage { get; set; } = false;
+
+    /// <summary>
+    /// Renders page items as links, replacing {page} with the page number. Link navigation does not emit page-change events.
+    /// </summary>
+    [Parameter]
+    public string HrefTemplate { get; set; } = "";
+
+    /// <summary>
+    /// A label that describes the pagination to assistive devices.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The current page, starting at 1.
+    /// </summary>
+    [Parameter]
+    public int Page { get; set; } = 1;
+
+    [Parameter]
+    public EventCallback<int> PageChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<int>>? PageExpression { get; set; }
+
+    /// <summary>
+    /// The number of items shown per page.
+    /// </summary>
+    [Parameter]
+    public int PageSize { get; set; } = 10;
+
+    /// <summary>
+    /// Cancels page-change attempts while true. Does not prevent programmatic page updates or link navigation.
+    /// </summary>
+    [Parameter]
+    public bool PreventPageChange { get; set; } = false;
+
+    /// <summary>
+    /// The number of pages to show on each side of the current page.
+    /// </summary>
+    [Parameter]
+    public int SiblingCount { get; set; } = 2;
+
+    /// <summary>
+    /// The total number of items to paginate.
+    /// </summary>
+    [Parameter]
+    public int Total { get; set; } = 0;
+
+    /// <summary>
+    /// Shows buttons that jump to the first and last pages.
+    /// </summary>
+    [Parameter]
+    public bool WithEdges { get; set; } = false;
+
+    /// <summary>
+    /// Hides the previous and next buttons.
+    /// </summary>
+    [Parameter]
+    public bool WithoutNav { get; set; } = false;
+
+    /// <summary>
+    /// Shows a summary of the items on the current page.
+    /// </summary>
+    [Parameter]
+    public bool WithSummary { get; set; } = false;
+
+    /// <summary>
+    /// Emitted before the page changes, including canceled attempts. PreventPageChange cancels the action.
+    /// </summary>
+    [Parameter]
+    public EventCallback<PaginationPageChangeEventArgs> OnBeforePageChange { get; set; }
+
+    public Task TriggerBeforePageChangeAsync(RoarBeforePageChangeEventArgs args) => OnBeforePageChange.InvokeAsync(args.Pagination);
+
+    public async Task TriggerPageChangeAsync(RoarPageChangeEventArgs args)
+    {
+        Page = args.Pagination!.Page;
+        await PageChanged.InvokeAsync(Page);
+    }
+}

@@ -201,6 +201,14 @@ function registerRoarEvents(blazor) {
                 }
             }
         },
+        roarbeforepagechange: {
+            browserEventName: "wa-before-page-change",
+            createEventArgs: event => ({ pagination: { page: event.detail.page, pageSize: event.detail.pageSize } })
+        },
+        roarpagechange: {
+            browserEventName: "wa-page-change",
+            createEventArgs: event => ({ pagination: { page: event.detail.page, pageSize: event.detail.pageSize } })
+        },
         roarerror: {
             browserEventName: "wa-error",
             createEventArgs: () => ({})

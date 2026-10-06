@@ -1,0 +1,111 @@
+@page "/pagination-sample"
+
+<h3>Appearance</h3>
+<div class="wa-stack">
+    <RoarPagination Total="237" Page="3" Appearance="PaginationAppearance.Outlined" />
+    <RoarPagination Total="237" Page="3" Appearance="PaginationAppearance.Filled" />
+    <RoarPagination Total="237" Page="3" Appearance="PaginationAppearance.Plain" />
+</div>
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarPagination Total="237" Page="3" style="font-size: var(--wa-font-size-s);" />
+    <RoarPagination Total="237" Page="3" />
+    <RoarPagination Total="237" Page="3" style="font-size: var(--wa-font-size-l);" />
+</div>
+
+<h3>Number of Buttons</h3>
+<div class="wa-stack">
+    <RoarPagination Total="1000" Page="50" SiblingCount="1" BoundaryCount="1" />
+    <RoarPagination Total="1000" Page="50" SiblingCount="3" BoundaryCount="2" />
+</div>
+
+<h3>First and Last Buttons</h3>
+<RoarPagination Total="237" Page="10" WithEdges />
+
+<h3>Previous and Next Buttons</h3>
+<RoarPagination Total="237" Page="3" WithoutNav />
+
+<h3>Summary</h3>
+<RoarPagination Total="237" WithSummary />
+
+<h3>Compact</h3>
+<div class="wa-stack">
+    <RoarPagination Total="237" Page="1" Format="PaginationFormat.Compact" />
+    <RoarPagination Total="237" Page="1" Format="PaginationFormat.Compact" WithSummary />
+</div>
+
+<h3>Custom Icons</h3>
+<RoarPagination Total="237" Page="5" WithEdges>
+    <RoarIcon slot="@PaginationSlot.PreviousIcon" Name="backward-step" />
+    <RoarIcon slot="@PaginationSlot.NextIcon" Name="forward-step" />
+    <RoarIcon slot="@PaginationSlot.FirstIcon" Name="backward-fast" />
+    <RoarIcon slot="@PaginationSlot.LastIcon" Name="forward-fast" />
+</RoarPagination>
+
+<h3>Disabled</h3>
+<RoarPagination Total="237" Page="3" Disabled />
+
+<h3>Single Page</h3>
+<RoarPagination Total="5" HideSinglePage />
+<small>The pagination is hidden when there is only one page.</small>
+
+<h3>Page Size Selector</h3>
+<RoarPagination Total="237" PageSize="SelectedPageSize" @bind-Page="PageSizePage" />
+<RoarSelect TValue="int" Label="Items per page" @bind-Value="SelectedPageSize">
+    <RoarOption Value="10">10</RoarOption>
+    <RoarOption Value="20">20</RoarOption>
+    <RoarOption Value="50">50</RoarOption>
+    <RoarOption Value="100">100</RoarOption>
+</RoarSelect>
+
+<h3>Responding to Page Changes</h3>
+<RoarPagination Total="237" @bind-Page="CurrentPage" @bind-Page:after="HandlePageChange" />
+<small>Showing page @CurrentPage. Page-change events: @PageChangeCount. Page size: @LastPageSize.</small>
+
+<h3>Setting the Page Programmatically</h3>
+<RoarPagination Total="237" @bind-Page="ProgrammaticPage" @bind-Page:after="HandleProgrammaticPageChange" />
+<div class="wa-cluster">
+    <RoarButton @onclick="() => ProgrammaticPage = 1">Page 1</RoarButton>
+    <RoarButton @onclick="() => ProgrammaticPage = 5">Page 5</RoarButton>
+    <RoarButton @onclick="() => ProgrammaticPage = 10">Page 10</RoarButton>
+</div>
+<small>Showing page @ProgrammaticPage. Page-change events: @ProgrammaticPageChangeCount.</small>
+
+<h3>Preventing a Page Change</h3>
+<RoarPagination Total="237" @bind-Page="GuardedPage" PreventPageChange="PreventPageChange" OnBeforePageChange="HandleBeforePageChange" @bind-Page:after="HandleGuardedPageChange" WithEdges />
+<RoarSwitch @bind-Value="PreventPageChange">Prevent page changes</RoarSwitch>
+<small>Showing page @GuardedPage. Attempted page: @AttemptedPage. Before-page-change events: @BeforePageChangeCount. Page-change events: @GuardedPageChangeCount. Page size: @AttemptedPageSize.</small>
+
+<h3>Rendering Links Instead of Buttons</h3>
+<RoarPagination Total="237" Page="3" HrefTemplate="pagination-sample?page={page}" />
+
+@code {
+    public int SelectedPageSize { get; set; } = 10;
+    public int PageSizePage { get; set; } = 1;
+    public int CurrentPage { get; set; } = 1;
+    public int PageChangeCount { get; set; }
+    public int LastPageSize { get; set; } = 10;
+    public int ProgrammaticPage { get; set; } = 1;
+    public int ProgrammaticPageChangeCount { get; set; }
+    public bool PreventPageChange { get; set; } = true;
+    public int GuardedPage { get; set; } = 1;
+    public int AttemptedPage { get; set; }
+    public int AttemptedPageSize { get; set; } = 10;
+    public int BeforePageChangeCount { get; set; }
+    public int GuardedPageChangeCount { get; set; }
+
+    public void HandlePageSizeChanged() => PageSizePage = 1;
+    public void HandleProgrammaticPageChange() => ProgrammaticPageChangeCount++;
+
+    public void HandlePageChange() => PageChangeCount++;
+
+    public void HandleBeforePageChange(PaginationPageChangeEventArgs args)
+    {
+        AttemptedPage = args.Page;
+        AttemptedPageSize = args.PageSize;
+        BeforePageChangeCount++;
+    }
+
+    public void HandleGuardedPageChange() => GuardedPageChangeCount++;
+}
