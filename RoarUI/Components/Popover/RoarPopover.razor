@@ -1,0 +1,197 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="popover" />
+
+<wa-popover for="@For" open="@Open" placement="@Placement" distance="@Distance" skidding="@Skidding" without-arrow="@WithoutArrow" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-popover>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The ID of the popover's anchor. Use an interactive element such as a button, and render it before the popover.
+    /// </summary>
+    [EditorRequired]
+    [Parameter]
+    public string For { get; set; } = "";
+
+    /// <summary>
+    /// Shows or hides the popover.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<bool>>? OpenExpression { get; set; }
+
+    /// <summary>
+    /// The preferred placement relative to the anchor. The popover repositions as needed to remain in the viewport.
+    /// </summary>
+    [Parameter]
+    public PopoverPlacement Placement { get; set; }
+
+    /// <summary>
+    /// The distance in pixels from which to offset the popover away from its anchor.
+    /// </summary>
+    [Parameter]
+    public double Distance { get; set; } = 8;
+
+    /// <summary>
+    /// The distance in pixels from which to offset the popover along its anchor.
+    /// </summary>
+    [Parameter]
+    public double Skidding { get; set; } = 0;
+
+    /// <summary>
+    /// Removes the arrow from the popover.
+    /// </summary>
+    [Parameter]
+    public bool WithoutArrow { get; set; } = false;
+
+    /// <summary>
+    /// The size of the arrow that points to the anchor.
+    /// </summary>
+    [Parameter]
+    public string ArrowSize { get; set; } = "";
+
+    /// <summary>
+    /// The maximum width of the popover's content before it wraps.
+    /// </summary>
+    [Parameter]
+    public string MaxWidth { get; set; } = "";
+
+    /// <summary>
+    /// The duration of the show animation.
+    /// </summary>
+    [Parameter]
+    public string ShowDuration { get; set; } = "";
+
+    /// <summary>
+    /// The duration of the hide animation.
+    /// </summary>
+    [Parameter]
+    public string HideDuration { get; set; } = "";
+
+    /// <summary>
+    /// Prevents the popover from closing when a hide event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepOpen { get; set; } = false;
+
+    /// <summary>
+    /// Prevents the popover from opening when a show event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepClosed { get; set; } = false;
+
+    /// <summary>
+    /// Emitted when the popover begins to show.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    /// <summary>
+    /// Emitted after the popover has shown and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the popover begins to hide.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted after the popover has hidden and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--arrow-size", ArrowSize)
+            .AddStyle("--max-width", MaxWidth)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
+    }
+
+    /// <summary>
+    /// Shows the popover and waits for its animation, unless KeepClosed prevents it from opening.
+    /// </summary>
+    public async ValueTask ShowAsync()
+    {
+        if (KeepClosed)
+        {
+            await SetComponentPropertyAsync("open", true);
+        }
+        else
+        {
+            await CallComponentVoidFunctionAsync("show");
+        }
+
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+    }
+
+    /// <summary>
+    /// Hides the popover and waits for its animation, unless KeepOpen prevents it from closing.
+    /// </summary>
+    public async ValueTask HideAsync()
+    {
+        if (KeepOpen)
+        {
+            await SetComponentPropertyAsync("open", false);
+        }
+        else
+        {
+            await CallComponentVoidFunctionAsync("hide");
+        }
+
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+    }
+
+    public async Task TriggerAfterHideAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterHide.InvokeAsync();
+    }
+
+    public async Task TriggerAfterShowAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterShow.InvokeAsync();
+    }
+
+    public async Task TriggerHideAsync()
+    {
+        if (KeepOpen)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
+        await OnHide.InvokeAsync();
+    }
+
+    public async Task TriggerShowAsync()
+    {
+        if (KeepClosed)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
+        await OnShow.InvokeAsync();
+    }
+}

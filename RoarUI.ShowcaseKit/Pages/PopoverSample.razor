@@ -1,0 +1,123 @@
+@page "/popover-sample"
+
+<h3>Anchor</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-anchor-button">Roar anchor</RoarButton>
+    <RoarPopover For="popover-anchor-button">I'm anchored to a Roar button.</RoarPopover>
+    <button class="wa-filled" id="popover-anchor-native">Native anchor</button>
+    <RoarPopover For="popover-anchor-native">I'm anchored to a native button.</RoarPopover>
+</div>
+
+<h3>Opening & Closing</h3>
+<RoarButton Appearance="ButtonAppearance.Filled" id="popover-opening">Toggle popover</RoarButton>
+<RoarPopover For="popover-opening" @bind-Open="Open" OnShow="() => ShowCount++" OnAfterShow="() => AfterShowCount++" OnHide="() => HideCount++" OnAfterHide="() => AfterHideCount++">
+    <p>Click outside, press Escape, or use the dismiss button to close this popover.</p>
+    <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Brand" data-popover="close">Dismiss</RoarButton>
+</RoarPopover>
+<small>Open: @Open. Show: @ShowCount. After show: @AfterShowCount. Hide: @HideCount. After hide: @AfterHideCount.</small>
+
+<h3>Placement</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-top">Top</RoarButton>
+    <RoarPopover For="popover-top" Placement="PopoverPlacement.Top">I'm on the top.</RoarPopover>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-bottom">Bottom</RoarButton>
+    <RoarPopover For="popover-bottom" Placement="PopoverPlacement.Bottom">I'm on the bottom.</RoarPopover>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-left">Left</RoarButton>
+    <RoarPopover For="popover-left" Placement="PopoverPlacement.Left">I'm on the left.</RoarPopover>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-right">Right</RoarButton>
+    <RoarPopover For="popover-right" Placement="PopoverPlacement.Right">I'm on the right.</RoarPopover>
+</div>
+
+<h3>Distance</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-near">Near</RoarButton>
+    <RoarPopover For="popover-near" Distance="0">I'm very close.</RoarPopover>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-far">Far</RoarButton>
+    <RoarPopover For="popover-far" Distance="30">I'm farther away.</RoarPopover>
+</div>
+
+<h3>Arrow Size</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-big-arrow">Big arrow</RoarButton>
+    <RoarPopover For="popover-big-arrow" ArrowSize="8px">I have a big arrow.</RoarPopover>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-no-arrow">No arrow</RoarButton>
+    <RoarPopover For="popover-no-arrow" WithoutArrow>I don't have an arrow.</RoarPopover>
+</div>
+
+<h3>Max Width</h3>
+<RoarButton Appearance="ButtonAppearance.Filled" id="popover-max-width">Narrow popover</RoarButton>
+<RoarPopover For="popover-max-width" MaxWidth="160px">Popovers will usually grow to be much wider, but this one has a custom max width that forces text to wrap.</RoarPopover>
+
+<h3>Initial Focus</h3>
+<RoarButton Appearance="ButtonAppearance.Filled" id="popover-autofocus">
+    <RoarIcon slot="@ButtonSlot.Start" Name="comment" />
+    Feedback
+</RoarButton>
+<RoarPopover For="popover-autofocus">
+    <div class="wa-stack">
+        <label for="popover-feedback">What's on your mind?</label>
+        <textarea id="popover-feedback" autofocus rows="2"></textarea>
+        <RoarButton Appearance="ButtonAppearance.Filled" Variant="ButtonVariant.Brand" data-popover="close">Submit</RoarButton>
+    </div>
+</RoarPopover>
+
+<h3>Programmatic Control</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-programmatic">Programmatic anchor</RoarButton>
+    <RoarButton @onclick="ShowPopoverAsync">ShowAsync</RoarButton>
+    <RoarButton @onclick="HidePopoverAsync">HideAsync</RoarButton>
+    <RoarButton @onclick="() => ProgrammaticOpen = !ProgrammaticOpen">Toggle bound Open</RoarButton>
+</div>
+<RoarPopover For="popover-programmatic" @ref="ProgrammaticPopover" @bind-Open="ProgrammaticOpen" Placement="PopoverPlacement.BottomStart" Skidding="10" ShowDuration="100ms" HideDuration="100ms">
+    <p>Control this popover through its methods or bound Open parameter.</p>
+</RoarPopover>
+<small>Programmatic open: @ProgrammaticOpen.</small>
+
+<h3>Opening & Closing</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="popover-guarded">Guarded popover</RoarButton>
+    <RoarButton @onclick="ShowGuardedPopoverAsync">Show guarded</RoarButton>
+    <RoarButton @onclick="HideGuardedPopoverAsync">Hide guarded</RoarButton>
+    <RoarButton @onclick="() => GuardedOpen = !GuardedOpen">Toggle guarded Open</RoarButton>
+</div>
+<RoarPopover For="popover-guarded" @ref="GuardedPopover" @bind-Open="GuardedOpen" KeepOpen="KeepOpen" KeepClosed="KeepClosed" OnShow="() => GuardedShowCount++" OnHide="() => GuardedHideCount++">
+    <p>Disable Keep open to allow this popover to close.</p>
+    <RoarButton data-popover="close">Dismiss guarded</RoarButton>
+</RoarPopover>
+<small>Guarded open: @GuardedOpen. Show attempts: @GuardedShowCount. Hide attempts: @GuardedHideCount. Completed method calls: @GuardedMethodCount.</small>
+<div class="wa-cluster">
+    <RoarSwitch @bind-Value="KeepOpen">Keep open</RoarSwitch>
+    <RoarSwitch @bind-Value="KeepClosed">Keep closed</RoarSwitch>
+</div>
+
+@code {
+    public bool Open { get; set; }
+    public int ShowCount { get; set; }
+    public int AfterShowCount { get; set; }
+    public int HideCount { get; set; }
+    public int AfterHideCount { get; set; }
+    public RoarPopover ProgrammaticPopover { get; set; } = default!;
+    public bool ProgrammaticOpen { get; set; }
+    public RoarPopover GuardedPopover { get; set; } = default!;
+    public bool GuardedOpen { get; set; }
+    public bool KeepOpen { get; set; }
+    public bool KeepClosed { get; set; }
+    public int GuardedShowCount { get; set; }
+    public int GuardedHideCount { get; set; }
+    public int GuardedMethodCount { get; set; }
+
+    public async Task ShowPopoverAsync() => await ProgrammaticPopover.ShowAsync();
+    public async Task HidePopoverAsync() => await ProgrammaticPopover.HideAsync();
+
+    public async Task ShowGuardedPopoverAsync()
+    {
+        await GuardedPopover.ShowAsync();
+        GuardedMethodCount++;
+    }
+
+    public async Task HideGuardedPopoverAsync()
+    {
+        await GuardedPopover.HideAsync();
+        GuardedMethodCount++;
+    }
+}
