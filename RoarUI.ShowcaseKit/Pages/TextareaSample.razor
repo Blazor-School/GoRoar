@@ -1,0 +1,101 @@
+@page "/textarea-sample"
+
+<h3>Label</h3>
+<RoarTextarea Label="Comments" />
+<RoarTextarea WithLabel>
+    <span slot="@TextareaSlot.Label">Share your <strong>comments</strong></span>
+</RoarTextarea>
+
+<h3>Hint</h3>
+<RoarTextarea Label="Feedback" Hint="Please tell us what you think." />
+<RoarTextarea Label="Feedback" WithHint>
+    <span slot="@TextareaSlot.Hint">Tell us what we can <strong>improve</strong>.</span>
+</RoarTextarea>
+
+<h3>Placeholder</h3>
+<RoarTextarea Label="Comments" Placeholder="Share your thoughts" />
+
+<h3>Appearance</h3>
+<div class="wa-stack">
+    <RoarTextarea Appearance="InputAppearance.Outlined" Placeholder="outlined" />
+    <RoarTextarea Appearance="InputAppearance.Filled" Placeholder="filled" />
+    <RoarTextarea Appearance="InputAppearance.FilledOutlined" Placeholder="filled-outlined" />
+</div>
+
+<h3>Disabled</h3>
+<RoarTextarea Placeholder="Disabled" Disabled />
+
+<h3>Readonly</h3>
+<RoarTextarea Label="Release notes" Value="Fixed a handful of bugs and polished the edges." ReadOnly />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarTextarea Size="InputSize.Xs" Placeholder="Extra small" />
+    <RoarTextarea Size="InputSize.S" Placeholder="Small" />
+    <RoarTextarea Size="InputSize.M" Placeholder="Medium" />
+    <RoarTextarea Size="InputSize.L" Placeholder="Large" />
+    <RoarTextarea Size="InputSize.Xl" Placeholder="Extra large" />
+</div>
+
+<h3>Rows</h3>
+<RoarTextarea Label="Short comment" Rows="2" />
+
+<h3>Resize</h3>
+<div class="wa-stack">
+    <RoarTextarea Label="Vertical" Resize="TextareaResize.Vertical" />
+    <RoarTextarea Label="No resizing" Resize="TextareaResize.None" />
+    <RoarTextarea Label="Horizontal" Resize="TextareaResize.Horizontal" />
+    <RoarTextarea Label="Both directions" Resize="TextareaResize.Both" />
+    <RoarTextarea Label="Grows with content" Resize="TextareaResize.Auto" Rows="2" />
+</div>
+
+<h3>Character Count</h3>
+<RoarTextarea Label="Comments" Hint="Share your thoughts with us" WithCount />
+<RoarTextarea Label="Bio" Hint="Tell us a little about yourself" WithCount MaxLength="100" />
+
+<h3>Initial Value</h3>
+<RoarTextarea Value="Write something awesome!" />
+
+<h3>Binding and Events</h3>
+<RoarTextarea @bind-Value="Comments" Label="Live comments" OnChange="() => ChangeCount++" OnInput="() => InputCount++" WithCount />
+<p>Value: @Comments</p>
+<p>Changes: @ChangeCount. Inputs: @InputCount.</p>
+<RoarButton @onclick='() => Comments = "Updated from C#\nWith a second line."'>Set from C#</RoarButton>
+<RoarButton @onclick="() => Comments = null">Clear from C#</RoarButton>
+
+<h3>Methods</h3>
+<RoarTextarea @ref="MethodTextarea" @bind-Value="MethodValue" Label="Control with methods" Rows="2" Resize="TextareaResize.None" @onfocus="() => FocusCount++" @onblur="() => BlurCount++" />
+<p>Value: @MethodValue</p>
+<p>Focus events: @FocusCount. Blur events: @BlurCount.</p>
+<RoarButton @onclick="async () => await MethodTextarea!.FocusAsync()">Focus</RoarButton>
+<RoarButton @onclick="async () => await MethodTextarea!.BlurAsync()">Blur</RoarButton>
+<RoarButton @onclick="async () => await MethodTextarea!.SelectAsync()">Select all</RoarButton>
+<RoarButton @onclick="async () => await MethodTextarea!.SetSelectionRangeAsync(0, 4, InputTextSelectionDirection.Forward)">Select first four</RoarButton>
+<RoarButton @onclick='async () => await MethodTextarea!.SetRangeTextAsync("ROAR", 0, 4, InputTextSelectMode.Select)'>Replace first four</RoarButton>
+<RoarButton @onclick='async () => await MethodTextarea!.SetRangeTextAsync("Inserted")'>Replace selection</RoarButton>
+<RoarButton @onclick="async () => await MethodTextarea!.SetScrollPositionAsync(new TextareaScrollPosition(100, 0))">Scroll down</RoarButton>
+<RoarButton @onclick="async () => await MethodTextarea!.SetScrollPositionAsync(new TextareaScrollPosition(0, 0))">Scroll to top</RoarButton>
+<RoarButton @onclick="async () => ScrollPosition = await MethodTextarea!.GetScrollPositionAsync()">Read scroll position</RoarButton>
+<p>Scroll top: @ScrollPosition?.Top. Scroll left: @ScrollPosition?.Left.</p>
+
+<h3>Validation</h3>
+<EditForm Model="Form" OnValidSubmit="() => Submitted = true">
+    <DataAnnotationsValidator />
+    <RoarTextarea @bind-Value="Form.Comments" Label="Required comments" />
+    <ValidationMessage For="@(() => Form.Comments)" />
+    <RoarButton Type="ButtonType.Submit">Submit comments</RoarButton>
+</EditForm>
+<p>Submitted: @Submitted</p>
+
+@code {
+    private string? Comments { get; set; } = "ROAR!";
+    private int ChangeCount { get; set; }
+    private int InputCount { get; set; }
+    private RoarTextarea? MethodTextarea { get; set; }
+    private string? MethodValue { get; set; } = string.Join('\n', Enumerable.Range(1, 12).Select(index => $"Line {index}"));
+    private int FocusCount { get; set; }
+    private int BlurCount { get; set; }
+    private TextareaScrollPosition? ScrollPosition { get; set; }
+    private TextareaRequiredForm Form { get; } = new();
+    private bool Submitted { get; set; }
+}
