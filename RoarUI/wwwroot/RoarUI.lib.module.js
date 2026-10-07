@@ -230,6 +230,7 @@ function createRoarValueEventArgs(event) {
             return { comparison: { position: event.target.position } };
         case "wa-input":
         case "wa-otp-input":
+        case "wa-textarea":
             return { input: { value: event.target.value } };
         case "wa-known-date":
             return { knownDate: { value: event.target.value } };

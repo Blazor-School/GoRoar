@@ -1,0 +1,147 @@
+@namespace RoarUI
+@inherits RoarUI.Components.Input.RoarInputBase<string?>
+
+<RoarDependency ComponentName="textarea" />
+
+<wa-textarea appearance="@Appearance" autocapitalize="@Autocapitalize" autocomplete="@Autocomplete" autocorrect="@(Autocorrect ? "on" : "off")" autofocus="@Autofocus" value="@CurrentValueAsString" disabled="@Disabled" enterkeyhint="@EnterKeyHint" hint="@Hint" inputmode="@InputMode" label="@Label" maxlength="@MaxLength" minlength="@MinLength" placeholder="@Placeholder" readonly="@ReadOnly" required="@Required" resize="@Resize" rows="@Rows" size="@Size" spellcheck="@(Spellcheck ? "true" : "false")" with-count="@WithCount" with-hint="@WithHint" with-label="@WithLabel" @onroarchange="TriggerChangeAsync" @onroarinput="TriggerInputAsync" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-textarea>
+
+@code {
+    [Parameter]
+    public InputAppearance Appearance { get; set; }
+
+    [Parameter]
+    public InputAutocapitalize? Autocapitalize { get; set; }
+
+    [Parameter]
+    public string Autocomplete { get; set; } = "off";
+
+    [Parameter]
+    public bool Autocorrect { get; set; }
+
+    [Parameter]
+    public bool Autofocus { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public InputEnterKeyHint? EnterKeyHint { get; set; }
+
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    [Parameter]
+    public TextareaInputMode InputMode { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public int? MaxLength { get; set; }
+
+    [Parameter]
+    public int? MinLength { get; set; }
+
+    [Parameter]
+    public string Placeholder { get; set; } = "";
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    [Parameter]
+    public TextareaResize Resize { get; set; }
+
+    [Parameter]
+    public int Rows { get; set; } = 4;
+
+    [Parameter]
+    public InputSize Size { get; set; }
+
+    [Parameter]
+    public bool Spellcheck { get; set; } = true;
+
+    [Parameter]
+    public bool WithCount { get; set; }
+
+    [Parameter]
+    public bool WithHint { get; set; }
+
+    [Parameter]
+    public bool WithLabel { get; set; }
+
+    /// <summary>
+    /// Emitted when an alteration to the control's value is committed by the user.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted when the control receives input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        await SetCurrentValueAsStringAsync(args.Input!.Value);
+        await OnChange.InvokeAsync();
+    }
+
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
+    {
+        await SetCurrentValueAsStringAsync(args.Input!.Value);
+        await OnInput.InvokeAsync();
+    }
+
+    /// <summary>
+    /// Removes focus from the textarea.
+    /// </summary>
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+
+    /// <summary>
+    /// Sets focus on the textarea.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
+
+    /// <summary>
+    /// Selects all the text in the textarea.
+    /// </summary>
+    public ValueTask SelectAsync() => CallComponentVoidFunctionAsync("select");
+
+    /// <summary>
+    /// Gets the textarea's scroll position.
+    /// </summary>
+    public ValueTask<TextareaScrollPosition> GetScrollPositionAsync() => CallComponentFunctionAsync<TextareaScrollPosition>("scrollPosition");
+
+    /// <summary>
+    /// Sets the textarea's scroll position.
+    /// </summary>
+    public ValueTask SetScrollPositionAsync(TextareaScrollPosition position) => CallComponentVoidFunctionAsync("scrollPosition", position);
+
+    /// <summary>
+    /// Sets the start and end positions of the text selection (0-based).
+    /// </summary>
+    public ValueTask SetSelectionRangeAsync(int selectionStart, int selectionEnd, InputTextSelectionDirection? selectionDirection = null) => CallComponentVoidFunctionAsync("setSelectionRange", selectionStart, selectionEnd, selectionDirection?.ToString() ?? "none");
+
+    /// <summary>
+    /// Replaces a range of text and updates the bound value. Omit start and end to replace the selection.
+    /// </summary>
+    public async ValueTask SetRangeTextAsync(string replacement, int? start = null, int? end = null, InputTextSelectMode? selectMode = null)
+    {
+        await CallComponentVoidFunctionAsync("setRangeText", replacement, start, end, selectMode?.ToString() ?? "preserve");
+        await SyncComponentValue();
+    }
+
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+
+        return true;
+    }
+}
