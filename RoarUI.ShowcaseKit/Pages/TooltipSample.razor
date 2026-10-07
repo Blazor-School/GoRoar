@@ -66,12 +66,22 @@
         }
 </style>
 
+<h3>Hover and Focus Triggers</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-hover">Hover only</RoarButton>
+    <RoarTooltip For="tooltip-hover" Triggers="[TooltipTrigger.Hover]">Move the pointer over this button.</RoarTooltip>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-focus">Focus only</RoarButton>
+    <RoarTooltip For="tooltip-focus" Triggers="[TooltipTrigger.Focus]">Use Tab to focus this button.</RoarTooltip>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-combined">Hover or focus</RoarButton>
+    <RoarTooltip For="tooltip-combined" Triggers="[TooltipTrigger.Hover, TooltipTrigger.Focus]">Either trigger can show this tooltip.</RoarTooltip>
+</div>
+
 <h3>Click Trigger</h3>
 <RoarButton Appearance="ButtonAppearance.Filled" id="toggle-button">Click to Toggle</RoarButton>
 <RoarTooltip For="toggle-button" Triggers="[TooltipTrigger.Click]">Click again to dismiss</RoarTooltip>
 
 <h3>Manual Trigger</h3>
-<RoarButton Appearance="ButtonAppearance.Filled" style="margin-right: 4rem" @onclick="ManualTriggerTooltipAsync">Toggle Manually</RoarButton>
+<RoarButton Appearance="ButtonAppearance.Filled" @onclick="ManualTriggerTooltipAsync">Toggle Manually</RoarButton>
 <RoarTooltip For="manual-trigger-tooltip" Triggers="[TooltipTrigger.Manual]" @ref="ManualTooptip">This is an avatar!</RoarTooltip>
 <RoarIconAvatar id="manual-trigger-tooltip" Label="User" />
 
@@ -91,8 +101,87 @@
     This tooltip will wrap after only 80 pixels.
 </RoarTooltip>
 
+<h3>Arrow Size</h3>
+<p>The --wa-tooltip-arrow-size token can be inherited from a container to customize its tooltips.</p>
+<div class="wa-cluster" style="--wa-tooltip-arrow-size: 12px;">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-large-arrow">Large arrow</RoarButton>
+    <RoarTooltip For="tooltip-large-arrow" Distance="16">This tooltip uses a larger arrow.</RoarTooltip>
+</div>
+<div class="wa-cluster" style="--wa-tooltip-arrow-size: 0;">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-zero-arrow">Zero-size arrow</RoarButton>
+    <RoarTooltip For="tooltip-zero-arrow">Setting the token to zero removes the arrow.</RoarTooltip>
+</div>
+
+<h3>Disabled</h3>
+<div class="wa-cluster">
+    <RoarSwitch @bind-Value="TooltipDisabled">Disable tooltip</RoarSwitch>
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-disabled">Hover or focus me</RoarButton>
+    <RoarTooltip For="tooltip-disabled" Disabled="TooltipDisabled">Disable me using the switch.</RoarTooltip>
+</div>
+
+<h3>Show and Hide Delays</h3>
+<div class="wa-cluster">
+    <RoarInputNumber @bind-Value="ShowDelay" Label="Show delay (ms)" min="0" step="100" />
+    <RoarInputNumber @bind-Value="HideDelay" Label="Hide delay (ms)" min="0" step="100" />
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-delays">Hover to test delays</RoarButton>
+    <RoarTooltip For="tooltip-delays" Triggers="[TooltipTrigger.Hover]" ShowDelay="ShowDelay" HideDelay="HideDelay">Wait @ShowDelay ms to show and @HideDelay ms to hide.</RoarTooltip>
+</div>
+
+<h3>Distance and Skidding</h3>
+<div class="wa-cluster">
+    <RoarInputNumber @bind-Value="Distance" Label="Distance (px)" min="0" />
+    <RoarInputNumber @bind-Value="Skidding" Label="Skidding (px)" />
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-offsets">Hover to test offsets</RoarButton>
+    <RoarTooltip For="tooltip-offsets" Distance="Distance" Skidding="Skidding">Distance: @Distance px. Skidding: @Skidding px.</RoarTooltip>
+</div>
+
+<h3>Programmatic Control and Events</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick="async () => await ProgrammaticTooltip.SetStateAsync(true)">Show tooltip</RoarButton>
+    <RoarButton @onclick="async () => await ProgrammaticTooltip.SetStateAsync(false)">Hide tooltip</RoarButton>
+    <RoarButton @onclick="async () => await ProgrammaticTooltip.ToggleStateAsync()">Toggle tooltip</RoarButton>
+    <RoarButton @onclick="async () => ProgrammaticOpen = await ProgrammaticTooltip.GetStateAsync()">Read open state</RoarButton>
+</div>
+<div class="wa-cluster" style="padding-block: 4rem; justify-content: center;">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-programmatic">Manual target</RoarButton>
+    <RoarTooltip For="tooltip-programmatic" Triggers="[TooltipTrigger.Manual]" Placement="TooltipPlacement.Bottom" @ref="ProgrammaticTooltip" OnShow="() => ShowCount++" OnAfterShow="() => AfterShowCount++" OnHide="() => HideCount++" OnAfterHide="() => AfterHideCount++">Manual tooltips stay open until you hide them.</RoarTooltip>
+</div>
+<p>Last read open state: @ProgrammaticOpen. Show: @ShowCount. After show: @AfterShowCount. Hide: @HideCount. After hide: @AfterHideCount.</p>
+
+<h3>Keeping Tooltips Visible or Hidden</h3>
+<div class="wa-cluster">
+    <RoarButton Appearance="ButtonAppearance.Filled" id="tooltip-guarded">Click to toggle guarded tooltip</RoarButton>
+    <RoarButton @onclick="async () => await GuardedTooltip.SetStateAsync(true)">Show guarded tooltip</RoarButton>
+    <RoarButton @onclick="async () => await GuardedTooltip.SetStateAsync(false)">Hide guarded tooltip</RoarButton>
+</div>
+<RoarTooltip For="tooltip-guarded" Triggers="[TooltipTrigger.Click]" @ref="GuardedTooltip" KeepVisible="KeepVisible" KeepHidden="KeepHidden" OnShow="() => GuardedShowCount++" OnAfterShow="() => GuardedAfterShowCount++" OnHide="() => GuardedHideCount++" OnAfterHide="() => GuardedAfterHideCount++">Turn off Keep visible to allow this tooltip to hide.</RoarTooltip>
+<div class="wa-cluster">
+    <RoarSwitch @bind-Value="KeepVisible">Keep visible</RoarSwitch>
+    <RoarSwitch @bind-Value="KeepHidden">Keep hidden</RoarSwitch>
+</div>
+<p>Keep visible cancels hiding, including outside clicks and Escape. Keep hidden cancels showing. Changing a switch affects the next show or hide attempt.</p>
+<p>Show attempts: @GuardedShowCount. After show: @GuardedAfterShowCount. Hide attempts: @GuardedHideCount. After hide: @GuardedAfterHideCount.</p>
+
 @code {
     public RoarTooltip ManualTooptip { get; set; }
+    public bool TooltipDisabled { get; set; }
+    public int ShowDelay { get; set; } = 500;
+    public int HideDelay { get; set; } = 500;
+    public int Distance { get; set; } = 8;
+    public int Skidding { get; set; }
+    public RoarTooltip ProgrammaticTooltip { get; set; } = default!;
+    public bool ProgrammaticOpen { get; set; }
+    public int ShowCount { get; set; }
+    public int AfterShowCount { get; set; }
+    public int HideCount { get; set; }
+    public int AfterHideCount { get; set; }
+    public RoarTooltip GuardedTooltip { get; set; } = default!;
+    public bool KeepVisible { get; set; }
+    public bool KeepHidden { get; set; }
+    public int GuardedShowCount { get; set; }
+    public int GuardedAfterShowCount { get; set; }
+    public int GuardedHideCount { get; set; }
+    public int GuardedAfterHideCount { get; set; }
 
     public async Task ManualTriggerTooltipAsync()
     {
