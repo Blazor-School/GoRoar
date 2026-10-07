@@ -1,0 +1,291 @@
+@page "/popup-sample"
+
+<h3>Activating</h3>
+<div class="popup-active">
+    <RoarPopup Placement="PopupPlacement.Top" Active="Active">
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <RoarSwitch @bind-Value="Active">Active</RoarSwitch>
+</div>
+
+<h3>External Anchors</h3>
+<div class="popup-external">
+    <span id="external-anchor"></span>
+    <RoarPopup Anchor="external-anchor" Placement="PopupPlacement.Top" Active>
+        <div class="box"></div>
+    </RoarPopup>
+</div>
+
+<h3>Placement</h3>
+<div class="popup-placement">
+    <RoarPopup Placement="PlacementValue" Active>
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <RoarSelect @bind-Value="PlacementValue" Label="Placement" name="placement" Placeholder="Select placement...">
+        @foreach (var placement in Placements)
+        {
+            <RoarOption Value="@placement">@placement</RoarOption>
+        }
+    </RoarSelect>
+</div>
+
+<h3>Distance</h3>
+<div class="popup-distance">
+    <RoarPopup Placement="PopupPlacement.Top" Distance="Distance" Active>
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <label>Distance <input type="range" min="-50" max="50" step="1" @bind="Distance" @bind:event="oninput" /></label>
+</div>
+
+<h3>Skidding</h3>
+<div class="popup-skidding">
+    <RoarPopup Placement="PopupPlacement.Top" Skidding="Skidding" Active>
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <label>Skidding <input type="range" min="-50" max="50" step="1" @bind="Skidding" @bind:event="oninput" /></label>
+</div>
+
+<h3>Arrows</h3>
+<div class="popup-arrow">
+    <RoarPopup Placement="ArrowPlacementValue" Arrow="Arrow" ArrowPlacement="ArrowAlignmentValue" Distance="8" Active>
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <div class="wa-cluster">
+        <div class="popup-arrow-options">
+            <RoarSelect TValue="PopupPlacement" @bind-Value="ArrowPlacementValue" Label="Placement" name="placement" Placeholder="Select placement...">
+                @foreach (var placement in Placements)
+                {
+                    <RoarOption TValue="PopupPlacement" Value="@placement">@placement</RoarOption>
+                }
+            </RoarSelect>
+            <RoarSelect TValue="PopupArrowPlacement" @bind-Value="ArrowAlignmentValue" Label="Arrow Placement" name="arrow-placement">
+                <RoarOption Value="PopupArrowPlacement.Anchor">anchor</RoarOption>
+                <RoarOption Value="PopupArrowPlacement.Start">start</RoarOption>
+                <RoarOption Value="PopupArrowPlacement.End">end</RoarOption>
+                <RoarOption Value="PopupArrowPlacement.Center">center</RoarOption>
+            </RoarSelect>
+        </div>
+        <div class="popup-arrow-options">
+            <RoarSwitch @bind-Value="Arrow" name="arrow">Arrow</RoarSwitch>
+        </div>
+    </div>
+</div>
+
+<h3>Border</h3>
+<div class="popup-border">
+    <RoarPopup Placement="BorderPlacementValue" Arrow ArrowPlacement="PopupArrowPlacement.Anchor" Distance="8" Active>
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <div class="popup-border-options">
+        <RoarSelect TValue="PopupPlacement" @bind-Value="BorderPlacementValue" Label="Placement" name="placement" Placeholder="Select placement...">
+            @foreach (var placement in Placements)
+            {
+                <RoarOption TValue="PopupPlacement" Value="@placement">@placement</RoarOption>
+            }
+        </RoarSelect>
+    </div>
+</div>
+
+<h3>Flip</h3>
+<div class="popup-flip">
+    <div class="overflow">
+        <RoarPopup Placement="PopupPlacement.Top" Flip="Flip" Active Boundary="PopupBoundary.Scroll">
+            <span slot="@PopupSlot.Anchor"></span>
+            <div class="box"></div>
+        </RoarPopup>
+    </div>
+    <RoarDivider />
+    <RoarSwitch @bind-Value="Flip">Flip</RoarSwitch>
+</div>
+
+<h3>Flip Fallbacks</h3>
+<div class="popup-flip-fallbacks">
+    <div class="overflow">
+        <RoarPopup Placement="PopupPlacement.Top" Flip FlipFallbackPlacements="[PopupPlacement.Right, PopupPlacement.Bottom]" FlipFallbackStrategy="PopupFlipFallbackStrategy.Initial" Active Boundary="PopupBoundary.Scroll">
+            <span slot="@PopupSlot.Anchor"></span>
+            <div class="box"></div>
+        </RoarPopup>
+    </div>
+</div>
+
+<h3>Shift</h3>
+<div class="popup-shift">
+    <div class="overflow">
+        <RoarPopup Placement="PopupPlacement.Top" Shift="Shift" ShiftPadding="10" Active Boundary="PopupBoundary.Scroll">
+            <span slot="@PopupSlot.Anchor"></span>
+            <div class="box"></div>
+        </RoarPopup>
+    </div>
+    <RoarDivider />
+    <RoarSwitch @bind-Value="Shift">Shift</RoarSwitch>
+</div>
+
+<h3>Auto-Size</h3>
+<div class="popup-auto-size">
+    <div class="overflow">
+        <RoarPopup Placement="PopupPlacement.Top" AutoSize="@(AutoSize ? PopupAutoSize.Both : PopupAutoSize.None)" AutoSizePadding="10" Active Boundary="PopupBoundary.Scroll">
+            <span slot="@PopupSlot.Anchor"></span>
+            <div class="box"></div>
+        </RoarPopup>
+    </div>
+    <RoarDivider />
+    <RoarSwitch @bind-Value="AutoSize">Auto-size</RoarSwitch>
+</div>
+
+<h3>Hover Bridge</h3>
+<div class="popup-hover-bridge">
+    <RoarPopup Placement="PopupPlacement.Top" HoverBridge="HoverBridge" Distance="HoverDistance" Skidding="HoverSkidding" Active>
+        <span slot="@PopupSlot.Anchor"></span>
+        <div class="box"></div>
+    </RoarPopup>
+    <RoarDivider />
+    <div class="wa-cluster">
+        <RoarSwitch @bind-Value="HoverBridge">Hover Bridge</RoarSwitch>
+        <label>Distance <input type="range" min="0" max="50" step="1" @bind="HoverDistance" @bind:event="oninput" /></label>
+        <label>Skidding <input type="range" min="-50" max="50" step="1" @bind="HoverSkidding" @bind:event="oninput" /></label>
+    </div>
+</div>
+
+<style>
+    :is(.popup-active, .popup-placement, .popup-distance, .popup-skidding, .popup-arrow, .popup-border, .popup-flip, .popup-flip-fallbacks, .popup-shift, .popup-auto-size, .popup-hover-bridge) span[slot="anchor"], #external-anchor {
+        display: inline-block;
+        width: 150px;
+        height: 150px;
+        border: dashed 2px var(--wa-color-neutral-fill-loud);
+        margin: 50px;
+    }
+
+    :is(.popup-active, .popup-external, .popup-placement, .popup-distance, .popup-skidding, .popup-arrow, .popup-border, .popup-flip, .popup-flip-fallbacks, .popup-shift, .popup-auto-size, .popup-hover-bridge) .box {
+        width: 100px;
+        height: 50px;
+        background: var(--wa-color-brand-fill-loud);
+        border-radius: var(--wa-border-radius-m);
+    }
+
+    #external-anchor {
+        margin: 50px 0 0 50px;
+    }
+
+    .popup-placement wa-select {
+        max-width: 280px;
+    }
+
+    :is(.popup-distance, .popup-skidding, .popup-hover-bridge) label {
+        display: block;
+        max-width: 260px;
+    }
+
+    :is(.popup-distance, .popup-skidding, .popup-hover-bridge) input[type="range"] {
+        display: block;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .popup-arrow wa-popup {
+        --arrow-color: var(--wa-color-brand-fill-loud);
+    }
+
+    .popup-arrow-options, .popup-border-options {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        gap: 1rem;
+    }
+
+    :is(.popup-arrow-options, .popup-border-options) wa-select {
+        width: 160px;
+    }
+
+    .popup-arrow-options + .popup-arrow-options {
+        margin-top: 1rem;
+    }
+
+    .popup-border .box {
+        background: var(--wa-color-brand-on-loud);
+        border: var(--wa-panel-border-width) solid var(--wa-color-brand-border-loud);
+        border-style: var(--wa-panel-border-style);
+        box-shadow: var(--wa-shadow-l);
+    }
+
+    .popup-border wa-popup {
+        --arrow-color: var(--wa-color-brand-on-loud);
+        --popup-border-width: var(--wa-panel-border-width);
+    }
+
+    .popup-border wa-popup::part(arrow) {
+        box-shadow: inset calc(-1 * var(--wa-panel-border-width)) calc(-1 * var(--wa-panel-border-width)) 0 0 var(--wa-color-brand-border-loud);
+    }
+
+    :is(.popup-flip, .popup-flip-fallbacks, .popup-shift, .popup-auto-size) .overflow {
+        position: relative;
+        height: 300px;
+        border: solid 2px var(--wa-color-surface-border);
+        overflow: auto;
+    }
+
+    .popup-flip span[slot="anchor"] {
+        margin: 150px 50px;
+    }
+
+    .popup-flip-fallbacks span[slot="anchor"] {
+        margin: 250px 50px;
+    }
+
+    .popup-shift .overflow {
+        height: auto;
+    }
+
+    .popup-shift span[slot="anchor"] {
+        margin: 60px 0 0 10px;
+    }
+
+    .popup-shift .box {
+        width: 300px;
+    }
+
+    .popup-auto-size span[slot="anchor"] {
+        margin: 250px 50px 100px 50px;
+    }
+
+    .popup-auto-size .box {
+        height: 200px;
+        max-width: var(--auto-size-available-width);
+        max-height: var(--auto-size-available-height);
+        overflow: auto;
+    }
+
+    .popup-hover-bridge wa-popup::part(hover-bridge) {
+        background: var(--wa-color-warning-fill-loud);
+        opacity: 0.5;
+    }
+</style>
+
+@code {
+    public bool Active { get; set; } = true;
+    public PopupPlacement PlacementValue { get; set; } = PopupPlacement.Top;
+    public double Distance { get; set; }
+    public double Skidding { get; set; }
+    public PopupPlacement ArrowPlacementValue { get; set; } = PopupPlacement.Top;
+    public PopupArrowPlacement ArrowAlignmentValue { get; set; } = PopupArrowPlacement.Anchor;
+    public bool Arrow { get; set; } = true;
+    public PopupPlacement BorderPlacementValue { get; set; } = PopupPlacement.Top;
+    public bool Flip { get; set; } = true;
+    public bool Shift { get; set; } = true;
+    public bool AutoSize { get; set; } = true;
+    public bool HoverBridge { get; set; } = true;
+    public double HoverDistance { get; set; } = 10;
+    public double HoverSkidding { get; set; }
+    public List<PopupPlacement> Placements { get; set; } = [PopupPlacement.Top, PopupPlacement.TopStart, PopupPlacement.TopEnd, PopupPlacement.Bottom, PopupPlacement.BottomStart, PopupPlacement.BottomEnd, PopupPlacement.Right, PopupPlacement.RightStart, PopupPlacement.RightEnd, PopupPlacement.Left, PopupPlacement.LeftStart, PopupPlacement.LeftEnd];
+}
