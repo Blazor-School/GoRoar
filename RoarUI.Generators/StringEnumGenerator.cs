@@ -42,6 +42,7 @@ namespace RoarUI;
 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 [global::System.Runtime.CompilerServices.CompilerGenerated]
 [global::System.ComponentModel.TypeConverter(typeof({{generatedClassName}}Converter))]
+[global::System.Text.Json.Serialization.JsonConverter(typeof({{generatedClassName}}JsonConverter))]
 
 public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}}>
 {
@@ -102,6 +103,22 @@ public sealed class {{generatedClassName}}Converter : global::System.ComponentMo
     public override object? ConvertFrom(global::System.ComponentModel.ITypeDescriptorContext? context, global::System.Globalization.CultureInfo? culture, object value) => value is string text ? new {{generatedClassName}}(text) : base.ConvertFrom(context, culture, value);
 
     public override object? ConvertTo(global::System.ComponentModel.ITypeDescriptorContext? context, global::System.Globalization.CultureInfo? culture, object? value, global::System.Type destinationType) => destinationType == typeof(string) && value is {{generatedClassName}} enumValue ? enumValue.Value : base.ConvertTo(context, culture, value, destinationType);
+}
+
+[global::System.CodeDom.Compiler.GeneratedCode("RoarUIEngine", "1.0.0")]
+public sealed class {{generatedClassName}}JsonConverter : global::System.Text.Json.Serialization.JsonConverter<{{generatedClassName}}>
+{
+    public override {{generatedClassName}} Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
+    {
+        if (reader.TokenType != global::System.Text.Json.JsonTokenType.String)
+        {
+            throw new global::System.Text.Json.JsonException("Expected a JSON string for {{generatedClassName}}.");
+        }
+
+        return new {{generatedClassName}}(reader.GetString()!);
+    }
+
+    public override void Write(global::System.Text.Json.Utf8JsonWriter writer, {{generatedClassName}} value, global::System.Text.Json.JsonSerializerOptions options) => writer.WriteStringValue(value.Value);
 }
 """);
 

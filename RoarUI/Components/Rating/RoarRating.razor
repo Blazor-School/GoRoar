@@ -1,0 +1,140 @@
+@namespace RoarUI
+@using Microsoft.Extensions.Logging
+@inherits RoarUI.Components.Input.RoarInputBase<double>
+@inject IServiceProvider ServiceProvider
+@inject ILoggerFactory LoggerFactory
+
+<RoarDependency ComponentName="rating" />
+
+<wa-rating value="@CurrentValueAsString" label="@Label" max="@Max" precision="@Precision" readonly="@ReadOnly" disabled="@Disabled" size="@Size" @onroarchange="TriggerChangeAsync" @onroarhover="TriggerHoverAsync" @ref="Element" @attributes="InternalAttributes" />
+
+@code {
+    /// <summary>
+    /// Describes the rating to assistive devices. The label is not displayed visually.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The highest rating to show.
+    /// </summary>
+    [Parameter]
+    public int Max { get; set; } = 5;
+
+    /// <summary>
+    /// The increment between allowed values. Use 0.5 for half symbols.
+    /// </summary>
+    [Parameter]
+    public double Precision { get; set; } = 1;
+
+    /// <summary>
+    /// Prevents user changes while allowing form submission.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Disables the rating.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// The rating's size.
+    /// </summary>
+    [Parameter]
+    public RatingSize Size { get; set; }
+
+    /// <summary>
+    /// Customizes each symbol using its one-based position and whether to show its filled appearance.
+    /// Set to null to restore the default stars.
+    /// </summary>
+    /// <remarks>
+    /// Use RatingSymbolContext.IsSelectedOrHovered to choose the filled or unfilled appearance.
+    /// This follows the current rating, or the hover preview while hovering over an editable rating.
+    /// For example, hovering over 4 fills the first four symbols, not just the fourth.
+    /// Both appearances are rendered into static HTML in advance; Blazor event handlers aren't preserved.
+    /// Web Awesome combines both appearances for fractional ratings.
+    /// </remarks>
+    [Parameter]
+    public RenderFragment<RatingSymbolContext>? SymbolTemplate { get; set; }
+
+    /// <summary>
+    /// Emitted after the bound value updates when the user changes the rating.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RatingChangeEventArgs> OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted when hovering starts, moves to a new value, or ends.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RatingHoverEventArgs> OnHover { get; set; }
+
+    private double _lastValue;
+    private bool _hasSymbolTemplate;
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        await SetCurrentValueAsync(args.Rating!.Value);
+        await OnChange.InvokeAsync(args.Rating);
+    }
+
+    public Task TriggerHoverAsync(RoarHoverEventArgs args) => OnHover.InvokeAsync(args.Rating);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Keep the live value numeric; the input base synchronizes string properties.
+        if (firstRender || _lastValue != CurrentValue)
+        {
+            await SetComponentPropertyAsync("value", CurrentValue);
+            _lastValue = CurrentValue;
+        }
+
+        if (SymbolTemplate is not null)
+        {
+            var symbols = new List<string[]>();
+            await using var renderer = new HtmlRenderer(ServiceProvider, LoggerFactory);
+
+            await renderer.Dispatcher.InvokeAsync(async () =>
+            {
+                for (int value = 1; value <= Max; value++)
+                {
+                    var states = new string[2];
+
+                    // Index 1 stores its selected appearance, used for either the current rating or the hover preview.
+                    for (int stateIndex = 0; stateIndex < states.Length; stateIndex++)
+                    {
+                        var parameters = ParameterView.FromDictionary(new Dictionary<string, object?> { [nameof(LayoutView.ChildContent)] = SymbolTemplate(new RatingSymbolContext(value, stateIndex == 1)) });
+                        var output = await renderer.RenderComponentAsync<LayoutView>(parameters);
+                        states[stateIndex] = output.ToHtmlString();
+                    }
+
+                    symbols.Add(states);
+                }
+            });
+
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.RatingSetSymbols, Element, symbols);
+            _hasSymbolTemplate = true;
+        }
+        else if (_hasSymbolTemplate)
+        {
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.RatingSetSymbols, Element, (object?)null);
+            _hasSymbolTemplate = false;
+        }
+    }
+
+    /// <summary>
+    /// Focuses the rating.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false) => CallComponentVoidFunctionAsync("focus", new { preventScroll });
+
+    /// <summary>
+    /// Removes focus from the rating.
+    /// </summary>
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+
+    protected override string FormatValueAsString(double value) => value.ToString();
+
+    protected override bool TryParseValueFromString(string? value, out double result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"Bind to '{nameof(Value)}' instead of '{nameof(CurrentValueAsString)}'.");
+}

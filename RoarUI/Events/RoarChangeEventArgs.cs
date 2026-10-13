@@ -5,6 +5,7 @@ public class RoarChangeEventArgs : EventArgs
     public CheckboxChangeEventArgs? Checkbox { get; set; }
     public SwitchChangeEventArgs? Switch { get; set; }
     public SliderChangeEventArgs? Slider { get; set; }
+    public RatingChangeEventArgs? Rating { get; set; }
     public RangeSliderChangeEventArgs? RangeSlider { get; set; }
     public ComparisonChangeEventArgs? Comparison { get; set; }
     public InputChangeEventArgs<string?>? Input { get; set; }

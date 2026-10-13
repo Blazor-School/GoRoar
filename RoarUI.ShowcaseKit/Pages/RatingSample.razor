@@ -1,0 +1,88 @@
+@page "/rating-sample"
+
+<h3>Label</h3>
+<RoarRating Label="Rate this component" @bind-Value="Rating" OnChange="args => LastChange = args.Value" />
+<p>Rating: @Rating. Last change: @LastChange.</p>
+<RoarButton @onclick="() => Rating = 2.5">Set rating to 2.5 from C#</RoarButton>
+
+<h3>Disabled</h3>
+<RoarRating Label="Disabled rating" Disabled Value="3" />
+
+<h3>Readonly</h3>
+<RoarRating Label="Readonly rating" ReadOnly Value="3" />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarRating Label="Extra small" Size="RatingSize.Xs" Value="3" />
+    <RoarRating Label="Small" Size="RatingSize.S" Value="3" />
+    <RoarRating Label="Medium" Size="RatingSize.M" Value="3" />
+    <RoarRating Label="Large" Size="RatingSize.L" Value="3" />
+    <RoarRating Label="Extra large" Size="RatingSize.Xl" Value="3" />
+</div>
+<RoarRating Label="Custom font size" style="font-size: 3rem;" Value="3" />
+
+<h3>Max Value</h3>
+<RoarRating Label="Three symbol rating" Max="3" />
+
+<h3>Precision</h3>
+<RoarRating Label="Half star rating" Precision="0.5" @bind-Value="HalfRating" />
+<p>Half star rating: @HalfRating.</p>
+
+<h3>Custom Icons</h3>
+<RoarRating Label="Heart rating" Value="3" style="--symbol-color-active: #ff4136;">
+    <SymbolTemplate>
+        <RoarIcon Name="heart" Variant="FontAwesomeVariant.Solid" />
+    </SymbolTemplate>
+</RoarRating>
+
+<h3>Value-Based Icons</h3>
+<p>The template receives each symbol's position and <code>IsSelectedOrHovered</code> to choose its filled or unfilled appearance. A rating of 3 fills the first three symbols; hovering over 4 previews the first four without changing the rating. Moving away restores the current rating's appearance.</p>
+<RoarRating Label="Satisfaction" Value="3">
+    <SymbolTemplate Context="symbol">
+        <RoarIcon Name="@Faces[symbol.Value - 1]" Variant="@(symbol.IsSelectedOrHovered ? FontAwesomeVariant.Solid : FontAwesomeVariant.Regular)" />
+    </SymbolTemplate>
+</RoarRating>
+
+<h3>Detecting Hover</h3>
+<RoarRating Label="Hover feedback" OnHover="HandleHover" />
+<p>Hover: @HoverFeedback</p>
+
+<h3>Changing Symbols</h3>
+<RoarRating Label="Dynamic symbols" Max="@(MoreSymbols ? 7 : 5)" Value="3" SymbolTemplate="@(CustomSymbols ? NumberSymbol : null)" />
+<RoarSwitch @bind-Value="CustomSymbols">Use numbered symbols</RoarSwitch>
+<RoarSwitch @bind-Value="MoreSymbols">Show seven symbols</RoarSwitch>
+
+<h3>Focus and Blur</h3>
+<RoarRating @ref="MethodRating" Label="Rating methods" @onfocus="() => FocusCount++" @onblur="() => BlurCount++" />
+<RoarButton @onclick="async () => await MethodRating!.FocusAsync()">Focus rating</RoarButton>
+<RoarButton @onclick="async () => await MethodRating!.BlurAsync()">Blur rating</RoarButton>
+<p>Focus events: @FocusCount. Blur events: @BlurCount.</p>
+
+<h3>C# Validation</h3>
+<p>Choose a rating from 1 to 5, including half-star values.</p>
+<EditForm Model="Form" OnValidSubmit="() => Submitted = true" OnInvalidSubmit="() => Submitted = false" novalidate>
+    <DataAnnotationsValidator />
+    <RoarRating Label="Your rating" Precision="0.5" @bind-Value="Form.Rating" OnChange="() => Submitted = false" />
+    <ValidationMessage For="@(() => Form.Rating)" />
+    <RoarButton Type="ButtonType.Submit">Submit rating</RoarButton>
+</EditForm>
+<p>Submitted: @Submitted</p>
+
+@code {
+    private double Rating { get; set; } = 3;
+    private double LastChange { get; set; }
+    private double HalfRating { get; set; } = 2.5;
+    private string[] Faces { get; } = ["face-angry", "face-frown", "face-meh", "face-smile", "face-laugh"];
+    private string HoverFeedback { get; set; } = "";
+    private bool CustomSymbols { get; set; } = true;
+    private bool MoreSymbols { get; set; }
+    private RoarRating? MethodRating { get; set; }
+    private int FocusCount { get; set; }
+    private int BlurCount { get; set; }
+    private RatingValidationForm Form { get; } = new();
+    private bool Submitted { get; set; }
+
+    private RenderFragment<RatingSymbolContext> NumberSymbol => symbol => @<span style="font-weight: @(symbol.IsSelectedOrHovered ? "bold" : "normal");">@symbol.Value</span>;
+
+    private void HandleHover(RatingHoverEventArgs args) => HoverFeedback = args.Phase == RatingHoverPhase.End ? "" : $"{args.Phase}: {args.Value}";
+}
