@@ -226,6 +226,10 @@ function createRoarValueEventArgs(event) {
             return { checkbox: { checked: event.target.checked, indeterminate: event.target.indeterminate } };
         case "wa-switch":
             return { switch: { checked: event.target.checked } };
+        case "wa-slider":
+            return event.target.range
+                ? { rangeSlider: { minValue: event.target.minValue, maxValue: event.target.maxValue } }
+                : { slider: { value: event.target.value } };
         case "wa-comparison":
             return { comparison: { position: event.target.position } };
         case "wa-input":
@@ -275,6 +279,22 @@ function roarGeneralFunction() {
     window.selectSetGetTag = async function (element, htmlByValue) {
         await window.setObjectProperty(element, "getTag", item => Object.hasOwn(htmlByValue, item.value) ? htmlByValue[item.value] : "");
         await element.updateComplete;
+    };
+
+    window.sliderSetValueFormatter = async function (element, template) {
+        const formatter = template == null ? undefined : value => {
+            const values = {
+                value,
+                min: element.min,
+                max: element.max,
+                minValue: element.minValue,
+                maxValue: element.maxValue
+            };
+
+            return template.replace(/\{(value|min|max|minValue|maxValue)\}/g, (_, name) => String(values[name] ?? ""));
+        };
+
+        await window.setObjectProperty(element, "valueFormatter", formatter);
     };
 
     window.setObjectPropertyWithJson = function (element, propertyName, jsonValue) {

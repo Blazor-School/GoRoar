@@ -32,6 +32,8 @@ public class StringEnumGenerator : IIncrementalGenerator
                     .ToList();
 
                 var stringBuilder = new StringBuilder($$"""
+#nullable enable
+
 namespace RoarUI;
 
 [global::System.CodeDom.Compiler.GeneratedCode("RoarUIEngine", "1.0.0")]
@@ -39,6 +41,7 @@ namespace RoarUI;
 [global::System.Diagnostics.DebuggerStepThrough]
 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 [global::System.Runtime.CompilerServices.CompilerGenerated]
+[global::System.ComponentModel.TypeConverter(typeof({{generatedClassName}}Converter))]
 
 public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}}>
 {
@@ -87,6 +90,18 @@ public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}
                 stringBuilder.AppendLine($$"""
     public static bool operator ==({{generatedClassName}} left, {{generatedClassName}} right) => left.Equals(right);
     public static bool operator !=({{generatedClassName}} left, {{generatedClassName}} right) => !(left == right);
+}
+
+[global::System.CodeDom.Compiler.GeneratedCode("RoarUIEngine", "1.0.0")]
+public sealed class {{generatedClassName}}Converter : global::System.ComponentModel.TypeConverter
+{
+    public override bool CanConvertFrom(global::System.ComponentModel.ITypeDescriptorContext? context, global::System.Type sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+
+    public override bool CanConvertTo(global::System.ComponentModel.ITypeDescriptorContext? context, global::System.Type? destinationType) => destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
+
+    public override object? ConvertFrom(global::System.ComponentModel.ITypeDescriptorContext? context, global::System.Globalization.CultureInfo? culture, object value) => value is string text ? new {{generatedClassName}}(text) : base.ConvertFrom(context, culture, value);
+
+    public override object? ConvertTo(global::System.ComponentModel.ITypeDescriptorContext? context, global::System.Globalization.CultureInfo? culture, object? value, global::System.Type destinationType) => destinationType == typeof(string) && value is {{generatedClassName}} enumValue ? enumValue.Value : base.ConvertTo(context, culture, value, destinationType);
 }
 """);
 

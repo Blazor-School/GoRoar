@@ -1,0 +1,154 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="popup" />
+
+<wa-popup anchor="@Anchor" active="@Active" placement="@Placement" boundary="@Boundary" distance="@Distance" skidding="@Skidding" arrow="@Arrow" arrow-placement="@ArrowPlacement" arrow-padding="@ArrowPadding" flip="@Flip" flip-fallback-placements="@(FlipFallbackPlacements.Count > 0 ? string.Join(" ", FlipFallbackPlacements) : null)" flip-fallback-strategy="@FlipFallbackStrategy" flip-padding="@FlipPadding" shift="@Shift" shift-padding="@ShiftPadding" auto-size="@AutoSize" auto-size-padding="@AutoSizePadding" sync="@Sync" hover-bridge="@HoverBridge" @onroarreposition="OnReposition" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-popup>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The ID of an external anchor. For an internal anchor, use the anchor slot instead.
+    /// </summary>
+    [Parameter]
+    public string Anchor { get; set; } = "";
+
+    /// <summary>
+    /// Activates positioning and shows the popup. Deactivating tears down positioning listeners and hides it.
+    /// </summary>
+    [Parameter]
+    public bool Active { get; set; } = false;
+
+    /// <summary>
+    /// The preferred placement relative to the anchor.
+    /// </summary>
+    [Parameter]
+    public PopupPlacement Placement { get; set; }
+
+    /// <summary>
+    /// The default boundary used for flipping, shifting, and auto-sizing.
+    /// </summary>
+    [Parameter]
+    public PopupBoundary Boundary { get; set; }
+
+    /// <summary>
+    /// The distance in pixels from the anchor. Negative values move the popup closer.
+    /// </summary>
+    [Parameter]
+    public double Distance { get; set; } = 0;
+
+    /// <summary>
+    /// The offset in pixels along the anchor's axis.
+    /// </summary>
+    [Parameter]
+    public double Skidding { get; set; } = 0;
+
+    /// <summary>
+    /// Displays an arrow pointing toward the anchor.
+    /// </summary>
+    [Parameter]
+    public bool Arrow { get; set; } = false;
+
+    [Parameter]
+    public PopupArrowPlacement ArrowPlacement { get; set; }
+
+    /// <summary>
+    /// The padding in pixels between the arrow and the popup's edges.
+    /// </summary>
+    [Parameter]
+    public double ArrowPadding { get; set; } = 10;
+
+    /// <summary>
+    /// Flips the popup to another placement when its preferred placement does not fit.
+    /// </summary>
+    [Parameter]
+    public bool Flip { get; set; } = false;
+
+    /// <summary>
+    /// Ordered fallback placements to try when the preferred placement does not fit.
+    /// </summary>
+    [Parameter]
+    public List<PopupPlacement> FlipFallbackPlacements { get; set; } = [];
+
+    [Parameter]
+    public PopupFlipFallbackStrategy FlipFallbackStrategy { get; set; }
+
+    [Parameter]
+    public double FlipPadding { get; set; } = 0;
+
+    /// <summary>
+    /// Shifts the popup along its axis to keep it in view.
+    /// </summary>
+    [Parameter]
+    public bool Shift { get; set; } = false;
+
+    [Parameter]
+    public double ShiftPadding { get; set; } = 0;
+
+    /// <summary>
+    /// Calculates available dimensions. Apply the --auto-size-available-width/height CSS properties to the content.
+    /// </summary>
+    [Parameter]
+    public PopupAutoSize AutoSize { get; set; }
+
+    [Parameter]
+    public double AutoSizePadding { get; set; } = 0;
+
+    /// <summary>
+    /// Synchronizes the popup container's width, height, or both with its anchor.
+    /// </summary>
+    [Parameter]
+    public PopupSync Sync { get; set; }
+
+    /// <summary>
+    /// Adds an invisible hover bridge between the anchor and popup.
+    /// </summary>
+    [Parameter]
+    public bool HoverBridge { get; set; } = false;
+
+    [Parameter]
+    public string ArrowSize { get; set; } = "";
+
+    [Parameter]
+    public string ArrowColor { get; set; } = "";
+
+    [Parameter]
+    public string PopupBorderWidth { get; set; } = "";
+
+    [Parameter]
+    public string ShowDuration { get; set; } = "";
+
+    [Parameter]
+    public string HideDuration { get; set; } = "";
+
+    /// <summary>
+    /// Emitted when the popup repositions. This can fire frequently; keep the callback inexpensive.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnReposition { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--arrow-size", ArrowSize)
+            .AddStyle("--arrow-color", ArrowColor)
+            .AddStyle("--popup-border-width", PopupBorderWidth)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
+    }
+
+    /// <summary>
+    /// Requests a recalculation of the popup's position. Web Awesome completes positioning asynchronously.
+    /// </summary>
+    public ValueTask RepositionAsync() => CallComponentVoidFunctionAsync("reposition");
+}
