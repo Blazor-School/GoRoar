@@ -24,6 +24,11 @@ internal static class JavascriptFunctionNames
     public const string SelectSetGetTag = "selectSetGetTag";
 
     /// <summary>
+    /// Element, Template
+    /// </summary>
+    public const string SliderSetValueFormatter = "sliderSetValueFormatter";
+
+    /// <summary>
     /// Element, PropertyName
     /// </summary>
     public const string GetObjectProperty = "getObjectProperty";

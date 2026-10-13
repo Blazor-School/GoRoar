@@ -1,0 +1,190 @@
+@namespace RoarUI
+@inherits RoarUI.Components.Input.RoarInputBase<double>
+
+<RoarDependency ComponentName="slider" />
+
+<wa-slider autofocus="@Autofocus" value="@CurrentValueAsString" min="@Min" max="@Max" step="@Step" label="@Label" hint="@Hint" disabled="@Disabled" readonly="@ReadOnly" orientation="@Orientation" size="@Size" indicator-offset="@IndicatorOffset" tooltip-distance="@TooltipDistance" tooltip-placement="@TooltipPlacement" with-markers="@WithMarkers" with-tooltip="@WithTooltip" with-label="@WithLabel" with-hint="@WithHint" @onroarinput="TriggerInputAsync" @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-slider>
+
+@code {
+    /// <summary>
+    /// Focuses the slider when the page loads or a dialog is shown.
+    /// </summary>
+    [Parameter]
+    public bool Autofocus { get; set; }
+
+    /// <summary>
+    /// Disables the slider.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Allows focus and form submission while preventing user changes.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// The slider's accessible label. Use the label slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The slider's hint. Use the hint slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The minimum allowed value.
+    /// </summary>
+    [Parameter]
+    public double Min { get; set; }
+
+    /// <summary>
+    /// The maximum allowed value.
+    /// </summary>
+    [Parameter]
+    public double Max { get; set; } = 100;
+
+    /// <summary>
+    /// The increment between allowed values.
+    /// </summary>
+    [Parameter]
+    public double Step { get; set; } = 1;
+
+    /// <summary>
+    /// The slider's orientation.
+    /// </summary>
+    [Parameter]
+    public SliderOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// The slider's size.
+    /// </summary>
+    [Parameter]
+    public SliderSize Size { get; set; }
+
+    /// <summary>
+    /// The starting value of the filled indicator. Defaults to the minimum value.
+    /// </summary>
+    [Parameter]
+    public double? IndicatorOffset { get; set; }
+
+    /// <summary>
+    /// Draws markers at every step.
+    /// </summary>
+    [Parameter]
+    public bool WithMarkers { get; set; }
+
+    /// <summary>
+    /// Shows a value tooltip while focused or dragged.
+    /// </summary>
+    [Parameter]
+    public bool WithTooltip { get; set; }
+
+    /// <summary>
+    /// The tooltip's distance from the thumb.
+    /// </summary>
+    [Parameter]
+    public double TooltipDistance { get; set; } = 8;
+
+    /// <summary>
+    /// The tooltip's placement relative to the thumb.
+    /// </summary>
+    [Parameter]
+    public SliderTooltipPlacement TooltipPlacement { get; set; }
+
+    /// <summary>
+    /// Includes the label slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; }
+
+    /// <summary>
+    /// Includes the hint slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; }
+
+    /// <summary>
+    /// Text template for tooltips and screen reader announcements. Supports {value}, {min}, and {max}.
+    /// Null restores native formatting.
+    /// </summary>
+    [Parameter]
+    public string? ValueTooltipTemplate { get; set; }
+
+    /// <summary>
+    /// Emitted after the bound values update during user input.
+    /// </summary>
+    [Parameter]
+    public EventCallback<SliderChangeEventArgs> OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted after the bound values update when the user commits a change.
+    /// </summary>
+    [Parameter]
+    public EventCallback<SliderChangeEventArgs> OnChange { get; set; }
+
+    private string? _lastTooltipTemplate;
+
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
+    {
+        await SetCurrentValueAsync(args.Slider!.Value);
+        await OnInput.InvokeAsync(args.Slider);
+    }
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        await SetCurrentValueAsync(args.Slider!.Value);
+        await OnChange.InvokeAsync(args.Slider);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender || _lastTooltipTemplate != ValueTooltipTemplate)
+        {
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SliderSetValueFormatter, Element, ValueTooltipTemplate);
+            _lastTooltipTemplate = ValueTooltipTemplate;
+        }
+    }
+
+    private async Task SynchronizeValueAsync() => await SetCurrentValueAsync(await GetComponentPropertyAsync<double>("value"));
+
+    /// <summary>
+    /// Focuses the slider.
+    /// </summary>
+    public ValueTask FocusAsync() => CallComponentVoidFunctionAsync("focus");
+
+    /// <summary>
+    /// Removes focus from the slider.
+    /// </summary>
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+
+    /// <summary>
+    /// Decreases Value, and updates its binding without emitting input/change events.
+    /// </summary>
+    public async ValueTask StepDownAsync()
+    {
+        await CallComponentVoidFunctionAsync("stepDown");
+        await SynchronizeValueAsync();
+    }
+
+    /// <summary>
+    /// Increases Value, and updates its binding without emitting input/change events.
+    /// </summary>
+    public async ValueTask StepUpAsync()
+    {
+        await CallComponentVoidFunctionAsync("stepUp");
+        await SynchronizeValueAsync();
+    }
+
+    protected override string FormatValueAsString(double value) => value.ToString(CultureInfo.InvariantCulture);
+
+    protected override bool TryParseValueFromString(string? value, out double result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"Bind to '{nameof(Value)}' instead of '{nameof(CurrentValueAsString)}'.");
+}

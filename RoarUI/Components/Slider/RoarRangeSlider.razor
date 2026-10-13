@@ -1,0 +1,304 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+@implements IDisposable
+
+<RoarDependency ComponentName="slider" />
+
+<wa-slider autofocus="@Autofocus" range min-value="@MinValue" max-value="@MaxValue" min="@Min" max="@Max" step="@Step" label="@Label" hint="@Hint" disabled="@Disabled" readonly="@ReadOnly" orientation="@Orientation" size="@Size" indicator-offset="@IndicatorOffset?" tooltip-distance="@TooltipDistance" tooltip-placement="@TooltipPlacement" with-markers="@WithMarkers" with-tooltip="@WithTooltip" with-label="@WithLabel" with-hint="@WithHint" @onroarinput="TriggerInputAsync" @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-slider>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [CascadingParameter]
+    private EditContext? CascadedEditContext { get; set; }
+
+    /// <summary>
+    /// Focuses the slider when the page loads or a dialog is shown.
+    /// </summary>
+    [Parameter]
+    public bool Autofocus { get; set; }
+
+    /// <summary>
+    /// Disables the slider.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Allows focus and form submission while preventing user changes.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// The slider's accessible label. Use the label slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The slider's hint. Use the hint slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The minimum allowed value.
+    /// </summary>
+    [Parameter]
+    public double Min { get; set; }
+
+    /// <summary>
+    /// The maximum allowed value.
+    /// </summary>
+    [Parameter]
+    public double Max { get; set; } = 100;
+
+    /// <summary>
+    /// The increment between allowed values.
+    /// </summary>
+    [Parameter]
+    public double Step { get; set; } = 1;
+
+    /// <summary>
+    /// The lower thumb's value.
+    /// </summary>
+    [Parameter]
+    public double MinValue { get; set; }
+
+    [Parameter]
+    public EventCallback<double> MinValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<double>>? MinValueExpression { get; set; }
+
+    /// <summary>
+    /// The upper thumb's value.
+    /// </summary>
+    [Parameter]
+    public double MaxValue { get; set; } = 50;
+
+    [Parameter]
+    public EventCallback<double> MaxValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<double>>? MaxValueExpression { get; set; }
+
+    /// <summary>
+    /// The slider's orientation.
+    /// </summary>
+    [Parameter]
+    public SliderOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// The slider's size.
+    /// </summary>
+    [Parameter]
+    public SliderSize Size { get; set; }
+
+    /// <summary>
+    /// The starting value of the filled indicator. Defaults to the minimum value.
+    /// </summary>
+    [Parameter]
+    public double? IndicatorOffset { get; set; }
+
+    /// <summary>
+    /// Draws markers at every step.
+    /// </summary>
+    [Parameter]
+    public bool WithMarkers { get; set; }
+
+    /// <summary>
+    /// Shows a value tooltip while focused or dragged.
+    /// </summary>
+    [Parameter]
+    public bool WithTooltip { get; set; }
+
+    /// <summary>
+    /// The tooltip's distance from the thumb.
+    /// </summary>
+    [Parameter]
+    public double TooltipDistance { get; set; } = 8;
+
+    /// <summary>
+    /// The tooltip's placement relative to the thumb.
+    /// </summary>
+    [Parameter]
+    public SliderTooltipPlacement TooltipPlacement { get; set; }
+
+    /// <summary>
+    /// Includes the label slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; }
+
+    /// <summary>
+    /// Includes the hint slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; }
+
+    /// <summary>
+    /// Text template for tooltips and screen reader announcements. Supports {value}, {min}, {max}, {minValue}, and {maxValue}.
+    /// The value placeholder represents the current thumb. Null restores native formatting.
+    /// </summary>
+    [Parameter]
+    public string? ValueTooltipTemplate { get; set; }
+
+    /// <summary>
+    /// Emitted after the bound values update during user input.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RangeSliderChangeEventArgs> OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted after the bound values update when the user commits a change.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RangeSliderChangeEventArgs> OnChange { get; set; }
+
+    private readonly string _name = $"roar-{Guid.NewGuid():N}";
+    private EditContext? _editContext;
+    private string? _lastTooltipTemplate;
+    private bool _hasInitializedParameters;
+    private bool _disposed;
+
+    private IReadOnlyDictionary<string, object> InternalAttributes => new AttributeBuilder(AdditionalAttributes)
+        .MapEvent("onblur", "onroarblur")
+        .MapEvent("onfocus", "onroarfocus")
+        .AddAttributeWhenMissing("name", _name)
+        .AddConditionalAttributeWhenMissing(HasValidationErrors(MinValueExpression) || HasValidationErrors(MaxValueExpression), "aria-invalid", "true")
+        .Build();
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        parameters.SetParameterProperties(this);
+
+        if (!_hasInitializedParameters)
+        {
+            _editContext = CascadedEditContext;
+
+            if (_editContext is not null)
+            {
+                _editContext.OnValidationStateChanged += OnValidationStateChanged;
+            }
+
+            _hasInitializedParameters = true;
+        }
+        else if (CascadedEditContext != _editContext)
+        {
+            throw new InvalidOperationException($"{GetType()} does not support changing the {nameof(EditContext)} dynamically.");
+        }
+
+        return base.SetParametersAsync(ParameterView.Empty);
+    }
+
+    private void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs args) => _ = InvokeAsync(StateHasChanged);
+
+    private bool HasValidationErrors(Expression<Func<double>>? expression) => expression is not null && _editContext is not null && _editContext.GetValidationMessages(FieldIdentifier.Create(expression)).Any();
+
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
+    {
+        await UpdateValuesAsync(args.RangeSlider!);
+        await OnInput.InvokeAsync(args.RangeSlider);
+    }
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        await UpdateValuesAsync(args.RangeSlider!);
+        await OnChange.InvokeAsync(args.RangeSlider);
+    }
+
+    private async Task UpdateValuesAsync(RangeSliderChangeEventArgs args)
+    {
+        bool minChanged = MinValue != args.MinValue;
+        bool maxChanged = MaxValue != args.MaxValue;
+        MinValue = args.MinValue;
+        MaxValue = args.MaxValue;
+
+        if (minChanged)
+        {
+            await MinValueChanged.InvokeAsync(MinValue);
+            if (MinValueExpression is not null)
+            {
+                _editContext?.NotifyFieldChanged(FieldIdentifier.Create(MinValueExpression));
+            }
+        }
+
+        if (maxChanged)
+        {
+            await MaxValueChanged.InvokeAsync(MaxValue);
+            if (MaxValueExpression is not null)
+            {
+                _editContext?.NotifyFieldChanged(FieldIdentifier.Create(MaxValueExpression));
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender || _lastTooltipTemplate != ValueTooltipTemplate)
+        {
+            await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SliderSetValueFormatter, Element, ValueTooltipTemplate);
+            _lastTooltipTemplate = ValueTooltipTemplate;
+        }
+    }
+
+    private async Task SynchronizeValuesAsync()
+    {
+        var args = new RangeSliderChangeEventArgs(await GetComponentPropertyAsync<double>("minValue"), await GetComponentPropertyAsync<double>("maxValue"));
+        await UpdateValuesAsync(args);
+    }
+
+    /// <summary>
+    /// Focuses the lower thumb.
+    /// </summary>
+    public ValueTask FocusAsync() => CallComponentVoidFunctionAsync("focus");
+
+    /// <summary>
+    /// Removes focus from the slider.
+    /// </summary>
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+
+    /// <summary>
+    /// Decreases MinValue, and updates its binding without emitting input/change events.
+    /// </summary>
+    public async ValueTask StepDownAsync()
+    {
+        await CallComponentVoidFunctionAsync("stepDown");
+        await SynchronizeValuesAsync();
+    }
+
+    /// <summary>
+    /// Increases MaxValue, and updates its binding without emitting input/change events.
+    /// </summary>
+    public async ValueTask StepUpAsync()
+    {
+        await CallComponentVoidFunctionAsync("stepUp");
+        await SynchronizeValuesAsync();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        _editContext?.OnValidationStateChanged -= OnValidationStateChanged;
+        Dispose(true);
+
+        GC.SuppressFinalize(this);
+    }
+}

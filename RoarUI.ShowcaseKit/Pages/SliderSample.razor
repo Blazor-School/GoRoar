@@ -1,0 +1,155 @@
+@page "/slider-sample"
+@using System.Globalization
+
+<h3>Label</h3>
+<RoarSlider Label="Volume" Value="50" />
+<RoarSlider Value="50" WithLabel>
+    <span slot="@SliderSlot.Label">Volume <strong>level</strong></span>
+</RoarSlider>
+
+<h3>Hint</h3>
+<RoarSlider Label="Volume" Hint="Controls the volume of the current song." Value="50" />
+<RoarSlider Label="Volume" Value="50" WithHint>
+    <span slot="@SliderSlot.Hint">Controls the volume of the <strong>current song</strong>.</span>
+</RoarSlider>
+
+<h3>Min, Max &amp; Step</h3>
+<RoarSlider Label="Between zero and one" Min="0" Max="1" Step="0.1" @bind-Value="Fraction" WithTooltip ValueTooltipTemplate="{value} between {min} and {max}" />
+<p>Value: @Fraction</p>
+
+<h3>Showing a Tooltip</h3>
+<RoarSlider Label="Quality" name="quality" Value="50" WithTooltip />
+
+<h3>Showing Markers</h3>
+<RoarSlider Label="Size" name="size" Max="8" Value="4" WithMarkers />
+
+<h3>Adding References</h3>
+<RoarSlider Label="Speed" name="speed" Min="1" Max="5" Value="3" WithMarkers Hint="Controls the speed of the thing you're currently doing.">
+    <span slot="@SliderSlot.Reference">Slow</span>
+    <span slot="@SliderSlot.Reference">Medium</span>
+    <span slot="@SliderSlot.Reference">Fast</span>
+</RoarSlider>
+
+<h3>Range Selection</h3>
+<RoarRangeSlider Label="Price Range" Hint="Select minimum and maximum price" name="price" @bind-MinValue="PriceMin" @bind-MaxValue="PriceMax" WithTooltip ValueTooltipTemplate="${value} (range ${minValue}–${maxValue})">
+    <span slot="@SliderSlot.Reference">$0</span>
+    <span slot="@SliderSlot.Reference">$50</span>
+    <span slot="@SliderSlot.Reference">$100</span>
+</RoarRangeSlider>
+<p>Selected range: @PriceMin – @PriceMax</p>
+<RoarButton @onclick="() => SetPriceRange(30, 70)">Set range to 30–70</RoarButton>
+<RoarButton @onclick="() => SetPriceRange(90, 100)">Set range to 90–100</RoarButton>
+
+<h3>Vertical Sliders</h3>
+<div style="height: 300px; display: flex; gap: 2rem;">
+    <RoarSlider Orientation="SliderOrientation.Vertical" Label="Volume" Value="65" style="width: 80px;" WithTooltip />
+    <RoarSlider Orientation="SliderOrientation.Vertical" Label="Bass" Value="50" style="width: 80px;" />
+    <RoarSlider Orientation="SliderOrientation.Vertical" Label="Treble" Value="40" style="width: 80px;" />
+    <RoarRangeSlider Orientation="SliderOrientation.Vertical" Label="Temperature Range" MinValue="30" MaxValue="70" WithTooltip TooltipPlacement="SliderTooltipPlacement.Right" ValueTooltipTemplate="{value} °F" />
+</div>
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarSlider Size="SliderSize.Xs" Value="50" Label="Extra small" />
+    <RoarSlider Size="SliderSize.S" Value="50" Label="Small" />
+    <RoarSlider Size="SliderSize.M" Value="50" Label="Medium" />
+    <RoarSlider Size="SliderSize.L" Value="50" Label="Large" />
+    <RoarSlider Size="SliderSize.Xl" Value="50" Label="Extra large" />
+</div>
+
+<h3>Indicator Offset</h3>
+<RoarSlider Label="User Friendliness" Hint="Did you find our product easy to use?" Min="-5" Max="5" IndicatorOffset="0" WithMarkers WithTooltip>
+    <span slot="@SliderSlot.Reference">Easy</span>
+    <span slot="@SliderSlot.Reference">Moderate</span>
+    <span slot="@SliderSlot.Reference">Difficult</span>
+</RoarSlider>
+
+<h3>Disabled</h3>
+<RoarSlider Label="Disabled" Value="50" Disabled />
+
+<h3>Readonly</h3>
+<RoarSlider Label="Server load" Value="72" WithTooltip ReadOnly />
+
+<h3>Formatting the Value</h3>
+<p>Use <code>{value}</code> for the current thumb and <code>{min}</code>/<code>{max}</code> for the bounds. Range sliders also support <code>{minValue}</code>/<code>{maxValue}</code> for the selected endpoints.</p>
+<RoarSlider Label="Percentage" Value="50" WithTooltip ValueTooltipTemplate="{value}%" />
+<RoarSlider Label="Duration" Value="12" Max="24" WithTooltip ValueTooltipTemplate="{value} hours" />
+<RoarSlider Label="Currency" Value="50" WithTooltip ValueTooltipTemplate="@(CustomCurrencyFormat ? "${value}" : null)" />
+<RoarSwitch @bind-Value="CustomCurrencyFormat">Format currency tooltip</RoarSwitch>
+
+<h3>Reacting to Input</h3>
+<p style="font-size: @(TextSize)px;">The quick brown fox jumps over the lazy dog.</p>
+<RoarSlider Label="Text size" Min="12" Max="48" @bind-Value="TextSize" WithTooltip OnInput="() => InputCount++" OnChange="() => ChangeCount++" />
+<p>Text size: @TextSize. Inputs: @InputCount. Changes: @ChangeCount.</p>
+<RoarButton @onclick="() => TextSize = 24">Set text size to 24 from C#</RoarButton>
+
+<h3>Filtering with a Range</h3>
+<ul>
+    @foreach (var product in Products.Where(product => product.Price >= FilterMin && product.Price <= FilterMax))
+    {
+        <li>@product.Name — $@product.Price</li>
+    }
+</ul>
+<RoarRangeSlider Label="Filter price range" Max="150" @bind-MinValue="FilterMin" @bind-MaxValue="FilterMax" WithTooltip ValueTooltipTemplate="${value}" />
+<p>Filter: @FilterMin – @FilterMax</p>
+
+<h3>Binding and Methods</h3>
+<h4>Single Value</h4>
+<RoarSlider @ref="MethodSlider" Label="Control with methods" @bind-Value="MethodValue" WithTooltip @onfocus="() => FocusCount++" @onblur="() => BlurCount++" />
+<p>Value: @MethodValue. Focus events: @FocusCount. Blur events: @BlurCount.</p>
+<RoarButton @onclick="async () => await MethodSlider!.FocusAsync()">Focus</RoarButton>
+<RoarButton @onclick="async () => await MethodSlider!.BlurAsync()">Blur</RoarButton>
+<RoarButton @onclick="async () => await MethodSlider!.StepDownAsync()">Step down</RoarButton>
+<RoarButton @onclick="async () => await MethodSlider!.StepUpAsync()">Step up</RoarButton>
+
+<h4>Range</h4>
+<RoarRangeSlider @ref="MethodRangeSlider" Label="Control range with methods" @bind-MinValue="MethodMin" @bind-MaxValue="MethodMax" WithTooltip OnInput="() => RangeInputCount++" OnChange="() => RangeChangeCount++" @onfocus="() => RangeFocusCount++" @onblur="() => RangeBlurCount++" />
+<p>Range: @MethodMin – @MethodMax. Inputs: @RangeInputCount. Changes: @RangeChangeCount. Focus events: @RangeFocusCount. Blur events: @RangeBlurCount.</p>
+<RoarButton @onclick="async () => await MethodRangeSlider!.FocusAsync()">Focus range</RoarButton>
+<RoarButton @onclick="async () => await MethodRangeSlider!.BlurAsync()">Blur range</RoarButton>
+<RoarButton @onclick="async () => await MethodRangeSlider!.StepDownAsync()">Step range down</RoarButton>
+<RoarButton @onclick="async () => await MethodRangeSlider!.StepUpAsync()">Step range up</RoarButton>
+
+<h3>Validation</h3>
+<EditForm Model="Form" OnValidSubmit="() => Submitted = true">
+    <DataAnnotationsValidator />
+    <RoarSlider Label="Team size" Max="10" @bind-Value="Form.TeamSize" WithTooltip Hint="Choose between 2 and 6 members." />
+    <ValidationMessage For="@(() => Form.TeamSize)" />
+    <RoarRangeSlider Label="Validated range" Max="10" @bind-MinValue="Form.Lower" @bind-MaxValue="Form.Upper" WithTooltip />
+    <ValidationMessage For="@(() => Form.Lower)" />
+    <ValidationMessage For="@(() => Form.Upper)" />
+    <RoarButton Type="ButtonType.Submit">Submit</RoarButton>
+</EditForm>
+<p>Submitted: @Submitted</p>
+
+@code {
+    private double Fraction { get; set; } = 0.5;
+    private double PriceMin { get; set; } = 20;
+    private double PriceMax { get; set; } = 80;
+    private double TextSize { get; set; } = 18;
+    private int InputCount { get; set; }
+    private int ChangeCount { get; set; }
+    private double FilterMin { get; set; }
+    private double FilterMax { get; set; } = 150;
+    private bool CustomCurrencyFormat { get; set; } = true;
+    private RoarSlider? MethodSlider { get; set; }
+    private double MethodValue { get; set; } = 50;
+    private double MethodMin { get; set; } = 20;
+    private double MethodMax { get; set; } = 80;
+    private RoarRangeSlider? MethodRangeSlider { get; set; }
+    private int RangeInputCount { get; set; }
+    private int RangeChangeCount { get; set; }
+    private int RangeFocusCount { get; set; }
+    private int RangeBlurCount { get; set; }
+    private int FocusCount { get; set; }
+    private int BlurCount { get; set; }
+    private SliderSettingsForm Form { get; } = new();
+    private bool Submitted { get; set; }
+    private (string Name, double Price)[] Products { get; } = [("Sticker pack", 15), ("T-shirt", 30), ("Hoodie", 55), ("Backpack", 80), ("Jacket", 120)];
+
+    private void SetPriceRange(double min, double max)
+    {
+        PriceMin = min;
+        PriceMax = max;
+    }
+}
