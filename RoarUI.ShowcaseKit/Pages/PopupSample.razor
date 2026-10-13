@@ -40,7 +40,7 @@
         <div class="box"></div>
     </RoarPopup>
     <RoarDivider />
-    <label>Distance <input type="range" min="-50" max="50" step="1" @bind="Distance" @bind:event="oninput" /></label>
+    <label>Distance <RoarSlider Min="-50" Max="50" @bind-Value="Distance" /></label>
 </div>
 
 <h3>Skidding</h3>
@@ -50,7 +50,7 @@
         <div class="box"></div>
     </RoarPopup>
     <RoarDivider />
-    <label>Skidding <input type="range" min="-50" max="50" step="1" @bind="Skidding" @bind:event="oninput" /></label>
+    <label>Skidding <RoarSlider Min="-50" Max="50" Step="1" @bind-Value="Skidding" /></label>
 </div>
 
 <h3>Arrows</h3>
@@ -153,8 +153,8 @@
     <RoarDivider />
     <div class="wa-cluster">
         <RoarSwitch @bind-Value="HoverBridge">Hover Bridge</RoarSwitch>
-        <label>Distance <input type="range" min="0" max="50" step="1" @bind="HoverDistance" @bind:event="oninput" /></label>
-        <label>Skidding <input type="range" min="-50" max="50" step="1" @bind="HoverSkidding" @bind:event="oninput" /></label>
+        <label>Distance <RoarSlider Min="0" Max="50" Step="1" @bind-Value="HoverDistance" /></label>
+        <label>Skidding <RoarSlider Min="-50" Max="50" Step="1" @bind-Value="HoverSkidding" /></label>
     </div>
 </div>
 
@@ -185,12 +185,6 @@
     :is(.popup-distance, .popup-skidding, .popup-hover-bridge) label {
         display: block;
         max-width: 260px;
-    }
-
-    :is(.popup-distance, .popup-skidding, .popup-hover-bridge) input[type="range"] {
-        display: block;
-        width: 100%;
-        margin-top: 0.5rem;
     }
 
     .popup-arrow wa-popup {
