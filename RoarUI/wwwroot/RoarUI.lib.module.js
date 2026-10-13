@@ -63,6 +63,10 @@ function registerRoarEvents(blazor) {
             browserEventName: "change",
             createEventArgs: createRoarValueEventArgs
         },
+        roarhover: {
+            browserEventName: "wa-hover",
+            createEventArgs: event => ({ rating: { phase: event.detail.phase, value: event.detail.value } })
+        },
         roarinput: {
             browserEventName: "input",
             createEventArgs: createRoarValueEventArgs
@@ -226,6 +230,8 @@ function createRoarValueEventArgs(event) {
             return { checkbox: { checked: event.target.checked, indeterminate: event.target.indeterminate } };
         case "wa-switch":
             return { switch: { checked: event.target.checked } };
+        case "wa-rating":
+            return { rating: { value: event.target.value } };
         case "wa-slider":
             return event.target.range
                 ? { rangeSlider: { minValue: event.target.minValue, maxValue: event.target.maxValue } }
@@ -261,6 +267,7 @@ function createRoarValueEventArgs(event) {
 }
 
 const propertyObservers = new WeakMap();
+const ratingDefaultSymbols = new WeakMap();
 
 function roarGeneralFunction() {
     window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
@@ -278,6 +285,21 @@ function roarGeneralFunction() {
 
     window.selectSetGetTag = async function (element, htmlByValue) {
         await window.setObjectProperty(element, "getTag", item => Object.hasOwn(htmlByValue, item.value) ? htmlByValue[item.value] : "");
+        await element.updateComplete;
+    };
+
+    window.ratingSetSymbols = async function (element, symbols) {
+        await customElements.whenDefined(element.localName);
+        await element.updateComplete;
+
+        if (!ratingDefaultSymbols.has(element)) {
+            ratingDefaultSymbols.set(element, element.getSymbol);
+        }
+
+        element.getSymbol = symbols == null
+            ? ratingDefaultSymbols.get(element)
+            : (value, isSelectedOrHovered) => symbols[value - 1]?.[isSelectedOrHovered ? 1 : 0] ?? ""; //Each symbols has 2 states, state 0 is for unselected, state 1 is for selected or hovered
+
         await element.updateComplete;
     };
 

@@ -13,6 +13,7 @@ namespace RoarUI.Events;
 [EventHandler("onroarblur", typeof(FocusEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarfocus", typeof(FocusEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarchange", typeof(RoarChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarhover", typeof(RoarHoverEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarreposition", typeof(RoarRepositionEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroartabshow", typeof(RoarTabShowEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroartabhide", typeof(RoarTabHideEventArgs), enableStopPropagation: true, enablePreventDefault: true)]

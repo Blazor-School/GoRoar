@@ -29,6 +29,11 @@ internal static class JavascriptFunctionNames
     public const string SliderSetValueFormatter = "sliderSetValueFormatter";
 
     /// <summary>
+    /// Element, Symbols (unselected and selected HTML per value), or null for default stars
+    /// </summary>
+    public const string RatingSetSymbols = "ratingSetSymbols";
+
+    /// <summary>
     /// Element, PropertyName
     /// </summary>
     public const string GetObjectProperty = "getObjectProperty";
