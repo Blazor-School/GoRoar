@@ -1,0 +1,94 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="stepper" />
+
+<wa-stepper active="@Active" clickable="@Clickable" label="@Label" linear="@Linear" orientation="@Orientation" @onroarbeforestepchange="TriggerBeforeStepChangeAsync" @onroarbeforestepchange:preventDefault="PreventStepChange" @onroarstepchange="TriggerStepChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-stepper>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The name of the active step. Falls back to the first step if unset, or if it doesn't match any step's name.
+    /// </summary>
+    [Parameter]
+    public string Active { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> ActiveChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<string>>? ActiveExpression { get; set; }
+
+    /// <summary>
+    /// Allows clicking a step or activating it with Enter or Space to navigate to it.
+    /// </summary>
+    [Parameter]
+    public bool Clickable { get; set; } = false;
+
+    /// <summary>
+    /// A label that describes the stepper to assistive devices. Especially useful when more than one is on the page.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// Requires steps to be completed in order. Navigation cannot reach steps after the first incomplete step.
+    /// </summary>
+    [Parameter]
+    public bool Linear { get; set; } = false;
+
+    /// <summary>
+    /// The stepper's layout direction. Auto stacks steps vertically when there is not enough room for a row.
+    /// </summary>
+    [Parameter]
+    public StepperOrientation Orientation { get; set; }
+
+    /// <summary>
+    /// Cancels navigation attempts while true. Does not prevent setting Active directly.
+    /// </summary>
+    [Parameter]
+    public bool PreventStepChange { get; set; } = false;
+
+    /// <summary>
+    /// Emitted before navigation changes the active step, including canceled attempts. PreventStepChange cancels the action.
+    /// </summary>
+    [Parameter]
+    public EventCallback<StepperStepChangeEventArgs> OnBeforeStepChange { get; set; }
+
+    /// <summary>
+    /// Emitted after navigation changes the active step and updates the bound Active value.
+    /// </summary>
+    [Parameter]
+    public EventCallback<StepperStepChangeEventArgs> OnStepChange { get; set; }
+
+    public Task TriggerBeforeStepChangeAsync(RoarBeforeStepChangeEventArgs args) => OnBeforeStepChange.InvokeAsync(args.Stepper);
+
+    public async Task TriggerStepChangeAsync(RoarStepChangeEventArgs args)
+    {
+        Active = args.Stepper!.Name;
+        await ActiveChanged.InvokeAsync(Active);
+        await OnStepChange.InvokeAsync(args.Stepper);
+    }
+
+    /// <summary>
+    /// Requests navigation to the named step. Does nothing if the step is missing, disabled, locked, or the change is canceled.
+    /// </summary>
+    public ValueTask GoToAsync(string name) => CallComponentVoidFunctionAsync("goTo", name);
+
+    /// <summary>
+    /// Advances to the next step if it is reachable and the change is not canceled.
+    /// </summary>
+    public ValueTask NextAsync() => CallComponentVoidFunctionAsync("next");
+
+    /// <summary>
+    /// Goes back to the previous step if it is reachable and the change is not canceled.
+    /// </summary>
+    public ValueTask PreviousAsync() => CallComponentVoidFunctionAsync("previous");
+}

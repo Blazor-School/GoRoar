@@ -1,0 +1,350 @@
+@page "/stepper-sample"
+
+<h3>Clickable</h3>
+<RoarStepper Active="shipping" Clickable>
+    <RoarStep Name="cart" Completed>Cart</RoarStep>
+    <RoarStep Name="shipping">Shipping</RoarStep>
+    <RoarStep Name="payment">Payment</RoarStep>
+</RoarStepper>
+
+<h3>Linear</h3>
+<RoarStepper Active="shipping" Linear Clickable>
+    <RoarStep Name="cart" Completed>Cart</RoarStep>
+    <RoarStep Name="shipping">Shipping</RoarStep>
+    <RoarStep Name="payment">Payment</RoarStep>
+</RoarStepper>
+
+<h3>Orientation</h3>
+<RoarStepper Orientation="StepperOrientation.Vertical" Active="proof">
+    <RoarStep Name="mix" Completed>Mix</RoarStep>
+    <RoarStep Name="knead" Completed>Knead</RoarStep>
+    <RoarStep Name="proof" WithDescription>
+        Proof
+        <span slot="@StepSlot.Description">Let it rise. Resist poking it.</span>
+    </RoarStep>
+    <RoarStep Name="bake">Bake</RoarStep>
+</RoarStepper>
+
+<RoarStepper Orientation="StepperOrientation.Vertical" Active="proof" style="--gap: var(--wa-space-3xl);">
+    <RoarStep Name="mix" Completed>Mix</RoarStep>
+    <RoarStep Name="knead" Completed>Knead</RoarStep>
+    <RoarStep Name="proof" WithDescription>
+        Proof
+        <span slot="@StepSlot.Description">Let it rise. Resist poking it.</span>
+    </RoarStep>
+    <RoarStep Name="bake">Bake</RoarStep>
+</RoarStepper>
+
+<RoarStepper Orientation="StepperOrientation.Auto" Active="team">
+    <RoarStep Name="account" Completed>Account</RoarStep>
+    <RoarStep Name="profile" Completed>Profile</RoarStep>
+    <RoarStep Name="team">Team</RoarStep>
+    <RoarStep Name="notifications">Notifications</RoarStep>
+</RoarStepper>
+
+<h3>Variant</h3>
+<RoarStepper Active="current">
+    <RoarStep Name="current">Current</RoarStep>
+    <RoarStep Name="success" Variant="StepVariant.Success">Success</RoarStep>
+    <RoarStep Name="warning" Variant="StepVariant.Warning">Warning</RoarStep>
+    <RoarStep Name="danger" Variant="StepVariant.Danger">Danger</RoarStep>
+</RoarStepper>
+
+<RoarStepper Active="payment">
+    <RoarStep Name="cart" Completed Variant="StepVariant.Success">Cart</RoarStep>
+    <RoarStep Name="shipping" Completed Variant="StepVariant.Success">Shipping</RoarStep>
+    <RoarStep Name="payment" Variant="StepVariant.Danger" WithDescription>
+        <RoarIcon slot="@StepSlot.Icon" Name="xmark" library="system" Variant="FontAwesomeVariant.Solid"></RoarIcon>
+        Payment
+        <span slot="@StepSlot.Description">Card declined</span>
+    </RoarStep>
+</RoarStepper>
+
+<h3>Size</h3>
+<div class="wa-stack wa-gap-l">
+    <RoarStepper class="size-stepper" Active="shipping" style="font-size: var(--wa-font-size-xs);">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+    <RoarStepper class="size-stepper" Active="shipping" style="font-size: var(--wa-font-size-s);">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+    <RoarStepper class="size-stepper" Active="shipping" style="font-size: var(--wa-font-size-m);">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+    <RoarStepper class="size-stepper" Active="shipping" style="font-size: var(--wa-font-size-l);">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+    <RoarStepper class="size-stepper" Active="shipping" style="font-size: var(--wa-font-size-xl);">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+</div>
+
+<style>
+    .size-stepper {
+        max-inline-size: 24em;
+    }
+</style>
+
+<h3>Drawing Attention</h3>
+<div class="wa-stack">
+    <RoarStepper Active="verify">
+        <RoarStep Name="account" Completed>Create account</RoarStep>
+        <RoarStep Name="verify" Attention="StepAttention.Pulse">Verify email</RoarStep>
+        <RoarStep Name="profile">Set up profile</RoarStep>
+    </RoarStepper>
+
+    <RoarStepper Active="verify">
+        <RoarStep Name="account" Completed>Create account</RoarStep>
+        <RoarStep Name="verify" Attention="StepAttention.Bounce">Verify email</RoarStep>
+        <RoarStep Name="profile">Set up profile</RoarStep>
+    </RoarStepper>
+</div>
+
+<h3>Description</h3>
+<RoarStepper Active="shipping">
+    <RoarStep Name="cart" Completed WithDescription>
+        Cart
+        <span slot="@StepSlot.Description">3 items</span>
+    </RoarStep>
+    <RoarStep Name="shipping" WithDescription>
+        Shipping
+        <span slot="@StepSlot.Description">Enter your address</span>
+    </RoarStep>
+    <RoarStep Name="payment" WithDescription>
+        Payment
+        <span slot="@StepSlot.Description">Add a card</span>
+    </RoarStep>
+</RoarStepper>
+
+<h3>Custom Icon</h3>
+<RoarStepper Active="shipped">
+    <RoarStep Name="ordered" Completed WithDescription>
+        <RoarIcon slot="@StepSlot.Icon" Name="bag-shopping"></RoarIcon>
+        Ordered
+        <span slot="@StepSlot.Description">Monday</span>
+    </RoarStep>
+    <RoarStep Name="shipped" WithDescription>
+        <RoarIcon slot="@StepSlot.Icon" Name="truck"></RoarIcon>
+        Shipped
+        <span slot="@StepSlot.Description">Left the warehouse</span>
+    </RoarStep>
+    <RoarStep Name="delivered" WithDescription>
+        <RoarIcon slot="@StepSlot.Icon" Name="house"></RoarIcon>
+        Delivered
+        <span slot="@StepSlot.Description">Thursday, probably</span>
+    </RoarStep>
+</RoarStepper>
+
+<h3>Loading</h3>
+<RoarStepper Active="steep">
+    <RoarStep Name="boil" Completed>Boil the kettle</RoarStep>
+    <RoarStep Name="warm" Completed>Warm the pot</RoarStep>
+    <RoarStep Name="steep" Loading WithDescription>
+        Steep
+        <span slot="@StepSlot.Description">Four minutes for a proper cuppa</span>
+    </RoarStep>
+    <RoarStep Name="pour">Pour</RoarStep>
+</RoarStepper>
+
+<h3>Disabled</h3>
+<RoarStepper Active="cart">
+    <RoarStep Name="cart">Cart</RoarStep>
+    <RoarStep Name="shipping">Shipping</RoarStep>
+    <RoarStep Name="gift-wrap" Disabled>Gift Wrap</RoarStep>
+    <RoarStep Name="payment">Payment</RoarStep>
+</RoarStepper>
+
+<h3>Navigating Declaratively</h3>
+<div class="stepper-declarative-demo">
+    <RoarStepper id="stepper-declarative" Active="cart">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+
+    <RoarDivider></RoarDivider>
+
+    <div class="wa-cluster">
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="previous stepper-declarative">Back</RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="next stepper-declarative">Continue</RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="goto stepper-declarative payment">Skip to Payment</RoarButton>
+    </div>
+</div>
+
+<h3>Reacting to Changes</h3>
+<div class="stepper-events-demo">
+    <RoarStepper id="stepper-events" @bind-Active="EventStep" OnStepChange="HandleStepChange">
+        <RoarStep Name="cart" Completed="@(EventCompletedSteps["cart"])">Cart</RoarStep>
+        <RoarStep Name="shipping" Completed="@(EventCompletedSteps["shipping"])">Shipping</RoarStep>
+        <RoarStep Name="payment" Completed="@(EventCompletedSteps["payment"])">Payment</RoarStep>
+    </RoarStepper>
+
+    <RoarDivider></RoarDivider>
+
+    <div class="wa-cluster wa-align-items-center">
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="previous stepper-events">Back</RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="next stepper-events">Continue</RoarButton>
+        <small>Active step: @EventStep</small>
+    </div>
+</div>
+
+<h3>Pairing with Content</h3>
+<div class="stepper-content-demo wa-stack">
+    <RoarStepper id="stepper-content" @bind-Active="ContentStep">
+        <RoarStep Name="cart">Cart</RoarStep>
+        <RoarStep Name="shipping">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </RoarStepper>
+
+    <p hidden="@(ContentStep != "cart")">Review the items in your cart.</p>
+    <p hidden="@(ContentStep != "shipping")">Enter the address to ship to.</p>
+    <p hidden="@(ContentStep != "payment")">Add a card to pay with.</p>
+
+    <RoarDivider></RoarDivider>
+
+    <div class="wa-cluster">
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="previous stepper-content">Back</RoarButton>
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="next stepper-content">Continue</RoarButton>
+    </div>
+</div>
+
+<h3>Preventing a Step Change</h3>
+<div class="stepper-guard-demo">
+    <RoarStepper id="stepper-guard" @bind-Active="GuardedStep" PreventStepChange="UnsavedChanges" OnBeforeStepChange="HandleBeforeStepChange" OnStepChange="HandleGuardedStepChange">
+        <RoarStep Name="cart" Completed="@(GuardCompletedSteps["cart"])">Cart</RoarStep>
+        <RoarStep Name="shipping" Completed="@(GuardCompletedSteps["shipping"])">Shipping</RoarStep>
+        <RoarStep Name="payment" Completed="@(GuardCompletedSteps["payment"])">Payment</RoarStep>
+    </RoarStepper>
+
+    <RoarDivider></RoarDivider>
+
+    <div class="wa-cluster wa-align-items-center">
+        <RoarSwitch @bind-Value="UnsavedChanges">Unsaved changes</RoarSwitch>
+        <RoarButton Appearance="ButtonAppearance.Filled" data-stepper="next stepper-guard">Continue</RoarButton>
+        <small>@GuardMessage</small>
+    </div>
+</div>
+
+<h3>Customizing</h3>
+<RoarStepper class="custom-stepper" Active="shipping">
+    <RoarStep Name="cart" Completed Variant="StepVariant.Success">Cart</RoarStep>
+    <RoarStep Name="shipping">Shipping</RoarStep>
+    <RoarStep Name="payment">Payment</RoarStep>
+</RoarStepper>
+
+<style>
+    .custom-stepper {
+        --marker-size: 2.5em;
+        --gap: var(--wa-space-2xl);
+        --connector-color: var(--wa-color-neutral-border-normal);
+    }
+
+    .custom-stepper wa-step::part(marker) {
+        font-weight: var(--wa-font-weight-bold);
+        border-radius: var(--wa-border-radius-m);
+    }
+</style>
+
+<RoarStepper class="tube-stepper" Label="Piccadilly line" Orientation="StepperOrientation.Auto" Active="green-park">
+    <RoarStep Name="heathrow" Completed>Heathrow</RoarStep>
+    <RoarStep Name="earls-court" Completed WithDescription>
+        Earl's Court
+        <span slot="@StepSlot.Description">District line</span>
+    </RoarStep>
+    <RoarStep Name="knightsbridge" Completed>Knightsbridge</RoarStep>
+    <RoarStep Name="green-park" Attention="StepAttention.Pulse" WithDescription>
+        Green Park
+        <span slot="@StepSlot.Description">Victoria and Jubilee lines</span>
+    </RoarStep>
+    <RoarStep Name="kings-cross">King's Cross</RoarStep>
+</RoarStepper>
+
+<style>
+    .tube-stepper {
+        --line: var(--wa-color-brand-fill-loud);
+        --marker-size: 1.25em;
+        --gap: var(--wa-space-m);
+        --connector-width: 0.375em;
+        --connector-gap: 0px;
+        --connector-color: var(--wa-color-brand-fill-normal);
+        --connector-color-active: var(--line);
+    }
+
+    .tube-stepper wa-step::part(marker) {
+        color: transparent;
+        background-color: var(--wa-color-surface-default);
+        border: 0.25em solid var(--line);
+    }
+
+    .tube-stepper wa-step:state(completed)::part(marker) {
+        background-color: var(--line);
+    }
+
+    .tube-stepper wa-step:state(active)::part(marker) {
+        scale: 1.25;
+    }
+</style>
+
+<RoarStepper class="uneven-stepper" Orientation="StepperOrientation.Auto" Active="mordor">
+    <RoarStep Name="shire" Completed>The Shire</RoarStep>
+    <RoarStep Name="rivendell" Completed>Rivendell</RoarStep>
+    <RoarStep Name="moria" Completed>Moria</RoarStep>
+    <RoarStep Name="mordor" WithDescription>
+        Mount Doom
+        <span slot="@StepSlot.Description">One does not simply walk into Mordor</span>
+    </RoarStep>
+</RoarStepper>
+
+<style>
+    .uneven-stepper wa-step[name='mordor'] {
+        flex: 3;
+    }
+</style>
+
+@code {
+    public string EventStep { get; set; } = "cart";
+    public string ContentStep { get; set; } = "cart";
+    public string GuardedStep { get; set; } = "shipping";
+    public bool UnsavedChanges { get; set; } = true;
+    public string GuardMessage { get; set; } = "";
+    public string[] StepNames { get; } = ["cart", "shipping", "payment"];
+    public Dictionary<string, bool> EventCompletedSteps { get; } = new() { ["cart"] = true, ["shipping"] = false, ["payment"] = false };
+    public Dictionary<string, bool> GuardCompletedSteps { get; } = new() { ["cart"] = true, ["shipping"] = false, ["payment"] = false };
+
+    public void HandleStepChange(StepperStepChangeEventArgs args)
+    {
+        if (args.PreviousName is null)
+        {
+            return;
+        }
+
+        if (Array.IndexOf(StepNames, args.Name) > Array.IndexOf(StepNames, args.PreviousName))
+        {
+            EventCompletedSteps[args.PreviousName] = true;
+        }
+        else
+        {
+            EventCompletedSteps[args.Name] = false;
+        }
+    }
+
+    public void HandleBeforeStepChange(StepperStepChangeEventArgs args) => GuardMessage = UnsavedChanges ? "Blocked by unsaved changes" : "";
+
+    public void HandleGuardedStepChange(StepperStepChangeEventArgs args)
+    {
+        if (args.PreviousName is not null)
+        {
+            GuardCompletedSteps[args.PreviousName] = true;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 using RoarUI.Infrastructure;
 
-namespace RoarUI.Definitions.Step;
+namespace RoarUI.Definitions.Stepper;
 
 [StringEnum("StepSlot")]
 [StringEnumMember("Description")]
