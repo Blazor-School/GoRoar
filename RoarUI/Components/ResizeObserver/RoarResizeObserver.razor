@@ -1,0 +1,30 @@
+@namespace RoarUI
+
+<RoarDependency ComponentName="resize-observer" />
+
+<wa-resize-observer disabled="@Disabled" @onroarresize="OnResize" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-resize-observer>
+
+@code {
+    /// <summary>
+    /// One or more elements to watch for resizing.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Disables the observer.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Emitted when the observed elements change size.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RoarResizeEventArgs> OnResize { get; set; }
+}

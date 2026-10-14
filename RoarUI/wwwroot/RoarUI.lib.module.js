@@ -82,6 +82,27 @@ function registerRoarEvents(blazor) {
                 }
             }
         },
+        roarresize: {
+            browserEventName: "wa-resize",
+            createEventArgs: event => ({
+                entries: event.detail.entries.map(entry => ({
+                    targetId: entry.target.id,
+                    contentRect: {
+                        x: entry.contentRect.x,
+                        y: entry.contentRect.y,
+                        width: entry.contentRect.width,
+                        height: entry.contentRect.height,
+                        top: entry.contentRect.top,
+                        right: entry.contentRect.right,
+                        bottom: entry.contentRect.bottom,
+                        left: entry.contentRect.left
+                    },
+                    borderBoxSize: Array.from(entry.borderBoxSize ?? [], size => ({ inlineSize: size.inlineSize, blockSize: size.blockSize })),
+                    contentBoxSize: Array.from(entry.contentBoxSize ?? [], size => ({ inlineSize: size.inlineSize, blockSize: size.blockSize })),
+                    devicePixelContentBoxSize: Array.from(entry.devicePixelContentBoxSize ?? [], size => ({ inlineSize: size.inlineSize, blockSize: size.blockSize }))
+                }))
+            })
+        },
         roartabshow: {
             browserEventName: "wa-tab-show",
             createEventArgs: event => {
