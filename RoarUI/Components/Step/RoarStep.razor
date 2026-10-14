@@ -1,0 +1,63 @@
+@namespace RoarUI
+
+<RoarDependency ComponentName="step" />
+
+<wa-step active="@Active" attention="@Attention" completed="@Completed" disabled="@Disabled" loading="@Loading" name="@Name" variant="@Variant" with-description="@WithDescription" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-step>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Draws the step as the current step. The parent stepper manages this value; only set it explicitly for server-side rendering.
+    /// </summary>
+    [Parameter]
+    public bool Active { get; set; } = false;
+
+    /// <summary>
+    /// Adds an animation to the step's marker to draw attention to it.
+    /// </summary>
+    [Parameter]
+    public StepAttention Attention { get; set; }
+
+    /// <summary>
+    /// Marks the step as completed and shows a checkmark instead of the step number.
+    /// </summary>
+    [Parameter]
+    public bool Completed { get; set; } = false;
+
+    /// <summary>
+    /// Makes the step non-interactive and prevents the parent stepper from navigating to it.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Shows a loading indicator instead of the step number.
+    /// </summary>
+    [Parameter]
+    public bool Loading { get; set; } = false;
+
+    /// <summary>
+    /// Identifies the step. Matched against the parent stepper's active attribute and used in its events.
+    /// </summary>
+    [Parameter]
+    public string Name { get; set; } = "";
+
+    /// <summary>
+    /// Colors the step's marker. Pair semantic colors with an icon and a clear label to communicate status accessibly.
+    /// </summary>
+    [Parameter]
+    public StepVariant Variant { get; set; }
+
+    /// <summary>
+    /// Includes the description in server-rendered markup when content is provided in the description slot.
+    /// </summary>
+    [Parameter]
+    public bool WithDescription { get; set; } = false;
+}

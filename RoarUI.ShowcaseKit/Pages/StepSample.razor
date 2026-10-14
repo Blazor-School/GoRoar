@@ -1,0 +1,65 @@
+@page "/step-sample"
+
+<RoarDependency ComponentName="stepper" />
+
+<h1>Step</h1>
+<p>Use RoarStep inside a wa-stepper. The parent manages the step numbers and current step.</p>
+
+<h3>Labels and Descriptions</h3>
+<wa-stepper active="shipping" label="Checkout">
+    <RoarStep Name="cart" Completed>Cart</RoarStep>
+    <RoarStep Name="shipping" Active WithDescription>
+        Shipping
+        <span slot="@StepSlot.Description">Enter your address</span>
+    </RoarStep>
+    <RoarStep Name="payment">Payment</RoarStep>
+</wa-stepper>
+
+<h3>Variants and Custom Icons</h3>
+<wa-stepper active="review" label="Review status">
+    <RoarStep Name="neutral" Variant="StepVariant.Neutral" Completed>Received</RoarStep>
+    <RoarStep Name="brand" Variant="StepVariant.Brand" Completed>Processing</RoarStep>
+    <RoarStep Name="success" Variant="StepVariant.Success" Completed>Verified</RoarStep>
+    <RoarStep Name="review" Variant="StepVariant.Warning" WithDescription>
+        Review required
+        <RoarIcon slot="@StepSlot.Icon" Name="triangle-exclamation" />
+        <span slot="@StepSlot.Description">Check your account details</span>
+    </RoarStep>
+    <RoarStep Name="failed" Variant="StepVariant.Danger" WithDescription>
+        Payment failed
+        <RoarIcon slot="@StepSlot.Icon" Name="circle-xmark" />
+        <span slot="@StepSlot.Description">Update your payment method</span>
+    </RoarStep>
+</wa-stepper>
+
+<h3>Attention</h3>
+<div class="wa-stack">
+    <wa-stepper active="shipping" label="Pulse attention">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping" Attention="StepAttention.Pulse" style="--pulse-color: var(--wa-color-brand-50);">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </wa-stepper>
+    <wa-stepper active="shipping" label="Bounce attention">
+        <RoarStep Name="cart" Completed>Cart</RoarStep>
+        <RoarStep Name="shipping" Attention="StepAttention.Bounce">Shipping</RoarStep>
+        <RoarStep Name="payment">Payment</RoarStep>
+    </wa-stepper>
+</div>
+
+<h3>Loading, Completed, and Disabled States</h3>
+<wa-stepper active="shipping" label="Interactive checkout" clickable>
+    <RoarStep Name="cart" Completed="CartCompleted">Cart</RoarStep>
+    <RoarStep Name="shipping" Loading="ShippingLoading">Shipping</RoarStep>
+    <RoarStep Name="payment" Disabled="PaymentDisabled">Payment</RoarStep>
+</wa-stepper>
+<div class="wa-cluster">
+    <RoarSwitch @bind-Value="CartCompleted">Cart completed</RoarSwitch>
+    <RoarSwitch @bind-Value="ShippingLoading">Shipping loading</RoarSwitch>
+    <RoarSwitch @bind-Value="PaymentDisabled">Payment disabled</RoarSwitch>
+</div>
+
+@code {
+    public bool CartCompleted { get; set; } = true;
+    public bool ShippingLoading { get; set; } = true;
+    public bool PaymentDisabled { get; set; } = true;
+}
