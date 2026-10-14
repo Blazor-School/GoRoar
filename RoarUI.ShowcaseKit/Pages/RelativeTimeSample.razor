@@ -1,0 +1,46 @@
+@page "/relative-time-sample"
+
+<h3>Sync</h3>
+<RoarRelativeTime Date="SyncDate" Sync="KeepUpdated" />
+<RoarSwitch @bind-Value="KeepUpdated">Keep up to date</RoarSwitch>
+<RoarButton @onclick="() => SyncDate = DateTime.UtcNow.AddSeconds(-89)">Reset to 89 seconds ago</RoarButton>
+
+<h3>Format</h3>
+<div>Narrow: <RoarRelativeTime Date="ReleaseDate" Format="RelativeTimeFormat.Narrow" /></div>
+<div>Short: <RoarRelativeTime Date="ReleaseDate" Format="RelativeTimeFormat.Short" /></div>
+<div>Long: <RoarRelativeTime Date="ReleaseDate" Format="RelativeTimeFormat.Long" /></div>
+
+<h3>Localization</h3>
+<div>English: <RoarRelativeTime Date="ReleaseDate" lang="en-US" /></div>
+<div>Chinese: <RoarRelativeTime Date="ReleaseDate" lang="zh-CN" /></div>
+<div>German: <RoarRelativeTime Date="ReleaseDate" lang="de" /></div>
+<div>Greek: <RoarRelativeTime Date="ReleaseDate" lang="el" /></div>
+<div>Ukrainian: <RoarRelativeTime Date="ReleaseDate" lang="uk" /></div>
+
+<h3>Numeric</h3>
+<div>Auto: <RoarRelativeTime Date="Tomorrow" Numeric="RelativeTimeNumeric.Auto" /></div>
+<div>Always: <RoarRelativeTime Date="Tomorrow" Numeric="RelativeTimeNumeric.Always" /></div>
+
+<h3>Changing Parameters</h3>
+<RoarRelativeTime Date="SelectedDate" Format="SelectedFormat" Numeric="SelectedNumeric" />
+<RoarButton @onclick="() => SelectedDate = DateTime.UtcNow.AddDays(-1)">Yesterday</RoarButton>
+<RoarButton @onclick="() => SelectedDate = DateTime.UtcNow.AddDays(1)">Tomorrow</RoarButton>
+<RoarSelect Label="Format" @bind-Value="SelectedFormat">
+    <RoarOption Value="RelativeTimeFormat.Long">Long</RoarOption>
+    <RoarOption Value="RelativeTimeFormat.Short">Short</RoarOption>
+    <RoarOption Value="RelativeTimeFormat.Narrow">Narrow</RoarOption>
+</RoarSelect>
+<RoarSelect Label="Numeric" @bind-Value="SelectedNumeric">
+    <RoarOption Value="RelativeTimeNumeric.Auto">Auto</RoarOption>
+    <RoarOption Value="RelativeTimeNumeric.Always">Always</RoarOption>
+</RoarSelect>
+
+@code {
+    private DateTime ReleaseDate { get; } = new(2025, 12, 2, 5, 0, 0, DateTimeKind.Utc);
+    private DateTime SyncDate { get; set; } = DateTime.UtcNow.AddMinutes(-1);
+    private bool KeepUpdated { get; set; } = true;
+    private DateTime Tomorrow { get; } = DateTime.UtcNow.AddDays(1);
+    private DateTime SelectedDate { get; set; } = DateTime.UtcNow.AddDays(-1);
+    private RelativeTimeFormat SelectedFormat { get; set; }
+    private RelativeTimeNumeric SelectedNumeric { get; set; }
+}

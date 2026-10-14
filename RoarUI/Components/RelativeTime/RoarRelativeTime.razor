@@ -1,0 +1,34 @@
+@namespace RoarUI
+
+<RoarDependency ComponentName="relative-time" />
+
+<wa-relative-time date="@Date.ToString("O")" format="@Format" numeric="@Numeric" sync="@Sync" @attributes="AdditionalAttributes"></wa-relative-time>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The date/time from which to calculate relative time. Defaults to the current UTC date and time.
+    /// </summary>
+    [Parameter]
+    public DateTime Date { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// The formatting style to use.
+    /// </summary>
+    [Parameter]
+    public RelativeTimeFormat Format { get; set; }
+
+    /// <summary>
+    /// When auto, values such as "yesterday" and "tomorrow" will be shown when possible. When always, values such as "1 day ago" and "in 1 day" will be shown.
+    /// </summary>
+    [Parameter]
+    public RelativeTimeNumeric Numeric { get; set; }
+
+    /// <summary>
+    /// Keep the displayed value up to date as time passes.
+    /// </summary>
+    [Parameter]
+    public bool Sync { get; set; }
+}
