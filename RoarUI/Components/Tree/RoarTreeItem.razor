@@ -29,9 +29,6 @@
     [Parameter]
     public EventCallback<bool> ExpandedChanged { get; set; }
 
-    [Parameter]
-    public Expression<Func<bool>>? ExpandedExpression { get; set; }
-
     /// <summary>
     /// Enables lazy loading behavior.
     /// </summary>
@@ -40,9 +37,6 @@
 
     [Parameter]
     public EventCallback<bool> LazyChanged { get; set; }
-
-    [Parameter]
-    public Expression<Func<bool>>? LazyExpression { get; set; }
 
     /// <summary>
     /// Emitted after the tree item collapses and all animations are complete.

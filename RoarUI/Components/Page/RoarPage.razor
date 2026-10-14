@@ -47,9 +47,6 @@
     [Parameter]
     public EventCallback<bool> NavOpenChanged { get; set; }
 
-    [Parameter]
-    public Expression<Func<bool>>? NavOpenExpression { get; set; }
-
     /// <summary>
     /// The nonce for the injected mobile styles. Falls back to window.litNonce when omitted.
     /// </summary>
@@ -73,8 +70,5 @@
     /// </summary>
     public ValueTask ToggleNavigationAsync() => CallComponentVoidFunctionAsync("toggleNavigation");
 
-    public async Task TriggerNavigationChangeAsync()
-    {
-        await SyncComponentPropertyAsync(nameof(NavOpen), "navOpen", NavOpenChanged);
-    }
+    public Task TriggerNavigationChangeAsync() => SyncComponentPropertyAsync(nameof(NavOpen), "navOpen", NavOpenChanged);
 }

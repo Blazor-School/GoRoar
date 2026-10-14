@@ -35,9 +35,6 @@
     [Parameter]
     public EventCallback<double> PositionChanged { get; set; }
 
-    [Parameter]
-    public Expression<Func<double>>? PositionExpression { get; set; }
-
     /// <summary>
     /// If no primary panel is designated, both panels will resize proportionally when the host element is resized. If a primary panel is designated, it will maintain its size and the other panel will grow or shrink as needed when the host element is resized.
     /// </summary>

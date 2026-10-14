@@ -1,9 +1,8 @@
 ﻿@namespace RoarUI
-@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tag" />
 
-<wa-tag appearance="@Appearance" pill="@Pill" size="@Size" variant="@Variant" with-remove="@WithRemove" @onroarremove="TriggerRemove" @ref="Element" @attributes="AdditionalAttributes">
+<wa-tag appearance="@Appearance" pill="@Pill" size="@Size" variant="@Variant" with-remove="@WithRemove" @onroarremove="TriggerRemove" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-tag>
 

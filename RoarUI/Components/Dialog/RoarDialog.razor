@@ -47,9 +47,6 @@
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
-    [Parameter]
-    public Expression<Func<bool>>? OpenExpression { get; set; }
-
     /// <summary>
     /// Only required for SSR. Set to true if you're slotting in a footer element so the server-rendered markup includes the footer before the component hydrates on the client.
     /// </summary>
