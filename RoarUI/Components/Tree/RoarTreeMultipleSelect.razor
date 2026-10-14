@@ -1,10 +1,9 @@
 ﻿@namespace RoarUI
-@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tree" />
 
 <CascadingValue Value="this" Name="Parent" IsFixed>
-    <wa-tree selection="multiple" @onroarselectionchange="TriggerSelectionChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+    <wa-tree selection="multiple" @onroarselectionchange="TriggerSelectionChangeAsync" @attributes="AdditionalAttributes">
         @ChildContent
     </wa-tree>
 </CascadingValue>
@@ -24,9 +23,6 @@
 
     [Parameter]
     public EventCallback<List<string>> ValuesChanged { get; set; }
-
-    [Parameter]
-    public Expression<Func<List<string>>>? ValuesExpression { get; set; }
 
     private Task TriggerSelectionChangeAsync(RoarSelectionChangeEventArgs args) => TriggerValuesChange(new(args.Tree.SelectedValues));
 

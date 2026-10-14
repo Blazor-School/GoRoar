@@ -134,7 +134,5 @@
     /// </summary>
     public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
 
-    protected override string FormatValueAsString(double value) => value.ToString();
-
     protected override bool TryParseValueFromString(string? value, out double result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"Bind to '{nameof(Value)}' instead of '{nameof(CurrentValueAsString)}'.");
 }

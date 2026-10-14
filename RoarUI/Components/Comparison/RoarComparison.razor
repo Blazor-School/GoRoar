@@ -20,9 +20,6 @@
     [Parameter]
     public EventCallback<double> PositionChanged { get; set; }
 
-    [Parameter]
-    public Expression<Func<double>>? PositionExpression { get; set; }
-
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
         Position = args.Comparison.Position;

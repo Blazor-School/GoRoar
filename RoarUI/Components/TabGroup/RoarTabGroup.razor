@@ -1,9 +1,8 @@
 ﻿@namespace RoarUI
-@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="tab-group" />
 
-<wa-tab-group activation="@Activation" active="@ActiveTabName" placement="@Placement" without-scroll-controls="@WithoutScrollControls" @onroartabhide="TriggerTabHide" @onroartabshow="TriggerTabShow" @ref="Element" @attributes="AdditionalAttributes">
+<wa-tab-group activation="@Activation" active="@ActiveTabName" placement="@Placement" without-scroll-controls="@WithoutScrollControls" @onroartabhide="TriggerTabHide" @onroartabshow="TriggerTabShow" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-tab-group>
 
@@ -28,9 +27,6 @@
 
     [Parameter]
     public EventCallback<string> ActiveTabNameChanged { get; set; }
-
-    [Parameter]
-    public Expression<Func<string>>? ActiveTabNameExpression { get; set; }
 
     /// <summary>
     /// The placement of the tabs.

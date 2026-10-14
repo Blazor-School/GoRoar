@@ -1,9 +1,8 @@
 @namespace RoarUI
-@inherits RoarJsComponentBase
 
 <RoarDependency ComponentName="pagination" />
 
-<wa-pagination appearance="@Appearance" boundary-count="@BoundaryCount" disabled="@Disabled" format="@Format" hide-single-page="@HideSinglePage" href-template="@HrefTemplate" label="@Label" page="@Page" page-size="@PageSize" sibling-count="@SiblingCount" total="@Total" with-edges="@WithEdges" without-nav="@WithoutNav" with-summary="@WithSummary" @onroarbeforepagechange="TriggerBeforePageChangeAsync" @onroarbeforepagechange:preventDefault="PreventPageChange" @onroarpagechange="TriggerPageChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-pagination appearance="@Appearance" boundary-count="@BoundaryCount" disabled="@Disabled" format="@Format" hide-single-page="@HideSinglePage" href-template="@HrefTemplate" label="@Label" page="@Page" page-size="@PageSize" sibling-count="@SiblingCount" total="@Total" with-edges="@WithEdges" without-nav="@WithoutNav" with-summary="@WithSummary" @onroarbeforepagechange="TriggerBeforePageChangeAsync" @onroarbeforepagechange:preventDefault="PreventPageChange" @onroarpagechange="TriggerPageChangeAsync" @attributes="AdditionalAttributes">
     @ChildContent
 </wa-pagination>
 
@@ -64,9 +63,6 @@
 
     [Parameter]
     public EventCallback<int> PageChanged { get; set; }
-
-    [Parameter]
-    public Expression<Func<int>>? PageExpression { get; set; }
 
     /// <summary>
     /// The number of items shown per page.

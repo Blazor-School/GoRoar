@@ -51,12 +51,6 @@
     public EventCallback<bool> OpenChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the bound open state.
-    /// </summary>
-    [Parameter]
-    public Expression<Func<bool>> OpenExpression { get; set; }
-
-    /// <summary>
     /// The preferred placement of the color picker's popup. Note that the actual placement will vary as configured to keep the panel inside of the viewport.
     /// </summary>
     [Parameter]
@@ -150,30 +144,38 @@
         return CallComponentFunctionAsync<string>("getHexString", hue, saturation, brightness, alpha);
     }
 
+    private ColorPickerSwatchesKind _lastSwatchesKind;
+    private string? _lastSwatches;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        switch (Swatches.Kind)
+        var kind = Swatches.Kind;
+        string swatches = Swatches.ToString();
+
+        if (kind == _lastSwatchesKind && string.Equals(swatches, _lastSwatches, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        switch (kind)
         {
             case ColorPickerSwatchesKind.Colors:
-                await SetComponentPropertyAsync("swatches", Swatches.ToString());
+                await SetComponentPropertyAsync("swatches", swatches);
                 break;
             case ColorPickerSwatchesKind.SwatchList:
-                await SetComponentPropertyWithJsonAsync("swatches", Swatches.ToString());
+                await SetComponentPropertyWithJsonAsync("swatches", swatches);
                 break;
             default:
                 break;
         }
+
+        _lastSwatchesKind = kind;
+        _lastSwatches = swatches;
     }
 
-    public async Task TriggerAfterHideAsync()
-    {
-        await OnAfterHide.InvokeAsync();
-    }
+    public Task TriggerAfterHideAsync() => OnAfterHide.InvokeAsync();
 
-    public async Task TriggerAfterShowAsync()
-    {
-        await OnAfterShow.InvokeAsync();
-    }
+    public Task TriggerAfterShowAsync() => OnAfterShow.InvokeAsync();
 
     public async Task TriggerHideAsync()
     {

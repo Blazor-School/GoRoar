@@ -45,12 +45,6 @@
     public EventCallback<bool> OpenChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the bound open.
-    /// </summary>
-    [Parameter]
-    public Expression<Func<bool>>? OpenExpression { get; set; }
-
-    /// <summary>
     /// The placement of the dropdown menu in reference to the trigger. The menu will shift to a more optimal location if the preferred placement doesn't have enough room.
     /// </summary>
     [Parameter]
@@ -82,12 +76,6 @@
     /// </summary>
     [Parameter]
     public EventCallback<string?> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the bound value.
-    /// </summary>
-    [Parameter]
-    public Expression<Func<string?>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Emitted when the dropdown is about to hide.

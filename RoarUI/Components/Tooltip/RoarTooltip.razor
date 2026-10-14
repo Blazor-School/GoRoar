@@ -127,23 +127,11 @@
             .Build();
     }
 
-    public async Task TriggerAfterHideAsync()
-    {
-        await OnAfterHide.InvokeAsync();
-    }
+    public Task TriggerAfterHideAsync() => OnAfterHide.InvokeAsync();
 
-    public async Task TriggerHideAsync()
-    {
-        await OnHide.InvokeAsync();
-    }
+    public Task TriggerHideAsync() => OnHide.InvokeAsync();
 
-    public async Task TriggerAfterShowAsync()
-    {
-        await OnAfterShow.InvokeAsync();
-    }
+    public Task TriggerAfterShowAsync() => OnAfterShow.InvokeAsync();
 
-    public async Task TriggerShowAsync()
-    {
-        await OnShow.InvokeAsync();
-    }
+    public Task TriggerShowAsync() => OnShow.InvokeAsync();
 }
