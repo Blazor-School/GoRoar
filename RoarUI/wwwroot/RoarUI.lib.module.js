@@ -151,6 +151,14 @@ function registerRoarEvents(blazor) {
             browserEventName: "wa-clear",
             createEventArgs: () => ({})
         },
+        roarcreate: {
+            browserEventName: "wa-create",
+            createEventArgs: event => ({ tagInput: { inputValue: event.detail.inputValue } })
+        },
+        roartaginputblur: {
+            browserEventName: "blur",
+            createEventArgs: event => ({ type: event.type })
+        },
         roarbeforeinput: {
             browserEventName: "beforeinput",
             createEventArgs: () => ({})
@@ -280,6 +288,8 @@ function createRoarValueEventArgs(event) {
             return { switch: { checked: event.target.checked } };
         case "wa-rating":
             return { rating: { value: event.target.value } };
+        case "wa-tag-input":
+            return { tagInput: { values: event.target.value, inputValue: event.target.inputValue } };
         case "wa-slider":
             return event.target.range
                 ? { rangeSlider: { minValue: event.target.minValue, maxValue: event.target.maxValue } }

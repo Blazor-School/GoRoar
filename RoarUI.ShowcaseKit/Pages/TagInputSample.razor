@@ -1,0 +1,169 @@
+@page "/tag-input-sample"
+
+<h3>Label</h3>
+<RoarTagInput Label="Skills" />
+<RoarTagInput WithLabel>
+    <span slot="@TagInputSlot.Label">Favorite <strong>skills</strong></span>
+</RoarTagInput>
+
+<h3>Hint</h3>
+<RoarTagInput Label="Ingredients" Hint="Press Enter or type a comma after each ingredient." />
+<RoarTagInput Label="Pantry" WithHint>
+    <span slot="@TagInputSlot.Hint">Press <strong>Enter</strong> after each ingredient.</span>
+</RoarTagInput>
+
+<h3>Placeholder</h3>
+<RoarTagInput Label="Guest list" Placeholder="Add a name" />
+
+<h3>Initial Value</h3>
+<RoarTagInput Label="Toppings" @bind-Value="Toppings" />
+
+<h3>Delimiter</h3>
+<div class="wa-stack">
+    <RoarTagInput Label="Space-separated" Delimiter=" " Placeholder="Type a word and a space" />
+    <RoarTagInput Label="Commas or semicolons" Delimiter=",;" Placeholder="Type a value and , or ;" />
+    <RoarTagInput Label="Enter only" Delimiter="" Placeholder="Type a value and press Enter" />
+</div>
+
+<h3>Pasting</h3>
+<RoarCopyButton Value="Cumin, Paprika, Coriander, Turmeric">
+    <RoarButton Appearance="ButtonAppearance.Filled">
+        <RoarIcon slot="@ButtonSlot.Start" Name="clipboard" />
+        Copy spices
+    </RoarButton>
+</RoarCopyButton>
+<RoarDivider />
+<RoarTagInput Label="Spices" Placeholder="Paste the copied list here" />
+
+<h3>Clearable</h3>
+<RoarTagInput Label="Tickers" @bind-Value="Tickers" WithClear OnClear="() => ClearCount++">
+    <RoarIcon slot="@TagInputSlot.ClearIcon" Name="eraser" />
+</RoarTagInput>
+<p>Tags: @string.Join(", ", Tickers). Clear events: @ClearCount.</p>
+
+<h3>Max Tags</h3>
+<RoarTagInput Label="Desert island albums" Hint="Choose up to three." @bind-Value="Albums" MaxTags="3" Placeholder="Add an album" />
+
+<h3>Allowing Duplicates</h3>
+<RoarTagInput Label="Dice rolls" @bind-Value="DiceRolls" AllowDuplicates Placeholder="Roll again" />
+
+<h3>Appearance</h3>
+<div class="wa-stack">
+    <RoarTagInput Appearance="InputAppearance.Outlined" @bind-Value="OutlinedTags" Label="Outlined" />
+    <RoarTagInput Appearance="InputAppearance.Filled" @bind-Value="FilledTags" Label="Filled" />
+    <RoarTagInput Appearance="InputAppearance.FilledOutlined" @bind-Value="FilledOutlinedTags" Label="Filled outlined" />
+</div>
+
+<h3>Pill</h3>
+<RoarTagInput Label="Interests" @bind-Value="Interests" Pill />
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarTagInput Size="InputSize.Xs" Label="Extra small" @bind-Value="ExtraSmallTags" />
+    <RoarTagInput Size="InputSize.S" Label="Small" @bind-Value="SmallTags" />
+    <RoarTagInput Size="InputSize.M" Label="Medium" @bind-Value="MediumTags" />
+    <RoarTagInput Size="InputSize.L" Label="Large" @bind-Value="LargeTags" />
+    <RoarTagInput Size="InputSize.Xl" Label="Extra large" @bind-Value="ExtraLargeTags" />
+</div>
+
+<h3>Disabled</h3>
+<RoarTagInput Label="Assignees" Value='new[] { "Ada", "Grace" }' Disabled />
+
+<h3>Readonly</h3>
+<RoarTagInput Label="Roles" Value='new[] { "Owner", "Maintainer" }' ReadOnly />
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarTagInput Label="Recipients" Placeholder="Add an email" InputMode="TagInputInputMode.Email">
+        <RoarIcon slot="@TagInputSlot.Start" Name="envelope" />
+    </RoarTagInput>
+    <RoarTagInput Label="Decorated keywords" Placeholder="Add a keyword">
+        <RoarIcon slot="@TagInputSlot.Start" Name="tag" />
+        <RoarIcon slot="@TagInputSlot.End" Name="circle-info" />
+    </RoarTagInput>
+</div>
+
+<h3>Rejecting Tags</h3>
+<RoarTagInput Label="Guarded tags" Hint="Turn off the switch to allow new tags." @bind-Value="GuardedTags" PreventTagCreation="PreventTagCreation" OnCreate="args => LastCreationAttempt = args.InputValue" />
+<RoarSwitch @bind-Value="PreventTagCreation">Prevent tag creation</RoarSwitch>
+<p>Last creation attempt: @LastCreationAttempt. Tags: @string.Join(", ", GuardedTags).</p>
+
+<h3>Reacting to Changes</h3>
+<RoarTagInput Label="Labels" @bind-Value="Labels" @bind-InputValue="PendingLabel" OnInput="() => InputCount++" OnChange="() => ChangeCount++" />
+<p>Labels: @(Labels.Length == 0 ? "(none)" : string.Join(", ", Labels)). Pending text: @PendingLabel</p>
+<p>Input events: @InputCount. Change events: @ChangeCount.</p>
+<RoarButton @onclick="SetLabels">Set tags from C#</RoarButton>
+<RoarButton @onclick='() => PendingLabel = "draft"'>Set pending text from C#</RoarButton>
+<RoarButton @onclick="ClearLabels">Clear tags and pending text from C#</RoarButton>
+
+<h3>Customizing</h3>
+<RoarTagInput class="tag-input-styled" Label="Genres" @bind-Value="Genres" />
+
+<style>
+    .tag-input-styled::part(tag) {
+        background-color: var(--wa-color-brand-fill-quiet);
+        border-color: var(--wa-color-brand-border-quiet);
+        color: var(--wa-color-brand-on-quiet);
+    }
+
+    .tag-input-styled::part(tag__remove-button) {
+        color: var(--wa-color-brand-on-quiet);
+    }
+</style>
+
+<h3>Focus and Blur</h3>
+<RoarTagInput @ref="MethodTagInput" Label="Tag input methods" @bind-Value="MethodTags" @bind-InputValue="MethodText" @onfocus="() => FocusCount++" @onblur="() => BlurCount++" />
+<RoarButton @onclick="async () => await MethodTagInput!.FocusAsync()">Focus tag input</RoarButton>
+<RoarButton @onclick="async () => await MethodTagInput!.BlurAsync()">Blur tag input</RoarButton>
+<p>Tags: @string.Join(", ", MethodTags). Pending text: @MethodText. Focus events: @FocusCount. Blur events: @BlurCount.</p>
+
+<h3>C# Validation</h3>
+<EditForm Model="Form" OnValidSubmit="() => Submitted = true" OnInvalidSubmit="() => Submitted = false" novalidate>
+    <DataAnnotationsValidator />
+    <RoarTagInput Label="Validated tags" Hint="Add between two and five tags." @bind-Value="Form.Tags" MaxTags="5" OnChange="() => Submitted = false" />
+    <ValidationMessage For="@(() => Form.Tags)" />
+    <RoarButton Type="ButtonType.Submit">Submit tags</RoarButton>
+</EditForm>
+<p>Submitted: @Submitted</p>
+
+@code {
+    private string[] Keywords { get; set; } = ["design", "accessibility"];
+    private string[] Topics { get; set; } = ["Design", "CSS"];
+    private string[] Toppings { get; set; } = ["Mushrooms", "Olives", "Peppers"];
+    private string[] Tickers { get; set; } = ["AAPL", "MSFT", "NVDA"];
+    private int ClearCount { get; set; }
+    private string[] Albums { get; set; } = ["Kind of Blue", "Rumours"];
+    private string[] DiceRolls { get; set; } = ["6", "6"];
+    private string[] OutlinedTags { get; set; } = ["Outlined"];
+    private string[] FilledTags { get; set; } = ["Filled"];
+    private string[] FilledOutlinedTags { get; set; } = ["Filled outlined"];
+    private string[] Interests { get; set; } = ["Hiking", "Chess"];
+    private string[] ExtraSmallTags { get; set; } = ["Extra small"];
+    private string[] SmallTags { get; set; } = ["Small"];
+    private string[] MediumTags { get; set; } = ["Medium"];
+    private string[] LargeTags { get; set; } = ["Large"];
+    private string[] ExtraLargeTags { get; set; } = ["Extra large"];
+    private string[] GuardedTags { get; set; } = [];
+    private bool PreventTagCreation { get; set; } = true;
+    private string LastCreationAttempt { get; set; } = "";
+    private string[] Labels { get; set; } = ["bug", "help wanted"];
+    private string PendingLabel { get; set; } = "";
+    private int InputCount { get; set; }
+    private int ChangeCount { get; set; }
+    private string[] Genres { get; set; } = ["Jazz", "Ambient", "Techno"];
+    private RoarTagInput? MethodTagInput { get; set; }
+    private string[] MethodTags { get; set; } = [];
+    private string MethodText { get; set; } = "";
+    private int FocusCount { get; set; }
+    private int BlurCount { get; set; }
+    private TagInputValidationForm Form { get; } = new();
+    private bool Submitted { get; set; }
+
+    private void SetLabels() => Labels = ["C#", "contains,comma", "contains;semicolon"];
+
+    private void ClearLabels()
+    {
+        Labels = [];
+        PendingLabel = "";
+    }
+}
