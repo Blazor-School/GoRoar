@@ -1,0 +1,95 @@
+@page "/resize-observer-sample"
+
+<h3>Resize Observer</h3>
+<div class="resize-observer-overview">
+    <RoarResizeObserver OnResize="args => OverviewRect = args.Entries[0].ContentRect">
+        <div class="box">
+            <span class="dimensions">@Math.Round(OverviewRect.Width) × @Math.Round(OverviewRect.Height)</span>
+        </div>
+    </RoarResizeObserver>
+    <small>Drag the box's bottom-right corner to resize it.</small>
+</div>
+
+<h3>Multiple Elements</h3>
+<RoarResizeObserver OnResize="HandleMultipleResize">
+    <div id="resize-first-box" class="resize-observer-box" style="width: @(MultipleExpanded ? 320 : 240)px;">First element</div>
+    <div id="resize-second-box" class="resize-observer-box" style="width: @(MultipleExpanded ? 280 : 200)px;">Second element</div>
+    @if (ShowExtraElement)
+    {
+        <div id="resize-extra-box" class="resize-observer-box">Additional element</div>
+    }
+</RoarResizeObserver>
+<RoarButton @onclick="() => MultipleExpanded = !MultipleExpanded">Resize both elements</RoarButton>
+<RoarSwitch @bind-Value="ShowExtraElement">Observe an additional element</RoarSwitch>
+<ul>
+    @foreach (var entry in MultipleEntries.Values)
+    {
+        @if (entry.TargetId != "resize-extra-box" || ShowExtraElement)
+        {
+            <li>@entry.TargetId: @Math.Round(entry.ContentRect.Width) × @Math.Round(entry.ContentRect.Height)</li>
+        }
+    }
+</ul>
+
+<h3>Disabled</h3>
+<RoarResizeObserver Disabled="ObserverDisabled" OnResize="args => DisabledRect = args.Entries[0].ContentRect">
+    <div class="resize-observer-box" style="width: @(DisabledExpanded ? 320 : 240)px;">Resize this element</div>
+</RoarResizeObserver>
+<RoarSwitch @bind-Value="ObserverDisabled">Disable observer</RoarSwitch>
+<RoarButton @onclick="() => DisabledExpanded = !DisabledExpanded">Change element size</RoarButton>
+<p>Reported size: @Math.Round(DisabledRect.Width) × @Math.Round(DisabledRect.Height)</p>
+
+<style>
+    .resize-observer-overview .box {
+        display: flex;
+        resize: both;
+        overflow: auto;
+        width: 20rem;
+        height: 8rem;
+        min-width: 8rem;
+        min-height: 5rem;
+        align-items: center;
+        justify-content: center;
+        border: dashed 2px var(--wa-color-surface-border);
+        border-radius: var(--wa-border-radius-m);
+        font-size: 1.25rem;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .resize-observer-overview small {
+        display: block;
+        margin-block-start: var(--wa-space-s);
+    }
+
+    .resize-observer-box {
+        box-sizing: content-box;
+        resize: both;
+        overflow: auto;
+        width: 15rem;
+        height: 5rem;
+        min-width: 8rem;
+        min-height: 3rem;
+        max-width: 100%;
+        border: dashed 2px var(--wa-color-surface-border);
+        border-radius: var(--wa-border-radius-m);
+        margin-block-end: var(--wa-space-s);
+    }
+</style>
+
+@code {
+    private ResizeObserverRect OverviewRect { get; set; } = new(0, 0, 0, 0, 0, 0, 0, 0);
+    private Dictionary<string, ResizeObserverEntry> MultipleEntries { get; } = [];
+    private bool MultipleExpanded { get; set; }
+    private bool ShowExtraElement { get; set; }
+    private bool ObserverDisabled { get; set; }
+    private bool DisabledExpanded { get; set; }
+    private ResizeObserverRect DisabledRect { get; set; } = new(0, 0, 0, 0, 0, 0, 0, 0);
+
+    private void HandleMultipleResize(RoarResizeEventArgs args)
+    {
+        foreach (var entry in args.Entries)
+        {
+            MultipleEntries[entry.TargetId] = entry;
+        }
+    }
+}
