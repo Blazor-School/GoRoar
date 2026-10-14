@@ -14,4 +14,5 @@ public class RoarChangeEventArgs : EventArgs
     public RadioGroupChangeEventArgs? RadioGroup { get; set; }
     public ColorPickerChangeEventArgs? ColorPicker { get; set; }
     public SelectChangeEventArgs? Select { get; set; }
+    public TagInputChangeEventArgs? TagInput { get; set; }
 }
