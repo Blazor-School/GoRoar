@@ -1,0 +1,160 @@
+@page "/time-input-sample"
+
+<h3>Initial Value</h3>
+<RoarTimeInput Label="Meeting time" @bind-Value="MeetingTime" />
+<p>Meeting time: @MeetingTime.ToString("HH:mm")</p>
+
+<h3>Label</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="What time works for you?" />
+<RoarTimeInput TValue="TimeOnly?" WithLabel>
+    <span slot="@TimeInputSlot.Label">Preferred <strong>meeting time</strong></span>
+</RoarTimeInput>
+
+<h3>Hint</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="Wake up" Hint="Set the time your alarm should go off." />
+<RoarTimeInput TValue="TimeOnly?" Label="Reminder" WithHint>
+    <span slot="@TimeInputSlot.Hint">Choose a time in your <strong>local timezone</strong>.</span>
+</RoarTimeInput>
+
+<h3>Start & End Decorations</h3>
+<div class="wa-stack">
+    <RoarTimeInput TValue="TimeOnly?" Label="Start">
+        <RoarIcon slot="@TimeInputSlot.Start" Name="hourglass-start" />
+    </RoarTimeInput>
+    <RoarTimeInput TValue="TimeOnly?" Label="End">
+        <RoarIcon slot="@TimeInputSlot.End" Name="hourglass-end" />
+    </RoarTimeInput>
+</div>
+
+<h3>Clearable</h3>
+<RoarTimeInput Label="Alarm" @bind-Value="Alarm" WithClear OnClear="() => ClearCount++">
+    <RoarIcon slot="@TimeInputSlot.ClearIcon" Name="eraser" />
+</RoarTimeInput>
+<p>Alarm: @(Alarm?.ToString("HH:mm") ?? "(none)"). Clear events: @ClearCount.</p>
+
+<h3>Min & Max</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="Office hours" Min="new TimeOnly(9, 0)" Max="new TimeOnly(17, 0)" />
+<RoarTimeInput TValue="TimeOnly?" Label="Overnight shift" Min="new TimeOnly(22, 0)" Max="new TimeOnly(6, 0)" />
+
+<h3>Step</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="Every 5 minutes" Step="300" />
+<RoarTimeInput Label="With seconds" @bind-Value="SecondsTime" Step="1" HourFormat="TimeInputHourFormat.TwentyFourHour" />
+<p>With seconds: @SecondsTime.ToString("HH:mm:ss")</p>
+<RoarTimeInput Label="Any step (string value)" @bind-Value="WireTime" Step="any" />
+<p>Wire value: @WireTime</p>
+
+<h3>12-Hour vs 24-Hour</h3>
+<RoarTimeInput Label="12-hour" @bind-Value="TwelveHourTime" HourFormat="TimeInputHourFormat.TwelveHour" />
+<RoarTimeInput Label="24-hour" @bind-Value="TwentyFourHourTime" HourFormat="TimeInputHourFormat.TwentyFourHour" />
+
+<h3>Localized</h3>
+<RoarTimeInput Label="English (US)" @bind-Value="UsTime" lang="en-US" />
+<RoarTimeInput Label="English (UK)" @bind-Value="UkTime" lang="en-GB" />
+<RoarTimeInput Label="German" @bind-Value="GermanTime" lang="de-DE" />
+
+<h3>Now Button</h3>
+<RoarTimeInput Label="When?" @bind-Value="NowTime" WithNow />
+<p>Selected: @(NowTime?.ToString("HH:mm") ?? "(none)")</p>
+
+<h3>Size</h3>
+<div class="wa-stack">
+    <RoarTimeInput TValue="TimeOnly?" Label="Extra small" Size="InputSize.Xs" />
+    <RoarTimeInput TValue="TimeOnly?" Label="Small" Size="InputSize.S" />
+    <RoarTimeInput TValue="TimeOnly?" Label="Medium" Size="InputSize.M" />
+    <RoarTimeInput TValue="TimeOnly?" Label="Large" Size="InputSize.L" />
+    <RoarTimeInput TValue="TimeOnly?" Label="Extra large" Size="InputSize.Xl" />
+</div>
+
+<h3>Appearance</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="Outlined" Appearance="InputAppearance.Outlined" />
+<RoarTimeInput TValue="TimeOnly?" Label="Filled" Appearance="InputAppearance.Filled" />
+<RoarTimeInput TValue="TimeOnly?" Label="Filled outlined" Appearance="InputAppearance.FilledOutlined" />
+
+<h3>Pill</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="Pill" Pill />
+
+<h3>Disabled</h3>
+<RoarTimeInput Label="Disabled" Value="new TimeOnly(9, 0)" Disabled />
+
+<h3>Readonly</h3>
+<RoarTimeInput Label="Read-only" Value="new TimeOnly(9, 0)" ReadOnly />
+
+<h3>Custom Popup</h3>
+<RoarTimeInput TValue="TimeOnly?" Label="Custom popup" Placement="TimeInputPlacement.TopEnd" Distance="8" ColumnWidth="4em" ColumnItemHeight="2.5em" ShowDuration="100ms" HideDuration="100ms" WithNow>
+    <RoarIcon slot="@TimeInputSlot.ExpandIcon" Name="calendar-clock" />
+    <span slot="@TimeInputSlot.Footer">Choose a time from the columns above.</span>
+</RoarTimeInput>
+
+<h3>Binding, Events &amp; Methods</h3>
+<RoarTimeInput @ref="MethodInput" Label="Interactive time" @bind-Value="InteractiveTime" @bind-Open="Open" WithClear WithNow HourFormat="TimeInputHourFormat.TwentyFourHour" OnInput="() => InputCount++" OnChange="() => ChangeCount++" OnShow="() => ShowCount++" OnAfterShow="() => AfterShowCount++" OnHide="() => HideCount++" OnAfterHide="() => AfterHideCount++" @onfocus="() => FocusCount++" @onblur="() => BlurCount++" />
+<div class="wa-cluster">
+    <RoarButton @onclick="() => InteractiveTime = new TimeOnly(16, 45)">Set time from C#</RoarButton>
+    <RoarButton @onclick="() => InteractiveTime = null">Clear time from C#</RoarButton>
+    <RoarButton @onclick="async () => await MethodInput!.ShowAsync()">Show picker</RoarButton>
+    <RoarButton @onclick="async () => await MethodInput!.HideAsync()">Hide picker</RoarButton>
+    <RoarButton @onclick="() => Open = !Open">Toggle bound Open</RoarButton>
+    <RoarButton @onclick="async () => await MethodInput!.FocusAsync()">Focus time</RoarButton>
+    <RoarButton @onclick="async () => await MethodInput!.BlurAsync()">Blur time</RoarButton>
+    <RoarButton @onclick="ReadValuesAsync">Read date and number</RoarButton>
+</div>
+<p>Interactive value: @(InteractiveTime?.ToString("HH:mm") ?? "(none)"). Open: @Open.</p>
+<p>Input: @InputCount. Change: @ChangeCount. Focus: @FocusCount. Blur: @BlurCount.</p>
+<p>Show: @ShowCount. After show: @AfterShowCount. Hide: @HideCount. After hide: @AfterHideCount.</p>
+<p>Date (UTC): @(ValueAsDate?.ToString("O") ?? "(none)"). Milliseconds since midnight: @(ValueAsNumber?.ToString() ?? "(none)").</p>
+
+<h3>Prevent Opening &amp; Closing</h3>
+<RoarTimeInput @ref="GuardedInput" Label="Guarded picker" @bind-Value="GuardedTime" @bind-Open="GuardedOpen" KeepClosed="KeepClosed" KeepOpen="KeepOpen" />
+<RoarSwitch @bind-Value="KeepClosed">Keep picker closed</RoarSwitch>
+<RoarSwitch @bind-Value="KeepOpen">Keep picker open</RoarSwitch>
+<RoarButton @onclick="async () => await GuardedInput!.ShowAsync()">Show guarded picker</RoarButton>
+<RoarButton @onclick="async () => await GuardedInput!.HideAsync()">Hide guarded picker</RoarButton>
+<p>Guarded open: @GuardedOpen.</p>
+
+<h3>C# Validation</h3>
+<EditForm Model="Form" OnValidSubmit="() => Submitted = true" OnInvalidSubmit="() => Submitted = false" novalidate>
+    <DataAnnotationsValidator />
+    <RoarTimeInput Label="Required appointment" @bind-Value="Form.Appointment" WithClear OnInput="() => Submitted = false" />
+    <ValidationMessage For="@(() => Form.Appointment)" />
+    <RoarButton Type="ButtonType.Submit">Submit appointment</RoarButton>
+</EditForm>
+<p>Submitted: @Submitted</p>
+
+@code {
+    private TimeOnly MeetingTime { get; set; } = new(14, 30);
+    private TimeOnly? Alarm { get; set; } = new(7, 0);
+    private int ClearCount { get; set; }
+    private TimeOnly SecondsTime { get; set; } = new(14, 30, 15);
+    private string WireTime { get; set; } = "09:15";
+    private TimeOnly TwelveHourTime { get; set; } = new(9, 0);
+    private TimeOnly TwentyFourHourTime { get; set; } = new(9, 0);
+    private TimeOnly UsTime { get; set; } = new(14, 30);
+    private TimeOnly UkTime { get; set; } = new(14, 30);
+    private TimeOnly GermanTime { get; set; } = new(14, 30);
+    private TimeOnly? NowTime { get; set; }
+    private RoarTimeInput<TimeOnly?>? MethodInput { get; set; }
+    private TimeOnly? InteractiveTime { get; set; } = new(10, 30);
+    private bool Open { get; set; }
+    private int InputCount { get; set; }
+    private int ChangeCount { get; set; }
+    private int FocusCount { get; set; }
+    private int BlurCount { get; set; }
+    private int ShowCount { get; set; }
+    private int AfterShowCount { get; set; }
+    private int HideCount { get; set; }
+    private int AfterHideCount { get; set; }
+    private DateTime? ValueAsDate { get; set; }
+    private double? ValueAsNumber { get; set; }
+    private RoarTimeInput<TimeOnly?>? GuardedInput { get; set; }
+    private TimeOnly? GuardedTime { get; set; }
+    private bool GuardedOpen { get; set; }
+    private bool KeepClosed { get; set; } = true;
+    private bool KeepOpen { get; set; }
+    private TimeInputValidationForm Form { get; } = new();
+    private bool Submitted { get; set; }
+
+    private async Task ReadValuesAsync()
+    {
+        ValueAsDate = await MethodInput!.GetValueAsDateAsync();
+        ValueAsNumber = await MethodInput.GetValueAsNumberAsync();
+    }
+}

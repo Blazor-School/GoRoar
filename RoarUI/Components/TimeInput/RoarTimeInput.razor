@@ -1,0 +1,371 @@
+@namespace RoarUI
+@inherits RoarUI.Components.Input.RoarInputBase<TValue>
+@typeparam TValue
+
+<RoarDependency ComponentName="time-input" />
+
+<wa-time-input appearance="@Appearance" autocomplete="@Autocomplete" disabled="@Disabled" distance="@Distance" hint="@Hint" hour-format="@HourFormat" label="@Label" min="@FormatTime(Min)" max="@FormatTime(Max)" open="@Open" pill="@Pill" placement="@Placement" readonly="@ReadOnly" size="@Size" step="@Step" value="@CurrentValueAsString" with-clear="@WithClear" with-hint="@WithHint" with-label="@WithLabel" with-now="@WithNow" @onroarinput="TriggerInputAsync" @onroarchange="TriggerChangeAsync" @onroarclear="TriggerClearAsync" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarafterhide="TriggerAfterHideAsync" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-time-input>
+
+@code {
+    /// <summary>
+    /// The time input's visual appearance.
+    /// </summary>
+    [Parameter]
+    public InputAppearance Appearance { get; set; }
+
+    /// <summary>
+    /// Forwarded to the hidden form input to enable browser autofill (on/off/custom tokens).
+    /// </summary>
+    [Parameter]
+    public string Autocomplete { get; set; } = "";
+
+    /// <summary>
+    /// Disables the time input.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Distance in pixels between the popup and the input.
+    /// </summary>
+    [Parameter]
+    public double Distance { get; set; } = 0;
+
+    /// <summary>
+    /// The hint text. Use the hint slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Hint { get; set; } = "";
+
+    /// <summary>
+    /// The display clock format. Auto follows the resolved locale.
+    /// </summary>
+    [Parameter]
+    public TimeInputHourFormat HourFormat { get; set; }
+
+    /// <summary>
+    /// The label text. Use the label slot for HTML.
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// The earliest selectable time. May be later than Max for an overnight range.
+    /// </summary>
+    [Parameter]
+    public TimeOnly? Min { get; set; }
+
+    /// <summary>
+    /// The latest selectable time.
+    /// </summary>
+    [Parameter]
+    public TimeOnly? Max { get; set; }
+
+    /// <summary>
+    /// Shows or hides the popup. Supports two-way binding.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<bool>>? OpenExpression { get; set; }
+
+    /// <summary>
+    /// Draws a time input with rounded edges.
+    /// </summary>
+    [Parameter]
+    public bool Pill { get; set; }
+
+    /// <summary>
+    /// Preferred popup placement.
+    /// </summary>
+    [Parameter]
+    public TimeInputPlacement Placement { get; set; }
+
+    /// <summary>
+    /// Makes the input non-editable. The popup can still open for browsing.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// The time input's size.
+    /// </summary>
+    [Parameter]
+    public InputSize Size { get; set; }
+
+    /// <summary>
+    /// Granularity in seconds. Values below 60 reveal seconds; any allows arbitrary steps.
+    /// </summary>
+    [Parameter]
+    public string Step { get; set; } = "60";
+
+    /// <summary>
+    /// Shows a clear button when the time input has a value.
+    /// </summary>
+    [Parameter]
+    public bool WithClear { get; set; }
+
+    /// <summary>
+    /// Includes the hint slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithHint { get; set; }
+
+    /// <summary>
+    /// Includes the label slot in server-rendered markup.
+    /// </summary>
+    [Parameter]
+    public bool WithLabel { get; set; }
+
+    /// <summary>
+    /// Shows a Now button in the popup footer.
+    /// </summary>
+    [Parameter]
+    public bool WithNow { get; set; }
+
+    /// <summary>
+    /// Prevents the popup from closing when a hide event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepOpen { get; set; }
+
+    /// <summary>
+    /// Prevents the popup from opening when a show event is raised.
+    /// </summary>
+    [Parameter]
+    public bool KeepClosed { get; set; }
+
+    /// <summary>
+    /// Height of each option in a popup column.
+    /// </summary>
+    [Parameter]
+    public string ColumnItemHeight { get; set; } = "";
+
+    /// <summary>
+    /// Width of each popup column.
+    /// </summary>
+    [Parameter]
+    public string ColumnWidth { get; set; } = "";
+
+    /// <summary>
+    /// Duration of the show animation.
+    /// </summary>
+    [Parameter]
+    public string ShowDuration { get; set; } = "";
+
+    /// <summary>
+    /// Duration of the hide animation.
+    /// </summary>
+    [Parameter]
+    public string HideDuration { get; set; } = "";
+
+    /// <summary>
+    /// The C# parsing error message.
+    /// </summary>
+    [Parameter]
+    public string ParsingErrorMessage { get; set; } = "The {0} field must be a time in HH:mm, HH:mm:ss, or HH:mm:ss.fff format.";
+
+    /// <summary>
+    /// Emitted after the bound value updates during user input.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInput { get; set; }
+
+    /// <summary>
+    /// Emitted after the bound value updates when the committed value changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    /// Emitted after the clear button clears the bound value.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClear { get; set; }
+
+    /// <summary>
+    /// Emitted when the popup begins to open, including canceled attempts.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    /// <summary>
+    /// Emitted after the popup opens and animations complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the popup begins to close, including canceled attempts.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted after the popup closes and animations complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--column-item-height", ColumnItemHeight)
+        .AddStyle("--column-width", ColumnWidth)
+        .AddStyle("--show-duration", ShowDuration)
+        .AddStyle("--hide-duration", HideDuration);
+
+    public async Task TriggerInputAsync(RoarInputEventArgs args)
+    {
+        await SetCurrentValueAsStringAsync(args.Input!.Value);
+        await OnInput.InvokeAsync();
+    }
+
+    public async Task TriggerChangeAsync(RoarChangeEventArgs args)
+    {
+        await SetCurrentValueAsStringAsync(args.Input!.Value);
+        await OnChange.InvokeAsync();
+    }
+
+    public async Task TriggerClearAsync()
+    {
+        await SyncComponentValue();
+        await OnClear.InvokeAsync();
+    }
+
+    public async Task TriggerShowAsync()
+    {
+        if (KeepClosed)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
+        await OnShow.InvokeAsync();
+    }
+
+    public async Task TriggerHideAsync()
+    {
+        if (KeepOpen)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
+        await OnHide.InvokeAsync();
+    }
+
+    public async Task TriggerAfterShowAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterShow.InvokeAsync();
+    }
+
+    public async Task TriggerAfterHideAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterHide.InvokeAsync();
+    }
+
+    /// <summary>
+    /// Focuses the first empty segment, or the first segment when all are filled.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false) => CallComponentVoidFunctionAsync("focus", new { preventScroll });
+
+    /// <summary>
+    /// Removes focus from the time input.
+    /// </summary>
+    public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
+
+    /// <summary>
+    /// Opens the popup and waits for its animation, unless KeepClosed prevents opening.
+    /// </summary>
+    public async ValueTask ShowAsync()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        if (KeepClosed)
+        {
+            await SetComponentPropertyAsync("open", true);
+        }
+        else
+        {
+            await CallComponentVoidFunctionAsync("show");
+        }
+
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+    }
+
+    /// <summary>
+    /// Closes the popup and waits for its animation, unless KeepOpen prevents closing.
+    /// </summary>
+    public async ValueTask HideAsync()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        if (KeepOpen)
+        {
+            await SetComponentPropertyAsync("open", false);
+        }
+        else
+        {
+            await CallComponentVoidFunctionAsync("hide");
+        }
+
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+    }
+
+    /// <summary>
+    /// Returns today's date with the selected time, converted from the browser's local time to UTC, or null when empty.
+    /// </summary>
+    public ValueTask<DateTime?> GetValueAsDateAsync() => GetComponentPropertyAsync<DateTime?>("valueAsDate");
+
+    /// <summary>
+    /// Returns milliseconds since midnight, or null when empty.
+    /// </summary>
+    public ValueTask<double?> GetValueAsNumberAsync() => GetComponentPropertyAsync<double?>("valueAsNumber");
+
+    protected override string? FormatValueAsString(TValue? value) => value switch
+    {
+        null => null,
+        TimeOnly time => FormatTime(time),
+        string text => text,
+        _ => throw new InvalidOperationException($"Unsupported type {typeof(TValue)}. Use TimeOnly, TimeOnly?, or string.")
+    };
+
+    protected override bool TryParseValueFromString(string? value, out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (typeof(TValue) == typeof(string))
+        {
+            result = (TValue)(object)(value ?? "");
+            validationErrorMessage = null;
+            return true;
+        }
+
+        if (typeof(TValue) != typeof(TimeOnly) && typeof(TValue) != typeof(TimeOnly?))
+        {
+            throw new InvalidOperationException($"Unsupported type {typeof(TValue)}. Use TimeOnly, TimeOnly?, or string.");
+        }
+
+        if (TimeOnly.TryParseExact(value, ["HH:mm", "HH:mm:ss", "HH:mm:ss.FFF"], CultureInfo.InvariantCulture, DateTimeStyles.None, out var time))
+        {
+            result = (TValue)(object)time;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = default!;
+        validationErrorMessage = string.Format(CultureInfo.InvariantCulture, ParsingErrorMessage, NameAttributeValue);
+        return false;
+    }
+
+    private static string? FormatTime(TimeOnly? value) => value?.ToString(value.Value.Millisecond != 0 ? "HH:mm:ss.fff" : value.Value.Second != 0 ? "HH:mm:ss" : "HH:mm", CultureInfo.InvariantCulture);
+}
