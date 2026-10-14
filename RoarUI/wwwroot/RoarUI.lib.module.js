@@ -234,6 +234,14 @@ function registerRoarEvents(blazor) {
             browserEventName: "wa-page-change",
             createEventArgs: event => ({ pagination: { page: event.detail.page, pageSize: event.detail.pageSize } })
         },
+        roarbeforestepchange: {
+            browserEventName: "wa-before-step-change",
+            createEventArgs: createRoarStepperEventArgs
+        },
+        roarstepchange: {
+            browserEventName: "wa-step-change",
+            createEventArgs: createRoarStepperEventArgs
+        },
         roarerror: {
             browserEventName: "wa-error",
             createEventArgs: () => ({})
@@ -243,6 +251,25 @@ function registerRoarEvents(blazor) {
     for (const [eventName, options] of Object.entries(events)) {
         blazor.registerCustomEventType(eventName, options);
     }
+}
+
+function createRoarStepperEventArgs(event) {
+    const snapshotStep = step => step == null ? null : {
+        id: step.id,
+        name: step.name,
+        completed: step.completed,
+        loading: step.loading,
+        disabled: step.disabled
+    };
+
+    return {
+        stepper: {
+            name: event.detail.name,
+            previousName: event.detail.previousName,
+            step: snapshotStep(event.detail.step),
+            previousStep: snapshotStep(event.detail.previousStep)
+        }
+    };
 }
 
 function createRoarValueEventArgs(event) {

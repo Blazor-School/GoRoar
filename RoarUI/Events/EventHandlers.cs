@@ -34,6 +34,8 @@ namespace RoarUI.Events;
 [EventHandler("onroarerror", typeof(global::RoarUI.Events.RoarErrorEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarbeforepagechange", typeof(RoarBeforePageChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 [EventHandler("onroarpagechange", typeof(RoarPageChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarbeforestepchange", typeof(RoarBeforeStepChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
+[EventHandler("onroarstepchange", typeof(RoarStepChangeEventArgs), enableStopPropagation: true, enablePreventDefault: true)]
 public static class EventHandlers
 {
 }
