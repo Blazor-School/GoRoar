@@ -1,0 +1,145 @@
+@page "/toast-sample"
+@implements IAsyncDisposable
+
+<h3>Variants</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick='() => ShowVariantAsync(ToastVariant.Neutral, "gear")'>Neutral</RoarButton>
+    <RoarButton Variant="ButtonVariant.Brand" @onclick='() => ShowVariantAsync(ToastVariant.Brand, "circle-info")'>Brand</RoarButton>
+    <RoarButton Variant="ButtonVariant.Success" @onclick='() => ShowVariantAsync(ToastVariant.Success, "check")'>Success</RoarButton>
+    <RoarButton Variant="ButtonVariant.Warning" @onclick='() => ShowVariantAsync(ToastVariant.Warning, "circle-exclamation")'>Warning</RoarButton>
+    <RoarButton Variant="ButtonVariant.Danger" @onclick='() => ShowVariantAsync(ToastVariant.Danger, "triangle-exclamation")'>Danger</RoarButton>
+</div>
+
+<h3>Size</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick="() => ShowSizeAsync(ToastSize.Xs)">Extra Small</RoarButton>
+    <RoarButton @onclick="() => ShowSizeAsync(ToastSize.S)">Small</RoarButton>
+    <RoarButton @onclick="() => ShowSizeAsync(ToastSize.M)">Medium</RoarButton>
+    <RoarButton @onclick="() => ShowSizeAsync(ToastSize.L)">Large</RoarButton>
+    <RoarButton @onclick="() => ShowSizeAsync(ToastSize.Xl)">Extra Large</RoarButton>
+</div>
+
+<h3>Icons</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick="ShowIconAsync">Show notification with icon</RoarButton>
+    <RoarButton @onclick="ShowDuotoneAsync">Duotone icon</RoarButton>
+    <RoarButton @onclick="ShowBrandIconAsync">Brand icon</RoarButton>
+</div>
+
+<h3>Duration</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick="() => ShowDurationAsync(3000)">3 seconds</RoarButton>
+    <RoarButton @onclick="() => ShowDurationAsync(10000)">10 seconds</RoarButton>
+    <RoarButton @onclick="() => ShowDurationAsync(0)">Until dismissed</RoarButton>
+</div>
+
+<h3>Placement</h3>
+<RoarSelect Label="Placement" @bind-Value="Placement">
+    <RoarOption Value="ToastPlacement.TopStart">top-start</RoarOption>
+    <RoarOption Value="ToastPlacement.TopCenter">top-center</RoarOption>
+    <RoarOption Value="ToastPlacement.TopEnd">top-end</RoarOption>
+    <RoarOption Value="ToastPlacement.BottomStart">bottom-start</RoarOption>
+    <RoarOption Value="ToastPlacement.BottomCenter">bottom-center</RoarOption>
+    <RoarOption Value="ToastPlacement.BottomEnd">bottom-end</RoarOption>
+</RoarSelect>
+<RoarButton @onclick="ShowPlacementAsync">Show at selected placement</RoarButton>
+
+<h3>Hover &amp; Focus Behavior</h3>
+<p>Hover over the notification or focus its close button to pause the timer. Moving away restarts the countdown.</p>
+<RoarButton @onclick="ShowPauseAsync">Show notification (hover to pause)</RoarButton>
+
+<h3>Using HTML Content</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick="ShowHtmlAsync">Show notification with HTML</RoarButton>
+    <RoarButton @onclick="ShowPlainTextAsync">Show HTML as plain text</RoarButton>
+</div>
+
+<h3>Responding to Events</h3>
+<p>Click a notification, dismiss it, or let its timer finish to see the lifecycle events.</p>
+<p id="toast-events">Show: @ShowCount. After show: @AfterShowCount. Hide: @HideCount. After hide: @AfterHideCount. Click: @ClickCount.</p>
+
+<h3>Programmatic Dismissal</h3>
+<div class="wa-cluster">
+    <RoarButton @onclick="CreatePersistentAsync">Create persistent notification</RoarButton>
+    <RoarButton @onclick="HidePersistentAsync">HideAsync</RoarButton>
+</div>
+
+<h3>Stack Styling</h3>
+<RoarSwitch @bind-Value="CustomStyle">Custom width and gap</RoarSwitch>
+
+<RoarToast @ref="Toast" Placement="Placement" Gap="@Gap" Width="@Width" id="sample-toast" OnShow="() => ShowCount++" OnAfterShow="() => AfterShowCount++" OnHide="() => HideCount++" OnAfterHide="() => AfterHideCount++" @onclick="() => ClickCount++" />
+
+@code {
+    private RoarToast Toast { get; set; } = default!;
+    private ToastPlacement Placement { get; set; }
+    private ToastItemReference? PersistentItem { get; set; }
+    private bool CustomStyle { get; set; }
+    private string Gap => CustomStyle ? "1.5rem" : "";
+    private string Width => CustomStyle ? "20rem" : "";
+    private int ShowCount { get; set; }
+    private int AfterShowCount { get; set; }
+    private int HideCount { get; set; }
+    private int AfterHideCount { get; set; }
+    private int ClickCount { get; set; }
+
+    private async Task ShowAsync(string message, ToastCreateOptions? options = null)
+    {
+        // Releasing the interop reference leaves the notification and its native timer running.
+        await using var item = await Toast.CreateAsync(message, options);
+    }
+
+    private Task ShowVariantAsync(ToastVariant variant, string icon) => ShowAsync($"This is a {variant} notification", new() { Variant = variant, Icon = icon });
+
+    private Task ShowSizeAsync(ToastSize size) => ShowAsync($"This is a {size} notification", new() { Size = size });
+
+    private Task ShowIconAsync() => ShowAsync("Your message has been sent successfully!", new() { Variant = ToastVariant.Success, Icon = "paper-plane" });
+
+    private Task ShowDuotoneAsync() => ShowAsync("This uses a duotone icon!", new() { Variant = ToastVariant.Brand, Icon = new() { Name = "bell", Family = FontAwesomeFamily.Duotone, Variant = FontAwesomeVariant.Solid } });
+
+    private Task ShowBrandIconAsync() => ShowAsync("Follow us on GitHub!", new() { Icon = new() { Name = "github", Family = FontAwesomeFamily.Brands } });
+
+    private Task ShowDurationAsync(int duration) => ShowAsync(duration > 0 ? $"This will disappear in {duration / 1000} seconds" : "Dismiss me manually!", new() { Duration = duration, Variant = ToastVariant.Brand });
+
+    private Task ShowPlacementAsync() => ShowAsync($"This notification appears at {Placement}", new() { Variant = ToastVariant.Brand, Icon = "location-dot" });
+
+    private Task ShowPauseAsync() => ShowAsync("Hover over me to pause the countdown timer!", new() { Icon = "clock", Variant = ToastVariant.Brand });
+
+    private Task ShowHtmlAsync() => ShowAsync("<strong>New message!</strong><br>You have <em>3 unread messages</em> in your inbox.", new() { AllowHtml = true, Duration = 0, Variant = ToastVariant.Brand, Icon = "bell" });
+
+    private Task ShowPlainTextAsync() => ShowAsync("<strong>This remains plain text.</strong>");
+
+    private async Task CreatePersistentAsync()
+    {
+        if (PersistentItem is not null)
+        {
+            await PersistentItem.HideAsync();
+            await PersistentItem.DisposeAsync();
+        }
+
+        PersistentItem = await Toast.CreateAsync("Dismiss this notification with HideAsync or its close button.", new() { Duration = 0, Variant = ToastVariant.Brand });
+    }
+
+    private async Task HidePersistentAsync()
+    {
+        if (PersistentItem is not null)
+        {
+            await PersistentItem.HideAsync();
+            await PersistentItem.DisposeAsync();
+            PersistentItem = null;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (PersistentItem is not null)
+        {
+            try
+            {
+                await PersistentItem.DisposeAsync();
+            }
+            catch
+            {
+            }
+        }
+    }
+}
