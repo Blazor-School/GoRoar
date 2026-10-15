@@ -1,0 +1,81 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="toast" />
+
+<wa-toast placement="@Placement" @onroarshow="OnShow" @onroaraftershow="OnAfterShow" @onroarhide="OnHide" @onroarafterhide="OnAfterHide" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-toast>
+
+@code {
+    /// <summary>
+    /// Optional manually created toast items. Use CreateAsync for notifications managed by Web Awesome.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The placement of the toast stack on the screen.
+    /// </summary>
+    [Parameter]
+    public ToastPlacement Placement { get; set; }
+
+    /// <summary>
+    /// The gap between stacked notifications.
+    /// </summary>
+    [Parameter]
+    public string Gap { get; set; } = "";
+
+    /// <summary>
+    /// The width of the toast stack.
+    /// </summary>
+    [Parameter]
+    public string Width { get; set; } = "";
+
+    /// <summary>
+    /// Emitted when a notification begins to show.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    /// <summary>
+    /// Emitted after a notification has finished showing.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when a notification begins to hide.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted after a notification has finished hiding.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--gap", Gap)
+            .AddStyle("--width", Width)
+            .Build();
+    }
+
+    /// <summary>
+    /// Creates a notification and returns its native item reference. Call after the component has rendered and Web Awesome has loaded.
+    /// Dispose the returned reference when it is no longer needed, including for notifications that dismiss automatically.
+    /// </summary>
+    public async ValueTask<ToastItemReference> CreateAsync(string message, ToastCreateOptions? options = null)
+    {
+        var element = await CallComponentFunctionAsync<IJSObjectReference>("create", message, options);
+        return new ToastItemReference(element);
+    }
+}
