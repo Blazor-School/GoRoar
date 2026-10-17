@@ -7,6 +7,10 @@ jobs:
   build:
     runs-on: windows-latest
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -19,5 +23,11 @@ jobs:
     - name: Pack
       run: dotnet pack RoarUI --configuration Release --output .
 
+    - name: NuGet login
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ vars.NUGET_USER }}
+
     - name: Push
-      run: dotnet nuget push "*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_KEY }}
+      run: dotnet nuget push "*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
