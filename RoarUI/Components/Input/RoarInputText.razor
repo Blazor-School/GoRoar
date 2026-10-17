@@ -82,13 +82,13 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(args.Input.Value);
+        await SetCurrentValueAsync(args.Input!.Value);
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(args.Input.Value);
+        await SetCurrentValueAsync(args.Input!.Value);
         await OnInput.InvokeAsync();
     }
 

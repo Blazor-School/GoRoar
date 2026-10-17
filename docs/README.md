@@ -16,37 +16,93 @@ native Blazor and HTML.
 - **Blazor form integration:** Use input components with `EditForm` and C# validation,
   including DataAnnotations.
 
-## Preview status and requirements
+## Requirements
 
-RoarUI is currently in preview. APIs may change before the first stable release.
+- A Blazor application targeting .NET 10.
+- Interactive rendering for C# event handlers and two-way binding.
 
-- .NET 10 SDK to build or run from source.
-- Git to clone the repository.
-- Interactive Blazor rendering for C# event handlers and two-way binding.
+## Install RoarUI
 
-The repository includes showcases for Interactive Server and standalone WebAssembly.
-
-## Getting started
-
-Clone the repository and run the Interactive Server showcase:
+Run the following command in your Blazor application's project directory:
 
 ```sh
-git clone https://github.com/Blazor-School/GoRoar.git
-cd GoRoar
-dotnet run --project ShowcaseWebApp/ShowcaseWebApp.csproj --launch-profile "No Debug"
+dotnet add package RoarUI
 ```
 
-Open the URL printed in the terminal. The launch profile uses HTTPS. If needed,
-trust the ASP.NET Core development certificate before running the showcase:
+Add the RoarUI namespace to your application's `_Imports.razor` file. In a Blazor
+Web App, this file is usually in the `Components` directory:
 
-```sh
-dotnet dev-certs https --trust
+```razor
+@using RoarUI
 ```
 
-To run the standalone WebAssembly showcase instead, stop the Server showcase and run:
+In `Program.cs`, import the namespace and register RoarUI services after creating
+`builder` and before calling `builder.Build()`:
 
-```sh
-dotnet run --project ShowcaseWebAssembly/ShowcaseWebAssembly.csproj --launch-profile "No Debug"
+```csharp
+using RoarUI;
+```
+
+```csharp
+builder.Services.GoRoar();
+```
+
+Then follow the setup for your application type below.
+
+## Blazor Web App
+
+For a Blazor Web App using Interactive Server rendering, wrap the existing
+`Routes` component with `GoRoar` in the body of `Components/App.razor`:
+
+```razor
+<GoRoar>
+    <Routes @rendermode="InteractiveServer" />
+</GoRoar>
+```
+
+Keep the application's existing document structure and Blazor script. The example
+assumes Interactive Server rendering is already configured in `Program.cs` and
+`@using static Microsoft.AspNetCore.Components.Web.RenderMode` is available in
+`Components/_Imports.razor`.
+
+Apply the interactive render mode to `Routes`. Keep the `GoRoar` wrapper outside
+that render mode boundary.
+
+### Asset setup
+
+RoarUI loads stylesheets, component scripts, and theme updates through
+`RoarAsset`. Add it once inside the `<head>` element of `Components/App.razor`:
+
+```razor
+<RoarAsset @rendermode="InteractiveServer" />
+```
+
+## Blazor WebAssembly Standalone
+
+In `App.razor`, wrap your existing `Router` component with `GoRoar`. Keep your
+application's existing routing configuration inside the wrapper:
+
+```razor
+<GoRoar>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+    </Router>
+</GoRoar>
+```
+
+Standalone WebAssembly runs interactively without an `@rendermode` attribute.
+
+### Asset setup
+
+RoarUI uses `RoarAsset` to load stylesheets, component
+scripts, and theme updates. In `Program.cs`, register it alongside the existing
+root components, before `builder.Build()`:
+
+```csharp
+builder.RootComponents.Add<RoarAsset>("head::after");
 ```
 
 ## License

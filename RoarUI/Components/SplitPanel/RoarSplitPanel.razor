@@ -61,7 +61,7 @@
 
     public async Task TriggerRepositionAsync(RoarRepositionEventArgs args)
     {
-        Position = args.SplitPanel.Position;
+        Position = args.SplitPanel!.Position;
         await PositionChanged.InvokeAsync(args.SplitPanel.Position);
         await OnReposition.InvokeAsync(args.SplitPanel);
     }

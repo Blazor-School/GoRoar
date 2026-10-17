@@ -6,7 +6,7 @@ namespace RoarUI;
 public class ThemeService(IHttpClientFactory HttpClientFactory)
 {
     internal RoarTheme? CustomTheme { get; set; }
-    public event EventHandler<RoarTheme>? OnThemeLoaded;
+    public event EventHandler<RoarTheme?>? OnThemeLoaded;
 
     public async Task LoadThemeAsync(string path)
     {

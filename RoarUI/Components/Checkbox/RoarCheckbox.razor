@@ -43,14 +43,14 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(args.Checkbox.Checked);
+        await SetCurrentValueAsync(args.Checkbox!.Checked);
         Group?.NotifyGroupChanged();
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(args.Checkbox.Checked);
+        await SetCurrentValueAsync(args.Checkbox!.Checked);
         await OnInput.InvokeAsync();
     }
 

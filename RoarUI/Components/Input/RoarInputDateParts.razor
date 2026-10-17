@@ -95,13 +95,13 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsStringAsync(args.KnownDate.Value);
+        await SetCurrentValueAsStringAsync(args.KnownDate!.Value);
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsStringAsync(args.KnownDate.Value);
+        await SetCurrentValueAsStringAsync(args.KnownDate!.Value);
         await OnInput.InvokeAsync();
     }
 
@@ -117,7 +117,7 @@
     /// <param name="focusVisible"></param>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
-    protected override bool TryParseValueFromString(string? value, out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
         {

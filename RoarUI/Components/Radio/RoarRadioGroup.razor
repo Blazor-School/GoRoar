@@ -69,13 +69,13 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args) // We receive value as a string from JS side
     {
-        await SetCurrentValueAsStringAsync(args.RadioGroup.Value);
+        await SetCurrentValueAsStringAsync(args.RadioGroup!.Value);
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args) // We receive value as a string from JS side
     {
-        await SetCurrentValueAsStringAsync(args.RadioGroup.Value);
+        await SetCurrentValueAsStringAsync(args.RadioGroup!.Value);
         await OnInput.InvokeAsync();
     }
 }

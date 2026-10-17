@@ -25,13 +25,13 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(ConvertStateFromEvent(args.Checkbox));
+        await SetCurrentValueAsync(ConvertStateFromEvent(args.Checkbox!));
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(ConvertStateFromEvent(args.Checkbox));
+        await SetCurrentValueAsync(ConvertStateFromEvent(args.Checkbox!));
         await OnInput.InvokeAsync();
     }
 
