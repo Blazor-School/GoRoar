@@ -30,7 +30,7 @@
     [Parameter]
     public bool LeafOnly { get; set; } = false;
 
-    private Task TriggerSelectionChangeAsync(RoarSelectionChangeEventArgs args) => TriggerValueChange(new(args.Tree.SelectedValue));
+    private Task TriggerSelectionChangeAsync(RoarSelectionChangeEventArgs args) => TriggerValueChange(new(args.Tree!.SelectedValue));
 
     public async Task TriggerValueChange(TreeSelectionChangeEventArgs args)
     {

@@ -1,47 +1,108 @@
 ﻿RoarUI LICENSE
 
-RoarUI is licensed under a dual-license model.
+Copyright (c) 2026 Blazor Innovations
 
-By using RoarUI, you agree to comply with ONE of the following:
+RoarUI is source-available under a dual-license model: the Community License
+below or a separately obtained Commercial License. Public access to the source
+code does not grant unrestricted use or make RoarUI open source.
 
-────────────────────────────
+This license applies to the original RoarUI code. Third-party software retains
+its own licenses; see NOTICE.txt and the notices accompanying that software.
+Nothing in this license limits rights granted by those third-party licenses.
+
+DEFINITIONS
+
+"Project" means an application, website, SaaS offering, or other software
+product that incorporates RoarUI.
+
+"Individual" means a natural person acting in their personal capacity.
+
+"Organization" includes companies, corporations, partnerships, non-profit
+organizations, government bodies, educational institutions, and other
+organizations, including one-person companies and single-member entities.
+
+SOURCE ACCESS
+
+Anyone may view the source code and make copies or repository forks for
+inspection. Using, modifying, or integrating RoarUI in a Project requires
+eligibility under the Community License or a valid Commercial License.
+
 COMMUNITY LICENSE (FREE)
-────────────────────────────
 
-This license allows free use of RoarUI under the following conditions:
+You qualify for the Community License only while ALL of these conditions hold:
 
-You MAY use RoarUI for:
+1. You are an Individual and solely own the Project in your personal capacity.
+2. You alone develop and maintain the Project's application code. Automated
+   tools, AI assistants, and build or CI systems are not additional developers.
+3. The Project is not owned or commissioned by, or developed on behalf of,
+   any Organization.
 
-1. Personal, educational, or research purposes.
-2. Commercial software created and sold by a single individual.
-3. One-person companies (sole proprietorships or single-member entities) for commercial software products.
-4. Internal non-revenue software created by organizations with total annual revenue below USD 100,000.
+For a qualifying Project, Blazor Innovations grants you a non-exclusive right
+to use, copy, and modify RoarUI to develop, maintain, run, and host the Project,
+and to distribute RoarUI as an integrated part of the Project, subject to the
+conditions below. You may keep your modifications private.
 
-You MAY NOT:
+A qualifying Project may be personal, educational, research-related, or
+commercial. You may earn revenue, sell copies or licenses of your application,
+or provide it as a paid SaaS, hosted service, or subscription. Revenue and
+paid distribution alone do not require a Commercial License.
 
-- Use RoarUI in any organization with more than one person for commercial purposes.
-- Use RoarUI in any company that has two or more people for selling software, services, or SaaS.
-- Use RoarUI in any SaaS, hosted service, or subscription-based offering.
-- Redistribute RoarUI itself as a product.
+An Organization merely buying or subscribing to your generally offered
+application as an end user does not, by that fact alone, own or commission the
+Project. This does not exempt development commissioned by that Organization.
 
-You must retain all copyright notices.
-
-All rights not expressly granted are reserved by the author.
-
-────────────────────────────
 COMMERCIAL LICENSE (PAID)
-────────────────────────────
 
-A Commercial License is required if you:
+A valid Commercial License is required for every Project that does not meet
+ALL Community License conditions. This includes:
 
-- Sell, license, or distribute software that includes RoarUI.
-- Use RoarUI in any paid product, service, or SaaS offering.
-- Use RoarUI within any organization exceeding USD 100,000 in annual revenue.
-- Use RoarUI in any project that generates direct or indirect income.
+- Projects owned or commissioned by, or developed on behalf of, an Organization.
+- Internal applications and non-profit, educational, or government projects
+  owned or commissioned by an Organization.
+- Projects owned by one-person companies or single-member entities.
+- Projects an employee, freelancer, contractor, or agency develops for an
+  Organization, even when only one person develops the Project.
+- Projects developed or maintained by more than one person, even if one
+  Individual owns the Project.
 
-The Commercial License grants a non-exclusive, non-transferable right to use RoarUI
-according to the purchased license terms.
+An Organization's headcount, revenue, funding, and non-profit status do not
+provide an exemption. Being a freelancer does not make organizational client
+work eligible for the Community License. A freelancer's own personally owned
+Project may qualify if it meets ALL Community License conditions.
 
-Commercial usage without a valid license is prohibited.
+A Commercial License must be obtained from Blazor Innovations. Its scope,
+permitted developers and Projects, distribution rights, and any support
+commitments are governed by the separately agreed commercial terms.
+This document does not itself grant a Commercial License.
 
-Contact the author to obtain a Commercial License.
+CHANGES TO PROJECT ELIGIBILITY
+
+Obtain a Commercial License before continuing development, maintenance,
+hosting, or distribution when a Project no longer meets ALL Community License
+conditions. This includes before transferring ownership to an Organization,
+accepting development commissioned by an Organization, or adding another
+person to the Project's development or maintenance.
+
+APPLICATION USERS AND REDISTRIBUTION
+
+End users do not need their own RoarUI license merely to run an application
+lawfully built and distributed under a Community or Commercial License, or
+to subscribe to that application as SaaS. This includes organizational users.
+
+Receiving an application does not grant rights to extract or reuse RoarUI in
+another Project. Anyone developing or maintaining the application must be
+covered by a license appropriate to the Project's ownership and development.
+
+Retain all RoarUI copyright and license notices and all required third-party
+notices in copies and distributions containing RoarUI.
+
+Except for the inspection copies and forks permitted above, you may not
+redistribute RoarUI itself as a standalone library or product, including a
+modified or repackaged version, or sublicense it independently of an
+application, unless Blazor Innovations expressly authorizes this in writing.
+
+All rights not expressly granted are reserved by their respective owners.
+
+CONTACT
+
+For Commercial Licenses or licensing questions: info@blazorschool.com

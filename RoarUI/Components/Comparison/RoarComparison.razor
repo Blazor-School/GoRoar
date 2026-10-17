@@ -22,7 +22,7 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        Position = args.Comparison.Position;
+        Position = args.Comparison!.Position;
         await PositionChanged.InvokeAsync(args.Comparison.Position);
     }
 

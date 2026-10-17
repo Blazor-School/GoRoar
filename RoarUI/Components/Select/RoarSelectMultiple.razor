@@ -269,7 +269,7 @@
     /// </summary>
     public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
 
-    protected async ValueTask SetTag(RenderFragment<TValue?> template, IEnumerable<TValue> values)
+    protected async ValueTask SetTag(RenderFragment<TValue> template, IEnumerable<TValue> values)
     {
         var htmlByValue = new Dictionary<string, string>(StringComparer.Ordinal);
 

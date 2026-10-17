@@ -115,7 +115,7 @@
 
     public async Task NotifyValueChanged(RoarSelectEventArgs eventArgs)
     {
-        if (eventArgs.Dropdown.Checked is not null)
+        if (eventArgs.Dropdown!.Checked is not null)
         {
             await CheckboxItemSelected.InvokeAsync(new(eventArgs.Dropdown.SelectedItem, eventArgs.Dropdown.Checked.Value));
         }

@@ -7,21 +7,21 @@
 		<Title>RoarUI</Title>
 		<Authors>Blazor School</Authors>
 		<PackageId>RoarUI</PackageId>
-		<VersionPrefix>1.0.0</VersionPrefix>
-		<VersionSuffix>preview.3</VersionSuffix>
+		<VersionPrefix>10.0.0</VersionPrefix>
+		<VersionSuffix></VersionSuffix>
 		<Company>Blazor Innovations</Company>
+		<Description>RoarUI is a Blazor component library for .NET 10 built on WebAwesome, with strongly typed C# APIs, flexible string values, custom theming, and Blazor form validation. Supports Interactive Server and standalone WebAssembly.</Description>
+		<Copyright>Copyright (c) 2026 Blazor Innovations</Copyright>
+		<PackageProjectUrl>https://github.com/Blazor-School/GoRoar</PackageProjectUrl>
+		<PackageTags>blazor;razor;components;ui;webawesome;web-components;dotnet</PackageTags>
+		<PackageReleaseNotes>Includes toast, time input, tag input, stepper, and resize observer components, plus updated nullable annotations, installation documentation, and licensing information.</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/Blazor-School/GoRoar</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>Logo.png</PackageIcon>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Events\NewFolder\**" />
-	  <Content Remove="Events\NewFolder\**" />
-	  <EmbeddedResource Remove="Events\NewFolder\**" />
-	  <None Remove="Events\NewFolder\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.13" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,11 +48,15 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<None Include="..\docs\Logo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 		<None Include="bundleconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.13" />
 	</ItemGroup>
 
 	<ItemGroup>

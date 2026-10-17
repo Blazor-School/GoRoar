@@ -125,13 +125,13 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args) // We receive value as a string from JS side
     {
-        await SetCurrentValueAsStringAsync(args.Input.Value);
+        await SetCurrentValueAsStringAsync(args.Input!.Value);
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args) // We receive value as a string from JS side
     {
-        await SetCurrentValueAsStringAsync(args.Input.Value);
+        await SetCurrentValueAsStringAsync(args.Input!.Value);
         await OnInput.InvokeAsync();
     }
 
@@ -171,7 +171,7 @@
         await SyncComponentValue();
     }
 
-    protected override bool TryParseValueFromString(string? value, out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TValue result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (string.IsNullOrEmpty(value))
         {

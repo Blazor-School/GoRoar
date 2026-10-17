@@ -24,7 +24,7 @@
     [Parameter]
     public EventCallback<List<string>> ValuesChanged { get; set; }
 
-    private Task TriggerSelectionChangeAsync(RoarSelectionChangeEventArgs args) => TriggerValuesChange(new(args.Tree.SelectedValues));
+    private Task TriggerSelectionChangeAsync(RoarSelectionChangeEventArgs args) => TriggerValuesChange(new(args.Tree!.SelectedValues));
 
     public async Task TriggerValuesChange(TreeMultipleSelectionChangeEventArgs args)
     {

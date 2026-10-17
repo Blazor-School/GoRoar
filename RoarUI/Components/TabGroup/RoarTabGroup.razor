@@ -54,14 +54,14 @@
 
     public async Task TriggerTabHide(RoarTabHideEventArgs args)
     {
-        ActiveTabName = args.TabGroup.ActivatingTabName;
+        ActiveTabName = args.TabGroup!.ActivatingTabName;
         await ActiveTabNameChanged.InvokeAsync(args.TabGroup.ActivatingTabName);
         await OnTabHide.InvokeAsync(args.TabGroup);
     }
 
     public async Task TriggerTabShow(RoarTabShowEventArgs args)
     {
-        ActiveTabName = args.TabGroup.TabName;
+        ActiveTabName = args.TabGroup!.TabName;
         await ActiveTabNameChanged.InvokeAsync(args.TabGroup.TabName);
         await OnTabShow.InvokeAsync(args.TabGroup);
     }

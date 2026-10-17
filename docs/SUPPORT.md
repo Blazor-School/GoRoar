@@ -1,8 +1,9 @@
 # Support Policy – RoarUI
 
-RoarUI is provided under a dual-license model.
+RoarUI is source-available under a dual-license model.
 
 Support availability depends on your license type.
+See [LICENSE.txt](LICENSE.txt) for Community eligibility and Commercial License requirements.
 
 ---
 
@@ -25,7 +26,8 @@ Free support does NOT include:
 
 ## Commercial License (Paid)
 
-Commercial License holders receive:
+Commercial support is governed by the separately agreed commercial or support terms.
+Those terms specify which services and commitments are included, such as:
 
 - Priority email support
 - Private support channels
@@ -33,4 +35,7 @@ Commercial License holders receive:
 - Bug fix prioritization
 - Access to long-term support versions
 
-To purchase Commercial Support, contact: info@blazorschool.com
+Guaranteed response times, SLAs, and long-term support are included only when
+expressly agreed in those terms; they are not granted automatically by this document.
+
+For Commercial Licenses and support terms, contact: info@blazorschool.com
