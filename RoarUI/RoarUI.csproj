@@ -8,12 +8,18 @@
 		<Authors>Blazor School</Authors>
 		<PackageId>RoarUI</PackageId>
 		<VersionPrefix>1.0.0</VersionPrefix>
-		<VersionSuffix>preview.3</VersionSuffix>
+		<VersionSuffix></VersionSuffix>
 		<Company>Blazor Innovations</Company>
+		<Description>RoarUI is a Blazor component library for .NET 10 built on WebAwesome, with strongly typed C# APIs, flexible string values, custom theming, and Blazor form validation. Supports Interactive Server and standalone WebAssembly.</Description>
+		<Copyright>Copyright (c) 2026 Blazor Innovations</Copyright>
+		<PackageProjectUrl>https://github.com/Blazor-School/GoRoar</PackageProjectUrl>
+		<PackageTags>blazor;razor;components;ui;webawesome;web-components;dotnet</PackageTags>
+		<PackageReleaseNotes>Includes toast, time input, tag input, stepper, and resize observer components, plus updated nullable annotations, installation documentation, and licensing information.</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/Blazor-School/GoRoar</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<ItemGroup>
