@@ -117,6 +117,10 @@ Public source access does not grant unrestricted use or make RoarUI open source.
 | Developed or maintained by more than one person | **Commercial License (Paid)** |
 | End users running a lawfully licensed application or subscribing to it as SaaS | **No separate RoarUI license required** |
 
+Developer counts refer to people developing or maintaining the application's code.
+Automated tools, AI assistants, and build or CI systems do not count as additional
+developers.
+
 Qualifying personal projects may earn revenue, sell application copies or licenses,
 or operate as paid SaaS. An organization merely buying or subscribing to a generally
 offered application as an end user does not, by that fact alone, own or commission it.
