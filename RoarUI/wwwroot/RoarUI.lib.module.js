@@ -1,4 +1,14 @@
-﻿export function afterWebStarted(blazor) {
+﻿import { setBasePath } from "./webawesome-3.14.0/webawesome.js";
+
+export function beforeWebStart(options) {
+    setBasePath(new URL("./webawesome-3.14.0", import.meta.url).pathname);
+}
+
+export function beforeStart(options, extensions) {
+    setBasePath(new URL("./webawesome-3.14.0", import.meta.url).pathname);
+}
+
+export function afterWebStarted(blazor) {
     roarGeneralFunction();
     registerRoarEvents(blazor);
 }
