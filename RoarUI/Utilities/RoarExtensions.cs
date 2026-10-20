@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.Infrastructure;
+using Microsoft.AspNetCore.Components.Web;
 using RoarUI.Services;
 using RoarUI.Utilities.JavaScriptIntegrators;
 
@@ -12,6 +14,11 @@ public static class RoarExtensions
         services.AddScoped<RoarDependencyService>();
         services.AddScoped<ThemeService>();
         services.AddScoped<RoarBasicJsIntegrator>();
+
+        if (!OperatingSystem.IsBrowser())
+        {
+            RegisterPersistentComponentStateServiceCollectionExtensions.AddPersistentServiceRegistration<ThemeService>(services, RenderMode.InteractiveServer);
+        }
 
         return services;
     }

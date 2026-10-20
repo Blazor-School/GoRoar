@@ -2,6 +2,7 @@
 @inject RoarDependencyService RoarDependencyService
 @inject ThemeService ThemeService
 @implements IDisposable
+@attribute [StreamRendering(false)]
 
 <link rel="stylesheet" href="@($"{InternalPaths.BaseWebAwesomePath}/styles/webawesome.css")" />
 <link rel="stylesheet" href="_content/RoarUI/roar.min.css" />
