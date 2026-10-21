@@ -7,7 +7,7 @@
 		<Title>RoarUI</Title>
 		<Authors>Blazor School</Authors>
 		<PackageId>RoarUI</PackageId>
-		<VersionPrefix>10.0.1</VersionPrefix>
+		<VersionPrefix>10.0.2</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<Company>Blazor Innovations</Company>
 		<Description>RoarUI is a Blazor component library for .NET 10 built on WebAwesome, with strongly typed C# APIs, flexible string values, custom theming, and Blazor form validation. Supports Interactive Server and standalone WebAssembly.</Description>

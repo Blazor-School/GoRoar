@@ -1,6 +1,7 @@
 ﻿@namespace RoarUI
 @inject RoarDependencyService RoarDependencyService
 @inject ThemeService ThemeService
+@inject IEnumerable<RoarUI.Theme.IVariantCssRenderer> VariantCssRenderers
 @implements IDisposable
 @attribute [StreamRendering(false)]
 
@@ -14,6 +15,13 @@
 
 @if (ThemeService.CustomTheme is not null)
 {
+    var variantMappings = BuildVariantMappings(ThemeService.CustomTheme.Token.Variants.Keys);
+
+    <style data-roar-variant-mappings>
+        @@layer wa-theme-overrides {
+        @variantMappings
+        }
+    </style>
     <style>
         @@layer wa-theme-overrides {
         :root {
@@ -175,81 +183,6 @@
         --wa-color-gray-05: @ThemeService.CustomTheme.Token.Color.Gray05;
         --wa-color-gray: @ThemeService.CustomTheme.Token.Color.Gray;
         /* ### End gray color section ###*/
-        /* ### Start brand color section ###*/
-        --wa-color-brand-95: @ThemeService.CustomTheme.Token.Color.Brand95;
-        --wa-color-brand-90: @ThemeService.CustomTheme.Token.Color.Brand90;
-        --wa-color-brand-80: @ThemeService.CustomTheme.Token.Color.Brand80;
-        --wa-color-brand-70: @ThemeService.CustomTheme.Token.Color.Brand70;
-        --wa-color-brand-60: @ThemeService.CustomTheme.Token.Color.Brand60;
-        --wa-color-brand-50: @ThemeService.CustomTheme.Token.Color.Brand50;
-        --wa-color-brand-40: @ThemeService.CustomTheme.Token.Color.Brand40;
-        --wa-color-brand-30: @ThemeService.CustomTheme.Token.Color.Brand30;
-        --wa-color-brand-20: @ThemeService.CustomTheme.Token.Color.Brand20;
-        --wa-color-brand-10: @ThemeService.CustomTheme.Token.Color.Brand10;
-        --wa-color-brand-05: @ThemeService.CustomTheme.Token.Color.Brand05;
-        --wa-color-brand-on: @ThemeService.CustomTheme.Token.Color.BrandOn;
-        --wa-color-brand: @ThemeService.CustomTheme.Token.Color.Brand;
-        /* ### End brand color section ###*/
-        /* ### Start neutral color section ###*/
-        --wa-color-neutral-95: @ThemeService.CustomTheme.Token.Color.Neutral95;
-        --wa-color-neutral-90: @ThemeService.CustomTheme.Token.Color.Neutral90;
-        --wa-color-neutral-80: @ThemeService.CustomTheme.Token.Color.Neutral80;
-        --wa-color-neutral-70: @ThemeService.CustomTheme.Token.Color.Neutral70;
-        --wa-color-neutral-60: @ThemeService.CustomTheme.Token.Color.Neutral60;
-        --wa-color-neutral-50: @ThemeService.CustomTheme.Token.Color.Neutral50;
-        --wa-color-neutral-40: @ThemeService.CustomTheme.Token.Color.Neutral40;
-        --wa-color-neutral-30: @ThemeService.CustomTheme.Token.Color.Neutral30;
-        --wa-color-neutral-20: @ThemeService.CustomTheme.Token.Color.Neutral20;
-        --wa-color-neutral-10: @ThemeService.CustomTheme.Token.Color.Neutral10;
-        --wa-color-neutral-05: @ThemeService.CustomTheme.Token.Color.Neutral05;
-        --wa-color-neutral-on: @ThemeService.CustomTheme.Token.Color.NeutralOn;
-        --wa-color-neutral: @ThemeService.CustomTheme.Token.Color.Neutral;
-        /* ### End neutral color section ###*/
-        /* ### Start success color section ###*/
-        --wa-color-success-95: @ThemeService.CustomTheme.Token.Color.Success95;
-        --wa-color-success-90: @ThemeService.CustomTheme.Token.Color.Success90;
-        --wa-color-success-80: @ThemeService.CustomTheme.Token.Color.Success80;
-        --wa-color-success-70: @ThemeService.CustomTheme.Token.Color.Success70;
-        --wa-color-success-60: @ThemeService.CustomTheme.Token.Color.Success60;
-        --wa-color-success-50: @ThemeService.CustomTheme.Token.Color.Success50;
-        --wa-color-success-40: @ThemeService.CustomTheme.Token.Color.Success40;
-        --wa-color-success-30: @ThemeService.CustomTheme.Token.Color.Success30;
-        --wa-color-success-20: @ThemeService.CustomTheme.Token.Color.Success20;
-        --wa-color-success-10: @ThemeService.CustomTheme.Token.Color.Success10;
-        --wa-color-success-05: @ThemeService.CustomTheme.Token.Color.Success05;
-        --wa-color-success-on: @ThemeService.CustomTheme.Token.Color.SuccessOn;
-        --wa-color-success: @ThemeService.CustomTheme.Token.Color.Success;
-        /* ### End success color section ###*/
-        /* ### Start warning color section ###*/
-        --wa-color-warning-95: @ThemeService.CustomTheme.Token.Color.Warning95;
-        --wa-color-warning-90: @ThemeService.CustomTheme.Token.Color.Warning90;
-        --wa-color-warning-80: @ThemeService.CustomTheme.Token.Color.Warning80;
-        --wa-color-warning-70: @ThemeService.CustomTheme.Token.Color.Warning70;
-        --wa-color-warning-60: @ThemeService.CustomTheme.Token.Color.Warning60;
-        --wa-color-warning-50: @ThemeService.CustomTheme.Token.Color.Warning50;
-        --wa-color-warning-40: @ThemeService.CustomTheme.Token.Color.Warning40;
-        --wa-color-warning-30: @ThemeService.CustomTheme.Token.Color.Warning30;
-        --wa-color-warning-20: @ThemeService.CustomTheme.Token.Color.Warning20;
-        --wa-color-warning-10: @ThemeService.CustomTheme.Token.Color.Warning10;
-        --wa-color-warning-05: @ThemeService.CustomTheme.Token.Color.Warning05;
-        --wa-color-warning-on: @ThemeService.CustomTheme.Token.Color.WarningOn;
-        --wa-color-warning: @ThemeService.CustomTheme.Token.Color.Warning;
-        /* ### End warning color section ###*/
-        /* ### Start danger color section ###*/
-        --wa-color-danger-95: @ThemeService.CustomTheme.Token.Color.Danger95;
-        --wa-color-danger-90: @ThemeService.CustomTheme.Token.Color.Danger90;
-        --wa-color-danger-80: @ThemeService.CustomTheme.Token.Color.Danger80;
-        --wa-color-danger-70: @ThemeService.CustomTheme.Token.Color.Danger70;
-        --wa-color-danger-60: @ThemeService.CustomTheme.Token.Color.Danger60;
-        --wa-color-danger-50: @ThemeService.CustomTheme.Token.Color.Danger50;
-        --wa-color-danger-40: @ThemeService.CustomTheme.Token.Color.Danger40;
-        --wa-color-danger-30: @ThemeService.CustomTheme.Token.Color.Danger30;
-        --wa-color-danger-20: @ThemeService.CustomTheme.Token.Color.Danger20;
-        --wa-color-danger-10: @ThemeService.CustomTheme.Token.Color.Danger10;
-        --wa-color-danger-05: @ThemeService.CustomTheme.Token.Color.Danger05;
-        --wa-color-danger-on: @ThemeService.CustomTheme.Token.Color.DangerOn;
-        --wa-color-danger: @ThemeService.CustomTheme.Token.Color.Danger;
-        /* ### End danger color section ###*/
         /* ### Start foundational colors section ###*/
         --wa-color-surface-raised: @ThemeService.CustomTheme.Token.Color.SurfaceRaised;
         --wa-color-surface-default: @ThemeService.CustomTheme.Token.Color.SurfaceDefault;
@@ -262,61 +195,36 @@
         --wa-color-mix-hover: @ThemeService.CustomTheme.Token.Color.MixHover;
         --wa-color-mix-active: @ThemeService.CustomTheme.Token.Color.MixActive;
         /* ### End foundational colors section ###*/
-        /* ### Start brand colors section ###*/
-        --wa-color-brand-fill-quiet: @ThemeService.CustomTheme.Token.Color.BrandFillQuiet;
-        --wa-color-brand-fill-normal: @ThemeService.CustomTheme.Token.Color.BrandFillNormal;
-        --wa-color-brand-fill-loud: @ThemeService.CustomTheme.Token.Color.BrandFillLoud;
-        --wa-color-brand-border-quiet: @ThemeService.CustomTheme.Token.Color.BrandBorderQuiet;
-        --wa-color-brand-border-normal: @ThemeService.CustomTheme.Token.Color.BrandBorderNormal;
-        --wa-color-brand-border-loud: @ThemeService.CustomTheme.Token.Color.BrandBorderLoud;
-        --wa-color-brand-on-quiet: @ThemeService.CustomTheme.Token.Color.BrandOnQuiet;
-        --wa-color-brand-on-normal: @ThemeService.CustomTheme.Token.Color.BrandOnNormal;
-        --wa-color-brand-on-loud: @ThemeService.CustomTheme.Token.Color.BrandOnLoud;
-        /* ### End brand colors section ###*/
-        /* ### Start success colors section ###*/
-        --wa-color-success-fill-quiet: @ThemeService.CustomTheme.Token.Color.SuccessFillQuiet;
-        --wa-color-success-fill-normal: @ThemeService.CustomTheme.Token.Color.SuccessFillNormal;
-        --wa-color-success-fill-loud: @ThemeService.CustomTheme.Token.Color.SuccessFillLoud;
-        --wa-color-success-border-quiet: @ThemeService.CustomTheme.Token.Color.SuccessBorderQuiet;
-        --wa-color-success-border-normal: @ThemeService.CustomTheme.Token.Color.SuccessBorderNormal;
-        --wa-color-success-border-loud: @ThemeService.CustomTheme.Token.Color.SuccessBorderLoud;
-        --wa-color-success-on-quiet: @ThemeService.CustomTheme.Token.Color.SuccessOnQuiet;
-        --wa-color-success-on-normal: @ThemeService.CustomTheme.Token.Color.SuccessOnNormal;
-        --wa-color-success-on-loud: @ThemeService.CustomTheme.Token.Color.SuccessOnLoud;
-        /* ### End success colors section ###*/
-        /* ### Start neutral colors section ###*/
-        --wa-color-neutral-fill-quiet: @ThemeService.CustomTheme.Token.Color.NeutralFillQuiet;
-        --wa-color-neutral-fill-normal: @ThemeService.CustomTheme.Token.Color.NeutralFillNormal;
-        --wa-color-neutral-fill-loud: @ThemeService.CustomTheme.Token.Color.NeutralFillLoud;
-        --wa-color-neutral-border-quiet: @ThemeService.CustomTheme.Token.Color.NeutralBorderQuiet;
-        --wa-color-neutral-border-normal: @ThemeService.CustomTheme.Token.Color.NeutralBorderNormal;
-        --wa-color-neutral-border-loud: @ThemeService.CustomTheme.Token.Color.NeutralBorderLoud;
-        --wa-color-neutral-on-quiet: @ThemeService.CustomTheme.Token.Color.NeutralOnQuiet;
-        --wa-color-neutral-on-normal: @ThemeService.CustomTheme.Token.Color.NeutralOnNormal;
-        --wa-color-neutral-on-loud: @ThemeService.CustomTheme.Token.Color.NeutralOnLoud;
-        /* ### End neutral colors section ###*/
-        /* ### Start warning colors section ###*/
-        --wa-color-warning-fill-quiet: @ThemeService.CustomTheme.Token.Color.WarningFillQuiet;
-        --wa-color-warning-fill-normal: @ThemeService.CustomTheme.Token.Color.WarningFillNormal;
-        --wa-color-warning-fill-loud: @ThemeService.CustomTheme.Token.Color.WarningFillLoud;
-        --wa-color-warning-border-quiet: @ThemeService.CustomTheme.Token.Color.WarningBorderQuiet;
-        --wa-color-warning-border-normal: @ThemeService.CustomTheme.Token.Color.WarningBorderNormal;
-        --wa-color-warning-border-loud: @ThemeService.CustomTheme.Token.Color.WarningBorderLoud;
-        --wa-color-warning-on-quiet: @ThemeService.CustomTheme.Token.Color.WarningOnQuiet;
-        --wa-color-warning-on-normal: @ThemeService.CustomTheme.Token.Color.WarningOnNormal;
-        --wa-color-warning-on-loud: @ThemeService.CustomTheme.Token.Color.WarningOnLoud;
-        /* ### End warning colors section ###*/
-        /* ### Start danger colors section ###*/
-        --wa-color-danger-fill-quiet: @ThemeService.CustomTheme.Token.Color.DangerFillQuiet;
-        --wa-color-danger-fill-normal: @ThemeService.CustomTheme.Token.Color.DangerFillNormal;
-        --wa-color-danger-fill-loud: @ThemeService.CustomTheme.Token.Color.DangerFillLoud;
-        --wa-color-danger-border-quiet: @ThemeService.CustomTheme.Token.Color.DangerBorderQuiet;
-        --wa-color-danger-border-normal: @ThemeService.CustomTheme.Token.Color.DangerBorderNormal;
-        --wa-color-danger-border-loud: @ThemeService.CustomTheme.Token.Color.DangerBorderLoud;
-        --wa-color-danger-on-quiet: @ThemeService.CustomTheme.Token.Color.DangerOnQuiet;
-        --wa-color-danger-on-normal: @ThemeService.CustomTheme.Token.Color.DangerOnNormal;
-        --wa-color-danger-on-loud: @ThemeService.CustomTheme.Token.Color.DangerOnLoud;
-        /* ### End danger colors section ###*/
+        @foreach (var variant in ThemeService.CustomTheme.Token.Variants)
+        {
+            var defaults = DefaultVariants.GetValueOrDefault(variant.Key);
+            var colorDefaults = defaults ?? DefaultVariants[RoarVariant.Brand];
+
+            <text>
+            --wa-color-@(variant.Key)-95: @(variant.Value.Color95 ?? colorDefaults.Color95);
+            --wa-color-@(variant.Key)-90: @(variant.Value.Color90 ?? colorDefaults.Color90);
+            --wa-color-@(variant.Key)-80: @(variant.Value.Color80 ?? colorDefaults.Color80);
+            --wa-color-@(variant.Key)-70: @(variant.Value.Color70 ?? colorDefaults.Color70);
+            --wa-color-@(variant.Key)-60: @(variant.Value.Color60 ?? colorDefaults.Color60);
+            --wa-color-@(variant.Key)-50: @(variant.Value.Color50 ?? colorDefaults.Color50);
+            --wa-color-@(variant.Key)-40: @(variant.Value.Color40 ?? colorDefaults.Color40);
+            --wa-color-@(variant.Key)-30: @(variant.Value.Color30 ?? colorDefaults.Color30);
+            --wa-color-@(variant.Key)-20: @(variant.Value.Color20 ?? colorDefaults.Color20);
+            --wa-color-@(variant.Key)-10: @(variant.Value.Color10 ?? colorDefaults.Color10);
+            --wa-color-@(variant.Key)-05: @(variant.Value.Color05 ?? colorDefaults.Color05);
+            --wa-color-@(variant.Key)-on: @(variant.Value.On ?? colorDefaults.On);
+            --wa-color-@(variant.Key): @(variant.Value.Color ?? colorDefaults.Color);
+            --wa-color-@(variant.Key)-fill-quiet: @(variant.Value.FillQuiet ?? defaults?.FillQuiet ?? $"var(--wa-color-{variant.Key}-95)");
+            --wa-color-@(variant.Key)-fill-normal: @(variant.Value.FillNormal ?? defaults?.FillNormal ?? $"var(--wa-color-{variant.Key}-90)");
+            --wa-color-@(variant.Key)-fill-loud: @(variant.Value.FillLoud ?? defaults?.FillLoud ?? $"var(--wa-color-{variant.Key}-50)");
+            --wa-color-@(variant.Key)-border-quiet: @(variant.Value.BorderQuiet ?? defaults?.BorderQuiet ?? $"var(--wa-color-{variant.Key}-90)");
+            --wa-color-@(variant.Key)-border-normal: @(variant.Value.BorderNormal ?? defaults?.BorderNormal ?? $"var(--wa-color-{variant.Key}-80)");
+            --wa-color-@(variant.Key)-border-loud: @(variant.Value.BorderLoud ?? defaults?.BorderLoud ?? $"var(--wa-color-{variant.Key}-60)");
+            --wa-color-@(variant.Key)-on-quiet: @(variant.Value.OnQuiet ?? defaults?.OnQuiet ?? $"var(--wa-color-{variant.Key}-40)");
+            --wa-color-@(variant.Key)-on-normal: @(variant.Value.OnNormal ?? defaults?.OnNormal ?? $"var(--wa-color-{variant.Key}-30)");
+            --wa-color-@(variant.Key)-on-loud: @(variant.Value.OnLoud ?? colorDefaults.OnLoud);
+            </text>
+        }
         }
         }
     </style>
@@ -471,6 +379,23 @@
 }
 
 @code {
+    private static readonly IReadOnlyDictionary<string, Theme.VariantPalette> DefaultVariants = new Theme.Token().Variants;
+
+    private MarkupString BuildVariantMappings(IEnumerable<string> variants)
+    {
+        var css = new System.Text.StringBuilder();
+
+        foreach (var variant in variants)
+        {
+            foreach (var renderer in VariantCssRenderers)
+            {
+                css.AppendLine(renderer.BuildVariantMappings(variant));
+            }
+        }
+
+        return new MarkupString(css.ToString());
+    }
+
     protected override void OnInitialized()
     {
         RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
