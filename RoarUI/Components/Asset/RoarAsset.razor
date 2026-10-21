@@ -1,6 +1,7 @@
 ﻿@namespace RoarUI
 @inject RoarDependencyService RoarDependencyService
 @inject ThemeService ThemeService
+@inject IEnumerable<RoarUI.Theme.IVariantCssRenderer> VariantCssRenderers
 @implements IDisposable
 @attribute [StreamRendering(false)]
 
@@ -14,6 +15,13 @@
 
 @if (ThemeService.CustomTheme is not null)
 {
+    var variantMappings = BuildVariantMappings(ThemeService.CustomTheme.Token.Variants.Keys);
+
+    <style data-roar-variant-mappings>
+        @@layer wa-theme-overrides {
+        @variantMappings
+        }
+    </style>
     <style>
         @@layer wa-theme-overrides {
         :root {
@@ -372,6 +380,21 @@
 
 @code {
     private static readonly IReadOnlyDictionary<string, Theme.VariantPalette> DefaultVariants = new Theme.Token().Variants;
+
+    private MarkupString BuildVariantMappings(IEnumerable<string> variants)
+    {
+        var css = new System.Text.StringBuilder();
+
+        foreach (var variant in variants)
+        {
+            foreach (var renderer in VariantCssRenderers)
+            {
+                css.AppendLine(renderer.BuildVariantMappings(variant));
+            }
+        }
+
+        return new MarkupString(css.ToString());
+    }
 
     protected override void OnInitialized()
     {
