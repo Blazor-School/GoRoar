@@ -30,10 +30,10 @@
     public string GroupName { get; set; } = "";
 
     /// <summary>
-    /// The radio's size. When used inside a radio group, the size will be determined by the radio group's size, which will override this attribute.
+    /// The radio's size. When omitted, the size is inherited. When used inside a radio group with an explicit size, the group's size will override this attribute.
     /// </summary>
     [Parameter]
-    public InputSize Size { get; set; }
+    public InputSize? Size { get; set; }
 
     /// <summary>
     /// The radio's value. When selected, the radio group will receive this value.

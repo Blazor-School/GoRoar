@@ -36,7 +36,7 @@
     /// The size of the icon. This can be a predefined size or a custom CSS size (e.g., "2em", "24px").
     /// </summary>
     [Parameter]
-    public IconSize Size { get; set; }
+    public IconSize? Size { get; set; }
 
     /// <summary>
     /// Sets the width of the icon to match the cropped SVG viewBox. This operates like the Font <code>fa-width-auto</code> class.
@@ -109,7 +109,7 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddStyle("font-size", Size)
+            .AddStyle("font-size", Size?.Value)
             .AddStyle("color", Color)
             .AddStyle("--primary-color", PrimaryColor)
             .AddStyle("--secondary-color", SecondaryColor)

@@ -18,10 +18,10 @@
     public BadgeAppearance Appearance { get; set; }
 
     /// <summary>
-    /// The badge's size. Can use any valid CSS unit.
+    /// The badge's size. Can use any valid CSS unit. When omitted, the size is controlled by CSS.
     /// </summary>
     [Parameter]
-    public BadgeSize Size { get; set; }
+    public BadgeSize? Size { get; set; }
 
     /// <summary>
     /// Draws a pill-style badge with rounded edges.
@@ -46,7 +46,7 @@
     protected override void OnParametersSet()
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
-            .AddStyle("font-size", Size)
+            .AddStyle("font-size", Size?.Value)
             .Build();
     }
 }
