@@ -6,7 +6,7 @@ public class Space
     public string Space2XS { get; set; } = "calc(var(--wa-space-scale) * 0.25rem)";
     public string SpaceXS { get; set; } = "calc(var(--wa-space-scale) * 0.5rem)";
     public string SpaceS { get; set; } = "calc(var(--wa-space-scale) * 0.75rem)";
-    public string SpaceM { get; set; } = "calc(var(--wa-space-scale) * 1rem) (16px)";
+    public string SpaceM { get; set; } = "calc(var(--wa-space-scale) * 1rem)";
     public string SpaceL { get; set; } = "calc(var(--wa-space-scale) * 1.5rem)";
     public string SpaceXL { get; set; } = "calc(var(--wa-space-scale) * 2rem)";
     public string Space2XL { get; set; } = "calc(var(--wa-space-scale) * 2.5rem)";

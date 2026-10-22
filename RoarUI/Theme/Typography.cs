@@ -18,7 +18,7 @@ public class Typography
     public string FontSize4XL { get; set; } = "round(calc(var(--wa-font-size-3xl) * 1.125 * 1.125), 1px)";
     public string FontSize5XL { get; set; } = "round(calc(var(--wa-font-size-4xl) * 1.125 * 1.125), 1px)";
     public string FontSizeSmaller { get; set; } = "round(calc(1em / 1.125), 1px)";
-    public string FontSizeLarger { get; set; } = " round(calc(1em * 1.125 * 1.125), 1px)";
+    public string FontSizeLarger { get; set; } = "round(calc(1em * 1.125 * 1.125), 1px)";
     public string FontWeightLight { get; set; } = "300";
     public string FontWeightNormal { get; set; } = "400";
     public string FontWeightSemiBold { get; set; } = "500";
@@ -31,6 +31,6 @@ public class Typography
     public string LineHeightCondensed { get; set; } = "1.2";
     public string LineHeightNormal { get; set; } = "1.6";
     public string LineHeightExpanded { get; set; } = "2";
-    public string LinkDecorationDefault { get; set; } = "underline color-mix(in oklab, var(--wa-color-text-link) 70%, transparent) dotted";
+    public string LinkDecorationDefault { get; set; } = "underline color-mix(in oklab, currentColor 70%, transparent) dotted";
     public string LinkDecorationHover { get; set; } = "underline";
 }
