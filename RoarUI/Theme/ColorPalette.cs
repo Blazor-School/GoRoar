@@ -9,12 +9,12 @@ public class ColorPalette
     public string TextNormal { get; set; } = "var(--wa-color-neutral-10)";
     public string TextQuiet { get; set; } = "var(--wa-color-neutral-40)";
     public string TextLink { get; set; } = "var(--wa-color-brand-40)";
-    public string OverlayModal { get; set; } = "color-mix(in oklab, var(--wa-color-neutral-05) 50%, transparent);";
+    public string OverlayModal { get; set; } = "color-mix(in oklab, var(--wa-color-neutral-05) 50%, transparent)";
     public string OverlayInline { get; set; } = "color-mix(in oklab, var(--wa-color-neutral-80) 25%, transparent)";
-    public string Shadow { get; set; } = "color-mix( in oklab, var(--wa-color-neutral-05) calc(var(--wa-shadow-blur-scale) * 4% + 8%), transparent)";
+    public string Shadow { get; set; } = "color-mix(in oklab, var(--wa-color-neutral-05) calc(var(--wa-shadow-blur-scale) * 4% + 8%), transparent)";
     public string Focus { get; set; } = "var(--wa-color-brand-60)";
-    public string MixHover { get; set; } = "black 10%";
-    public string MixActive { get; set; } = "black 20%";
+    public string MixHover { get; set; } = "oklch(from currentColor calc(1 - l) c h) 10%";
+    public string MixActive { get; set; } = "var(--wa-color-surface-default) 10%";
 
     public string Red95 { get; set; } = "#fff0ef";
     public string Red90 { get; set; } = "#ffdedc";

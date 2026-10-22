@@ -31,7 +31,7 @@ public class Token
             BorderQuiet = "var(--wa-color-brand-90)",
             BorderNormal = "var(--wa-color-brand-80)",
             BorderLoud = "var(--wa-color-brand-60)",
-            OnQuiet = "var(--wa-color-brand-95)",
+            OnQuiet = "var(--wa-color-brand-40)",
             OnNormal = "var(--wa-color-brand-30)",
             OnLoud = "white"
         },
@@ -104,7 +104,7 @@ public class Token
             FillNormal = "var(--wa-color-warning-90)",
             FillLoud = "var(--wa-color-warning-50)",
             BorderQuiet = "var(--wa-color-warning-90)",
-            BorderNormal = "var(--wa-color-neutral-80)",
+            BorderNormal = "var(--wa-color-warning-80)",
             BorderLoud = "var(--wa-color-warning-60)",
             OnQuiet = "var(--wa-color-warning-40)",
             OnNormal = "var(--wa-color-warning-30)",
