@@ -1,10 +1,15 @@
 ﻿@namespace RoarUI
 
-<div class="avatar-group">
+<RoarDependency ComponentName="roar-avatar-group" />
+
+<roar-avatar-group @attributes="AdditionalAttributes">
     @ChildContent
-</div>
+</roar-avatar-group>
 
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 }

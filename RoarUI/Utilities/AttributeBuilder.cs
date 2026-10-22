@@ -4,7 +4,7 @@ internal class AttributeBuilder
 {
     private readonly Dictionary<string, object> _attributes;
 
-    public AttributeBuilder(IReadOnlyDictionary<string, object>? attributes = null) => _attributes = attributes?.ToDictionary(x => x.Key, x => x.Value) ?? [];
+    public AttributeBuilder(IReadOnlyDictionary<string, object>? attributes = null) => _attributes = attributes?.ToDictionary(x => x.Key, x => x.Value, StringComparer.OrdinalIgnoreCase) ?? new(StringComparer.OrdinalIgnoreCase);
 
     public AttributeBuilder AddStyle(string name, string? value)
     {
@@ -14,8 +14,8 @@ internal class AttributeBuilder
 
             if (_attributes.TryGetValue("style", out object? existing))
             {
-                string? style = existing?.ToString()?.Trim().TrimEnd(';');
-                _attributes["style"] = $"{style}; {newStyle}";
+                string? style = existing?.ToString();
+                _attributes["style"] = string.IsNullOrWhiteSpace(style) ? newStyle : $"{newStyle}; {style}";
             }
             else
             {
@@ -26,25 +26,7 @@ internal class AttributeBuilder
         return this;
     }
 
-    public AttributeBuilder AddStyle(string name, double? value)
-    {
-        if (value is not null)
-        {
-            string newStyle = $"{name}:{value}";
-
-            if (_attributes.TryGetValue("style", out object? existing))
-            {
-                string? style = existing?.ToString()?.Trim().TrimEnd(';');
-                _attributes["style"] = $"{style}; {newStyle}";
-            }
-            else
-            {
-                _attributes["style"] = newStyle;
-            }
-        }
-
-        return this;
-    }
+    public AttributeBuilder AddStyle(string name, double? value) => AddStyle(name, value?.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
     public AttributeBuilder MapEvent(string eventName, string mappedEventName)
     {
