@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      packages: write
 
     steps:
     - name: Checkout
@@ -29,5 +30,10 @@ jobs:
       with:
         user: ${{ vars.NUGET_USER }}
 
-    - name: Push
-      run: dotnet nuget push "*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
+    - name: Push to NuGet.org
+      run: dotnet nuget push "*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --skip-duplicate
+
+    - name: Push to GitHub Packages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push "*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key "$env:GITHUB_TOKEN" --skip-duplicate
