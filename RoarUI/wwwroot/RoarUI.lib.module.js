@@ -339,6 +339,11 @@ const propertyObservers = new WeakMap();
 const ratingDefaultSymbols = new WeakMap();
 
 function roarGeneralFunction() {
+    window.applyMode = function (mode) {
+        document.documentElement.classList.toggle('wa-light', mode === 'light');
+        document.documentElement.classList.toggle('wa-dark', mode === 'dark');
+    }
+
     window.executeJsFunctionFromJsObject = function (element, functionName, ...params) {
         return element[functionName](...params);
     }

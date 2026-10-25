@@ -1,6 +1,7 @@
 ﻿@namespace RoarUI
 @inject RoarDependencyService RoarDependencyService
 @inject ThemeService ThemeService
+@inject IJSRuntime JSRuntime
 @inject IEnumerable<RoarUI.Theme.IVariantCssRenderer> VariantCssRenderers
 @implements IDisposable
 @attribute [StreamRendering(false)]
@@ -206,8 +207,6 @@
         }
         }
     </style>
-    @RenderScheme(ThemeService.CustomTheme.Token.Light)
-    @RenderScheme(ThemeService.CustomTheme.Token.Dark)
     <style>
         @@layer wa-theme-overrides {
         @SharedSelectors {
@@ -358,15 +357,30 @@
     </style>
 }
 
+@RenderScheme(CurrentToken.Light)
+@RenderScheme(CurrentToken.Dark)
+
 @code {
     private const string SharedSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark, .wa-invert";
     private const string LightSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark .wa-invert, .wa-light .wa-theme-default, .wa-dark .wa-theme-default.wa-invert, .wa-dark .wa-theme-default .wa-invert";
     private const string DarkSelectors = ".wa-dark, .wa-invert, .wa-dark .wa-theme-default, .wa-light .wa-theme-default.wa-invert, .wa-light .wa-theme-default .wa-invert";
+    private const string InitialModeSelector = ":root:where(:not(.wa-light):not(.wa-dark))";
     private static readonly Theme.Token DefaultToken = new();
+    private Theme.Token CurrentToken => ThemeService.CustomTheme?.Token ?? DefaultToken;
+
+    private string GetModeSelectors(string name)
+    {
+        var selectors = name == "light" ? LightSelectors : DarkSelectors;
+        var modeSelector = $".wa-{ThemeService.Mode}";
+        // Give a classless root the same specificity and descendant behavior as the active mode class.
+        var initialSelectors = selectors.Split(", ").Where(selector => selector.Contains(modeSelector, StringComparison.Ordinal)).Select(selector => selector.Replace(modeSelector, InitialModeSelector, StringComparison.Ordinal));
+
+        return $"{selectors}, {string.Join(", ", initialSelectors)}";
+    }
 
     private RenderFragment RenderScheme(Theme.SchemeColors scheme)
     {
-        var selectors = scheme.Name == "light" ? LightSelectors : DarkSelectors;
+        var selectors = GetModeSelectors(scheme.Name);
         var defaults = scheme.Name == "light" ? DefaultToken.Light : DefaultToken.Dark;
 
         return @<style data-roar-color-scheme="@scheme.Name">
@@ -387,7 +401,7 @@
             --wa-color-focus: @RenderCssValue(scheme.Focus ?? defaults.Focus);
             --wa-color-mix-hover: @RenderCssValue(scheme.MixHover ?? defaults.MixHover);
             --wa-color-mix-active: @RenderCssValue(scheme.MixActive ?? defaults.MixActive);
-            @foreach (var variant in ThemeService.CustomTheme!.Token.Variants)
+            @foreach (var variant in CurrentToken.Variants)
             {
                 var appearance = scheme.Name == "light" ? variant.Value.Light : variant.Value.Dark;
                 var variantDefaults = DefaultToken.Variants.GetValueOrDefault(variant.Key);
@@ -434,6 +448,15 @@
     {
         RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
         ThemeService.OnThemeLoaded += OnThemeLoadedHandler;
+        ThemeService.OnModeChanged += OnModeChangedHandler;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+        }
     }
 
     public void OnComponentsChangedHandler(object? sender, EventArgs args)
@@ -446,9 +469,26 @@
         InvokeAsync(StateHasChanged);
     }
 
+    public void OnModeChangedHandler(object? sender, string mode)
+    {
+        InvokeAsync(async () =>
+        {
+            StateHasChanged();
+
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        });
+    }
+
     public void Dispose()
     {
         RoarDependencyService.OnComponentsChanged -= OnComponentsChangedHandler;
         ThemeService.OnThemeLoaded -= OnThemeLoadedHandler;
+        ThemeService.OnModeChanged -= OnModeChangedHandler;
     }
 }
