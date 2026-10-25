@@ -1,6 +1,7 @@
 ﻿@namespace RoarUI
 @inject RoarDependencyService RoarDependencyService
 @inject ThemeService ThemeService
+@inject IJSRuntime JSRuntime
 @inject IEnumerable<RoarUI.Theme.IVariantCssRenderer> VariantCssRenderers
 @implements IDisposable
 @attribute [StreamRendering(false)]
@@ -23,7 +24,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start border section ### */
         --wa-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.Border.Style);
         --wa-border-width-s: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthS);
@@ -41,7 +42,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        :where(:root) {
         /* ### Start red color section ###*/
         --wa-color-red-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red95);
         --wa-color-red-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red90);
@@ -182,25 +183,10 @@
         --wa-color-gray-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray05);
         --wa-color-gray: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray);
         /* ### End gray color section ###*/
-        /* ### Start foundational colors section ###*/
-        --wa-color-surface-raised: @RenderCssValue(ThemeService.CustomTheme.Token.Color.SurfaceRaised);
-        --wa-color-surface-default: @RenderCssValue(ThemeService.CustomTheme.Token.Color.SurfaceDefault);
-        --wa-color-surface-lowered: @RenderCssValue(ThemeService.CustomTheme.Token.Color.SurfaceLowered);
-        --wa-color-surface-border: @RenderCssValue(ThemeService.CustomTheme.Token.Color.SurfaceBorder);
-        --wa-color-text-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Color.TextNormal);
-        --wa-color-text-quiet: @RenderCssValue(ThemeService.CustomTheme.Token.Color.TextQuiet);
-        --wa-color-text-link: @RenderCssValue(ThemeService.CustomTheme.Token.Color.TextLink);
-        --wa-color-overlay-modal: @RenderCssValue(ThemeService.CustomTheme.Token.Color.OverlayModal);
-        --wa-color-overlay-inline: @RenderCssValue(ThemeService.CustomTheme.Token.Color.OverlayInline);
-        --wa-color-shadow: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Shadow);
-        --wa-color-focus: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Focus);
-        --wa-color-mix-hover: @RenderCssValue(ThemeService.CustomTheme.Token.Color.MixHover);
-        --wa-color-mix-active: @RenderCssValue(ThemeService.CustomTheme.Token.Color.MixActive);
-        /* ### End foundational colors section ###*/
         @foreach (var variant in ThemeService.CustomTheme.Token.Variants)
         {
-            var defaults = DefaultVariants.GetValueOrDefault(variant.Key);
-            var colorDefaults = defaults ?? DefaultVariants[RoarVariant.Brand];
+            var defaults = DefaultToken.Variants.GetValueOrDefault(variant.Key);
+            var colorDefaults = defaults ?? DefaultToken.Variants[RoarVariant.Brand];
 
             <text>
             --wa-color-@(variant.Key)-95: @RenderCssValue(variant.Value.Color95 ?? colorDefaults.Color95);
@@ -216,15 +202,6 @@
             --wa-color-@(variant.Key)-05: @RenderCssValue(variant.Value.Color05 ?? colorDefaults.Color05);
             --wa-color-@(variant.Key)-on: @RenderCssValue(variant.Value.On ?? colorDefaults.On);
             --wa-color-@(variant.Key): @RenderCssValue(variant.Value.Color ?? colorDefaults.Color);
-            --wa-color-@(variant.Key)-fill-quiet: @RenderCssValue(variant.Value.FillQuiet ?? defaults?.FillQuiet ?? $"var(--wa-color-{variant.Key}-95)");
-            --wa-color-@(variant.Key)-fill-normal: @RenderCssValue(variant.Value.FillNormal ?? defaults?.FillNormal ?? $"var(--wa-color-{variant.Key}-90)");
-            --wa-color-@(variant.Key)-fill-loud: @RenderCssValue(variant.Value.FillLoud ?? defaults?.FillLoud ?? $"var(--wa-color-{variant.Key}-50)");
-            --wa-color-@(variant.Key)-border-quiet: @RenderCssValue(variant.Value.BorderQuiet ?? defaults?.BorderQuiet ?? $"var(--wa-color-{variant.Key}-90)");
-            --wa-color-@(variant.Key)-border-normal: @RenderCssValue(variant.Value.BorderNormal ?? defaults?.BorderNormal ?? $"var(--wa-color-{variant.Key}-80)");
-            --wa-color-@(variant.Key)-border-loud: @RenderCssValue(variant.Value.BorderLoud ?? defaults?.BorderLoud ?? $"var(--wa-color-{variant.Key}-60)");
-            --wa-color-@(variant.Key)-on-quiet: @RenderCssValue(variant.Value.OnQuiet ?? defaults?.OnQuiet ?? $"var(--wa-color-{variant.Key}-40)");
-            --wa-color-@(variant.Key)-on-normal: @RenderCssValue(variant.Value.OnNormal ?? defaults?.OnNormal ?? $"var(--wa-color-{variant.Key}-30)");
-            --wa-color-@(variant.Key)-on-loud: @RenderCssValue(variant.Value.OnLoud ?? colorDefaults.OnLoud);
             </text>
         }
         }
@@ -232,7 +209,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start focus section ###*/
         --wa-focus-ring-style: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Style);
         --wa-focus-ring-width: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Width);
@@ -244,7 +221,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start shadow section ###*/
         --wa-shadow-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.S);
         --wa-shadow-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.M);
@@ -267,7 +244,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start space section ###*/
         --wa-space-3xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space3XS);
         --wa-space-2xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space2XS);
@@ -286,7 +263,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start transition section ###*/
         --wa-transition-slow: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Slow);
         --wa-transition-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Normal);
@@ -298,7 +275,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start typography section ###*/
         --wa-font-family-body: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyBody);
         --wa-font-family-heading: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyHeading);
@@ -337,7 +314,7 @@
     </style>
     <style>
         @@layer wa-theme-overrides {
-        :root {
+        @SharedSelectors {
         /* ### Start component groups section ###*/
         --wa-form-control-background-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BackgroundColor);
         --wa-form-control-border-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderColor);
@@ -380,8 +357,72 @@
     </style>
 }
 
+@RenderScheme(CurrentToken.Light)
+@RenderScheme(CurrentToken.Dark)
+
 @code {
-    private static readonly IReadOnlyDictionary<string, Theme.VariantPalette> DefaultVariants = new Theme.Token().Variants;
+    private const string SharedSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark, .wa-invert";
+    private const string LightSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark .wa-invert, .wa-light .wa-theme-default, .wa-dark .wa-theme-default.wa-invert, .wa-dark .wa-theme-default .wa-invert";
+    private const string DarkSelectors = ".wa-dark, .wa-invert, .wa-dark .wa-theme-default, .wa-light .wa-theme-default.wa-invert, .wa-light .wa-theme-default .wa-invert";
+    private const string InitialModeSelector = ":root:where(:not(.wa-light):not(.wa-dark))";
+    private static readonly Theme.Token DefaultToken = new();
+    private Theme.Token CurrentToken => ThemeService.CustomTheme?.Token ?? DefaultToken;
+
+    private string GetModeSelectors(string name)
+    {
+        var selectors = name == "light" ? LightSelectors : DarkSelectors;
+        var modeSelector = $".wa-{ThemeService.Mode}";
+        // Give a classless root the same specificity and descendant behavior as the active mode class.
+        var initialSelectors = selectors.Split(", ").Where(selector => selector.Contains(modeSelector, StringComparison.Ordinal)).Select(selector => selector.Replace(modeSelector, InitialModeSelector, StringComparison.Ordinal));
+
+        return $"{selectors}, {string.Join(", ", initialSelectors)}";
+    }
+
+    private RenderFragment RenderScheme(Theme.SchemeColors scheme)
+    {
+        var selectors = GetModeSelectors(scheme.Name);
+        var defaults = scheme.Name == "light" ? DefaultToken.Light : DefaultToken.Dark;
+
+        return @<style data-roar-color-scheme="@scheme.Name">
+            @@layer wa-theme-overrides {
+            @selectors {
+            color-scheme: @RenderCssValue(scheme.Name);
+            color: var(--wa-color-text-normal);
+            --wa-color-surface-raised: @RenderCssValue(scheme.SurfaceRaised ?? defaults.SurfaceRaised);
+            --wa-color-surface-default: @RenderCssValue(scheme.SurfaceDefault ?? defaults.SurfaceDefault);
+            --wa-color-surface-lowered: @RenderCssValue(scheme.SurfaceLowered ?? defaults.SurfaceLowered);
+            --wa-color-surface-border: @RenderCssValue(scheme.SurfaceBorder ?? defaults.SurfaceBorder);
+            --wa-color-text-normal: @RenderCssValue(scheme.TextNormal ?? defaults.TextNormal);
+            --wa-color-text-quiet: @RenderCssValue(scheme.TextQuiet ?? defaults.TextQuiet);
+            --wa-color-text-link: @RenderCssValue(scheme.TextLink ?? defaults.TextLink);
+            --wa-color-overlay-modal: @RenderCssValue(scheme.OverlayModal ?? defaults.OverlayModal);
+            --wa-color-overlay-inline: @RenderCssValue(scheme.OverlayInline ?? defaults.OverlayInline);
+            --wa-color-shadow: @RenderCssValue(scheme.Shadow ?? defaults.Shadow);
+            --wa-color-focus: @RenderCssValue(scheme.Focus ?? defaults.Focus);
+            --wa-color-mix-hover: @RenderCssValue(scheme.MixHover ?? defaults.MixHover);
+            --wa-color-mix-active: @RenderCssValue(scheme.MixActive ?? defaults.MixActive);
+            @foreach (var variant in CurrentToken.Variants)
+            {
+                var appearance = scheme.Name == "light" ? variant.Value.Light : variant.Value.Dark;
+                var variantDefaults = DefaultToken.Variants.GetValueOrDefault(variant.Key);
+                var appearanceDefaults = scheme.Name == "light" ? variantDefaults?.Light : variantDefaults?.Dark;
+
+                <text>
+                --wa-color-@(variant.Key)-fill-quiet: @RenderCssValue(appearance?.FillQuiet ?? appearanceDefaults?.FillQuiet ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "95" : "10")})");
+                --wa-color-@(variant.Key)-fill-normal: @RenderCssValue(appearance?.FillNormal ?? appearanceDefaults?.FillNormal ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "90" : "20")})");
+                --wa-color-@(variant.Key)-fill-loud: @RenderCssValue(appearance?.FillLoud ?? appearanceDefaults?.FillLoud ?? $"var(--wa-color-{variant.Key}-50)");
+                --wa-color-@(variant.Key)-border-quiet: @RenderCssValue(appearance?.BorderQuiet ?? appearanceDefaults?.BorderQuiet ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "90" : "20")})");
+                --wa-color-@(variant.Key)-border-normal: @RenderCssValue(appearance?.BorderNormal ?? appearanceDefaults?.BorderNormal ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "80" : "30")})");
+                --wa-color-@(variant.Key)-border-loud: @RenderCssValue(appearance?.BorderLoud ?? appearanceDefaults?.BorderLoud ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "60" : "40")})");
+                --wa-color-@(variant.Key)-on-quiet: @RenderCssValue(appearance?.OnQuiet ?? appearanceDefaults?.OnQuiet ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "40" : "60")})");
+                --wa-color-@(variant.Key)-on-normal: @RenderCssValue(appearance?.OnNormal ?? appearanceDefaults?.OnNormal ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "30" : "70")})");
+                --wa-color-@(variant.Key)-on-loud: @RenderCssValue(appearance?.OnLoud ?? appearanceDefaults?.OnLoud ?? "white");
+                </text>
+            }
+            }
+            }
+        </style>;
+    }
 
     private static MarkupString RenderCssValue(string? value)
     {
@@ -407,6 +448,15 @@
     {
         RoarDependencyService.OnComponentsChanged += OnComponentsChangedHandler;
         ThemeService.OnThemeLoaded += OnThemeLoadedHandler;
+        ThemeService.OnModeChanged += OnModeChangedHandler;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+        }
     }
 
     public void OnComponentsChangedHandler(object? sender, EventArgs args)
@@ -419,9 +469,26 @@
         InvokeAsync(StateHasChanged);
     }
 
+    public void OnModeChangedHandler(object? sender, string mode)
+    {
+        InvokeAsync(async () =>
+        {
+            StateHasChanged();
+
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        });
+    }
+
     public void Dispose()
     {
         RoarDependencyService.OnComponentsChanged -= OnComponentsChangedHandler;
         ThemeService.OnThemeLoaded -= OnThemeLoadedHandler;
+        ThemeService.OnModeChanged -= OnModeChangedHandler;
     }
 }

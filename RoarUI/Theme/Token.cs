@@ -1,13 +1,44 @@
-﻿using System.Text.Json.Serialization;
-
-namespace RoarUI.Theme;
+﻿namespace RoarUI.Theme;
 
 public class Token
 {
     public Border Border { get; set; } = new();
     public ColorPalette Color { get; set; } = new();
 
-    [JsonObjectCreationHandling(JsonObjectCreationHandling.Populate)]
+    public SchemeColors Light { get; set; } = new("light")
+    {
+        SurfaceRaised = "white",
+        SurfaceDefault = "white",
+        SurfaceLowered = "var(--wa-color-neutral-95)",
+        SurfaceBorder = "var(--wa-color-neutral-90)",
+        TextNormal = "var(--wa-color-neutral-10)",
+        TextQuiet = "var(--wa-color-neutral-40)",
+        TextLink = "var(--wa-color-brand-40)",
+        OverlayModal = "color-mix(in oklab, var(--wa-color-neutral-05) 50%, transparent)",
+        OverlayInline = "color-mix(in oklab, var(--wa-color-neutral-80) 25%, transparent)",
+        Shadow = "color-mix(in oklab, var(--wa-color-neutral-05) calc(var(--wa-shadow-blur-scale) * 4% + 8%), transparent)",
+        Focus = "var(--wa-color-brand-60)",
+        MixHover = "oklch(from currentColor calc(1 - l) c h) 10%",
+        MixActive = "var(--wa-color-surface-default) 10%"
+    };
+
+    public SchemeColors Dark { get; set; } = new("dark")
+    {
+        SurfaceRaised = "var(--wa-color-neutral-10)",
+        SurfaceDefault = "var(--wa-color-neutral-05)",
+        SurfaceLowered = "color-mix(in oklab, var(--wa-color-surface-default), black 20%)",
+        SurfaceBorder = "var(--wa-color-neutral-20)",
+        TextNormal = "var(--wa-color-neutral-95)",
+        TextQuiet = "var(--wa-color-neutral-60)",
+        TextLink = "var(--wa-color-brand-70)",
+        OverlayModal = "color-mix(in oklab, black 60%, transparent)",
+        OverlayInline = "color-mix(in oklab, var(--wa-color-neutral-50) 10%, transparent)",
+        Shadow = "color-mix(in oklab, var(--wa-color-surface-lowered) calc(var(--wa-shadow-blur-scale) * 32% + 40%), transparent)",
+        Focus = "var(--wa-color-brand-60)",
+        MixHover = "oklch(from currentColor calc(1 - l) c h) 20%",
+        MixActive = "var(--wa-color-surface-default) 20%"
+    };
+
     public Dictionary<string, VariantPalette> Variants { get; set; } = new()
     {
         [RoarVariant.Brand] = new()
@@ -25,15 +56,30 @@ public class Token
             Color05 = "var(--wa-color-blue-05)",
             Color = "var(--wa-color-blue)",
             On = "var(--wa-color-blue-on)",
-            FillQuiet = "var(--wa-color-brand-95)",
-            FillNormal = "var(--wa-color-brand-90)",
-            FillLoud = "var(--wa-color-brand-50)",
-            BorderQuiet = "var(--wa-color-brand-90)",
-            BorderNormal = "var(--wa-color-brand-80)",
-            BorderLoud = "var(--wa-color-brand-60)",
-            OnQuiet = "var(--wa-color-brand-40)",
-            OnNormal = "var(--wa-color-brand-30)",
-            OnLoud = "white"
+            Light = new()
+            {
+                FillQuiet = "var(--wa-color-brand-95)",
+                FillNormal = "var(--wa-color-brand-90)",
+                FillLoud = "var(--wa-color-brand-50)",
+                BorderQuiet = "var(--wa-color-brand-90)",
+                BorderNormal = "var(--wa-color-brand-80)",
+                BorderLoud = "var(--wa-color-brand-60)",
+                OnQuiet = "var(--wa-color-brand-40)",
+                OnNormal = "var(--wa-color-brand-30)",
+                OnLoud = "white"
+            },
+            Dark = new()
+            {
+                FillQuiet = "var(--wa-color-brand-10)",
+                FillNormal = "var(--wa-color-brand-20)",
+                FillLoud = "var(--wa-color-brand-50)",
+                BorderQuiet = "var(--wa-color-brand-20)",
+                BorderNormal = "var(--wa-color-brand-30)",
+                BorderLoud = "var(--wa-color-brand-40)",
+                OnQuiet = "var(--wa-color-brand-60)",
+                OnNormal = "var(--wa-color-brand-70)",
+                OnLoud = "white"
+            }
         },
         [RoarVariant.Neutral] = new()
         {
@@ -50,15 +96,30 @@ public class Token
             Color05 = "var(--wa-color-gray-05)",
             Color = "var(--wa-color-gray)",
             On = "var(--wa-color-gray-on)",
-            FillQuiet = "var(--wa-color-neutral-95)",
-            FillNormal = "var(--wa-color-neutral-90)",
-            FillLoud = "var(--wa-color-neutral-20)",
-            BorderQuiet = "var(--wa-color-neutral-90)",
-            BorderNormal = "var(--wa-color-neutral-80)",
-            BorderLoud = "var(--wa-color-neutral-60)",
-            OnQuiet = "var(--wa-color-neutral-40)",
-            OnNormal = "var(--wa-color-neutral-30)",
-            OnLoud = "white"
+            Light = new()
+            {
+                FillQuiet = "var(--wa-color-neutral-95)",
+                FillNormal = "var(--wa-color-neutral-90)",
+                FillLoud = "var(--wa-color-neutral-20)",
+                BorderQuiet = "var(--wa-color-neutral-90)",
+                BorderNormal = "var(--wa-color-neutral-80)",
+                BorderLoud = "var(--wa-color-neutral-60)",
+                OnQuiet = "var(--wa-color-neutral-40)",
+                OnNormal = "var(--wa-color-neutral-30)",
+                OnLoud = "white"
+            },
+            Dark = new()
+            {
+                FillQuiet = "var(--wa-color-neutral-10)",
+                FillNormal = "var(--wa-color-neutral-20)",
+                FillLoud = "var(--wa-color-neutral-90)",
+                BorderQuiet = "var(--wa-color-neutral-20)",
+                BorderNormal = "var(--wa-color-neutral-30)",
+                BorderLoud = "var(--wa-color-neutral-40)",
+                OnQuiet = "var(--wa-color-neutral-60)",
+                OnNormal = "var(--wa-color-neutral-70)",
+                OnLoud = "var(--wa-color-neutral-05)"
+            }
         },
         [RoarVariant.Success] = new()
         {
@@ -75,15 +136,30 @@ public class Token
             Color05 = "var(--wa-color-green-05)",
             Color = "var(--wa-color-green)",
             On = "var(--wa-color-green-on)",
-            FillQuiet = "var(--wa-color-success-95)",
-            FillNormal = "var(--wa-color-success-90)",
-            FillLoud = "var(--wa-color-success-50)",
-            BorderQuiet = "var(--wa-color-success-90)",
-            BorderNormal = "var(--wa-color-success-80)",
-            BorderLoud = "var(--wa-color-success-60)",
-            OnQuiet = "var(--wa-color-success-40)",
-            OnNormal = "var(--wa-color-success-30)",
-            OnLoud = "white"
+            Light = new()
+            {
+                FillQuiet = "var(--wa-color-success-95)",
+                FillNormal = "var(--wa-color-success-90)",
+                FillLoud = "var(--wa-color-success-50)",
+                BorderQuiet = "var(--wa-color-success-90)",
+                BorderNormal = "var(--wa-color-success-80)",
+                BorderLoud = "var(--wa-color-success-60)",
+                OnQuiet = "var(--wa-color-success-40)",
+                OnNormal = "var(--wa-color-success-30)",
+                OnLoud = "white"
+            },
+            Dark = new()
+            {
+                FillQuiet = "var(--wa-color-success-10)",
+                FillNormal = "var(--wa-color-success-20)",
+                FillLoud = "var(--wa-color-success-50)",
+                BorderQuiet = "var(--wa-color-success-20)",
+                BorderNormal = "var(--wa-color-success-30)",
+                BorderLoud = "var(--wa-color-success-40)",
+                OnQuiet = "var(--wa-color-success-60)",
+                OnNormal = "var(--wa-color-success-70)",
+                OnLoud = "white"
+            }
         },
         [RoarVariant.Warning] = new()
         {
@@ -100,15 +176,30 @@ public class Token
             Color05 = "var(--wa-color-yellow-05)",
             Color = "var(--wa-color-yellow)",
             On = "var(--wa-color-yellow-on)",
-            FillQuiet = "var(--wa-color-warning-95)",
-            FillNormal = "var(--wa-color-warning-90)",
-            FillLoud = "var(--wa-color-warning-50)",
-            BorderQuiet = "var(--wa-color-warning-90)",
-            BorderNormal = "var(--wa-color-warning-80)",
-            BorderLoud = "var(--wa-color-warning-60)",
-            OnQuiet = "var(--wa-color-warning-40)",
-            OnNormal = "var(--wa-color-warning-30)",
-            OnLoud = "white"
+            Light = new()
+            {
+                FillQuiet = "var(--wa-color-warning-95)",
+                FillNormal = "var(--wa-color-warning-90)",
+                FillLoud = "var(--wa-color-warning-50)",
+                BorderQuiet = "var(--wa-color-warning-90)",
+                BorderNormal = "var(--wa-color-warning-80)",
+                BorderLoud = "var(--wa-color-warning-60)",
+                OnQuiet = "var(--wa-color-warning-40)",
+                OnNormal = "var(--wa-color-warning-30)",
+                OnLoud = "white"
+            },
+            Dark = new()
+            {
+                FillQuiet = "var(--wa-color-warning-10)",
+                FillNormal = "var(--wa-color-warning-20)",
+                FillLoud = "var(--wa-color-warning-50)",
+                BorderQuiet = "var(--wa-color-warning-20)",
+                BorderNormal = "var(--wa-color-warning-30)",
+                BorderLoud = "var(--wa-color-warning-40)",
+                OnQuiet = "var(--wa-color-warning-60)",
+                OnNormal = "var(--wa-color-warning-70)",
+                OnLoud = "white"
+            }
         },
         [RoarVariant.Danger] = new()
         {
@@ -125,15 +216,30 @@ public class Token
             Color05 = "var(--wa-color-red-05)",
             Color = "var(--wa-color-red)",
             On = "var(--wa-color-red-on)",
-            FillQuiet = "var(--wa-color-danger-95)",
-            FillNormal = "var(--wa-color-danger-90)",
-            FillLoud = "var(--wa-color-danger-50)",
-            BorderQuiet = "var(--wa-color-danger-90)",
-            BorderNormal = "var(--wa-color-danger-80)",
-            BorderLoud = "var(--wa-color-danger-60)",
-            OnQuiet = "var(--wa-color-danger-40)",
-            OnNormal = "var(--wa-color-danger-30)",
-            OnLoud = "white"
+            Light = new()
+            {
+                FillQuiet = "var(--wa-color-danger-95)",
+                FillNormal = "var(--wa-color-danger-90)",
+                FillLoud = "var(--wa-color-danger-50)",
+                BorderQuiet = "var(--wa-color-danger-90)",
+                BorderNormal = "var(--wa-color-danger-80)",
+                BorderLoud = "var(--wa-color-danger-60)",
+                OnQuiet = "var(--wa-color-danger-40)",
+                OnNormal = "var(--wa-color-danger-30)",
+                OnLoud = "white"
+            },
+            Dark = new()
+            {
+                FillQuiet = "var(--wa-color-danger-10)",
+                FillNormal = "var(--wa-color-danger-20)",
+                FillLoud = "var(--wa-color-danger-50)",
+                BorderQuiet = "var(--wa-color-danger-20)",
+                BorderNormal = "var(--wa-color-danger-30)",
+                BorderLoud = "var(--wa-color-danger-40)",
+                OnQuiet = "var(--wa-color-danger-60)",
+                OnNormal = "var(--wa-color-danger-70)",
+                OnLoud = "white"
+            }
         }
     };
 
