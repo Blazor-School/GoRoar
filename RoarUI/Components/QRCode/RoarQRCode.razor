@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="qr-code" />
 
-<wa-qr-code error-correction="@ErrorCorrection" image="@Image" image-coverage="@ImageCoverage.ToString(CultureInfo.InvariantCulture)" label="@Label" radius="@Radius" size="@Size" value="@Value" @attributes="AdditionalAttributes">
+<wa-qr-code error-correction="@ErrorCorrection" image="@Image" image-coverage="@ImageCoverage.ToString(CultureInfo.InvariantCulture)" label="@Label" radius="@Radius" size="@Size" value="@Value" @attributes="InternalAttributes">
     @ChildContent
 </wa-qr-code>
 
@@ -12,6 +12,12 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The color of the QR code's corners. Accepts any valid CSS color, including CSS custom properties via var().
+    /// </summary>
+    [Parameter]
+    public string? CornerColor { get; set; }
 
     /// <summary>
     /// The level of error correction to use.
@@ -54,4 +60,13 @@
     /// </summary>
     [Parameter]
     public string Value { get; set; } = "";
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--corner-color", CornerColor)
+            .Build();
+    }
 }
