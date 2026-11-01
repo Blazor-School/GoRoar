@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="icon" />
 
-<wa-icon family="@Family" variant="@Variant" label="@Label" auto-width="@AutoWidth" rotate="@Rotate" flip="@Flip" animation="@Animation" swap-opacity="@SwapOpacity" name="@Name" library="default" @attributes="InternalAttributes">
+<wa-icon family="@Family" variant="@Variant" label="@Label" canvas="@Canvas" rotate="@Rotate" flip="@Flip" animation="@Animation" swap-opacity="@SwapOpacity" name="@Name" library="default" @attributes="InternalAttributes">
     @ChildContent
 </wa-icon>
 
@@ -39,10 +39,10 @@
     public IconSize? Size { get; set; }
 
     /// <summary>
-    /// Sets the width of the icon to match the cropped SVG viewBox. This operates like the Font <code>fa-width-auto</code> class.
+    /// Sets the canvas around the icon. The default is fixed; auto matches the icon's natural width.
     /// </summary>
     [Parameter]
-    public bool AutoWidth { get; set; } = false;
+    public IconCanvas Canvas { get; set; }
 
     /// <summary>
     /// Sets the rotation degree of the icon.
