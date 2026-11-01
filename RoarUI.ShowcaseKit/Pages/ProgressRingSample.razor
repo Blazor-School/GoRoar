@@ -1,16 +1,18 @@
 ﻿@page "/progress-ring-sample"
 
 <h3>Size</h3>
-<RoarProgressRing Value="50" style="--size: 200px" />
+<RoarProgressRing Value="50" Size="200px" />
 
 <h3>Track and Indicator Width</h3>
-<RoarProgressRing Value="50" style="--track-width: 6px; --indicator-width: 12px;" />
+<RoarProgressRing Value="50" TrackWidth="6px" IndicatorWidth="12px" />
 
 <h3>Colors</h3>
-<RoarProgressRing Value="50" style="--track-color: pink;--indicator-color: deeppink;" />
+<RoarProgressRing Value="50" TrackColor="pink" IndicatorColor="deeppink" />
+<RoarProgressRing Value="50" IndicatorColor="var(--wa-color-brand)" />
 
 <h3>Showing Values</h3>
-<RoarProgressRing Value="ProgressTracking">@ProgressTracking%</RoarProgressRing>
+<p>Use <code>IndicatorTransitionDuration</code> to control how long the indicator animates when the value changes.</p>
+<RoarProgressRing Value="ProgressTracking" IndicatorTransitionDuration="1s">@ProgressTracking%</RoarProgressRing>
 <RoarButton Pill Appearance="ButtonAppearance.Filled" Disabled="ProgressTracking is 0" @onclick="() => ProgressTracking = ProgressTracking - 10">
     <RoarIcon Name="minus" Label="Decrease" />
 </RoarButton>
