@@ -4,7 +4,7 @@
 <h3>Page Layout</h3>
 <p>Resize the window to see navigation collapse into a drawer. Use RoarPage inside a Blazor layout with its Body as the main content.</p>
 
-<RoarPage @ref="Page" @bind-NavOpen="NavOpen" MobileBreakpoint="@MobileBreakpoint" NavigationPlacement="@NavigationPlacement" DisableSticky="@DisableSticky" id="page-layout">
+<RoarPage @ref="Page" @bind-NavOpen="NavOpen" MobileBreakpoint="@MobileBreakpoint" NavigationPlacement="@NavigationPlacement" DisableSticky="@DisableSticky" MenuWidth="var(--example-menu-width, auto)" MainWidth="1fr" AsideWidth="var(--example-aside-width, 16rem)" id="page-layout">
     <div slot="@PageSlot.Banner">Welcome to the RoarUI page example</div>
     <header slot="@PageSlot.Header">
         <strong>RoarUI</strong>
@@ -59,18 +59,14 @@
 </RoarPage>
 
 <style>
-    #page-layout {
-        --aside-width: 16rem;
+    #page-layout[view='mobile'] {
+        --example-menu-width: auto;
+        --example-aside-width: auto;
     }
 
-        #page-layout[view='mobile'] {
-            --menu-width: auto;
-            --aside-width: auto;
+        #page-layout[view='mobile'] [slot='aside'] {
+            display: none;
         }
-
-            #page-layout[view='mobile'] [slot='aside'] {
-                display: none;
-            }
 </style>
 
 @code {

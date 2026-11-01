@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="page" />
 
-<wa-page disable-sticky="@JoinDisableSticky" disable-navigation-toggle="@DisableNavigationToggle" mobile-breakpoint="@MobileBreakpoint" navigation-placement="@NavigationPlacement" nav-open="@NavOpen" nonce="@Nonce" @onroarafterhide="TriggerNavigationChangeAsync" @onroaraftershow="TriggerNavigationChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-page disable-sticky="@JoinDisableSticky" disable-navigation-toggle="@DisableNavigationToggle" mobile-breakpoint="@MobileBreakpoint" navigation-placement="@NavigationPlacement" nav-open="@NavOpen" nonce="@Nonce" @onroarafterhide="TriggerNavigationChangeAsync" @onroaraftershow="TriggerNavigationChangeAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-page>
 
@@ -13,6 +13,42 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The width of the menu section. Accepts CSS grid track sizes, including auto, lengths, var(), and minmax().
+    /// </summary>
+    [Parameter]
+    public string? MenuWidth { get; set; }
+
+    /// <summary>
+    /// The width of the main section. Accepts CSS grid track sizes, including 1fr, lengths, var(), and minmax().
+    /// </summary>
+    [Parameter]
+    public string? MainWidth { get; set; }
+
+    /// <summary>
+    /// The width of the aside section. Accepts CSS grid track sizes, including auto, lengths, var(), and minmax().
+    /// </summary>
+    [Parameter]
+    public string? AsideWidth { get; set; }
+
+    /// <summary>
+    /// The initial banner height. Set a known CSS length to reduce layout shifts before Web Awesome measures the section.
+    /// </summary>
+    [Parameter]
+    public string? BannerHeight { get; set; }
+
+    /// <summary>
+    /// The initial header height. Set a known CSS length to reduce layout shifts before Web Awesome measures the section.
+    /// </summary>
+    [Parameter]
+    public string? HeaderHeight { get; set; }
+
+    /// <summary>
+    /// The initial subheader height. Set a known CSS length to reduce layout shifts before Web Awesome measures the section.
+    /// </summary>
+    [Parameter]
+    public string? SubheaderHeight { get; set; }
 
     /// <summary>
     /// The sections that should not be sticky: banner, header, subheader, menu, and aside. An empty list keeps all sections sticky.
@@ -54,6 +90,20 @@
     public string? Nonce { get; set; }
 
     private string JoinDisableSticky { get => string.Join(" ", DisableSticky); }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--menu-width", MenuWidth)
+            .AddStyle("--main-width", MainWidth)
+            .AddStyle("--aside-width", AsideWidth)
+            .AddStyle("--banner-height", BannerHeight)
+            .AddStyle("--header-height", HeaderHeight)
+            .AddStyle("--subheader-height", SubheaderHeight)
+            .Build();
+    }
 
     /// <summary>
     /// Shows the mobile navigation drawer.
