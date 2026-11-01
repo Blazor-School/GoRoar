@@ -116,6 +116,55 @@
     <RoarIcon Name="cog" Animation="IconAnimation.SpinResverse" />
 </div>
 
+<h3>Custom Animation Settings</h3>
+<p>Animation parameters accept CSS values, including <code>var()</code> and <code>calc()</code>. Leave them unset to use Web Awesome's defaults. Animation-specific settings apply when the matching animation is selected.</p>
+<div class="wa-stack wa-gap-l" style="--example-icon-duration: 2s;">
+    <div>
+        Timing
+        <RoarIcon Name="cog" Animation="IconAnimation.Spin" AnimationDelay="250ms" AnimationDirection="reverse" AnimationDuration="var(--example-icon-duration)" AnimationIterationCount="infinite" AnimationTiming="linear" />
+    </div>
+    <div>
+        Beat
+        <RoarIcon Name="heart" Animation="IconAnimation.Beat" BeatScale="1.1" />
+    </div>
+    <div>
+        Beat-Fade
+        <RoarIcon Name="triangle-person-digging" Animation="IconAnimation.BeatFade" BeatFadeOpacity="0.25" BeatFadeScale="1.2" />
+    </div>
+    <div>
+        Fade
+        <RoarIcon Name="triangle-exclamation" Animation="IconAnimation.Fade" FadeOpacity="0.2" />
+    </div>
+    <div>
+        Bounce
+        <RoarIcon Name="frog" Animation="IconAnimation.Bounce" BounceAnticipation="4px" BounceHeight="0.75em" BounceJumpScaleX="1.1" BounceJumpScaleY="0.9" BounceLandScaleX="1.2" BounceLandScaleY="0.8" BounceRebound="1.5" BounceStartScaleX="1.1" BounceStartScaleY="0.9" />
+    </div>
+    <div>
+        Flip
+        <RoarIcon Name="compact-disc" Animation="IconAnimation.Flip" FlipAngle="180deg" FlipX="1" FlipY="0" FlipZ="0" FlipAnticipationScale="0.9" FlipOvershoot="1.1" />
+    </div>
+    <div>
+        Buzz
+        <RoarIcon Name="bell" Animation="@("buzz")" BuzzDistance="6px" />
+    </div>
+    <div>
+        Wag
+        <RoarIcon Name="hand" Animation="@("wag")" WagAngle="20deg" />
+    </div>
+    <div>
+        Swing
+        <RoarIcon Name="bell" Animation="@("swing")" SwingAngle="15deg" />
+    </div>
+    <div>
+        Jello
+        <RoarIcon Name="star" Animation="@("jello")" JelloScaleX="1.2" JelloScaleY="1.15" />
+    </div>
+    <div>
+        Float
+        <RoarIcon Name="cloud" Animation="@("float")" FloatHeight="calc(0.5em + 2px)" FloatDrift="3px" FloatTilt="3deg" FloatSquashX="1.04" FloatSquashY="0.96" FloatStretchX="0.96" FloatStretchY="1.04" />
+    </div>
+</div>
+
 <h3>Color</h3>
 <RoarIcon Name="strawberry" Color="salmon" />
 <RoarIcon Name="crab" Color="coral" />

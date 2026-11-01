@@ -63,6 +63,223 @@
     public IconAnimation Animation { get; set; }
 
     /// <summary>
+    /// The delay before the animation starts. Accepts a CSS time, including var().
+    /// </summary>
+    [Parameter]
+    public string? AnimationDelay { get; set; }
+
+    /// <summary>
+    /// The direction in which animation cycles play. Accepts a CSS animation direction, including var().
+    /// </summary>
+    [Parameter]
+    public string? AnimationDirection { get; set; }
+
+    /// <summary>
+    /// The duration of one animation cycle. Accepts a CSS time, including var().
+    /// </summary>
+    [Parameter]
+    public string? AnimationDuration { get; set; }
+
+    /// <summary>
+    /// The number of animation cycles. Accepts a number, infinite, or var().
+    /// </summary>
+    [Parameter]
+    public string? AnimationIterationCount { get; set; }
+
+    /// <summary>
+    /// The animation timing function. Accepts CSS easing values, including var().
+    /// </summary>
+    [Parameter]
+    public string? AnimationTiming { get; set; }
+
+    /// <summary>
+    /// The scale multiplier applied to the beat animation's base pulse. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BeatScale { get; set; }
+
+    /// <summary>
+    /// The minimum opacity during the beat-fade animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BeatFadeOpacity { get; set; }
+
+    /// <summary>
+    /// The maximum scale during the beat-fade animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BeatFadeScale { get; set; }
+
+    /// <summary>
+    /// The minimum opacity during the fade animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FadeOpacity { get; set; }
+
+    /// <summary>
+    /// The downward distance before the bounce animation jumps. Accepts a CSS length, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceAnticipation { get; set; }
+
+    /// <summary>
+    /// The jump height of the bounce animation. Accepts a CSS length, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceHeight { get; set; }
+
+    /// <summary>
+    /// The horizontal scale at the top of the bounce animation's jump. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceJumpScaleX { get; set; }
+
+    /// <summary>
+    /// The vertical scale at the top of the bounce animation's jump. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceJumpScaleY { get; set; }
+
+    /// <summary>
+    /// The horizontal scale when the bounce animation lands. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceLandScaleX { get; set; }
+
+    /// <summary>
+    /// The vertical scale when the bounce animation lands. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceLandScaleY { get; set; }
+
+    /// <summary>
+    /// The rebound multiplier after the bounce animation lands. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceRebound { get; set; }
+
+    /// <summary>
+    /// The horizontal scale before the bounce animation jumps. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceStartScaleX { get; set; }
+
+    /// <summary>
+    /// The vertical scale before the bounce animation jumps. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? BounceStartScaleY { get; set; }
+
+    /// <summary>
+    /// The rotation angle for the flip and flip-360 animations. Accepts a CSS angle, including var().
+    /// </summary>
+    [Parameter]
+    public string? FlipAngle { get; set; }
+
+    /// <summary>
+    /// The x-coordinate of the flip animation's rotation axis, from 0 to 1. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FlipX { get; set; }
+
+    /// <summary>
+    /// The y-coordinate of the flip animation's rotation axis, from 0 to 1. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FlipY { get; set; }
+
+    /// <summary>
+    /// The z-coordinate of the flip animation's rotation axis, from 0 to 1. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FlipZ { get; set; }
+
+    /// <summary>
+    /// The scale before the flip animation rotates. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FlipAnticipationScale { get; set; }
+
+    /// <summary>
+    /// The rotation overshoot multiplier for the flip animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FlipOvershoot { get; set; }
+
+    /// <summary>
+    /// The horizontal travel of the buzz animation. Accepts a CSS length, including var().
+    /// </summary>
+    [Parameter]
+    public string? BuzzDistance { get; set; }
+
+    /// <summary>
+    /// The peak rotation of the wag animation. Accepts a CSS angle, including var().
+    /// </summary>
+    [Parameter]
+    public string? WagAngle { get; set; }
+
+    /// <summary>
+    /// The peak rotation of the swing animation. Accepts a CSS angle, including var().
+    /// </summary>
+    [Parameter]
+    public string? SwingAngle { get; set; }
+
+    /// <summary>
+    /// The horizontal stretch of the jello animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? JelloScaleX { get; set; }
+
+    /// <summary>
+    /// The vertical stretch of the jello animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? JelloScaleY { get; set; }
+
+    /// <summary>
+    /// The rise height of the float animation. Accepts a CSS length, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatHeight { get; set; }
+
+    /// <summary>
+    /// The horizontal drift of the float animation. Accepts a CSS length, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatDrift { get; set; }
+
+    /// <summary>
+    /// The rotation of the float animation. Accepts a CSS angle, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatTilt { get; set; }
+
+    /// <summary>
+    /// The horizontal squash at rest during the float animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatSquashX { get; set; }
+
+    /// <summary>
+    /// The vertical squash at rest during the float animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatSquashY { get; set; }
+
+    /// <summary>
+    /// The horizontal stretch at the peak of the float animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatStretchX { get; set; }
+
+    /// <summary>
+    /// The vertical stretch at the peak of the float animation. Accepts a CSS number, including var().
+    /// </summary>
+    [Parameter]
+    public string? FloatStretchY { get; set; }
+
+
+    /// <summary>
     /// Sets the color for the icon.
     /// </summary>
     [Parameter]
@@ -111,6 +328,42 @@
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
             .AddStyle("font-size", Size?.Value)
             .AddStyle("color", Color)
+            .AddStyle("--animation-delay", AnimationDelay)
+            .AddStyle("--animation-direction", AnimationDirection)
+            .AddStyle("--animation-duration", AnimationDuration)
+            .AddStyle("--animation-iteration-count", AnimationIterationCount)
+            .AddStyle("--animation-timing", AnimationTiming)
+            .AddStyle("--beat-scale", BeatScale)
+            .AddStyle("--beat-fade-opacity", BeatFadeOpacity)
+            .AddStyle("--beat-fade-scale", BeatFadeScale)
+            .AddStyle("--fade-opacity", FadeOpacity)
+            .AddStyle("--bounce-anticipation", BounceAnticipation)
+            .AddStyle("--bounce-height", BounceHeight)
+            .AddStyle("--bounce-jump-scale-x", BounceJumpScaleX)
+            .AddStyle("--bounce-jump-scale-y", BounceJumpScaleY)
+            .AddStyle("--bounce-land-scale-x", BounceLandScaleX)
+            .AddStyle("--bounce-land-scale-y", BounceLandScaleY)
+            .AddStyle("--bounce-rebound", BounceRebound)
+            .AddStyle("--bounce-start-scale-x", BounceStartScaleX)
+            .AddStyle("--bounce-start-scale-y", BounceStartScaleY)
+            .AddStyle("--flip-angle", FlipAngle)
+            .AddStyle("--flip-x", FlipX)
+            .AddStyle("--flip-y", FlipY)
+            .AddStyle("--flip-z", FlipZ)
+            .AddStyle("--flip-anticipation-scale", FlipAnticipationScale)
+            .AddStyle("--flip-overshoot", FlipOvershoot)
+            .AddStyle("--buzz-distance", BuzzDistance)
+            .AddStyle("--wag-angle", WagAngle)
+            .AddStyle("--swing-angle", SwingAngle)
+            .AddStyle("--jello-scale-x", JelloScaleX)
+            .AddStyle("--jello-scale-y", JelloScaleY)
+            .AddStyle("--float-height", FloatHeight)
+            .AddStyle("--float-drift", FloatDrift)
+            .AddStyle("--float-tilt", FloatTilt)
+            .AddStyle("--float-squash-x", FloatSquashX)
+            .AddStyle("--float-squash-y", FloatSquashY)
+            .AddStyle("--float-stretch-x", FloatStretchX)
+            .AddStyle("--float-stretch-y", FloatStretchY)
             .AddStyle("--primary-color", PrimaryColor)
             .AddStyle("--secondary-color", SecondaryColor)
             .AddStyle("--primary-opacity", PrimaryOpacity)
