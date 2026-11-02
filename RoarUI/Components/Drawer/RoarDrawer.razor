@@ -3,11 +3,41 @@
 
 <RoarDependency ComponentName="drawer" />
 
-<wa-drawer label="@Label" light-dismiss="@LightDismiss" open="@Open" placement="@Placement" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="AdditionalAttributes">
+<wa-drawer label="@Label" light-dismiss="@LightDismiss" open="@Open" placement="@Placement" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-drawer>
 
 @code {
+    /// <summary>
+    /// The amount of space around and between the drawer's content. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
+    /// <summary>
+    /// The preferred size of the drawer. This will be applied to the drawer's width or height depending on its <c>placement</c>. Note that the drawer will shrink to accommodate smaller screens. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Size { get; set; }
+
+    /// <summary>
+    /// A filter to apply to the backdrop behind the drawer. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? BackdropFilter { get; set; }
+
+    /// <summary>
+    /// The animation duration when showing the drawer. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The animation duration when hiding the drawer. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -119,5 +149,18 @@
         }
 
         await OnShow.InvokeAsync();
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--spacing", Spacing)
+            .AddStyle("--size", Size)
+            .AddStyle("--backdrop-filter", BackdropFilter)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
     }
 }

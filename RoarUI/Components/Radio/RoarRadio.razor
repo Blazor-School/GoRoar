@@ -3,11 +3,23 @@
 
 <RoarDependency ComponentName="radio" />
 
-<wa-radio appearance="@Appearance" disabled="@Disabled" name="@GroupName" size="@Size" value="@Value?.ToString()" @attributes="AdditionalAttributes">
+<wa-radio appearance="@Appearance" disabled="@Disabled" name="@GroupName" size="@Size" value="@Value?.ToString()" @attributes="InternalAttributes">
     @ChildContent
 </wa-radio>
 
 @code {
+    /// <summary>
+    /// The color of the checked icon. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? CheckedIconColor { get; set; }
+
+    /// <summary>
+    /// The size of the checked icon relative to the radio. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? CheckedIconScale { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -40,4 +52,14 @@
     /// </summary>
     [Parameter]
     public TValue? Value { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--checked-icon-color", CheckedIconColor)
+            .AddStyle("--checked-icon-scale", CheckedIconScale)
+            .Build();
+    }
 }

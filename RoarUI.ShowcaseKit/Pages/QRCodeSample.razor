@@ -4,7 +4,11 @@
 <RoarQRCode Value="https://blazorschool.com" Size="64" />
 
 <h3>Color</h3>
+<p>Set the foreground with CSS <code>color</code> and the background with <code>background-color</code>. Both support CSS custom properties.</p>
 <RoarQRCode Value="https://blazorschool.com" style="color: var(--wa-color-indigo-20);background-color: var(--wa-color-indigo-90);border-radius: var(--wa-border-radius-m);padding: 1rem;" />
+
+<h3>Corner Color</h3>
+<RoarQRCode Value="https://blazorschool.com" CornerColor="var(--wa-color-brand)" />
 
 <h3>Radius</h3>
 <RoarQRCode Value="https://blazorschool.com" Radius="0.5"/>
@@ -14,3 +18,36 @@
 <div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.M"/></div>
 <div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.Q"/></div>
 <div><RoarQRCode Value="https://blazorschool.com" ErrorCorrection="QRCodeErrorCorrection.H"/></div>
+
+<h3>Image</h3>
+<RoarQRCode Value="https://blazorschool.com" Image="_content/RoarUI.ShowcaseKit/roar-logo.svg" Label="Visit Blazor School" />
+
+<h3>Image Coverage</h3>
+<p>Higher image coverage leaves less room for error correction and can make the QR code harder to scan.</p>
+<div class="wa-cluster wa-gap-xl">
+    <div>
+        <RoarQRCode Value="https://blazorschool.com" Image="_content/RoarUI.ShowcaseKit/roar-logo.svg" ImageCoverage="0.3" />
+        <p>0.3</p>
+    </div>
+    <div>
+        <RoarQRCode Value="https://blazorschool.com" Image="_content/RoarUI.ShowcaseKit/roar-logo.svg" ImageCoverage="0.6" />
+        <p>0.6</p>
+    </div>
+    <div>
+        <RoarQRCode Value="https://blazorschool.com" Image="_content/RoarUI.ShowcaseKit/roar-logo.svg" ImageCoverage="0.9" />
+        <p>0.9</p>
+    </div>
+</div>
+
+<h3>Generating from a Value</h3>
+<div class="wa-stack" style="max-width: 256px;">
+    <RoarQRCode Value="@QrValue" Label="Scan the value entered below" />
+    <RoarDivider />
+    <RoarInputText @bind-Value="QrValue" Label="Value" maxlength="255" WithClear OnClear="() => QrValue = string.Empty">
+        <RoarIcon Name="link" slot="@InputSlot.Start" />
+    </RoarInputText>
+</div>
+
+@code {
+    private string QrValue { get; set; } = "https://blazorschool.com";
+}

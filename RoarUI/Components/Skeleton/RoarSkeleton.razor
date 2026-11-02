@@ -2,11 +2,23 @@
 
 <RoarDependency ComponentName="skeleton" />
 
-<wa-skeleton effect="@Effect" @attributes="AdditionalAttributes">
+<wa-skeleton effect="@Effect" @attributes="InternalAttributes">
     @ChildContent
 </wa-skeleton>
 
 @code {
+    /// <summary>
+    /// The color of the skeleton. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Color { get; set; }
+
+    /// <summary>
+    /// The sheen color when the skeleton is in its loading state. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SheenColor { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -18,4 +30,14 @@
     /// </summary>
     [Parameter]
     public SkeletonEffect Effect { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--color", Color)
+            .AddStyle("--sheen-color", SheenColor)
+            .Build();
+    }
 }

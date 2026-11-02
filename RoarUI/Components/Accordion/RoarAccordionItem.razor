@@ -3,11 +3,35 @@
 
 <RoarDependency ComponentName="accordion-item" />
 
-<wa-accordion-item disabled="@Disabled" expanded="@Expanded" label="@Label" @ref="Element" @attributes="AdditionalAttributes">
+<wa-accordion-item disabled="@Disabled" expanded="@Expanded" label="@Label" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-accordion-item>
 
 @code {
+    /// <summary>
+    /// The amount of space around and between the item's header and content. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
+    /// <summary>
+    /// The duration of the expand animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The duration of the collapse animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
+    /// <summary>
+    /// The easing of the expand/collapse animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Easing { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -72,4 +96,16 @@
     /// Focuses the accordion item's trigger button.
     /// </summary>
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--spacing", Spacing)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .AddStyle("--easing", Easing)
+            .Build();
+    }
 }

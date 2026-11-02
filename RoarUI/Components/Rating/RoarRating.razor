@@ -10,6 +10,24 @@
 
 @code {
     /// <summary>
+    /// The inactive color for symbols. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SymbolColor { get; set; }
+
+    /// <summary>
+    /// The active color for symbols. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SymbolColorActive { get; set; }
+
+    /// <summary>
+    /// The spacing to use around symbols. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SymbolSpacing { get; set; }
+
+    /// <summary>
     /// Describes the rating to assistive devices. The label is not displayed visually.
     /// </summary>
     [Parameter]
@@ -135,4 +153,9 @@
     public ValueTask BlurAsync() => CallComponentVoidFunctionAsync("blur");
 
     protected override bool TryParseValueFromString(string? value, out double result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"Bind to '{nameof(Value)}' instead of '{nameof(CurrentValueAsString)}'.");
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--symbol-color", SymbolColor)
+        .AddStyle("--symbol-color-active", SymbolColorActive)
+        .AddStyle("--symbol-spacing", SymbolSpacing);
 }

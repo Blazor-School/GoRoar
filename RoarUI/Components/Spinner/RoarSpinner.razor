@@ -2,14 +2,50 @@
 
 <RoarDependency ComponentName="spinner" />
 
-<wa-spinner @attributes="AdditionalAttributes">
+<wa-spinner @attributes="InternalAttributes">
     @ChildContent
 </wa-spinner>
 
 @code {
+    /// <summary>
+    /// The width of the track. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TrackWidth { get; set; }
+
+    /// <summary>
+    /// The color of the track. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TrackColor { get; set; }
+
+    /// <summary>
+    /// The color of the spinner's indicator. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndicatorColor { get; set; }
+
+    /// <summary>
+    /// The time it takes for the spinner to complete one animation cycle. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Speed { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--track-width", TrackWidth)
+            .AddStyle("--track-color", TrackColor)
+            .AddStyle("--indicator-color", IndicatorColor)
+            .AddStyle("--speed", Speed)
+            .Build();
+    }
 }

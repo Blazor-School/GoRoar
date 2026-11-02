@@ -9,6 +9,36 @@
 
 @code {
     /// <summary>
+    /// The width of the color grid. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? GridWidth { get; set; }
+
+    /// <summary>
+    /// The height of the color grid. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? GridHeight { get; set; }
+
+    /// <summary>
+    /// The size of the color grid's handle. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? GridHandleSize { get; set; }
+
+    /// <summary>
+    /// The height of the hue and alpha sliders. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SliderHeight { get; set; }
+
+    /// <summary>
+    /// The diameter of the slider's handle. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SliderHandleSize { get; set; }
+
+    /// <summary>
     /// Disables the color picker.
     /// </summary>
     [Parameter]
@@ -216,4 +246,11 @@
 
         return true;
     }
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--grid-width", GridWidth)
+        .AddStyle("--grid-height", GridHeight)
+        .AddStyle("--grid-handle-size", GridHandleSize)
+        .AddStyle("--slider-height", SliderHeight)
+        .AddStyle("--slider-handle-size", SliderHandleSize);
 }

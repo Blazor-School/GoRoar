@@ -103,6 +103,36 @@
     public SliderSize Size { get; set; }
 
     /// <summary>
+    /// The height or width of the slider's track. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? TrackSize { get; set; }
+
+    /// <summary>
+    /// The width of each marker. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? MarkerWidth { get; set; }
+
+    /// <summary>
+    /// The height of each marker. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? MarkerHeight { get; set; }
+
+    /// <summary>
+    /// The width of each thumb. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? ThumbWidth { get; set; }
+
+    /// <summary>
+    /// The height of each thumb. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? ThumbHeight { get; set; }
+
+    /// <summary>
     /// The starting value of the filled indicator. Defaults to the minimum value.
     /// </summary>
     [Parameter]
@@ -170,6 +200,11 @@
     private bool _disposed;
 
     private IReadOnlyDictionary<string, object> InternalAttributes => new AttributeBuilder(AdditionalAttributes)
+        .AddStyle("--track-size", TrackSize)
+        .AddStyle("--marker-width", MarkerWidth)
+        .AddStyle("--marker-height", MarkerHeight)
+        .AddStyle("--thumb-width", ThumbWidth)
+        .AddStyle("--thumb-height", ThumbHeight)
         .MapEvent("onblur", "onroarblur")
         .MapEvent("onfocus", "onroarfocus")
         .AddAttributeWhenMissing("name", _name)

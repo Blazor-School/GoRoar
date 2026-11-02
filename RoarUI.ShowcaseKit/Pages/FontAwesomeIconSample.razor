@@ -1,5 +1,7 @@
 ﻿@page "/font-awesome-icon-sample"
 
+@using System.Globalization
+
 <h3>Classic family</h3>
 <RoarIcon Name="eyedropper" />
 <RoarIcon Name="grip-vertical" Variant="FontAwesomeVariant.Regular" />
@@ -41,25 +43,34 @@
 <RoarIcon Name="search" Size="IconSize.XL" />
 <RoarIcon Name="star" Size="@("50px")" />
 
-<h3>Auto Width</h3>
-<div>
-    <span>Default</span>
-    <RoarIcon Name="exclamation" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon Name="circle-check" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon Name="input-numeric" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon Name="ruler-vertical" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon Name="ruler-horizontal" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon Name="airplay" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+<h3>Canvas</h3>
+<div class="wa-cluster" style="font-size: @(CanvasSize.ToString(CultureInfo.InvariantCulture))rem; margin-block-end: 1.5rem;">
+    <RoarIcon Canvas="SelectedCanvas" Name="ruler-horizontal" style="background: var(--wa-color-brand-fill-quiet); border: var(--wa-border-width-s) dashed var(--wa-color-brand-border-loud);" />
+    <RoarIcon Canvas="SelectedCanvas" Name="image" style="background: var(--wa-color-brand-fill-quiet); border: var(--wa-border-width-s) dashed var(--wa-color-brand-border-loud);" />
+    <RoarIcon Canvas="SelectedCanvas" Name="face-smile" style="background: var(--wa-color-brand-fill-quiet); border: var(--wa-border-width-s) dashed var(--wa-color-brand-border-loud);" />
+    <RoarIcon Canvas="SelectedCanvas" Name="file" style="background: var(--wa-color-brand-fill-quiet); border: var(--wa-border-width-s) dashed var(--wa-color-brand-border-loud);" />
+    <RoarIcon Canvas="SelectedCanvas" Name="ruler-vertical" style="background: var(--wa-color-brand-fill-quiet); border: var(--wa-border-width-s) dashed var(--wa-color-brand-border-loud);" />
 </div>
 
-<div>
-    <span>With auto width</span>
-    <RoarIcon AutoWidth="true" Name="exclamation" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon AutoWidth="true" Name="circle-check" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon AutoWidth="true" Name="input-numeric" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon AutoWidth="true" Name="ruler-vertical" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon AutoWidth="true" Name="ruler-horizontal" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
-    <RoarIcon AutoWidth="true" Name="airplay" Variant="FontAwesomeVariant.Solid" style="background: lightsalmon;" Size="IconSize.XL" />
+<RoarDivider />
+
+<div class="wa-cluster wa-gap-xl" style="align-items: start;">
+    <RoarSelect @bind-Value="SelectedCanvas" Label="Canvas" name="canvas">
+        <RoarOption Value="IconCanvas.Fixed">fixed</RoarOption>
+        <RoarOption Value="IconCanvas.Auto">auto</RoarOption>
+        <RoarOption Value="IconCanvas.Square">square</RoarOption>
+        <RoarOption Value="IconCanvas.Roomy">roomy</RoarOption>
+    </RoarSelect>
+    <RoarSlider @bind-Value="CanvasSize" Label="Size" Min="1.5" Max="5" Step="0.5" WithMarkers style="flex: 1 1 14rem;">
+        <span slot="@SliderSlot.Reference">1.5rem</span>
+        <span slot="@SliderSlot.Reference">2rem</span>
+        <span slot="@SliderSlot.Reference">2.5rem</span>
+        <span slot="@SliderSlot.Reference">3rem</span>
+        <span slot="@SliderSlot.Reference">3.5rem</span>
+        <span slot="@SliderSlot.Reference">4rem</span>
+        <span slot="@SliderSlot.Reference">4.5rem</span>
+        <span slot="@SliderSlot.Reference">5rem</span>
+    </RoarSlider>
 </div>
 
 <h3>Rotating & Flipping</h3>
@@ -103,6 +114,55 @@
     <RoarIcon Name="cog" Animation="IconAnimation.Spin" />
     <RoarIcon Name="cog" Animation="IconAnimation.SpinPulse" />
     <RoarIcon Name="cog" Animation="IconAnimation.SpinResverse" />
+</div>
+
+<h3>Custom Animation Settings</h3>
+<p>Animation parameters accept CSS values, including <code>var()</code> and <code>calc()</code>. Leave them unset to use Web Awesome's defaults. Animation-specific settings apply when the matching animation is selected.</p>
+<div class="wa-stack wa-gap-l" style="--example-icon-duration: 2s;">
+    <div>
+        Timing
+        <RoarIcon Name="cog" Animation="IconAnimation.Spin" AnimationDelay="250ms" AnimationDirection="reverse" AnimationDuration="var(--example-icon-duration)" AnimationIterationCount="infinite" AnimationTiming="linear" />
+    </div>
+    <div>
+        Beat
+        <RoarIcon Name="heart" Animation="IconAnimation.Beat" BeatScale="1.1" />
+    </div>
+    <div>
+        Beat-Fade
+        <RoarIcon Name="triangle-person-digging" Animation="IconAnimation.BeatFade" BeatFadeOpacity="0.25" BeatFadeScale="1.2" />
+    </div>
+    <div>
+        Fade
+        <RoarIcon Name="triangle-exclamation" Animation="IconAnimation.Fade" FadeOpacity="0.2" />
+    </div>
+    <div>
+        Bounce
+        <RoarIcon Name="frog" Animation="IconAnimation.Bounce" BounceAnticipation="4px" BounceHeight="0.75em" BounceJumpScaleX="1.1" BounceJumpScaleY="0.9" BounceLandScaleX="1.2" BounceLandScaleY="0.8" BounceRebound="1.5" BounceStartScaleX="1.1" BounceStartScaleY="0.9" />
+    </div>
+    <div>
+        Flip
+        <RoarIcon Name="compact-disc" Animation="IconAnimation.Flip" FlipAngle="180deg" FlipX="1" FlipY="0" FlipZ="0" FlipAnticipationScale="0.9" FlipOvershoot="1.1" />
+    </div>
+    <div>
+        Buzz
+        <RoarIcon Name="bell" Animation="@("buzz")" BuzzDistance="6px" />
+    </div>
+    <div>
+        Wag
+        <RoarIcon Name="hand" Animation="@("wag")" WagAngle="20deg" />
+    </div>
+    <div>
+        Swing
+        <RoarIcon Name="bell" Animation="@("swing")" SwingAngle="15deg" />
+    </div>
+    <div>
+        Jello
+        <RoarIcon Name="star" Animation="@("jello")" JelloScaleX="1.2" JelloScaleY="1.15" />
+    </div>
+    <div>
+        Float
+        <RoarIcon Name="cloud" Animation="@("float")" FloatHeight="calc(0.5em + 2px)" FloatDrift="3px" FloatTilt="3deg" FloatSquashX="1.04" FloatSquashY="0.96" FloatStretchX="0.96" FloatStretchY="1.04" />
+    </div>
 </div>
 
 <h3>Color</h3>
@@ -162,3 +222,7 @@
     <RoarIcon Name="envelope" Family="FontAwesomeFamily.Duotone" SwapOpacity="true" />
     <RoarIcon Name="calendar" Family="FontAwesomeFamily.Duotone" SwapOpacity="true" />
 </div>
+@code {
+    private IconCanvas SelectedCanvas { get; set; } = IconCanvas.Fixed;
+    private double CanvasSize { get; set; } = 3;
+}

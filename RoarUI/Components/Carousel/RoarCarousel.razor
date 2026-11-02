@@ -3,11 +3,29 @@
 
 <RoarDependency ComponentName="carousel" />
 
-<wa-carousel autoplay="@Autoplay" autoplay-interval="@AutoplayInterval" loop="@Loop" mouse-dragging="@MouseDragging" navigation="@Navigation" orientation="@Orientation" pagination="@Pagination" slides-per-move="@SlidesPerMove" slides-per-page="@SlidesPerPage" @onroarslidechange="TriggerSlideChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-carousel autoplay="@Autoplay" autoplay-interval="@AutoplayInterval" loop="@Loop" mouse-dragging="@MouseDragging" navigation="@Navigation" orientation="@Orientation" pagination="@Pagination" slides-per-move="@SlidesPerMove" slides-per-page="@SlidesPerPage" @onroarslidechange="TriggerSlideChangeAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-carousel>
 
 @code {
+    /// <summary>
+    /// The aspect ratio of each slide. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? AspectRatio { get; set; }
+
+    /// <summary>
+    /// The amount of padding to apply to the scroll area, allowing adjacent slides to become partially visible as a scroll hint. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ScrollHint { get; set; }
+
+    /// <summary>
+    /// The space between each slide. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SlideGap { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -100,4 +118,15 @@
     public ValueTask RemoveSlideAsync(int index) => CallComponentVoidFunctionAsync("removeSlide", index);
 
     public Task TriggerSlideChangeAsync(RoarSlideChangeEventArgs args) => OnSlideChange.InvokeAsync(args.Carousel);
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--aspect-ratio", AspectRatio)
+            .AddStyle("--scroll-hint", ScrollHint)
+            .AddStyle("--slide-gap", SlideGap)
+            .Build();
+    }
 }

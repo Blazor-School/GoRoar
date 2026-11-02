@@ -1,0 +1,69 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="markdown" />
+
+<wa-markdown tab-size="@TabSize" @ref="Element" @attributes="AdditionalAttributes">
+    <script type="text/markdown">@(_isInteractive ? Content : null)</script>
+</wa-markdown>
+
+@code {
+    /// <summary>
+    /// The Markdown source to render. Changes are rendered automatically in interactive Blazor.
+    /// </summary>
+    /// <remarks>
+    /// Content is parsed without sanitization. Only use trusted or previously sanitized Markdown.
+    /// Rendering requires a browser DOM; static server-side rendering does not produce rendered Markdown.
+    /// </remarks>
+    [Parameter]
+    public string? Content { get; set; }
+
+    /// <summary>
+    /// The tab stop width used when normalizing leading whitespace. Must be greater than zero.
+    /// </summary>
+    [Parameter]
+    public int TabSize { get; set; } = 4;
+
+    /// <summary>
+    /// Additional attributes applied to the Markdown element. Rendered content inherits the page's styles.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool _isInteractive;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Populate the source in the browser; prerendering escapes script text as JavaScript.
+            _isInteractive = true;
+            StateHasChanged();
+            return;
+        }
+
+        await SetComponentPropertyAsync("tabSize", TabSize);
+        await RenderMarkdownAsync();
+    }
+
+    /// <summary>
+    /// Re-renders the current source. Call after the component has rendered interactively.
+    /// </summary>
+    public ValueTask RenderMarkdownAsync() => CallComponentVoidFunctionAsync("renderMarkdown");
+
+    /// <summary>
+    /// Returns the shared Marked instance for configuration or custom JavaScript plugins.
+    /// Dispose the returned interop reference when it is no longer needed. Configuration affects every Markdown instance.
+    /// </summary>
+    public ValueTask<IJSObjectReference> GetMarkedAsync() => GetComponentPropertyAsync<IJSObjectReference>("marked");
+
+    /// <summary>
+    /// Re-renders every connected Markdown instance after changing the shared Marked configuration.
+    /// Call after the component has rendered interactively.
+    /// </summary>
+    public async ValueTask UpdateAllAsync()
+    {
+        await using var constructor = await GetComponentPropertyAsync<IJSObjectReference>("constructor");
+        await constructor.InvokeVoidAsync("updateAll");
+    }
+}

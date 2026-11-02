@@ -2,11 +2,17 @@
 
 <RoarDependency ComponentName="step" />
 
-<wa-step active="@Active" attention="@Attention" completed="@Completed" disabled="@Disabled" loading="@Loading" name="@Name" variant="@Variant" with-description="@WithDescription" @attributes="AdditionalAttributes">
+<wa-step active="@Active" attention="@Attention" completed="@Completed" disabled="@Disabled" loading="@Loading" name="@Name" variant="@Variant" with-description="@WithDescription" @attributes="InternalAttributes">
     @ChildContent
 </wa-step>
 
 @code {
+    /// <summary>
+    /// The color of the marker's pulse effect when using <c>attention="pulse"</c>. Defaults to the step's accent color. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? PulseColor { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -60,4 +66,13 @@
     /// </summary>
     [Parameter]
     public bool WithDescription { get; set; } = false;
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--pulse-color", PulseColor)
+            .Build();
+    }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/split-panel-sample"
 
 <h3>Initial Position</h3>
-<RoarSplitPanel @bind-Position="Position">
+<RoarSplitPanel DividerWidth="4px" DividerHitArea="16px" Min="5rem" Max="calc(100% - 5rem)" @bind-Position="Position">
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         Start
@@ -13,7 +13,7 @@
 <div>Position: @Position</div>
 
 <h3>Initial Position in Pixels</h3>
-<RoarSplitPanelInPixels @bind-Position="PositionInPixels">
+<RoarSplitPanelInPixels DividerWidth="4px" DividerHitArea="16px" Min="5rem" Max="calc(100% - 5rem)" @bind-Position="PositionInPixels">
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         Start
@@ -74,7 +74,7 @@
 </RoarDropdown>
 
 <h3>Min & Max</h3>
-<RoarSplitPanel style="--min: 150px; --max: calc(100% - 150px);">
+<RoarSplitPanel Min="150px" Max="calc(100% - 150px)">
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">
         Start
@@ -104,7 +104,7 @@
 </RoarSplitPanel>
 
 <h3>Customizing the Divider</h3>
-<RoarSplitPanel style="--divider-width: 20px;">
+<RoarSplitPanel DividerWidth="20px">
     <RoarIcon slot="@SplitPanelSlot.Divider" Name="grip-vertical" Variant="FontAwesomeVariant.Solid" />
     <div slot="@SplitPanelSlot.Start"
          style="height: 200px;background: var(--wa-color-surface-lowered);display: flex;align-items: center;justify-content: center;overflow: hidden;">

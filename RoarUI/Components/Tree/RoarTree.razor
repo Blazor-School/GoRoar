@@ -3,12 +3,42 @@
 <RoarDependency ComponentName="tree" />
 
 <CascadingValue Value="this" Name="Parent" IsFixed>
-    <wa-tree selection="@(LeafOnly ? "leaf" : "single")" @onroarselectionchange="TriggerSelectionChangeAsync" @attributes="AdditionalAttributes">
+    <wa-tree selection="@(LeafOnly ? "leaf" : "single")" @onroarselectionchange="TriggerSelectionChangeAsync" @attributes="InternalAttributes">
         @ChildContent
     </wa-tree>
 </CascadingValue>
 
 @code {
+    /// <summary>
+    /// The size of the indentation for nested items. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndentSize { get; set; }
+
+    /// <summary>
+    /// The color of the indentation line. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndentGuideColor { get; set; }
+
+    /// <summary>
+    /// The amount of vertical spacing to leave between the top and bottom of the indentation line's starting position. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndentGuideOffset { get; set; }
+
+    /// <summary>
+    /// The style of the indentation line, e.g. solid, dotted, dashed. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndentGuideStyle { get; set; }
+
+    /// <summary>
+    /// The width of the indentation line. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndentGuideWidth { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -36,5 +66,18 @@
     {
         Value = args.SelectedValue;
         await ValueChanged.InvokeAsync(Value);
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--indent-size", IndentSize)
+            .AddStyle("--indent-guide-color", IndentGuideColor)
+            .AddStyle("--indent-guide-offset", IndentGuideOffset)
+            .AddStyle("--indent-guide-style", IndentGuideStyle)
+            .AddStyle("--indent-guide-width", IndentGuideWidth)
+            .Build();
     }
 }

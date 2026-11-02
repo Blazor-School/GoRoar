@@ -1,7 +1,7 @@
 ﻿@page "/dialog-sample"
 
 <h3>Dialog without Header</h3>
-<RoarDialog Label="Dialog" WithoutHeader @bind-Open="DialogWithoutHeaderOpen">
+<RoarDialog Spacing="var(--wa-space-l)" Width="32rem" BackdropFilter="blur(4px)" ShowDuration="250ms" HideDuration="150ms" Label="Dialog" WithoutHeader @bind-Open="DialogWithoutHeaderOpen">
     Look ma, no header! Sometimes you just need a clean, simple dialog.
     <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
 </RoarDialog>
@@ -22,7 +22,7 @@
 <RoarButton Appearance="ButtonAppearance.Filled" data-dialog="open dialog-opening">Open Dialog</RoarButton>
 
 <h3>Custom Width</h3>
-<RoarDialog Label="Dialog" id="dialog-custom-width" style="--width: 50vw;">
+<RoarDialog Label="Dialog" id="dialog-custom-width" Width="50vw">
     This dialog is wider than the default — handy when you need more room for content.
     <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
 </RoarDialog>

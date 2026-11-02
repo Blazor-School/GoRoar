@@ -9,6 +9,24 @@
 
 @code {
     /// <summary>
+    /// The width of the switch. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
+    /// <summary>
+    /// The height of the switch. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    /// <summary>
+    /// The size of the thumb. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ThumbSize { get; set; }
+
+    /// <summary>
     /// Disables the switch.
     /// </summary>
     [Parameter]
@@ -72,4 +90,9 @@
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     protected override bool TryParseValueFromString(string? value, out bool result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--width", Width)
+        .AddStyle("--height", Height)
+        .AddStyle("--thumb-size", ThumbSize);
 }

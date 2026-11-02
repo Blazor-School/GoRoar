@@ -1,10 +1,10 @@
 ﻿@page "/checkbox-sample"
 
 <h3>Checked</h3>
-<RoarCheckbox Value="true">Checked</RoarCheckbox>
+<RoarCheckbox CheckedIconColor="var(--wa-color-brand-on-loud)" CheckedIconScale="1.1" Value="true">Checked</RoarCheckbox>
 
 <h3>Indeterminate</h3>
-<RoarIndeterminateCheckbox @bind-Value="IndeterminateCheck">Indeterminate</RoarIndeterminateCheckbox>
+<RoarIndeterminateCheckbox CheckedIconColor="var(--wa-color-brand-on-loud)" CheckedIconScale="1.1" @bind-Value="IndeterminateCheck">Indeterminate</RoarIndeterminateCheckbox>
 <RoarButton @onclick="() => IndeterminateCheck = null">Indeterminate checkbox's value: @(IndeterminateCheck is not null ? IndeterminateCheck.ToString() : "NULL"). Click to set interdeterminate</RoarButton>
 
 <h3>Disabled</h3>

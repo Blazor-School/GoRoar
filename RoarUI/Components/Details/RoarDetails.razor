@@ -3,11 +3,29 @@
 
 <RoarDependency ComponentName="details" />
 
-<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepExpanded" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepCollapsed" @ref="Element" @attributes="AdditionalAttributes">
+<wa-details appearance="@Appearance" disabled="@Disabled" icon-placement="@IconPlacement" name="@Name" open="@Open" summary="@Summary" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepExpanded" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepCollapsed" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-details>
 
 @code {
+    /// <summary>
+    /// The amount of space around and between the details' content. Expects a single value. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
+    /// <summary>
+    /// The show duration to use when applying built-in animation classes. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The hide duration to use when applying built-in animation classes. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -122,5 +140,16 @@
         }
 
         await OnShow.InvokeAsync();
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--spacing", Spacing)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
     }
 }

@@ -2,11 +2,29 @@
 
 <RoarDependency ComponentName="progress-bar" />
 
-<wa-progress-bar indeterminate="@Indeterminate" label="@Label" value="@Value" @attributes="AdditionalAttributes">
+<wa-progress-bar indeterminate="@Indeterminate" label="@Label" value="@Value" @attributes="InternalAttributes">
     @ChildContent
 </wa-progress-bar>
 
 @code {
+    /// <summary>
+    /// The height of the track. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TrackHeight { get; set; }
+
+    /// <summary>
+    /// The color of the track. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TrackColor { get; set; }
+
+    /// <summary>
+    /// The color of the indicator. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndicatorColor { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -30,4 +48,15 @@
     /// </summary>
     [Parameter]
     public int Value { get; set; } = 0;
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--track-height", TrackHeight)
+            .AddStyle("--track-color", TrackColor)
+            .AddStyle("--indicator-color", IndicatorColor)
+            .Build();
+    }
 }

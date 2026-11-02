@@ -57,6 +57,11 @@
     <RoarSlider Size="SliderSize.Xl" Value="50" Label="Extra large" />
 </div>
 
+<h3>Custom Dimensions</h3>
+<p>Use CSS lengths or custom properties to size the track, markers, and thumbs.</p>
+<RoarSlider Label="Custom slider dimensions" Value="50" Step="10" WithMarkers TrackSize="var(--wa-space-s)" MarkerWidth="0.25rem" MarkerHeight="1rem" ThumbWidth="1.5rem" ThumbHeight="1.5rem" />
+<RoarRangeSlider Label="Custom range dimensions" MinValue="20" MaxValue="80" Step="10" WithMarkers TrackSize="var(--wa-space-xl)" MarkerWidth="0.25rem" MarkerHeight="0.25rem" ThumbWidth="1.5rem" ThumbHeight="1.5rem" />
+
 <h3>Indicator Offset</h3>
 <RoarSlider Label="User Friendliness" Hint="Did you find our product easy to use?" Min="-5" Max="5" IndicatorOffset="0" WithMarkers WithTooltip>
     <span slot="@SliderSlot.Reference">Easy</span>

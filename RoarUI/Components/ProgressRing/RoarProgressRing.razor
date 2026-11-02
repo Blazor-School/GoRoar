@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="progress-ring" />
 
-<wa-progress-ring label="@Label" value="@Value" @attributes="AdditionalAttributes">
+<wa-progress-ring label="@Label" value="@Value" @attributes="InternalAttributes">
     @ChildContent
 </wa-progress-ring>
 
@@ -12,6 +12,42 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The diameter of the progress ring. Accepts any valid CSS length, including var() and calc(), but not a percentage.
+    /// </summary>
+    [Parameter]
+    public string? Size { get; set; }
+
+    /// <summary>
+    /// The width of the track. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? TrackWidth { get; set; }
+
+    /// <summary>
+    /// The color of the track. Accepts any valid CSS color, including CSS custom properties via var().
+    /// </summary>
+    [Parameter]
+    public string? TrackColor { get; set; }
+
+    /// <summary>
+    /// The width of the indicator. Defaults to the track width. Accepts any valid CSS length, including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? IndicatorWidth { get; set; }
+
+    /// <summary>
+    /// The color of the indicator. Accepts any valid CSS color, including CSS custom properties via var().
+    /// </summary>
+    [Parameter]
+    public string? IndicatorColor { get; set; }
+
+    /// <summary>
+    /// The duration of the indicator's transition when the value changes. Accepts a CSS time, such as "300ms" or "1s", including var() and calc().
+    /// </summary>
+    [Parameter]
+    public string? IndicatorTransitionDuration { get; set; }
 
     /// <summary>
     /// A custom label for assistive devices.
@@ -24,4 +60,18 @@
     /// </summary>
     [Parameter]
     public int Value { get; set; } = 0;
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--size", Size)
+            .AddStyle("--track-width", TrackWidth)
+            .AddStyle("--track-color", TrackColor)
+            .AddStyle("--indicator-width", IndicatorWidth)
+            .AddStyle("--indicator-color", IndicatorColor)
+            .AddStyle("--indicator-transition-duration", IndicatorTransitionDuration)
+            .Build();
+    }
 }

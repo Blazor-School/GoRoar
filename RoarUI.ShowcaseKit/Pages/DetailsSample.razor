@@ -1,7 +1,7 @@
 ﻿@page "/details-sample"
 
 <h3>Expanded Initially</h3>
-<RoarDetails Summary="Toggle Me" @bind-Open="DetailsState" @ref="DetailsElement">
+<RoarDetails Spacing="var(--wa-space-l)" ShowDuration="250ms" HideDuration="150ms" Summary="Toggle Me" @bind-Open="DetailsState" @ref="DetailsElement">
     This details component is expanded by default. Users can click the summary to collapse it if they want to hide the content.
 </RoarDetails>
 <RoarButton @onclick="() => DetailsState = !DetailsState">Toggle</RoarButton>

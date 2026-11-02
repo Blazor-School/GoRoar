@@ -1,8 +1,8 @@
 @page "/select-sample"
 
 <h3>Label</h3>
-<RoarSelect TValue="string" Label="Country">
-    <RoarOption Value='"us"'>United States</RoarOption>
+<RoarSelect ShowDuration="250ms" HideDuration="150ms" TagMaxSize="8rem" TValue="string" Label="Country">
+    <RoarOption CurrentTextColor="var(--wa-color-brand-on-loud)" Value='"us"'>United States</RoarOption>
     <RoarOption Value='"ca"'>Canada</RoarOption>
     <RoarOption Value='"mx"'>Mexico</RoarOption>
 </RoarSelect>
@@ -27,7 +27,7 @@
     <RoarOption Value='"develop"'>develop</RoarOption>
     <RoarOption Value='"staging"'>staging</RoarOption>
 </RoarSelect>
-<RoarSelectMultiple @bind-Value="Toppings" Label="Toppings">
+<RoarSelectMultiple ShowDuration="250ms" HideDuration="150ms" TagMaxSize="8rem" @bind-Value="Toppings" Label="Toppings">
     <RoarOption Value='"mushrooms"'>Mushrooms</RoarOption>
     <RoarOption Value='"olives"'>Olives</RoarOption>
     <RoarOption Value='"peppers"'>Peppers</RoarOption>

@@ -2,11 +2,29 @@
 
 <RoarDependency ComponentName="tab-group" />
 
-<wa-tab-group activation="@Activation" active="@ActiveTabName" placement="@Placement" without-scroll-controls="@WithoutScrollControls" @onroartabhide="TriggerTabHide" @onroartabshow="TriggerTabShow" @attributes="AdditionalAttributes">
+<wa-tab-group activation="@Activation" active="@ActiveTabName" placement="@Placement" without-scroll-controls="@WithoutScrollControls" @onroartabhide="TriggerTabHide" @onroartabshow="TriggerTabShow" @attributes="InternalAttributes">
     @ChildContent
 </wa-tab-group>
 
 @code {
+    /// <summary>
+    /// The color of the active tab indicator. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IndicatorColor { get; set; }
+
+    /// <summary>
+    /// The color of the indicator's track (the line that separates tabs from panels). Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TrackColor { get; set; }
+
+    /// <summary>
+    /// The width of the indicator's track (the line that separates tabs from panels). Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TrackWidth { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -64,5 +82,16 @@
         ActiveTabName = args.TabGroup!.TabName;
         await ActiveTabNameChanged.InvokeAsync(args.TabGroup.TabName);
         await OnTabShow.InvokeAsync(args.TabGroup);
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--indicator-color", IndicatorColor)
+            .AddStyle("--track-color", TrackColor)
+            .AddStyle("--track-width", TrackWidth)
+            .Build();
     }
 }

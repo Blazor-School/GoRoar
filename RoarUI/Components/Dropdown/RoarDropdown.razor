@@ -3,11 +3,23 @@
 
 <RoarDependency ComponentName="dropdown" />
 
-<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarselect:preventDefault="KeepOpenOnSelect" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="AdditionalAttributes">
+<wa-dropdown distance="@Distance" open="@Open" placement="@Placement" size="@Size" skidding="@Skidding" @onroarselect="NotifyValueChanged" @onroarselect:preventDefault="KeepOpenOnSelect" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-dropdown>
 
 @code {
+    /// <summary>
+    /// The duration of the show animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The duration of the hide animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
     /// <summary>
     /// The distance of the dropdown menu from its trigger.
     /// </summary>
@@ -155,5 +167,15 @@
         }
 
         await OnShow.InvokeAsync();
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
     }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/input-otp-sample"
 
 <h3>Label</h3>
-<RoarInputOtp Label="Security code" />
+<RoarInputOtp SegmentSize="2.5rem" SegmentGap="0.5rem" SegmentBorderRadius="var(--wa-border-radius-m)" MaskChar="'*'" Label="Security code" />
 
 <h3>Hint</h3>
 <RoarInputOtp Label="Sign-in code" Hint="Check your email for a 6-digit code." />
@@ -26,7 +26,7 @@
 <h3>Mask</h3>
 <RoarInputOtp Label="PIN" Mask Length="4" />
 <RoarInputOtp Label="PIN" Mask WithMask Length="4" />
-<RoarInputOtp Label="PIN" Mask WithMask Length="4" style="--mask-char: '_'" />
+<RoarInputOtp Label="PIN" Mask WithMask Length="4" MaskChar="'_'" />
 
 <h3>Appearance</h3>
 <RoarInputOtp Label="Outlined" Appearance="InputOtpApperance.Outlined" />

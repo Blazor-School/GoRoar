@@ -3,11 +3,41 @@
 
 <RoarDependency ComponentName="dialog" />
 
-<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="AdditionalAttributes">
+<wa-dialog label="@Label" light-dismiss="@LightDismiss" open="@Open" with-footer="@WithFooter" without-header="@WithoutHeader" @onroarafterhide="TriggerAfterHideAsync" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-dialog>
 
 @code {
+    /// <summary>
+    /// The amount of space around and between the dialog's content. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
+    /// <summary>
+    /// The preferred width of the dialog. Note that the dialog will shrink to accommodate smaller screens. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
+    /// <summary>
+    /// A filter to apply to the backdrop behind the dialog. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? BackdropFilter { get; set; }
+
+    /// <summary>
+    /// The animation duration when showing the dialog. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The animation duration when hiding the dialog. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -113,5 +143,18 @@
         }
 
         await OnShow.InvokeAsync();
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--spacing", Spacing)
+            .AddStyle("--width", Width)
+            .AddStyle("--backdrop-filter", BackdropFilter)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
     }
 }

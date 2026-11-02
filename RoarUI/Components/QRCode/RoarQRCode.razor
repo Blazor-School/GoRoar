@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="qr-code" />
 
-<wa-qr-code background="@Background" error-correction="@ErrorCorrection" fill="@Fill" label="@Label" radius="@Radius" size="@Size" value="@Value" @attributes="AdditionalAttributes">
+<wa-qr-code error-correction="@ErrorCorrection" image="@Image" image-coverage="@ImageCoverage.ToString(CultureInfo.InvariantCulture)" label="@Label" radius="@Radius" size="@Size" value="@Value" @attributes="InternalAttributes">
     @ChildContent
 </wa-qr-code>
 
@@ -14,10 +14,10 @@
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
-    /// The background color. This can be any valid CSS color or transparent. It cannot be a CSS custom property.
+    /// The color of the QR code's corners. Accepts any valid CSS color, including CSS custom properties via var().
     /// </summary>
     [Parameter]
-    public string Background { get; set; } = "";
+    public string? CornerColor { get; set; }
 
     /// <summary>
     /// The level of error correction to use.
@@ -26,10 +26,16 @@
     public QRCodeErrorCorrection ErrorCorrection { get; set; }
 
     /// <summary>
-    /// The fill color. This can be any valid CSS color, but not a CSS custom property.
+    /// The URL of an image to display in the center of the QR code.
     /// </summary>
     [Parameter]
-    public string Fill { get; set; } = "";
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// The amount of error correction coverage available to the image, from 0 to 1. Defaults to 0.5.
+    /// </summary>
+    [Parameter]
+    public double ImageCoverage { get; set; } = 0.5;
 
     /// <summary>
     /// The label for assistive devices to announce. If unspecified, the value will be used instead.
@@ -54,4 +60,13 @@
     /// </summary>
     [Parameter]
     public string Value { get; set; } = "";
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--corner-color", CornerColor)
+            .Build();
+    }
 }

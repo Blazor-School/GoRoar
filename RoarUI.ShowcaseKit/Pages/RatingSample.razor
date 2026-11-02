@@ -1,7 +1,7 @@
 @page "/rating-sample"
 
 <h3>Label</h3>
-<RoarRating Label="Rate this component" @bind-Value="Rating" OnChange="args => LastChange = args.Value" />
+<RoarRating SymbolColor="var(--wa-color-neutral-fill-normal)" SymbolColorActive="var(--wa-color-warning-60)" SymbolSpacing="0.25rem" Label="Rate this component" @bind-Value="Rating" OnChange="args => LastChange = args.Value" />
 <p>Rating: @Rating. Last change: @LastChange.</p>
 <RoarButton @onclick="() => Rating = 2.5">Set rating to 2.5 from C#</RoarButton>
 
@@ -29,7 +29,7 @@
 <p>Half star rating: @HalfRating.</p>
 
 <h3>Custom Icons</h3>
-<RoarRating Label="Heart rating" Value="3" style="--symbol-color-active: #ff4136;">
+<RoarRating Label="Heart rating" Value="3" SymbolColorActive="#ff4136">
     <SymbolTemplate>
         <RoarIcon Name="heart" Variant="FontAwesomeVariant.Solid" />
     </SymbolTemplate>

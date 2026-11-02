@@ -2,11 +2,23 @@
 
 <RoarDependency ComponentName="scroller" />
 
-<wa-scroller orientation="@Orientation" without-scrollbar="@WithoutScrollbar" without-shadow="@WithoutShadow" @attributes="AdditionalAttributes">
+<wa-scroller orientation="@Orientation" without-scrollbar="@WithoutScrollbar" without-shadow="@WithoutShadow" @attributes="InternalAttributes">
     @ChildContent
 </wa-scroller>
 
 @code {
+    /// <summary>
+    /// The base color of the shadow. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShadowColor { get; set; }
+
+    /// <summary>
+    /// The size of the shadow. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShadowSize { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -30,4 +42,14 @@
     /// </summary>
     [Parameter]
     public bool WithoutShadow { get; set; } = false;
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--shadow-color", ShadowColor)
+            .AddStyle("--shadow-size", ShadowSize)
+            .Build();
+    }
 }
