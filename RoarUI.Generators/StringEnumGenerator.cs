@@ -29,13 +29,26 @@ public class StringEnumGenerator : IIncrementalGenerator
 
                 var members = symbol.GetAttributes()
                     .Where(x => x.AttributeClass?.ToDisplayString() == "RoarUI.Infrastructure.StringEnumMemberAttribute")
+                    .Select(member =>
+                    {
+                        string name = member.ConstructorArguments[0].Value!.ToString();
+                        string? rawValue = (string?)member.ConstructorArguments[1].Value;
+
+                        return (Name: name, Value: rawValue is null ? ToKebabCase(name) : rawValue);
+                    })
                     .ToList();
+
+                string predefinedValues = string.Join(", ", members.Select(member => FormatDocumentationValue(member.Value)));
 
                 var stringBuilder = new StringBuilder($$"""
 #nullable enable
 
 namespace RoarUI;
 
+/// <summary>
+/// <para>Predefined values: {{predefinedValues}}.</para>
+/// <para>Default: {{FormatDocumentationValue(defaultValue)}}.</para>
+/// </summary>
 [global::System.CodeDom.Compiler.GeneratedCode("RoarUIEngine", "1.0.0")]
 [global::System.Diagnostics.DebuggerNonUserCode]
 [global::System.Diagnostics.DebuggerStepThrough]
@@ -56,12 +69,11 @@ public readonly struct {{generatedClassName}} : IEquatable<{{generatedClassName}
 
                 foreach (var member in members)
                 {
-                    string propName = member.ConstructorArguments[0].Value!.ToString();
-                    string? rawValue = (string?)member.ConstructorArguments[1].Value;
-                    string value = rawValue is null ? ToKebabCase(propName) : rawValue;
-
                     stringBuilder.AppendLine($$"""
-    public static readonly {{generatedClassName}} {{member.ConstructorArguments[0].Value}} = new("{{value}}");
+    /// <summary>
+    /// Represents {{FormatDocumentationValue(member.Value)}}.
+    /// </summary>
+    public static readonly {{generatedClassName}} {{member.Name}} = new("{{member.Value}}");
 """);
                 }
 
@@ -125,6 +137,8 @@ public sealed class {{generatedClassName}}JsonConverter : global::System.Text.Js
                 spc.AddSource($"{generatedClassName}.g.cs", SourceText.From(stringBuilder.ToString(), Encoding.UTF8));
             });
     }
+
+    private static string FormatDocumentationValue(string value) => System.Security.SecurityElement.Escape(Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, true))!;
 
     private static string ToKebabCase(string input)
     {
