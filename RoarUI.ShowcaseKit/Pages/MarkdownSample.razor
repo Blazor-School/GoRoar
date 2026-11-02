@@ -1,0 +1,100 @@
+@page "/markdown-sample"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<h3>Markdown</h3>
+<p>Content renders in the browser and inherits the page's styles. Use trusted or sanitized Markdown; raw HTML is supported without sanitization.</p>
+<RoarMarkdown Content="@Overview" />
+
+<h3>Whitespace Normalization</h3>
+<p>Common indentation is removed while extra indentation is preserved as a code block.</p>
+<RoarMarkdown Content="@IndentedContent" />
+
+<h3>Tab Size</h3>
+<RoarSelect Label="Tab size" @bind-Value="TabSize">
+    <RoarOption Value="2">2 spaces</RoarOption>
+    <RoarOption Value="4">4 spaces</RoarOption>
+</RoarSelect>
+<RoarMarkdown Content="@TabContent" TabSize="@(int.Parse(TabSize, System.Globalization.CultureInfo.InvariantCulture))" id="markdown-tabs" />
+
+<h3>Updating Content Dynamically</h3>
+<RoarTextarea Label="Markdown source" @bind-Value="DynamicContent" Rows="5" />
+<div class="wa-cluster">
+    <RoarButton @onclick="SwapContent">Update content</RoarButton>
+    <RoarButton @onclick="ClearContent">Clear content</RoarButton>
+</div>
+<RoarMarkdown Content="@DynamicContent" />
+
+<h3>Configuring Marked</h3>
+<p>Marked configuration is shared. GetMarkedAsync returns a disposable JavaScript reference; UpdateAllAsync refreshes all connected instances.</p>
+<div class="wa-cluster">
+    <RoarButton @onclick="() => ConfigureLineBreaksAsync(true)">Enable line breaks</RoarButton>
+    <RoarButton @onclick="() => ConfigureLineBreaksAsync(false)">Disable line breaks</RoarButton>
+</div>
+<RoarMarkdown Content="@LineBreakContent" @ref="ConfiguredMarkdown" />
+<RoarMarkdown Content="@LineBreakContent" />
+
+<h3>Custom Marked Plugin</h3>
+<p>The optional JavaScript plugin adds ==highlight== syntax to the shared parser.</p>
+<RoarButton @onclick="EnableHighlightAsync" Disabled="HighlightEnabled">Enable highlight plugin</RoarButton>
+<RoarMarkdown Content="This has a ==highlighted phrase== in the middle." />
+
+@code {
+    private const string Overview = """
+        ## Getting Started
+
+        Write **bold**, _italic_, ~~strikethrough~~, and `inline code`.
+
+        - Install RoarUI
+        - Add a Markdown component
+
+        1. Write your content
+        2. Render it in the browser
+
+        > Markdown can include quotes, links, tables, and code.
+
+        [Web Awesome documentation](https://webawesome.com/docs/components/markdown/)
+
+        | Feature | Supported |
+        | --- | --- |
+        | Tables | Yes |
+        | Task lists | Yes |
+
+        - [x] Add the component
+        - [ ] Write more documentation
+
+        ```csharp
+        var message = "Hello, Markdown!";
+        ```
+
+        Angle brackets in code stay literal: `<strong>example</strong>`.
+        """;
+    private const string IndentedContent = "\n        ## Indented Markdown\n\n        Shared whitespace is removed.\n\n            This remains an indented code block.\n";
+    private const string TabContent = "```text\n\tOne tab\n\t\tTwo tabs\n```";
+    private const string LineBreakContent = "First line\nSecond line";
+    private string TabSize { get; set; } = "4";
+    private string DynamicContent { get; set; } = "## Live preview\n\nEdit the source or click **Update content**.";
+    private RoarMarkdown ConfiguredMarkdown { get; set; } = default!;
+    private bool HighlightEnabled { get; set; }
+    private int UpdateCount { get; set; }
+
+    private void SwapContent() => DynamicContent = $"## Updated content {++UpdateCount}\n\nBlazor automatically renders the **new source**.";
+
+    private void ClearContent() => DynamicContent = "";
+
+    private async Task ConfigureLineBreaksAsync(bool enabled)
+    {
+        await using var marked = await ConfiguredMarkdown.GetMarkedAsync();
+        await marked.InvokeVoidAsync("setOptions", new { breaks = enabled });
+        await ConfiguredMarkdown.UpdateAllAsync();
+    }
+
+    private async Task EnableHighlightAsync()
+    {
+        await using var marked = await ConfiguredMarkdown.GetMarkedAsync();
+        await using var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/RoarUI.ShowcaseKit/Pages/MarkdownSample.razor.js");
+        await module.InvokeVoidAsync("enableHighlight", marked);
+        await ConfiguredMarkdown.UpdateAllAsync();
+        HighlightEnabled = true;
+    }
+}
