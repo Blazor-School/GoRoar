@@ -14,6 +14,24 @@
 
 @code {
     /// <summary>
+    /// The duration of the show animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The duration of the hide animation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
+    /// <summary>
+    /// When using <c>multiple</c>, the max size of tags before their content is truncated. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? TagMaxSize { get; set; }
+
+    /// <summary>
     /// Renders each selected value as static HTML. Include a tag with data-value for removal; Blazor event handlers aren't preserved.
     /// </summary>
     [Parameter]
@@ -290,4 +308,9 @@
 
         await JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.SelectSetGetTag, Element, htmlByValue);
     }
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--show-duration", ShowDuration)
+        .AddStyle("--hide-duration", HideDuration)
+        .AddStyle("--tag-max-size", TagMaxSize);
 }

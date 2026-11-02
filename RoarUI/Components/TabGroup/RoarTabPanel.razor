@@ -2,11 +2,17 @@
 
 <RoarDependency ComponentName="tab-panel" />
 
-<wa-tab-panel active="@Active" name="@Name" @attributes="AdditionalAttributes">
+<wa-tab-panel active="@Active" name="@Name" @attributes="InternalAttributes">
     @ChildContent
 </wa-tab-panel>
 
 @code {
+    /// <summary>
+    /// The tab panel's padding. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Padding { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -24,4 +30,13 @@
     /// </summary>
     [Parameter]
     public string Name { get; set; } = "";
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--padding", Padding)
+            .Build();
+    }
 }

@@ -2,9 +2,15 @@
 
 <RoarDependency ComponentName="avatar" />
 
-<wa-avatar initials="@Initials" label="@Label" shape="@Shape" @attributes="AdditionalAttributes">@ChildContent</wa-avatar>
+<wa-avatar initials="@Initials" label="@Label" shape="@Shape" @attributes="InternalAttributes">@ChildContent</wa-avatar>
 
 @code {
+    /// <summary>
+    /// The size of the avatar. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Size { get; set; }
+
     /// <summary>
     /// Initials to use as a fallback when no image is available (1-2 characters max recommended).
     /// </summary>
@@ -29,4 +35,13 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--size", Size)
+            .Build();
+    }
 }

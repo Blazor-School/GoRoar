@@ -1,8 +1,8 @@
 ﻿@page "/tree-sample"
 
 <h3>Single Select</h3>
-<RoarTree @bind-Value="Value">
-    <RoarTreeItem Value="Electronics" Expanded>
+<RoarTree IndentSize="1.5rem" IndentGuideColor="var(--wa-color-neutral-border-normal)" IndentGuideOffset="0.5rem" IndentGuideStyle="dotted" IndentGuideWidth="1px" @bind-Value="Value">
+    <RoarTreeItem ShowDuration="250ms" HideDuration="150ms" Value="Electronics" Expanded>
         Electronics
         <RoarTreeItem Value="computers" Expanded>
             Computers
@@ -53,7 +53,7 @@
 <div>Selected Value: @LeafValue</div>
 
 <h3>Multiple Select</h3>
-<RoarTreeMultipleSelect @bind-Values="Values">
+<RoarTreeMultipleSelect IndentSize="1.5rem" IndentGuideColor="var(--wa-color-neutral-border-normal)" IndentGuideOffset="0.5rem" IndentGuideStyle="dotted" IndentGuideWidth="1px" @bind-Values="Values">
     <RoarTreeItem Value="Electronics" Expanded>
         Electronics
         <RoarTreeItem Value="computers">
@@ -92,7 +92,7 @@
 </RoarTreeMultipleSelect>
 
 <h3>Showing Indent Guides</h3>
-<RoarTree style="--indent-guide-width: 1px;">
+<RoarTree IndentGuideWidth="1px">
     <RoarTreeItem Expanded>
         Design
         <RoarTreeItem Expanded>

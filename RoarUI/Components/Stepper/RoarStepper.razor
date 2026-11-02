@@ -3,11 +3,47 @@
 
 <RoarDependency ComponentName="stepper" />
 
-<wa-stepper active="@Active" clickable="@Clickable" label="@Label" linear="@Linear" orientation="@Orientation" @onroarbeforestepchange="TriggerBeforeStepChangeAsync" @onroarbeforestepchange:preventDefault="PreventStepChange" @onroarstepchange="TriggerStepChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-stepper active="@Active" clickable="@Clickable" label="@Label" linear="@Linear" orientation="@Orientation" @onroarbeforestepchange="TriggerBeforeStepChangeAsync" @onroarbeforestepchange:preventDefault="PreventStepChange" @onroarstepchange="TriggerStepChangeAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-stepper>
 
 @code {
+    /// <summary>
+    /// The space between steps. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Gap { get; set; }
+
+    /// <summary>
+    /// The size of each step's marker. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? MarkerSize { get; set; }
+
+    /// <summary>
+    /// The color of the connector line after a step that isn't completed. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ConnectorColor { get; set; }
+
+    /// <summary>
+    /// The color of the connector line after a completed step. Unset by default, so the line takes the completed marker's fill and follows its <c>variant</c>. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ConnectorColorActive { get; set; }
+
+    /// <summary>
+    /// The thickness of the connector line, in either orientation. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ConnectorWidth { get; set; }
+
+    /// <summary>
+    /// The gap between a marker's edge and the connector line, on both sides. Kept clear of the marker geometrically, so it holds even if a marker's background is transparent. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ConnectorGap { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -88,4 +124,18 @@
     /// Goes back to the previous step if it is reachable and the change is not canceled.
     /// </summary>
     public ValueTask PreviousAsync() => CallComponentVoidFunctionAsync("previous");
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--gap", Gap)
+            .AddStyle("--marker-size", MarkerSize)
+            .AddStyle("--connector-color", ConnectorColor)
+            .AddStyle("--connector-color-active", ConnectorColorActive)
+            .AddStyle("--connector-width", ConnectorWidth)
+            .AddStyle("--connector-gap", ConnectorGap)
+            .Build();
+    }
 }

@@ -6,6 +6,18 @@
 
 @code {
     /// <summary>
+    /// The amount of space between the label and the divider's lines. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? LabelSpacing { get; set; }
+
+    /// <summary>
+    /// The length of the line between the divider's edge and a label placed at the <c>start</c> or <c>end</c>. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? LabelOffset { get; set; }
+
+    /// <summary>
     /// The thickness of the divider. It can be any valid CSS value (e.g., "100px", "50%", "2em").
     /// </summary>
     [Parameter]
@@ -37,6 +49,8 @@
             .AddStyle("--width", Thickness)
             .AddStyle("--color", Color)
             .AddStyle("--spacing", Spacing)
+            .AddStyle("--label-spacing", LabelSpacing)
+            .AddStyle("--label-offset", LabelOffset)
             .Build();
     }
 }

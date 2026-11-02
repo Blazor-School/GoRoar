@@ -1,12 +1,12 @@
 ﻿@page "/tab-group-sample"
 
 <h3>Setting the Active Tab</h3>
-<RoarTabGroup ActiveTabName="advanced">
+<RoarTabGroup IndicatorColor="var(--wa-color-brand-fill-loud)" TrackColor="var(--wa-color-neutral-fill-quiet)" TrackWidth="3px" ActiveTabName="advanced">
     <RoarTab Panel="general">General</RoarTab>
     <RoarTab Panel="custom">Custom</RoarTab>
     <RoarTab Panel="advanced">Advanced</RoarTab>
 
-    <RoarTabPanel Name="general">This is the general tab panel.</RoarTabPanel>
+    <RoarTabPanel Padding="1rem" Name="general">This is the general tab panel.</RoarTabPanel>
     <RoarTabPanel Name="custom">This is the custom tab panel.</RoarTabPanel>
     <RoarTabPanel Name="advanced">This is the advanced tab panel.</RoarTabPanel>
 </RoarTabGroup>

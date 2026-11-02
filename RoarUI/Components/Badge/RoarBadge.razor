@@ -6,6 +6,12 @@
 
 @code {
     /// <summary>
+    /// The color of the badge's pulse effect when using <c>attention="pulse"</c>. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? PulseColor { get; set; }
+
+    /// <summary>
     /// The badge's theme variant. Defaults to brand if not within another element with a variant.
     /// </summary>
     [Parameter]
@@ -47,6 +53,7 @@
     {
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
             .AddStyle("font-size", Size?.Value)
+            .AddStyle("--pulse-color", PulseColor)
             .Build();
     }
 }

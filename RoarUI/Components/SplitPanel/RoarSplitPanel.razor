@@ -3,11 +3,35 @@
 
 <RoarDependency ComponentName="split-panel" />
 
-<wa-split-panel disabled="@Disabled" orientation="@Orientation" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @onroarreposition="TriggerRepositionAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-split-panel disabled="@Disabled" orientation="@Orientation" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @onroarreposition="TriggerRepositionAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-split-panel>
 
 @code {
+    /// <summary>
+    /// The width of the visible divider. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? DividerWidth { get; set; }
+
+    /// <summary>
+    /// The invisible region around the divider where dragging can occur. This is usually wider than the divider to facilitate easier dragging. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? DividerHitArea { get; set; }
+
+    /// <summary>
+    /// The minimum allowed size of the primary panel. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Min { get; set; }
+
+    /// <summary>
+    /// The maximum allowed size of the primary panel. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Max { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -72,5 +96,17 @@
         {
             await SetComponentPropertyAsync("position", Position);
         }
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--divider-width", DividerWidth)
+            .AddStyle("--divider-hit-area", DividerHitArea)
+            .AddStyle("--min", Min)
+            .AddStyle("--max", Max)
+            .Build();
     }
 }

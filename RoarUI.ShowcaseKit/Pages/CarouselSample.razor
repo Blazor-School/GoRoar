@@ -2,8 +2,8 @@
 @using Microsoft.JSInterop
 
 <h3>Pagination</h3>
-<RoarCarousel Pagination>
-    <RoarCarouselItem>
+<RoarCarousel AspectRatio="16 / 9" ScrollHint="10%" SlideGap="1rem" Pagination>
+    <RoarCarouselItem AspectRatio="16 / 9">
         <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
     </RoarCarouselItem>
     <RoarCarouselItem>
@@ -116,7 +116,7 @@
 </style>
 
 <h3>Aspect Ratio</h3>
-<RoarCarousel class="aspect-ratio" Navigation Pagination style="@($"--aspect-ratio: {AspectRatio};")">
+<RoarCarousel class="aspect-ratio" Navigation Pagination AspectRatio="@AspectRatio">
     <RoarCarouselItem>
         <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
     </RoarCarouselItem>
@@ -151,7 +151,7 @@
 </RoarCarousel>
 
 <h3>Scroll Hint</h3>
-<RoarCarousel class="scroll-hint" Pagination style="--scroll-hint: 10%;">
+<RoarCarousel class="scroll-hint" Pagination ScrollHint="10%">
     <RoarCarouselItem>
         <img alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)" src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=10" />
     </RoarCarouselItem>

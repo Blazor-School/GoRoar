@@ -3,11 +3,23 @@
 
 <RoarDependency ComponentName="tree-item" />
 
-<wa-tree-item disabled="@Disabled" expanded="@Expanded" lazy="@Lazy" selected="@Selected" value="@Value" @onroaraftercollapse="TriggerAfterCollapse" @onroarafterexpand="TriggerAfterExpand" @onroarcollapse="TriggerCollapse" @onroarexpand="TriggerExpand" @onroarlazychange="TriggerLazyChange" @onroarlazyload="TriggerLazyLoad" @ref="Element" @attributes="AdditionalAttributes">
+<wa-tree-item disabled="@Disabled" expanded="@Expanded" lazy="@Lazy" selected="@Selected" value="@Value" @onroaraftercollapse="TriggerAfterCollapse" @onroarafterexpand="TriggerAfterExpand" @onroarcollapse="TriggerCollapse" @onroarexpand="TriggerExpand" @onroarlazychange="TriggerLazyChange" @onroarlazyload="TriggerLazyLoad" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-tree-item>
 
 @code {
+    /// <summary>
+    /// The animation duration when expanding tree items. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The animation duration when collapsing tree items. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -87,6 +99,11 @@
 
     protected override void OnParametersSet()
     {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .Build();
+
         switch (Parent)
         {
             case RoarTree tree:
@@ -132,4 +149,6 @@
         await OnLazyLoad.InvokeAsync();
         await SetComponentPropertyAsync("lazy", false); // Disable lazy mode once the content has been loaded
     }
+
+    internal Dictionary<string, object> InternalAttributes = [];
 }

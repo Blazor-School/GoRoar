@@ -3,12 +3,18 @@
 <RoarDependency ComponentName="checkbox-group" />
 
 <CascadingValue Value="this">
-    <wa-checkbox-group hint="@Hint" label="@Label" orientation="@Orientation" with-hint="@WithHint" with-label="@WithLabel" @attributes="AdditionalAttributes">
+    <wa-checkbox-group hint="@Hint" label="@Label" orientation="@Orientation" with-hint="@WithHint" with-label="@WithLabel" @attributes="InternalAttributes">
         @ChildContent
     </wa-checkbox-group>
 </CascadingValue>
 
 @code {
+    /// <summary>
+    /// The gap between grouped checkboxes. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Gap { get; set; }
+
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
@@ -60,5 +66,14 @@
         {
             EditContext.NotifyFieldChanged(FieldIdentifier.Create(For));
         }
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--gap", Gap)
+            .Build();
     }
 }

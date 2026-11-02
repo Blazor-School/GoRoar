@@ -1,7 +1,7 @@
 ﻿@page "/skeleton-sample"
 
 <h3>Effect</h3>
-<RoarSkeleton Effect="SkeletonEffect.None" /> None
+<RoarSkeleton Color="var(--wa-color-neutral-fill-normal)" SheenColor="var(--wa-color-neutral-fill-quiet)" Effect="SkeletonEffect.None" /> None
 <RoarSkeleton Effect="SkeletonEffect.Sheen" /> Sheen
 <RoarSkeleton Effect="SkeletonEffect.Pulse" /> Pulse
 
@@ -79,4 +79,4 @@
 </style>
 
 <h3>Custom Colors</h3>
-<RoarSkeleton Effect="SkeletonEffect.Sheen" style="--color: tomato; --sheen-color: #ffb094;" />
+<RoarSkeleton Effect="SkeletonEffect.Sheen" Color="tomato" SheenColor="#ffb094" />

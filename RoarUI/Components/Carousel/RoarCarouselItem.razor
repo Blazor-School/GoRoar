@@ -2,11 +2,17 @@
 
 <RoarDependency ComponentName="carousel-item" />
 
-<wa-carousel-item @ref="Element" @attributes="AdditionalAttributes">
+<wa-carousel-item @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-carousel-item>
 
 @code {
+    /// <summary>
+    /// The slide's aspect ratio. Inherited from the carousel by default. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? AspectRatio { get; set; }
+
     internal ElementReference Element { get; set; }
 
     [Parameter]
@@ -14,4 +20,13 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--aspect-ratio", AspectRatio)
+            .Build();
+    }
 }

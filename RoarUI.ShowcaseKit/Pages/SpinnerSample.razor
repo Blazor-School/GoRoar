@@ -1,12 +1,12 @@
 ﻿@page "/spinner-sample"
 
 <h3>Size</h3>
-<RoarSpinner />
+<RoarSpinner TrackWidth="3px" TrackColor="var(--wa-color-neutral-fill-quiet)" IndicatorColor="var(--wa-color-brand-fill-loud)" Speed="1.5s" />
 <RoarSpinner style="font-size: 2rem;" />
 <RoarSpinner style="font-size: 3rem;" />
 
 <h3>Track Width</h3>
-<RoarSpinner style="font-size: 50px; --track-width: 10px" />
+<RoarSpinner TrackWidth="10px" style="font-size: 50px;" />
 
 <h3>Color</h3>
-<RoarSpinner style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;" />
+<RoarSpinner IndicatorColor="deeppink" TrackColor="pink" style="font-size: 3rem;" />

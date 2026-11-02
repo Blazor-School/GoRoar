@@ -9,6 +9,30 @@
 
 @code {
     /// <summary>
+    /// Width and height of each segment cell. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SegmentSize { get; set; }
+
+    /// <summary>
+    /// Gap between segments (not used in <c>contained</c> appearance). Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SegmentGap { get; set; }
+
+    /// <summary>
+    /// Corner radius of each segment. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? SegmentBorderRadius { get; set; }
+
+    /// <summary>
+    /// Character shown in place of entered values when <c>mask</c> is set, and as a hint in empty segments when <c>with-mask</c> is set. Accepts a quoted CSS string, such as <c>'*'</c>, or var().
+    /// </summary>
+    [Parameter]
+    public string? MaskChar { get; set; }
+
+    /// <summary>
     /// Visual appearance of the segments.
     /// </summary>
     [Parameter]
@@ -163,4 +187,10 @@
         await SyncComponentValue();
         await OnComplete.InvokeAsync();
     }
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--segment-size", SegmentSize)
+        .AddStyle("--segment-gap", SegmentGap)
+        .AddStyle("--segment-border-radius", SegmentBorderRadius)
+        .AddStyle("--mask-char", MaskChar);
 }

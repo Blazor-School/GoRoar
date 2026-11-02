@@ -2,11 +2,17 @@
 
 <RoarDependency ComponentName="card" />
 
-<wa-card appearance="@Appreance" orientation="@Orientation" @attributes="AdditionalAttributes">
+<wa-card appearance="@Appreance" orientation="@Orientation" @attributes="InternalAttributes">
     @ChildContent
 </wa-card>
 
 @code {
+    /// <summary>
+    /// The amount of space around and between sections of the card. Expects a single value. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -24,4 +30,13 @@
     /// </summary>
     [Parameter]
     public CardOrientation Orientation { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--spacing", Spacing)
+            .Build();
+    }
 }

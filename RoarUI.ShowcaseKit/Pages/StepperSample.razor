@@ -1,7 +1,7 @@
 @page "/stepper-sample"
 
 <h3>Clickable</h3>
-<RoarStepper Active="shipping" Clickable>
+<RoarStepper Gap="var(--wa-space-m)" MarkerSize="2.5em" ConnectorColor="var(--wa-color-neutral-border-normal)" ConnectorColorActive="var(--wa-color-success-fill-loud)" ConnectorWidth="3px" ConnectorGap="0.25em" Active="shipping" Clickable>
     <RoarStep Name="cart" Completed>Cart</RoarStep>
     <RoarStep Name="shipping">Shipping</RoarStep>
     <RoarStep Name="payment">Payment</RoarStep>
@@ -25,7 +25,7 @@
     <RoarStep Name="bake">Bake</RoarStep>
 </RoarStepper>
 
-<RoarStepper Orientation="StepperOrientation.Vertical" Active="proof" style="--gap: var(--wa-space-3xl);">
+<RoarStepper Orientation="StepperOrientation.Vertical" Active="proof" Gap="var(--wa-space-3xl)">
     <RoarStep Name="mix" Completed>Mix</RoarStep>
     <RoarStep Name="knead" Completed>Knead</RoarStep>
     <RoarStep Name="proof" WithDescription>
@@ -99,7 +99,7 @@
 <div class="wa-stack">
     <RoarStepper Active="verify">
         <RoarStep Name="account" Completed>Create account</RoarStep>
-        <RoarStep Name="verify" Attention="StepAttention.Pulse">Verify email</RoarStep>
+        <RoarStep Name="verify" Attention="StepAttention.Pulse" PulseColor="var(--wa-color-brand-fill-loud)">Verify email</RoarStep>
         <RoarStep Name="profile">Set up profile</RoarStep>
     </RoarStepper>
 

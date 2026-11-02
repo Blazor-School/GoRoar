@@ -1,7 +1,7 @@
 ﻿@page "/drawer-sample"
 
 <h3>Drawer without Header</h3>
-<RoarDrawer Label="Drawer" WithoutHeader id="drawer-no-header">
+<RoarDrawer Spacing="var(--wa-space-l)" Size="min(28rem, 90vw)" BackdropFilter="blur(4px)" ShowDuration="250ms" HideDuration="150ms" Label="Drawer" WithoutHeader id="drawer-no-header">
     Look ma, no header!
     <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
 </RoarDrawer>
@@ -36,7 +36,7 @@
 <RoarButton Appearance="ButtonAppearance.Filled" data-drawer="open drawer-placement">Open Drawer</RoarButton>
 
 <h3>Custom Size</h3>
-<RoarDrawer Label="Drawer" style="--size: 50vw;" id="drawer-custom-size">
+<RoarDrawer Label="Drawer" Size="50vw" id="drawer-custom-size">
     This drawer is always 50% of the viewport.
     <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
 </RoarDrawer>

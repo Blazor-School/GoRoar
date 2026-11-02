@@ -3,11 +3,17 @@
 
 <RoarDependency ComponentName="option" />
 
-<wa-option value="@Convert.ToString(Value, CultureInfo.CurrentCulture)" label="@Label" disabled="@Disabled" @attributes="AdditionalAttributes">
+<wa-option value="@Convert.ToString(Value, CultureInfo.CurrentCulture)" label="@Label" disabled="@Disabled" @attributes="InternalAttributes">
     @ChildContent
 </wa-option>
 
 @code {
+    /// <summary>
+    /// The text color of the current (highlighted) option, paired with <c>--wa-form-control-activated-color</c>. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? CurrentTextColor { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -31,4 +37,13 @@
     /// </summary>
     [Parameter]
     public string? Label { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--current-text-color", CurrentTextColor)
+            .Build();
+    }
 }

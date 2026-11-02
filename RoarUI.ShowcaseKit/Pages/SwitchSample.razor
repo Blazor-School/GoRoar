@@ -1,7 +1,7 @@
 @page "/switch-sample"
 
 <h3>Label</h3>
-<RoarSwitch>Subscribe to the newsletter</RoarSwitch>
+<RoarSwitch Width="80px" Height="40px" ThumbSize="36px">Subscribe to the newsletter</RoarSwitch>
 
 <h3>Hint</h3>
 <RoarSwitch Hint="You can change this at any time in settings.">Email me about new releases</RoarSwitch>
@@ -27,7 +27,7 @@
 </div>
 
 <h3>Custom Properties</h3>
-<RoarSwitch style="--width: 80px; --height: 40px; --thumb-size: 36px;">Really big</RoarSwitch>
+<RoarSwitch Width="80px" Height="40px" ThumbSize="36px">Really big</RoarSwitch>
 
 <h3>Binding and Events</h3>
 <RoarSwitch @bind-Value="NotificationsEnabled" OnChange="() => ChangeCount++" OnInput="() => InputCount++">Enable notifications</RoarSwitch>

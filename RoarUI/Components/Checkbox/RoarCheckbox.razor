@@ -8,6 +8,18 @@
 </wa-checkbox>
 
 @code {
+    /// <summary>
+    /// The color of the checked and indeterminate icons. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? CheckedIconColor { get; set; }
+
+    /// <summary>
+    /// The size of the checked and indeterminate icons relative to the checkbox. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? CheckedIconScale { get; set; }
+
     [CascadingParameter]
     private RoarCheckboxGroup? Group { get; set; }
 
@@ -75,4 +87,8 @@
     public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
 
     protected override bool TryParseValueFromString(string? value, out bool result, [NotNullWhen(false)] out string? validationErrorMessage) => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+
+    internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
+        .AddStyle("--checked-icon-color", CheckedIconColor)
+        .AddStyle("--checked-icon-scale", CheckedIconScale);
 }

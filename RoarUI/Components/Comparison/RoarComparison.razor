@@ -3,11 +3,23 @@
 
 <RoarDependency ComponentName="comparison" />
 
-<wa-comparison @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="AdditionalAttributes">
+<wa-comparison @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-comparison>
 
 @code {
+    /// <summary>
+    /// The width of the dividing line. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? DividerWidth { get; set; }
+
+    /// <summary>
+    /// The size of the compare handle. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? HandleSize { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -32,5 +44,15 @@
         {
             await SetComponentPropertyAsync("position", Position);
         }
+    }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--divider-width", DividerWidth)
+            .AddStyle("--handle-size", HandleSize)
+            .Build();
     }
 }

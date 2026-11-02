@@ -2,11 +2,23 @@
 
 <RoarDependency ComponentName="animated-image" />
 
-<wa-animated-image src="@Src" alt="@Alt" play="@Play" @attributes="AdditionalAttributes">
+<wa-animated-image src="@Src" alt="@Alt" play="@Play" @attributes="InternalAttributes">
     @ChildContent
 </wa-animated-image>
 
 @code {
+    /// <summary>
+    /// The size of the icon box. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? ControlBoxSize { get; set; }
+
+    /// <summary>
+    /// The size of the play/pause icons. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? IconSize { get; set; }
+
     /// <summary>
     /// The path to the image to load.
     /// </summary>
@@ -31,4 +43,14 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--control-box-size", ControlBoxSize)
+            .AddStyle("--icon-size", IconSize)
+            .Build();
+    }
 }
