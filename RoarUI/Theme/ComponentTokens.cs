@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class ComponentGroup
+public class ComponentTokens
 {
     public string BackgroundColor { get; set; } = "var(--wa-color-surface-default)";
     public string BorderColor { get; set; } = "var(--wa-color-neutral-border-loud)";

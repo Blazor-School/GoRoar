@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class Transition
+public class TransitionTokens
 {
     public string Slow { get; set; } = "300ms";
     public string Normal { get; set; } = "150ms";

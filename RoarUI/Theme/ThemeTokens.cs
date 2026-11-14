@@ -1,8 +1,8 @@
 ﻿namespace RoarUI.Theme;
 
-public class Token
+public class ThemeTokens
 {
-    public Border Border { get; set; } = new();
+    public BorderTokens Border { get; set; } = new();
     public ColorPalette Color { get; set; } = new();
 
     public SchemeColors Light { get; set; } = new("light")
@@ -39,7 +39,7 @@ public class Token
         MixActive = "var(--wa-color-surface-default) 20%"
     };
 
-    public Dictionary<string, VariantPalette> Variants { get; set; } = new()
+    public Dictionary<string, VariantColors> Variants { get; set; } = new()
     {
         [RoarVariant.Brand] = new()
         {
@@ -243,10 +243,10 @@ public class Token
         }
     };
 
-    public Focus Focus { get; set; } = new();
-    public Shadow Shadow { get; set; } = new();
-    public Space Space { get; set; } = new();
-    public Transition Transition { get; set; } = new();
-    public Typography Typography { get; set; } = new();
-    public ComponentGroup ComponentGroup { get; set; } = new();
+    public FocusRingTokens Focus { get; set; } = new();
+    public ShadowTokens Shadow { get; set; } = new();
+    public SpacingTokens Space { get; set; } = new();
+    public TransitionTokens Transition { get; set; } = new();
+    public TypographyTokens Typography { get; set; } = new();
+    public ComponentTokens ComponentGroup { get; set; } = new();
 }

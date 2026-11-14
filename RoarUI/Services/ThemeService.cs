@@ -6,44 +6,28 @@ namespace RoarUI;
 
 public class ThemeService(IHttpClientFactory HttpClientFactory)
 {
-    private string _mode = "light";
-
     [PersistentState]
-    public string Mode
+    public ThemeMode Mode
     {
-        get => _mode;
+        get;
         set
         {
-            if (value is not ("light" or "dark"))
+            if (field != value)
             {
-                throw new ArgumentException("Mode must be 'light' or 'dark'.", nameof(value));
+                field = value;
+                OnModeChanged?.Invoke(this, value);
             }
-
-            if (_mode == value)
-            {
-                return;
-            }
-
-            _mode = value;
-            OnModeChanged?.Invoke(this, value);
         }
-    }
+    } = ThemeMode.Light;
 
     [PersistentState]
-    public RoarTheme? CustomTheme { get; set; }
+    public RoarTheme? CurrentTheme { get; set; }
 
     public event EventHandler<RoarTheme?>? OnThemeLoaded;
-    public event EventHandler<string>? OnModeChanged;
+    public event EventHandler<ThemeMode>? OnModeChanged;
 
-    public void SetMode(string mode)
-    {
-        Mode = mode;
-    }
-
-    public void ToggleMode()
-    {
-        SetMode(Mode == "light" ? "dark" : "light");
-    }
+    public void SetMode(ThemeMode mode) => Mode = mode;
+    public void ToggleMode() => SetMode(Mode == ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light);
 
     public async Task LoadThemeAsync(string path)
     {
@@ -55,7 +39,7 @@ public class ThemeService(IHttpClientFactory HttpClientFactory)
     public void LoadTheme(RoarTheme theme)
     {
         ArgumentNullException.ThrowIfNull(theme);
-        CustomTheme = theme;
+        CurrentTheme = theme;
         OnThemeLoaded?.Invoke(this, theme);
     }
 }

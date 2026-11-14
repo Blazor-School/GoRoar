@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class Typography
+public class TypographyTokens
 {
     public string FontFamilyBody { get; set; } = "ui-sans-serif, system-ui, sans-serif";
     public string FontFamilyHeading { get; set; } = "var(--wa-font-family-body)";

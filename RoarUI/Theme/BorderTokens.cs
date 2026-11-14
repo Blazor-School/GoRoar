@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class Border
+public class BorderTokens
 {
     public string Style { get; set; } = "solid";
     public string WidthS { get; set; } = "calc(var(--wa-border-width-scale) * 0.0625rem)";

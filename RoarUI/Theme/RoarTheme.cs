@@ -10,5 +10,5 @@ public class RoarTheme
     public int Version { get; set; }
     public string? Name { get; set; }
     public string? Author { get; set; }
-    public Token Token { get; set; } = new();
+    public ThemeTokens Token { get; set; } = new();
 }

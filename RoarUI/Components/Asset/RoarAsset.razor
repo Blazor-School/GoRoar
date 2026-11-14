@@ -13,9 +13,9 @@
     <script type="module" src="@InternalPaths.ComposeComponentJsPath(component)"></script>
 }
 
-@if (ThemeService.CustomTheme is not null)
+@if (ThemeService.CurrentTheme is not null)
 {
-    var variantMappings = BuildVariantMappings(ThemeService.CustomTheme.Token.Variants.Keys);
+    var variantMappings = BuildVariantMappings(ThemeService.CurrentTheme.Token.Variants.Keys);
 
     <style data-roar-variant-mappings>
         @@layer wa-theme-overrides {
@@ -26,16 +26,16 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start border section ### */
-        --wa-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.Border.Style);
-        --wa-border-width-s: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthS);
-        --wa-border-width-m: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthM);
-        --wa-border-width-l: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthL);
-        --wa-border-radius-pill: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusPill);
-        --wa-border-radius-circle: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusCircle);
-        --wa-border-radius-square: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusSquare);
-        --wa-border-radius-s: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusS);
-        --wa-border-radius-m: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusM);
-        --wa-border-radius-l: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusL);
+        --wa-border-style: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.Style);
+        --wa-border-width-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.WidthS);
+        --wa-border-width-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.WidthM);
+        --wa-border-width-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.WidthL);
+        --wa-border-radius-pill: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.RadiusPill);
+        --wa-border-radius-circle: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.RadiusCircle);
+        --wa-border-radius-square: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.RadiusSquare);
+        --wa-border-radius-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.RadiusS);
+        --wa-border-radius-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.RadiusM);
+        --wa-border-radius-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Border.RadiusL);
         /* ### End border section ### */
         }
         }
@@ -44,146 +44,146 @@
         @@layer wa-theme-overrides {
         :where(:root) {
         /* ### Start red color section ###*/
-        --wa-color-red-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red95);
-        --wa-color-red-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red90);
-        --wa-color-red-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red80);
-        --wa-color-red-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red70);
-        --wa-color-red-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red60);
-        --wa-color-red-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red50);
-        --wa-color-red-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red40);
-        --wa-color-red-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red30);
-        --wa-color-red-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red20);
-        --wa-color-red-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red10);
-        --wa-color-red-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red05);
-        --wa-color-red: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red);
+        --wa-color-red-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red95);
+        --wa-color-red-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red90);
+        --wa-color-red-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red80);
+        --wa-color-red-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red70);
+        --wa-color-red-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red60);
+        --wa-color-red-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red50);
+        --wa-color-red-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red40);
+        --wa-color-red-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red30);
+        --wa-color-red-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red20);
+        --wa-color-red-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red10);
+        --wa-color-red-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red05);
+        --wa-color-red: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Red);
         /* ### End red color section ###*/
         /* ### Start orange color section ###*/
-        --wa-color-orange-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange95);
-        --wa-color-orange-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange90);
-        --wa-color-orange-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange80);
-        --wa-color-orange-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange70);
-        --wa-color-orange-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange60);
-        --wa-color-orange-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange50);
-        --wa-color-orange-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange40);
-        --wa-color-orange-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange30);
-        --wa-color-orange-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange20);
-        --wa-color-orange-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange10);
-        --wa-color-orange-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange05);
-        --wa-color-orange: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange);
+        --wa-color-orange-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange95);
+        --wa-color-orange-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange90);
+        --wa-color-orange-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange80);
+        --wa-color-orange-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange70);
+        --wa-color-orange-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange60);
+        --wa-color-orange-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange50);
+        --wa-color-orange-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange40);
+        --wa-color-orange-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange30);
+        --wa-color-orange-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange20);
+        --wa-color-orange-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange10);
+        --wa-color-orange-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange05);
+        --wa-color-orange: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Orange);
         /* ### End orange color section ###*/
         /* ### Start yellow color section ###*/
-        --wa-color-yellow-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow95);
-        --wa-color-yellow-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow90);
-        --wa-color-yellow-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow80);
-        --wa-color-yellow-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow70);
-        --wa-color-yellow-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow60);
-        --wa-color-yellow-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow50);
-        --wa-color-yellow-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow40);
-        --wa-color-yellow-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow30);
-        --wa-color-yellow-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow20);
-        --wa-color-yellow-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow10);
-        --wa-color-yellow-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow05);
-        --wa-color-yellow: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow);
+        --wa-color-yellow-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow95);
+        --wa-color-yellow-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow90);
+        --wa-color-yellow-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow80);
+        --wa-color-yellow-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow70);
+        --wa-color-yellow-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow60);
+        --wa-color-yellow-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow50);
+        --wa-color-yellow-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow40);
+        --wa-color-yellow-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow30);
+        --wa-color-yellow-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow20);
+        --wa-color-yellow-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow10);
+        --wa-color-yellow-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow05);
+        --wa-color-yellow: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Yellow);
         /* ### End yellow color section ###*/
         /* ### Start green color section ###*/
-        --wa-color-green-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green95);
-        --wa-color-green-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green90);
-        --wa-color-green-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green80);
-        --wa-color-green-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green70);
-        --wa-color-green-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green60);
-        --wa-color-green-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green50);
-        --wa-color-green-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green40);
-        --wa-color-green-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green30);
-        --wa-color-green-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green20);
-        --wa-color-green-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green10);
-        --wa-color-green-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green05);
-        --wa-color-green: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green);
+        --wa-color-green-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green95);
+        --wa-color-green-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green90);
+        --wa-color-green-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green80);
+        --wa-color-green-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green70);
+        --wa-color-green-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green60);
+        --wa-color-green-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green50);
+        --wa-color-green-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green40);
+        --wa-color-green-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green30);
+        --wa-color-green-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green20);
+        --wa-color-green-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green10);
+        --wa-color-green-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green05);
+        --wa-color-green: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Green);
         /* ### End green color section ###*/
         /* ### Start cyan color section ###*/
-        --wa-color-cyan-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan95);
-        --wa-color-cyan-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan90);
-        --wa-color-cyan-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan80);
-        --wa-color-cyan-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan70);
-        --wa-color-cyan-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan60);
-        --wa-color-cyan-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan50);
-        --wa-color-cyan-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan40);
-        --wa-color-cyan-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan30);
-        --wa-color-cyan-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan20);
-        --wa-color-cyan-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan10);
-        --wa-color-cyan-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan05);
-        --wa-color-cyan: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan);
+        --wa-color-cyan-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan95);
+        --wa-color-cyan-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan90);
+        --wa-color-cyan-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan80);
+        --wa-color-cyan-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan70);
+        --wa-color-cyan-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan60);
+        --wa-color-cyan-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan50);
+        --wa-color-cyan-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan40);
+        --wa-color-cyan-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan30);
+        --wa-color-cyan-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan20);
+        --wa-color-cyan-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan10);
+        --wa-color-cyan-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan05);
+        --wa-color-cyan: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Cyan);
         /* ### End cyan color section ###*/
         /* ### Start blue color section ###*/
-        --wa-color-blue-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue95);
-        --wa-color-blue-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue90);
-        --wa-color-blue-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue80);
-        --wa-color-blue-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue70);
-        --wa-color-blue-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue60);
-        --wa-color-blue-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue50);
-        --wa-color-blue-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue40);
-        --wa-color-blue-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue30);
-        --wa-color-blue-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue20);
-        --wa-color-blue-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue10);
-        --wa-color-blue-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue05);
-        --wa-color-blue: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue);
+        --wa-color-blue-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue95);
+        --wa-color-blue-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue90);
+        --wa-color-blue-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue80);
+        --wa-color-blue-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue70);
+        --wa-color-blue-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue60);
+        --wa-color-blue-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue50);
+        --wa-color-blue-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue40);
+        --wa-color-blue-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue30);
+        --wa-color-blue-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue20);
+        --wa-color-blue-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue10);
+        --wa-color-blue-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue05);
+        --wa-color-blue: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Blue);
         /* ### End blue color section ###*/
         /* ### Start indigo color section ###*/
-        --wa-color-indigo-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo95);
-        --wa-color-indigo-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo90);
-        --wa-color-indigo-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo80);
-        --wa-color-indigo-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo70);
-        --wa-color-indigo-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo60);
-        --wa-color-indigo-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo50);
-        --wa-color-indigo-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo40);
-        --wa-color-indigo-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo30);
-        --wa-color-indigo-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo20);
-        --wa-color-indigo-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo10);
-        --wa-color-indigo-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo05);
-        --wa-color-indigo: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo);
+        --wa-color-indigo-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo95);
+        --wa-color-indigo-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo90);
+        --wa-color-indigo-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo80);
+        --wa-color-indigo-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo70);
+        --wa-color-indigo-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo60);
+        --wa-color-indigo-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo50);
+        --wa-color-indigo-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo40);
+        --wa-color-indigo-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo30);
+        --wa-color-indigo-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo20);
+        --wa-color-indigo-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo10);
+        --wa-color-indigo-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo05);
+        --wa-color-indigo: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Indigo);
         /* ### End indigo color section ###*/
         /* ### Start purple color section ###*/
-        --wa-color-purple-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple95);
-        --wa-color-purple-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple90);
-        --wa-color-purple-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple80);
-        --wa-color-purple-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple70);
-        --wa-color-purple-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple60);
-        --wa-color-purple-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple50);
-        --wa-color-purple-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple40);
-        --wa-color-purple-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple30);
-        --wa-color-purple-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple20);
-        --wa-color-purple-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple10);
-        --wa-color-purple-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple05);
-        --wa-color-purple: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple);
+        --wa-color-purple-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple95);
+        --wa-color-purple-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple90);
+        --wa-color-purple-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple80);
+        --wa-color-purple-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple70);
+        --wa-color-purple-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple60);
+        --wa-color-purple-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple50);
+        --wa-color-purple-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple40);
+        --wa-color-purple-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple30);
+        --wa-color-purple-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple20);
+        --wa-color-purple-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple10);
+        --wa-color-purple-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple05);
+        --wa-color-purple: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Purple);
         /* ### End purple color section ###*/
         /* ### Start pink color section ###*/
-        --wa-color-pink-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink95);
-        --wa-color-pink-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink90);
-        --wa-color-pink-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink80);
-        --wa-color-pink-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink70);
-        --wa-color-pink-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink60);
-        --wa-color-pink-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink50);
-        --wa-color-pink-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink40);
-        --wa-color-pink-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink30);
-        --wa-color-pink-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink20);
-        --wa-color-pink-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink10);
-        --wa-color-pink-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink05);
-        --wa-color-pink: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink);
+        --wa-color-pink-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink95);
+        --wa-color-pink-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink90);
+        --wa-color-pink-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink80);
+        --wa-color-pink-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink70);
+        --wa-color-pink-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink60);
+        --wa-color-pink-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink50);
+        --wa-color-pink-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink40);
+        --wa-color-pink-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink30);
+        --wa-color-pink-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink20);
+        --wa-color-pink-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink10);
+        --wa-color-pink-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink05);
+        --wa-color-pink: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Pink);
         /* ### End pink color section ###*/
         /* ### Start gray color section ###*/
-        --wa-color-gray-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray95);
-        --wa-color-gray-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray90);
-        --wa-color-gray-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray80);
-        --wa-color-gray-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray70);
-        --wa-color-gray-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray60);
-        --wa-color-gray-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray50);
-        --wa-color-gray-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray40);
-        --wa-color-gray-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray30);
-        --wa-color-gray-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray20);
-        --wa-color-gray-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray10);
-        --wa-color-gray-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray05);
-        --wa-color-gray: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray);
+        --wa-color-gray-95: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray95);
+        --wa-color-gray-90: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray90);
+        --wa-color-gray-80: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray80);
+        --wa-color-gray-70: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray70);
+        --wa-color-gray-60: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray60);
+        --wa-color-gray-50: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray50);
+        --wa-color-gray-40: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray40);
+        --wa-color-gray-30: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray30);
+        --wa-color-gray-20: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray20);
+        --wa-color-gray-10: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray10);
+        --wa-color-gray-05: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray05);
+        --wa-color-gray: @RenderCssValue(ThemeService.CurrentTheme.Token.Color.Gray);
         /* ### End gray color section ###*/
-        @foreach (var variant in ThemeService.CustomTheme.Token.Variants)
+        @foreach (var variant in ThemeService.CurrentTheme.Token.Variants)
         {
             var defaults = DefaultToken.Variants.GetValueOrDefault(variant.Key);
             var colorDefaults = defaults ?? DefaultToken.Variants[RoarVariant.Brand];
@@ -211,10 +211,10 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start focus section ###*/
-        --wa-focus-ring-style: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Style);
-        --wa-focus-ring-width: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Width);
-        --wa-focus-ring: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Ring);
-        --wa-focus-ring-offset: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Offset);
+        --wa-focus-ring-style: @RenderCssValue(ThemeService.CurrentTheme.Token.Focus.Style);
+        --wa-focus-ring-width: @RenderCssValue(ThemeService.CurrentTheme.Token.Focus.Width);
+        --wa-focus-ring: @RenderCssValue(ThemeService.CurrentTheme.Token.Focus.Ring);
+        --wa-focus-ring-offset: @RenderCssValue(ThemeService.CurrentTheme.Token.Focus.Offset);
         /* ### End focus section ###*/
         }
         }
@@ -223,21 +223,21 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start shadow section ###*/
-        --wa-shadow-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.S);
-        --wa-shadow-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.M);
-        --wa-shadow-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.L);
-        --wa-shadow-offset-x-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetXS);
-        --wa-shadow-offset-x-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetXM);
-        --wa-shadow-offset-x-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetXL);
-        --wa-shadow-offset-y-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetYS);
-        --wa-shadow-offset-y-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetYM);
-        --wa-shadow-offset-y-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetYL);
-        --wa-shadow-blur-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.BlurS);
-        --wa-shadow-blur-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.BlurM);
-        --wa-shadow-blur-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.BlurL);
-        --wa-shadow-spread-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.SpreadS);
-        --wa-shadow-spread-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.SpreadM);
-        --wa-shadow-spread-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.SpreadL);
+        --wa-shadow-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.S);
+        --wa-shadow-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.M);
+        --wa-shadow-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.L);
+        --wa-shadow-offset-x-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.OffsetXS);
+        --wa-shadow-offset-x-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.OffsetXM);
+        --wa-shadow-offset-x-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.OffsetXL);
+        --wa-shadow-offset-y-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.OffsetYS);
+        --wa-shadow-offset-y-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.OffsetYM);
+        --wa-shadow-offset-y-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.OffsetYL);
+        --wa-shadow-blur-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.BlurS);
+        --wa-shadow-blur-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.BlurM);
+        --wa-shadow-blur-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.BlurL);
+        --wa-shadow-spread-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.SpreadS);
+        --wa-shadow-spread-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.SpreadM);
+        --wa-shadow-spread-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Shadow.SpreadL);
         /* ### End shadow section ###*/
         }
         }
@@ -246,17 +246,17 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start space section ###*/
-        --wa-space-3xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space3XS);
-        --wa-space-2xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space2XS);
-        --wa-space-xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceXS);
-        --wa-space-s: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceS);
-        --wa-space-m: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceM);
-        --wa-space-l: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceL);
-        --wa-space-xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceXL);
-        --wa-space-2xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space2XL);
-        --wa-space-3xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space3XL);
-        --wa-space-4xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space4XL);
-        --wa-space-5xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space5XL);
+        --wa-space-3xs: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.Space3XS);
+        --wa-space-2xs: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.Space2XS);
+        --wa-space-xs: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.SpaceXS);
+        --wa-space-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.SpaceS);
+        --wa-space-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.SpaceM);
+        --wa-space-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.SpaceL);
+        --wa-space-xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.SpaceXL);
+        --wa-space-2xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.Space2XL);
+        --wa-space-3xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.Space3XL);
+        --wa-space-4xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.Space4XL);
+        --wa-space-5xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Space.Space5XL);
         /* ### End space section ###*/
         }
         }
@@ -265,10 +265,10 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start transition section ###*/
-        --wa-transition-slow: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Slow);
-        --wa-transition-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Normal);
-        --wa-transition-fast: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Fast);
-        --wa-transition-easing: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Easing);
+        --wa-transition-slow: @RenderCssValue(ThemeService.CurrentTheme.Token.Transition.Slow);
+        --wa-transition-normal: @RenderCssValue(ThemeService.CurrentTheme.Token.Transition.Normal);
+        --wa-transition-fast: @RenderCssValue(ThemeService.CurrentTheme.Token.Transition.Fast);
+        --wa-transition-easing: @RenderCssValue(ThemeService.CurrentTheme.Token.Transition.Easing);
         /* ### End transition section ###*/
         }
         }
@@ -277,37 +277,37 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start typography section ###*/
-        --wa-font-family-body: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyBody);
-        --wa-font-family-heading: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyHeading);
-        --wa-font-family-code: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyCode);
-        --wa-font-family-longform: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyLongForm);
-        --wa-font-size-3xs: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize3XS);
-        --wa-font-size-2xs: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize2XS);
-        --wa-font-size-xs: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeXS);
-        --wa-font-size-s: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeS);
-        --wa-font-size-m: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeM);
-        --wa-font-size-l: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeL);
-        --wa-font-size-xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeXL);
-        --wa-font-size-2xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize2XL);
-        --wa-font-size-3xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize3XL);
-        --wa-font-size-4xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize4XL);
-        --wa-font-size-5xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize5XL);
-        --wa-font-size-smaller: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeSmaller);
-        --wa-font-size-larger: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeLarger);
-        --wa-font-weight-light: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightLight);
-        --wa-font-weight-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightNormal);
-        --wa-font-weight-semibold: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightSemiBold);
-        --wa-font-weight-bold: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightBold);
-        --wa-font-weight-body: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightBody);
-        --wa-font-weight-heading: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightHeading);
-        --wa-font-weight-code: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightCode);
-        --wa-font-weight-longform: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightLongform);
-        --wa-font-weight-action: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightAction);
-        --wa-line-height-condensed: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LineHeightCondensed);
-        --wa-line-height-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LineHeightNormal);
-        --wa-line-height-expanded: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LineHeightExpanded);
-        --wa-link-decoration-default: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LinkDecorationDefault);
-        --wa-link-decoration-hover: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LinkDecorationHover);
+        --wa-font-family-body: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontFamilyBody);
+        --wa-font-family-heading: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontFamilyHeading);
+        --wa-font-family-code: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontFamilyCode);
+        --wa-font-family-longform: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontFamilyLongForm);
+        --wa-font-size-3xs: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSize3XS);
+        --wa-font-size-2xs: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSize2XS);
+        --wa-font-size-xs: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeXS);
+        --wa-font-size-s: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeS);
+        --wa-font-size-m: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeM);
+        --wa-font-size-l: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeL);
+        --wa-font-size-xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeXL);
+        --wa-font-size-2xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSize2XL);
+        --wa-font-size-3xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSize3XL);
+        --wa-font-size-4xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSize4XL);
+        --wa-font-size-5xl: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSize5XL);
+        --wa-font-size-smaller: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeSmaller);
+        --wa-font-size-larger: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontSizeLarger);
+        --wa-font-weight-light: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightLight);
+        --wa-font-weight-normal: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightNormal);
+        --wa-font-weight-semibold: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightSemiBold);
+        --wa-font-weight-bold: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightBold);
+        --wa-font-weight-body: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightBody);
+        --wa-font-weight-heading: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightHeading);
+        --wa-font-weight-code: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightCode);
+        --wa-font-weight-longform: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightLongform);
+        --wa-font-weight-action: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.FontWeightAction);
+        --wa-line-height-condensed: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.LineHeightCondensed);
+        --wa-line-height-normal: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.LineHeightNormal);
+        --wa-line-height-expanded: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.LineHeightExpanded);
+        --wa-link-decoration-default: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.LinkDecorationDefault);
+        --wa-link-decoration-hover: @RenderCssValue(ThemeService.CurrentTheme.Token.Typography.LinkDecorationHover);
         /* ### End typography section ###*/
         }
         }
@@ -316,41 +316,41 @@
         @@layer wa-theme-overrides {
         @SharedSelectors {
         /* ### Start component groups section ###*/
-        --wa-form-control-background-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BackgroundColor);
-        --wa-form-control-border-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderColor);
-        --wa-form-control-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderStyle);
-        --wa-form-control-border-width: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderWidth);
-        --wa-form-control-border-radius: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderRadius);
-        --wa-form-control-activated-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ActivatedColor);
-        --wa-form-control-label-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.LabelColor);
-        --wa-form-control-label-font-weight: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.LabelFontWeight);
-        --wa-form-control-label-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.LabelLineHeight);
-        --wa-form-control-value-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ValueColor);
-        --wa-form-control-value-font-weight: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ValueFontWeight);
-        --wa-form-control-value-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ValueLineHeight);
-        --wa-form-control-hint-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.HintColor);
-        --wa-form-control-hint-font-weight: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.HintFontWeight);
-        --wa-form-control-hint-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.HintLineHeight);
-        --wa-form-control-placeholder-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PlaceholderColor);
-        --wa-form-control-required-content: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.RequiredContent);
-        --wa-form-control-required-content-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.RequiredContentColor);
-        --wa-form-control-required-content-offset: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.RequiredContentOffset);
-        --wa-form-control-padding-block: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PaddingBlock);
-        --wa-form-control-padding-inline: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PaddingInline);
-        --wa-form-control-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.Height);
-        --wa-form-control-toggle-size: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ToggleSize);
-        --wa-panel-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderStyle);
-        --wa-panel-border-width: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderWidth);
-        --wa-panel-border-radius: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderRadius);
-        --wa-tooltip-arrow-size: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipArrowSize);
-        --wa-tooltip-background-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBackgroundColor);
-        --wa-tooltip-border-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderColor);
-        --wa-tooltip-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderStyle);
-        --wa-tooltip-border-width: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderWidth);
-        --wa-tooltip-border-radius: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderRadius);
-        --wa-tooltip-content-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipContentColor);
-        --wa-tooltip-font-size: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipFontSize);
-        --wa-tooltip-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipLineHeight);
+        --wa-form-control-background-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.BackgroundColor);
+        --wa-form-control-border-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.BorderColor);
+        --wa-form-control-border-style: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.BorderStyle);
+        --wa-form-control-border-width: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.BorderWidth);
+        --wa-form-control-border-radius: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.BorderRadius);
+        --wa-form-control-activated-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.ActivatedColor);
+        --wa-form-control-label-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.LabelColor);
+        --wa-form-control-label-font-weight: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.LabelFontWeight);
+        --wa-form-control-label-line-height: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.LabelLineHeight);
+        --wa-form-control-value-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.ValueColor);
+        --wa-form-control-value-font-weight: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.ValueFontWeight);
+        --wa-form-control-value-line-height: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.ValueLineHeight);
+        --wa-form-control-hint-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.HintColor);
+        --wa-form-control-hint-font-weight: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.HintFontWeight);
+        --wa-form-control-hint-line-height: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.HintLineHeight);
+        --wa-form-control-placeholder-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.PlaceholderColor);
+        --wa-form-control-required-content: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.RequiredContent);
+        --wa-form-control-required-content-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.RequiredContentColor);
+        --wa-form-control-required-content-offset: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.RequiredContentOffset);
+        --wa-form-control-padding-block: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.PaddingBlock);
+        --wa-form-control-padding-inline: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.PaddingInline);
+        --wa-form-control-height: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.Height);
+        --wa-form-control-toggle-size: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.ToggleSize);
+        --wa-panel-border-style: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.PanelBorderStyle);
+        --wa-panel-border-width: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.PanelBorderWidth);
+        --wa-panel-border-radius: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.PanelBorderRadius);
+        --wa-tooltip-arrow-size: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipArrowSize);
+        --wa-tooltip-background-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipBackgroundColor);
+        --wa-tooltip-border-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipBorderColor);
+        --wa-tooltip-border-style: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipBorderStyle);
+        --wa-tooltip-border-width: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipBorderWidth);
+        --wa-tooltip-border-radius: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipBorderRadius);
+        --wa-tooltip-content-color: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipContentColor);
+        --wa-tooltip-font-size: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipFontSize);
+        --wa-tooltip-line-height: @RenderCssValue(ThemeService.CurrentTheme.Token.ComponentGroup.TooltipLineHeight);
         /* ### End component groups section ###*/
         }
         }
@@ -365,13 +365,14 @@
     private const string LightSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark .wa-invert, .wa-light .wa-theme-default, .wa-dark .wa-theme-default.wa-invert, .wa-dark .wa-theme-default .wa-invert";
     private const string DarkSelectors = ".wa-dark, .wa-invert, .wa-dark .wa-theme-default, .wa-light .wa-theme-default.wa-invert, .wa-light .wa-theme-default .wa-invert";
     private const string InitialModeSelector = ":root:where(:not(.wa-light):not(.wa-dark))";
-    private static readonly Theme.Token DefaultToken = new();
-    private Theme.Token CurrentToken => ThemeService.CustomTheme?.Token ?? DefaultToken;
+    private static readonly Theme.ThemeTokens DefaultToken = new();
+    private Theme.ThemeTokens CurrentToken => ThemeService.CurrentTheme?.Token ?? DefaultToken;
+    private string ActiveSchemeName => ThemeService.Mode == ThemeMode.Dark ? "dark" : "light";
 
     private string GetModeSelectors(string name)
     {
         var selectors = name == "light" ? LightSelectors : DarkSelectors;
-        var modeSelector = $".wa-{ThemeService.Mode}";
+        var modeSelector = $".wa-{ActiveSchemeName}";
         // Give a classless root the same specificity and descendant behavior as the active mode class.
         var initialSelectors = selectors.Split(", ").Where(selector => selector.Contains(modeSelector, StringComparison.Ordinal)).Select(selector => selector.Replace(modeSelector, InitialModeSelector, StringComparison.Ordinal));
 
@@ -455,7 +456,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+            await JSRuntime.InvokeVoidAsync("applyMode", ActiveSchemeName);
         }
     }
 
@@ -469,7 +470,7 @@
         InvokeAsync(StateHasChanged);
     }
 
-    public void OnModeChangedHandler(object? sender, string mode)
+    public void OnModeChangedHandler(object? sender, ThemeMode mode)
     {
         InvokeAsync(async () =>
         {
@@ -477,7 +478,7 @@
 
             try
             {
-                await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+                await JSRuntime.InvokeVoidAsync("applyMode", ActiveSchemeName);
             }
             catch (InvalidOperationException)
             {
