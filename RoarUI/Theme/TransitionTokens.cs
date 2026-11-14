@@ -2,8 +2,8 @@
 
 public class TransitionTokens
 {
-    public string Slow { get; set; } = "300ms";
-    public string Normal { get; set; } = "150ms";
-    public string Fast { get; set; } = "75ms";
-    public string Easing { get; set; } = "ease";
+    public string? Slow { get; set; }
+    public string? Normal { get; set; }
+    public string? Fast { get; set; }
+    public string? Easing { get; set; }
 }

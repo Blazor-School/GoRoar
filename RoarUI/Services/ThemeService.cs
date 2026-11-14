@@ -21,7 +21,7 @@ public class ThemeService(IHttpClientFactory HttpClientFactory)
     } = ThemeMode.Light;
 
     [PersistentState]
-    public RoarTheme? CurrentTheme { get; set; }
+    public RoarTheme? CustomTheme { get; set; }
 
     public event EventHandler<RoarTheme?>? OnThemeLoaded;
     public event EventHandler<ThemeMode>? OnModeChanged;
@@ -39,7 +39,7 @@ public class ThemeService(IHttpClientFactory HttpClientFactory)
     public void LoadTheme(RoarTheme theme)
     {
         ArgumentNullException.ThrowIfNull(theme);
-        CurrentTheme = theme;
+        CustomTheme = theme;
         OnThemeLoaded?.Invoke(this, theme);
     }
 }
