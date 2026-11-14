@@ -3,7 +3,7 @@
 public class ThemeTokens
 {
     public BorderTokens Border { get; set; } = new();
-    public ColorPalette Color { get; set; } = new();
+    public ColorPalette Palette { get; set; } = new();
 
     public SchemeColors Light { get; set; } = new("light")
     {
@@ -243,10 +243,10 @@ public class ThemeTokens
         }
     };
 
-    public FocusRingTokens Focus { get; set; } = new();
+    public FocusRingTokens FocusRing { get; set; } = new();
     public ShadowTokens Shadow { get; set; } = new();
-    public SpacingTokens Space { get; set; } = new();
+    public SpacingTokens Spacing { get; set; } = new();
     public TransitionTokens Transition { get; set; } = new();
     public TypographyTokens Typography { get; set; } = new();
-    public ComponentTokens ComponentGroup { get; set; } = new();
+    public ComponentTokens Components { get; set; } = new();
 }

@@ -2,7 +2,7 @@
 @using RoarUI.Theme
 @inject ThemeService ThemeService
 
-<input type="text" @bind-value="@Theme.Token.Border.Style" />
+<input type="text" @bind-value="@Theme.Tokens.Border.Style" />
 
 <button type="button" @onclick="(e) => ThemeService.LoadTheme(Theme)">Apply</button>
 
