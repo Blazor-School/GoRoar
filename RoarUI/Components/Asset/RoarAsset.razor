@@ -17,7 +17,7 @@
 @{
     var tokens = ThemeService.CurrentTheme.Tokens;
     var themeCss = BuildThemeCss(tokens);
-    var variantMappings = BuildVariantMappings(tokens.Variants.Keys.Where(name => !DefaultTokens.Variants.ContainsKey(name)));
+    var variantMappings = BuildVariantMappings(DefaultTokens.Variants.Keys.Union(tokens.Variants.Keys));
 }
 
 @if (variantMappings.Length > 0)
