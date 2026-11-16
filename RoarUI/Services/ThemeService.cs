@@ -38,7 +38,11 @@ public class ThemeService(IHttpClientFactory HttpClientFactory)
 
     public void LoadTheme(RoarTheme theme)
     {
+        theme.Tokens ??= new();
+        theme.Tokens.RestoreBuiltInVariantDefaults();
         CurrentTheme = theme;
         OnThemeLoaded?.Invoke(this, theme);
     }
+
+    public void NotifyThemeChanged() => OnThemeLoaded?.Invoke(this, CurrentTheme);
 }

@@ -43,7 +43,60 @@ public class ThemeTokens
         MixActive = "var(--wa-color-surface-default) 20%"
     };
 
-    public Dictionary<string, VariantColors> Variants { get; set; } = new()
+    public Dictionary<string, VariantColors> Variants { get; set; } = CreateBuiltInVariants();
+    public FocusRingTokens FocusRing { get; set; } = new();
+    public ShadowTokens Shadow { get; set; } = new();
+    public SpacingTokens Spacing { get; set; } = new();
+    public TransitionTokens Transition { get; set; } = new();
+    public TypographyTokens Typography { get; set; } = new();
+    public ComponentTokens Components { get; set; } = new();
+
+    internal void RestoreBuiltInVariantDefaults()
+    {
+        var builtInVariants = CreateBuiltInVariants();
+        Variants ??= new();
+
+        foreach (var (name, defaults) in builtInVariants)
+        {
+            if (!Variants.TryGetValue(name, out var variant) || variant is null)
+            {
+                Variants[name] = defaults;
+                continue;
+            }
+
+            variant.Color95 ??= defaults.Color95;
+            variant.Color90 ??= defaults.Color90;
+            variant.Color80 ??= defaults.Color80;
+            variant.Color70 ??= defaults.Color70;
+            variant.Color60 ??= defaults.Color60;
+            variant.Color50 ??= defaults.Color50;
+            variant.Color40 ??= defaults.Color40;
+            variant.Color30 ??= defaults.Color30;
+            variant.Color20 ??= defaults.Color20;
+            variant.Color10 ??= defaults.Color10;
+            variant.Color05 ??= defaults.Color05;
+            variant.Color ??= defaults.Color;
+            variant.On ??= defaults.On;
+
+            RestoreSchemeDefaults(variant.Light ??= new(), defaults.Light);
+            RestoreSchemeDefaults(variant.Dark ??= new(), defaults.Dark);
+        }
+    }
+
+    private static void RestoreSchemeDefaults(VariantSchemeColors scheme, VariantSchemeColors defaults)
+    {
+        scheme.FillQuiet ??= defaults.FillQuiet;
+        scheme.FillNormal ??= defaults.FillNormal;
+        scheme.FillLoud ??= defaults.FillLoud;
+        scheme.BorderQuiet ??= defaults.BorderQuiet;
+        scheme.BorderNormal ??= defaults.BorderNormal;
+        scheme.BorderLoud ??= defaults.BorderLoud;
+        scheme.OnQuiet ??= defaults.OnQuiet;
+        scheme.OnNormal ??= defaults.OnNormal;
+        scheme.OnLoud ??= defaults.OnLoud;
+    }
+
+    private static Dictionary<string, VariantColors> CreateBuiltInVariants() => new()
     {
         [RoarVariant.Brand] = new()
         {
@@ -246,11 +299,4 @@ public class ThemeTokens
             }
         }
     };
-
-    public FocusRingTokens FocusRing { get; set; } = new();
-    public ShadowTokens Shadow { get; set; } = new();
-    public SpacingTokens Spacing { get; set; } = new();
-    public TransitionTokens Transition { get; set; } = new();
-    public TypographyTokens Typography { get; set; } = new();
-    public ComponentTokens Components { get; set; } = new();
 }
