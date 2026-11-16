@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
-using RoarUI.Services;
 using RoarUI.Theme;
+using RoarUI.Theme.Providers;
 
 namespace RoarUI;
 
-public class ThemeService(ThemeHttpClient ThemeHttpClient)
+public class ThemeService
 {
     [PersistentState]
     public ThemeMode Mode
@@ -29,9 +29,9 @@ public class ThemeService(ThemeHttpClient ThemeHttpClient)
     public void SetMode(ThemeMode mode) => Mode = mode;
     public void ToggleMode() => SetMode(Mode == ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light);
 
-    public async Task LoadThemeAsync(string path)
+    public async Task LoadThemeAsync(IThemeProvider themeProvider)
     {
-        var theme = await ThemeHttpClient.GetThemeAsync(path);
+        var theme = await themeProvider.GetThemeAsync();
         LoadTheme(theme);
     }
 

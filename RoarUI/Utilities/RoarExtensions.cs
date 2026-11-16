@@ -14,7 +14,6 @@ public static class RoarExtensions
 {
     public static IServiceCollection GoRoar(this IServiceCollection services)
     {
-        services.AddHttpClient<ThemeHttpClient>();
         services.AddScoped<RoarDependencyService>();
         services.AddScoped<ThemeService>();
         services.AddScoped<RoarBasicJsIntegrator>();
