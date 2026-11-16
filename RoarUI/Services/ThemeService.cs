@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using RoarUI.Services;
 using RoarUI.Theme;
-using System.Net.Http.Json;
 
 namespace RoarUI;
 
-public class ThemeService(IHttpClientFactory HttpClientFactory)
+public class ThemeService(ThemeHttpClient ThemeHttpClient)
 {
     [PersistentState]
     public ThemeMode Mode
@@ -31,9 +31,8 @@ public class ThemeService(IHttpClientFactory HttpClientFactory)
 
     public async Task LoadThemeAsync(string path)
     {
-        var httpClient = HttpClientFactory.CreateClient();
-        var theme = await httpClient.GetFromJsonAsync(path, ThemeJsonContext.Default.RoarTheme);
-        LoadTheme(theme ?? throw new InvalidOperationException("The theme document must contain a theme object."));
+        var theme = await ThemeHttpClient.GetThemeAsync(path);
+        LoadTheme(theme);
     }
 
     public void LoadTheme(RoarTheme theme)
