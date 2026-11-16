@@ -61,8 +61,8 @@
         var css = new StringBuilder();
         AppendCssRule(css, SharedSelectors, BuildSharedCss(tokens));
         AppendCssRule(css, ":where(:root)", BuildPaletteCss(tokens));
-        AppendCssRule(css, GetModeSelectors(tokens.Light.Name), BuildSchemeCss(tokens.Light, DefaultTokens.Light, tokens.Dark, DefaultTokens.Dark, tokens.Variants));
-        AppendCssRule(css, GetModeSelectors(tokens.Dark.Name), BuildSchemeCss(tokens.Dark, DefaultTokens.Dark, tokens.Light, DefaultTokens.Light, tokens.Variants));
+        AppendCssRule(css, GetModeSelectors(tokens.Light.Name), BuildSchemeCss(tokens.Light, DefaultTokens.Light, tokens.Variants));
+        AppendCssRule(css, GetModeSelectors(tokens.Dark.Name), BuildSchemeCss(tokens.Dark, DefaultTokens.Dark, tokens.Variants));
 
         return css.ToString();
     }
@@ -348,43 +348,44 @@
         return palette;
     }
 
-    private static StringBuilder BuildSchemeCss(SchemeColors scheme, SchemeColors defaults, SchemeColors otherScheme, SchemeColors otherDefaults, Dictionary<string, VariantColors> variants)
+    private static StringBuilder BuildSchemeCss(SchemeColors scheme, SchemeColors defaults, Dictionary<string, VariantColors> variants)
     {
         var css = new StringBuilder();
         var isLight = scheme.Name == "light";
 
-        AppendSchemeProperty(css, "--wa-color-surface-raised", scheme.SurfaceRaised, defaults.SurfaceRaised, otherScheme.SurfaceRaised, otherDefaults.SurfaceRaised);
-        AppendSchemeProperty(css, "--wa-color-surface-default", scheme.SurfaceDefault, defaults.SurfaceDefault, otherScheme.SurfaceDefault, otherDefaults.SurfaceDefault);
-        AppendSchemeProperty(css, "--wa-color-surface-lowered", scheme.SurfaceLowered, defaults.SurfaceLowered, otherScheme.SurfaceLowered, otherDefaults.SurfaceLowered);
-        AppendSchemeProperty(css, "--wa-color-surface-border", scheme.SurfaceBorder, defaults.SurfaceBorder, otherScheme.SurfaceBorder, otherDefaults.SurfaceBorder);
-        AppendSchemeProperty(css, "--wa-color-text-normal", scheme.TextNormal, defaults.TextNormal, otherScheme.TextNormal, otherDefaults.TextNormal);
-        AppendSchemeProperty(css, "--wa-color-text-quiet", scheme.TextQuiet, defaults.TextQuiet, otherScheme.TextQuiet, otherDefaults.TextQuiet);
-        AppendSchemeProperty(css, "--wa-color-text-link", scheme.TextLink, defaults.TextLink, otherScheme.TextLink, otherDefaults.TextLink);
-        AppendSchemeProperty(css, "--wa-color-overlay-modal", scheme.OverlayModal, defaults.OverlayModal, otherScheme.OverlayModal, otherDefaults.OverlayModal);
-        AppendSchemeProperty(css, "--wa-color-overlay-inline", scheme.OverlayInline, defaults.OverlayInline, otherScheme.OverlayInline, otherDefaults.OverlayInline);
-        AppendSchemeProperty(css, "--wa-color-shadow", scheme.Shadow, defaults.Shadow, otherScheme.Shadow, otherDefaults.Shadow);
-        AppendSchemeProperty(css, "--wa-color-focus", scheme.Focus, defaults.Focus, otherScheme.Focus, otherDefaults.Focus);
-        AppendSchemeProperty(css, "--wa-color-mix-hover", scheme.MixHover, defaults.MixHover, otherScheme.MixHover, otherDefaults.MixHover);
-        AppendSchemeProperty(css, "--wa-color-mix-active", scheme.MixActive, defaults.MixActive, otherScheme.MixActive, otherDefaults.MixActive);
+        css.AppendLine($"color-scheme: {scheme.Name};");
+        css.AppendLine("color: var(--wa-color-text-normal);");
 
-        foreach (var (name, variant) in variants)
+        AppendCssProperty(css, "--wa-color-surface-raised", scheme.SurfaceRaised ?? defaults.SurfaceRaised, null);
+        AppendCssProperty(css, "--wa-color-surface-default", scheme.SurfaceDefault ?? defaults.SurfaceDefault, null);
+        AppendCssProperty(css, "--wa-color-surface-lowered", scheme.SurfaceLowered ?? defaults.SurfaceLowered, null);
+        AppendCssProperty(css, "--wa-color-surface-border", scheme.SurfaceBorder ?? defaults.SurfaceBorder, null);
+        AppendCssProperty(css, "--wa-color-text-normal", scheme.TextNormal ?? defaults.TextNormal, null);
+        AppendCssProperty(css, "--wa-color-text-quiet", scheme.TextQuiet ?? defaults.TextQuiet, null);
+        AppendCssProperty(css, "--wa-color-text-link", scheme.TextLink ?? defaults.TextLink, null);
+        AppendCssProperty(css, "--wa-color-overlay-modal", scheme.OverlayModal ?? defaults.OverlayModal, null);
+        AppendCssProperty(css, "--wa-color-overlay-inline", scheme.OverlayInline ?? defaults.OverlayInline, null);
+        AppendCssProperty(css, "--wa-color-shadow", scheme.Shadow ?? defaults.Shadow, null);
+        AppendCssProperty(css, "--wa-color-focus", scheme.Focus ?? defaults.Focus, null);
+        AppendCssProperty(css, "--wa-color-mix-hover", scheme.MixHover ?? defaults.MixHover, null);
+        AppendCssProperty(css, "--wa-color-mix-active", scheme.MixActive ?? defaults.MixActive, null);
+
+        foreach (var name in DefaultTokens.Variants.Keys.Union(variants.Keys))
         {
+            var variant = variants.GetValueOrDefault(name);
             var variantDefaults = DefaultTokens.Variants.GetValueOrDefault(name);
-            var appearance = isLight ? variant.Light : variant.Dark;
-            var otherAppearance = isLight ? variant.Dark : variant.Light;
-            var appearanceDefaults = isLight ? variantDefaults?.Light : variantDefaults?.Dark;
-            var otherAppearanceDefaults = isLight ? variantDefaults?.Dark : variantDefaults?.Light;
-            var fallback = variantDefaults is null ? GetCustomVariantAppearanceDefaults(name, isLight) : null;
+            var appearance = isLight ? variant?.Light : variant?.Dark;
+            var appearanceDefaults = (isLight ? variantDefaults?.Light : variantDefaults?.Dark) ?? GetCustomVariantAppearanceDefaults(name, isLight);
 
-            AppendSchemeProperty(css, $"--wa-color-{name}-fill-quiet", appearance?.FillQuiet ?? fallback?.FillQuiet, appearanceDefaults?.FillQuiet, otherAppearance?.FillQuiet, otherAppearanceDefaults?.FillQuiet);
-            AppendSchemeProperty(css, $"--wa-color-{name}-fill-normal", appearance?.FillNormal ?? fallback?.FillNormal, appearanceDefaults?.FillNormal, otherAppearance?.FillNormal, otherAppearanceDefaults?.FillNormal);
-            AppendSchemeProperty(css, $"--wa-color-{name}-fill-loud", appearance?.FillLoud ?? fallback?.FillLoud, appearanceDefaults?.FillLoud, otherAppearance?.FillLoud, otherAppearanceDefaults?.FillLoud);
-            AppendSchemeProperty(css, $"--wa-color-{name}-border-quiet", appearance?.BorderQuiet ?? fallback?.BorderQuiet, appearanceDefaults?.BorderQuiet, otherAppearance?.BorderQuiet, otherAppearanceDefaults?.BorderQuiet);
-            AppendSchemeProperty(css, $"--wa-color-{name}-border-normal", appearance?.BorderNormal ?? fallback?.BorderNormal, appearanceDefaults?.BorderNormal, otherAppearance?.BorderNormal, otherAppearanceDefaults?.BorderNormal);
-            AppendSchemeProperty(css, $"--wa-color-{name}-border-loud", appearance?.BorderLoud ?? fallback?.BorderLoud, appearanceDefaults?.BorderLoud, otherAppearance?.BorderLoud, otherAppearanceDefaults?.BorderLoud);
-            AppendSchemeProperty(css, $"--wa-color-{name}-on-quiet", appearance?.OnQuiet ?? fallback?.OnQuiet, appearanceDefaults?.OnQuiet, otherAppearance?.OnQuiet, otherAppearanceDefaults?.OnQuiet);
-            AppendSchemeProperty(css, $"--wa-color-{name}-on-normal", appearance?.OnNormal ?? fallback?.OnNormal, appearanceDefaults?.OnNormal, otherAppearance?.OnNormal, otherAppearanceDefaults?.OnNormal);
-            AppendSchemeProperty(css, $"--wa-color-{name}-on-loud", appearance?.OnLoud ?? fallback?.OnLoud, appearanceDefaults?.OnLoud, otherAppearance?.OnLoud, otherAppearanceDefaults?.OnLoud);
+            AppendCssProperty(css, $"--wa-color-{name}-fill-quiet", appearance?.FillQuiet ?? appearanceDefaults.FillQuiet, null);
+            AppendCssProperty(css, $"--wa-color-{name}-fill-normal", appearance?.FillNormal ?? appearanceDefaults.FillNormal, null);
+            AppendCssProperty(css, $"--wa-color-{name}-fill-loud", appearance?.FillLoud ?? appearanceDefaults.FillLoud, null);
+            AppendCssProperty(css, $"--wa-color-{name}-border-quiet", appearance?.BorderQuiet ?? appearanceDefaults.BorderQuiet, null);
+            AppendCssProperty(css, $"--wa-color-{name}-border-normal", appearance?.BorderNormal ?? appearanceDefaults.BorderNormal, null);
+            AppendCssProperty(css, $"--wa-color-{name}-border-loud", appearance?.BorderLoud ?? appearanceDefaults.BorderLoud, null);
+            AppendCssProperty(css, $"--wa-color-{name}-on-quiet", appearance?.OnQuiet ?? appearanceDefaults.OnQuiet, null);
+            AppendCssProperty(css, $"--wa-color-{name}-on-normal", appearance?.OnNormal ?? appearanceDefaults.OnNormal, null);
+            AppendCssProperty(css, $"--wa-color-{name}-on-loud", appearance?.OnLoud ?? appearanceDefaults.OnLoud, null);
         }
 
         return css;
@@ -402,17 +403,6 @@
         OnNormal = $"var(--wa-color-{variant}-{(isLight ? "30" : "70")})",
         OnLoud = "white"
     };
-
-    private static void AppendSchemeProperty(StringBuilder css, string property, string? value, string? defaultValue, string? otherValue, string? otherDefault)
-    {
-        var overrideValue = GetOverride(value, defaultValue);
-        if (overrideValue is null && GetOverride(otherValue, otherDefault) is not null)
-        {
-            overrideValue = "revert-layer";
-        }
-
-        AppendCssProperty(css, property, overrideValue, null);
-    }
 
     private static string? GetOverride(string? value, string? defaultValue) => string.Equals(value, defaultValue, StringComparison.Ordinal) ? null : value;
 
