@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class Shadow
+public class ShadowTokens
 {
     public string S { get; set; } = "var(--wa-shadow-offset-x-s) var(--wa-shadow-offset-y-s) var(--wa-shadow-blur-s) var(--wa-shadow-spread-s) var(--wa-color-shadow)";
     public string M { get; set; } = "var(--wa-shadow-offset-x-m) var(--wa-shadow-offset-y-m) var(--wa-shadow-blur-m) var(--wa-shadow-spread-m) var(--wa-color-shadow)";

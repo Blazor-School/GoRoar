@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class Space
+public class SpacingTokens
 {
     public string Space3XS { get; set; } = "calc(var(--wa-space-scale) * 0.125rem)";
     public string Space2XS { get; set; } = "calc(var(--wa-space-scale) * 0.25rem)";

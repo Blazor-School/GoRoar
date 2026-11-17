@@ -1,6 +1,6 @@
 ﻿namespace RoarUI.Theme;
 
-public class Focus
+public class FocusRingTokens
 {
     public string Style { get; set; } = "solid";
     public string Width { get; set; } = "0.1875rem";

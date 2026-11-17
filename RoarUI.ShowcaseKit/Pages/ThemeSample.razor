@@ -1,0 +1,50 @@
+@page "/theme-sample"
+@using RoarUI
+@using RoarUI.Theme
+@inject ThemeService ThemeService
+
+<PageTitle>Theme Sample</PageTitle>
+
+<h3>Theme Sample</h3>
+<div>Theme mode</div>
+<RoarSwitch Value="@(ThemeService.Mode == ThemeMode.Dark)" ValueChanged="SetDarkMode">Dark mode</RoarSwitch>
+
+<h3>Button variants</h3>
+<div class="wa-cluster wa-gap-s">
+    <RoarButton @onclick="ApplySampleTheme" Disabled="@SampleThemeApplied">Apply sample theme</RoarButton>
+    <span role="status">@(SampleThemeApplied ? "Sample theme applied" : "")</span>
+</div>
+<div class="wa-cluster wa-gap-s">
+    <RoarButton Variant="ButtonVariant.Brand" Appearance="ButtonAppearance.Accent">Built-in brand</RoarButton>
+    <RoarButton Variant="@Orchid" Appearance="ButtonAppearance.Accent">Custom orchid</RoarButton>
+</div>
+
+@code {
+    private const string Orchid = "orchid";
+    private bool SampleThemeApplied { get; set; }
+
+    private void SetDarkMode(bool darkMode) => ThemeService.SetMode(darkMode ? ThemeMode.Dark : ThemeMode.Light);
+
+    private void ApplySampleTheme()
+    {
+        var theme = new RoarTheme();
+
+        var brand = theme.Tokens.Variants[RoarVariant.Brand];
+        brand.Light.FillLoud = "var(--wa-color-green-40)";
+        brand.Dark.FillLoud = "var(--wa-color-green-70)";
+        brand.Dark.OnLoud = "var(--wa-color-green-10)";
+
+        theme.Tokens.Variants[Orchid] = new VariantColors
+        {
+            Color50 = "var(--wa-color-purple-40)",
+            Dark = new VariantSchemeColors
+            {
+                FillLoud = "var(--wa-color-purple-80)",
+                OnLoud = "var(--wa-color-purple-10)"
+            }
+        };
+
+        ThemeService.LoadTheme(theme);
+        SampleThemeApplied = true;
+    }
+}

@@ -1,6 +1,6 @@
 namespace RoarUI.Theme;
 
-public class VariantAppearance
+public class VariantSchemeColors
 {
     public string? FillQuiet { get; set; }
     public string? FillNormal { get; set; }

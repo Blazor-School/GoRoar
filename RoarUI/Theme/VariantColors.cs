@@ -1,6 +1,6 @@
 namespace RoarUI.Theme;
 
-public class VariantPalette
+public class VariantColors
 {
     public string? Color95 { get; set; }
     public string? Color90 { get; set; }
@@ -16,6 +16,6 @@ public class VariantPalette
     public string? Color { get; set; }
     public string? On { get; set; }
 
-    public VariantAppearance Light { get; set; } = new();
-    public VariantAppearance Dark { get; set; } = new();
+    public VariantSchemeColors Light { get; set; } = new();
+    public VariantSchemeColors Dark { get; set; } = new();
 }

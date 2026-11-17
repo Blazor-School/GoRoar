@@ -1,61 +1,47 @@
 ﻿using Microsoft.AspNetCore.Components;
 using RoarUI.Theme;
-using System.Net.Http.Json;
+using RoarUI.Theme.Providers;
 
 namespace RoarUI;
 
-public class ThemeService(IHttpClientFactory HttpClientFactory)
+public class ThemeService
 {
-    private string _mode = "light";
-
     [PersistentState]
-    public string Mode
+    public ThemeMode Mode
     {
-        get => _mode;
+        get;
         set
         {
-            if (value is not ("light" or "dark"))
+            if (field != value)
             {
-                throw new ArgumentException("Mode must be 'light' or 'dark'.", nameof(value));
+                field = value;
+                OnModeChanged?.Invoke(this, value);
             }
-
-            if (_mode == value)
-            {
-                return;
-            }
-
-            _mode = value;
-            OnModeChanged?.Invoke(this, value);
         }
-    }
+    } = ThemeMode.Light;
 
     [PersistentState]
-    public RoarTheme? CustomTheme { get; set; }
+    public RoarTheme CurrentTheme { get; set; } = new();
 
     public event EventHandler<RoarTheme?>? OnThemeLoaded;
-    public event EventHandler<string>? OnModeChanged;
+    public event EventHandler<ThemeMode>? OnModeChanged;
 
-    public void SetMode(string mode)
-    {
-        Mode = mode;
-    }
+    public void SetMode(ThemeMode mode) => Mode = mode;
+    public void ToggleMode() => SetMode(Mode == ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light);
 
-    public void ToggleMode()
+    public async Task LoadThemeAsync(IThemeProvider themeProvider)
     {
-        SetMode(Mode == "light" ? "dark" : "light");
-    }
-
-    public async Task LoadThemeAsync(string path)
-    {
-        var httpClient = HttpClientFactory.CreateClient();
-        var theme = await httpClient.GetFromJsonAsync(path, ThemeJsonContext.Default.RoarTheme);
-        LoadTheme(theme ?? throw new InvalidOperationException("The theme document must contain a theme object."));
+        var theme = await themeProvider.GetThemeAsync();
+        LoadTheme(theme);
     }
 
     public void LoadTheme(RoarTheme theme)
     {
-        ArgumentNullException.ThrowIfNull(theme);
-        CustomTheme = theme;
+        theme.Tokens ??= new();
+        theme.Tokens.RestoreBuiltInVariantDefaults();
+        CurrentTheme = theme;
         OnThemeLoaded?.Invoke(this, theme);
     }
+
+    public void NotifyThemeChanged() => OnThemeLoaded?.Invoke(this, CurrentTheme);
 }

@@ -1,4 +1,5 @@
 ﻿@namespace RoarUI
+@using System.Text
 @inject RoarDependencyService RoarDependencyService
 @inject ThemeService ThemeService
 @inject IJSRuntime JSRuntime
@@ -13,415 +14,414 @@
     <script type="module" src="@InternalPaths.ComposeComponentJsPath(component)"></script>
 }
 
-@if (ThemeService.CustomTheme is not null)
+@{
+    var tokens = ThemeService.CurrentTheme.Tokens;
+    var themeCss = BuildThemeCss(tokens);
+    var variantMappings = BuildVariantMappings(DefaultTokens.Variants.Keys.Union(tokens.Variants.Keys));
+}
+
+@if (variantMappings.Length > 0)
 {
-    var variantMappings = BuildVariantMappings(ThemeService.CustomTheme.Token.Variants.Keys);
-
-    <style data-roar-variant-mappings>
-        @@layer wa-theme-overrides {
-        @variantMappings
-        }
-    </style>
     <style>
         @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start border section ### */
-        --wa-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.Border.Style);
-        --wa-border-width-s: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthS);
-        --wa-border-width-m: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthM);
-        --wa-border-width-l: @RenderCssValue(ThemeService.CustomTheme.Token.Border.WidthL);
-        --wa-border-radius-pill: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusPill);
-        --wa-border-radius-circle: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusCircle);
-        --wa-border-radius-square: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusSquare);
-        --wa-border-radius-s: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusS);
-        --wa-border-radius-m: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusM);
-        --wa-border-radius-l: @RenderCssValue(ThemeService.CustomTheme.Token.Border.RadiusL);
-        /* ### End border section ### */
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        :where(:root) {
-        /* ### Start red color section ###*/
-        --wa-color-red-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red95);
-        --wa-color-red-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red90);
-        --wa-color-red-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red80);
-        --wa-color-red-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red70);
-        --wa-color-red-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red60);
-        --wa-color-red-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red50);
-        --wa-color-red-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red40);
-        --wa-color-red-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red30);
-        --wa-color-red-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red20);
-        --wa-color-red-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red10);
-        --wa-color-red-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red05);
-        --wa-color-red: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Red);
-        /* ### End red color section ###*/
-        /* ### Start orange color section ###*/
-        --wa-color-orange-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange95);
-        --wa-color-orange-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange90);
-        --wa-color-orange-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange80);
-        --wa-color-orange-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange70);
-        --wa-color-orange-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange60);
-        --wa-color-orange-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange50);
-        --wa-color-orange-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange40);
-        --wa-color-orange-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange30);
-        --wa-color-orange-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange20);
-        --wa-color-orange-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange10);
-        --wa-color-orange-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange05);
-        --wa-color-orange: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Orange);
-        /* ### End orange color section ###*/
-        /* ### Start yellow color section ###*/
-        --wa-color-yellow-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow95);
-        --wa-color-yellow-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow90);
-        --wa-color-yellow-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow80);
-        --wa-color-yellow-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow70);
-        --wa-color-yellow-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow60);
-        --wa-color-yellow-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow50);
-        --wa-color-yellow-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow40);
-        --wa-color-yellow-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow30);
-        --wa-color-yellow-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow20);
-        --wa-color-yellow-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow10);
-        --wa-color-yellow-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow05);
-        --wa-color-yellow: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Yellow);
-        /* ### End yellow color section ###*/
-        /* ### Start green color section ###*/
-        --wa-color-green-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green95);
-        --wa-color-green-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green90);
-        --wa-color-green-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green80);
-        --wa-color-green-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green70);
-        --wa-color-green-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green60);
-        --wa-color-green-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green50);
-        --wa-color-green-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green40);
-        --wa-color-green-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green30);
-        --wa-color-green-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green20);
-        --wa-color-green-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green10);
-        --wa-color-green-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green05);
-        --wa-color-green: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Green);
-        /* ### End green color section ###*/
-        /* ### Start cyan color section ###*/
-        --wa-color-cyan-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan95);
-        --wa-color-cyan-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan90);
-        --wa-color-cyan-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan80);
-        --wa-color-cyan-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan70);
-        --wa-color-cyan-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan60);
-        --wa-color-cyan-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan50);
-        --wa-color-cyan-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan40);
-        --wa-color-cyan-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan30);
-        --wa-color-cyan-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan20);
-        --wa-color-cyan-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan10);
-        --wa-color-cyan-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan05);
-        --wa-color-cyan: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Cyan);
-        /* ### End cyan color section ###*/
-        /* ### Start blue color section ###*/
-        --wa-color-blue-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue95);
-        --wa-color-blue-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue90);
-        --wa-color-blue-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue80);
-        --wa-color-blue-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue70);
-        --wa-color-blue-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue60);
-        --wa-color-blue-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue50);
-        --wa-color-blue-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue40);
-        --wa-color-blue-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue30);
-        --wa-color-blue-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue20);
-        --wa-color-blue-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue10);
-        --wa-color-blue-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue05);
-        --wa-color-blue: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Blue);
-        /* ### End blue color section ###*/
-        /* ### Start indigo color section ###*/
-        --wa-color-indigo-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo95);
-        --wa-color-indigo-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo90);
-        --wa-color-indigo-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo80);
-        --wa-color-indigo-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo70);
-        --wa-color-indigo-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo60);
-        --wa-color-indigo-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo50);
-        --wa-color-indigo-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo40);
-        --wa-color-indigo-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo30);
-        --wa-color-indigo-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo20);
-        --wa-color-indigo-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo10);
-        --wa-color-indigo-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo05);
-        --wa-color-indigo: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Indigo);
-        /* ### End indigo color section ###*/
-        /* ### Start purple color section ###*/
-        --wa-color-purple-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple95);
-        --wa-color-purple-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple90);
-        --wa-color-purple-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple80);
-        --wa-color-purple-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple70);
-        --wa-color-purple-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple60);
-        --wa-color-purple-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple50);
-        --wa-color-purple-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple40);
-        --wa-color-purple-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple30);
-        --wa-color-purple-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple20);
-        --wa-color-purple-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple10);
-        --wa-color-purple-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple05);
-        --wa-color-purple: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Purple);
-        /* ### End purple color section ###*/
-        /* ### Start pink color section ###*/
-        --wa-color-pink-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink95);
-        --wa-color-pink-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink90);
-        --wa-color-pink-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink80);
-        --wa-color-pink-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink70);
-        --wa-color-pink-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink60);
-        --wa-color-pink-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink50);
-        --wa-color-pink-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink40);
-        --wa-color-pink-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink30);
-        --wa-color-pink-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink20);
-        --wa-color-pink-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink10);
-        --wa-color-pink-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink05);
-        --wa-color-pink: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Pink);
-        /* ### End pink color section ###*/
-        /* ### Start gray color section ###*/
-        --wa-color-gray-95: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray95);
-        --wa-color-gray-90: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray90);
-        --wa-color-gray-80: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray80);
-        --wa-color-gray-70: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray70);
-        --wa-color-gray-60: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray60);
-        --wa-color-gray-50: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray50);
-        --wa-color-gray-40: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray40);
-        --wa-color-gray-30: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray30);
-        --wa-color-gray-20: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray20);
-        --wa-color-gray-10: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray10);
-        --wa-color-gray-05: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray05);
-        --wa-color-gray: @RenderCssValue(ThemeService.CustomTheme.Token.Color.Gray);
-        /* ### End gray color section ###*/
-        @foreach (var variant in ThemeService.CustomTheme.Token.Variants)
-        {
-            var defaults = DefaultToken.Variants.GetValueOrDefault(variant.Key);
-            var colorDefaults = defaults ?? DefaultToken.Variants[RoarVariant.Brand];
-
-            <text>
-            --wa-color-@(variant.Key)-95: @RenderCssValue(variant.Value.Color95 ?? colorDefaults.Color95);
-            --wa-color-@(variant.Key)-90: @RenderCssValue(variant.Value.Color90 ?? colorDefaults.Color90);
-            --wa-color-@(variant.Key)-80: @RenderCssValue(variant.Value.Color80 ?? colorDefaults.Color80);
-            --wa-color-@(variant.Key)-70: @RenderCssValue(variant.Value.Color70 ?? colorDefaults.Color70);
-            --wa-color-@(variant.Key)-60: @RenderCssValue(variant.Value.Color60 ?? colorDefaults.Color60);
-            --wa-color-@(variant.Key)-50: @RenderCssValue(variant.Value.Color50 ?? colorDefaults.Color50);
-            --wa-color-@(variant.Key)-40: @RenderCssValue(variant.Value.Color40 ?? colorDefaults.Color40);
-            --wa-color-@(variant.Key)-30: @RenderCssValue(variant.Value.Color30 ?? colorDefaults.Color30);
-            --wa-color-@(variant.Key)-20: @RenderCssValue(variant.Value.Color20 ?? colorDefaults.Color20);
-            --wa-color-@(variant.Key)-10: @RenderCssValue(variant.Value.Color10 ?? colorDefaults.Color10);
-            --wa-color-@(variant.Key)-05: @RenderCssValue(variant.Value.Color05 ?? colorDefaults.Color05);
-            --wa-color-@(variant.Key)-on: @RenderCssValue(variant.Value.On ?? colorDefaults.On);
-            --wa-color-@(variant.Key): @RenderCssValue(variant.Value.Color ?? colorDefaults.Color);
-            </text>
-        }
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start focus section ###*/
-        --wa-focus-ring-style: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Style);
-        --wa-focus-ring-width: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Width);
-        --wa-focus-ring: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Ring);
-        --wa-focus-ring-offset: @RenderCssValue(ThemeService.CustomTheme.Token.Focus.Offset);
-        /* ### End focus section ###*/
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start shadow section ###*/
-        --wa-shadow-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.S);
-        --wa-shadow-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.M);
-        --wa-shadow-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.L);
-        --wa-shadow-offset-x-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetXS);
-        --wa-shadow-offset-x-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetXM);
-        --wa-shadow-offset-x-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetXL);
-        --wa-shadow-offset-y-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetYS);
-        --wa-shadow-offset-y-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetYM);
-        --wa-shadow-offset-y-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.OffsetYL);
-        --wa-shadow-blur-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.BlurS);
-        --wa-shadow-blur-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.BlurM);
-        --wa-shadow-blur-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.BlurL);
-        --wa-shadow-spread-s: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.SpreadS);
-        --wa-shadow-spread-m: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.SpreadM);
-        --wa-shadow-spread-l: @RenderCssValue(ThemeService.CustomTheme.Token.Shadow.SpreadL);
-        /* ### End shadow section ###*/
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start space section ###*/
-        --wa-space-3xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space3XS);
-        --wa-space-2xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space2XS);
-        --wa-space-xs: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceXS);
-        --wa-space-s: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceS);
-        --wa-space-m: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceM);
-        --wa-space-l: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceL);
-        --wa-space-xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.SpaceXL);
-        --wa-space-2xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space2XL);
-        --wa-space-3xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space3XL);
-        --wa-space-4xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space4XL);
-        --wa-space-5xl: @RenderCssValue(ThemeService.CustomTheme.Token.Space.Space5XL);
-        /* ### End space section ###*/
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start transition section ###*/
-        --wa-transition-slow: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Slow);
-        --wa-transition-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Normal);
-        --wa-transition-fast: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Fast);
-        --wa-transition-easing: @RenderCssValue(ThemeService.CustomTheme.Token.Transition.Easing);
-        /* ### End transition section ###*/
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start typography section ###*/
-        --wa-font-family-body: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyBody);
-        --wa-font-family-heading: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyHeading);
-        --wa-font-family-code: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyCode);
-        --wa-font-family-longform: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontFamilyLongForm);
-        --wa-font-size-3xs: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize3XS);
-        --wa-font-size-2xs: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize2XS);
-        --wa-font-size-xs: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeXS);
-        --wa-font-size-s: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeS);
-        --wa-font-size-m: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeM);
-        --wa-font-size-l: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeL);
-        --wa-font-size-xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeXL);
-        --wa-font-size-2xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize2XL);
-        --wa-font-size-3xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize3XL);
-        --wa-font-size-4xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize4XL);
-        --wa-font-size-5xl: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSize5XL);
-        --wa-font-size-smaller: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeSmaller);
-        --wa-font-size-larger: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontSizeLarger);
-        --wa-font-weight-light: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightLight);
-        --wa-font-weight-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightNormal);
-        --wa-font-weight-semibold: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightSemiBold);
-        --wa-font-weight-bold: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightBold);
-        --wa-font-weight-body: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightBody);
-        --wa-font-weight-heading: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightHeading);
-        --wa-font-weight-code: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightCode);
-        --wa-font-weight-longform: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightLongform);
-        --wa-font-weight-action: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.FontWeightAction);
-        --wa-line-height-condensed: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LineHeightCondensed);
-        --wa-line-height-normal: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LineHeightNormal);
-        --wa-line-height-expanded: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LineHeightExpanded);
-        --wa-link-decoration-default: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LinkDecorationDefault);
-        --wa-link-decoration-hover: @RenderCssValue(ThemeService.CustomTheme.Token.Typography.LinkDecorationHover);
-        /* ### End typography section ###*/
-        }
-        }
-    </style>
-    <style>
-        @@layer wa-theme-overrides {
-        @SharedSelectors {
-        /* ### Start component groups section ###*/
-        --wa-form-control-background-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BackgroundColor);
-        --wa-form-control-border-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderColor);
-        --wa-form-control-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderStyle);
-        --wa-form-control-border-width: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderWidth);
-        --wa-form-control-border-radius: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.BorderRadius);
-        --wa-form-control-activated-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ActivatedColor);
-        --wa-form-control-label-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.LabelColor);
-        --wa-form-control-label-font-weight: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.LabelFontWeight);
-        --wa-form-control-label-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.LabelLineHeight);
-        --wa-form-control-value-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ValueColor);
-        --wa-form-control-value-font-weight: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ValueFontWeight);
-        --wa-form-control-value-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ValueLineHeight);
-        --wa-form-control-hint-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.HintColor);
-        --wa-form-control-hint-font-weight: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.HintFontWeight);
-        --wa-form-control-hint-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.HintLineHeight);
-        --wa-form-control-placeholder-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PlaceholderColor);
-        --wa-form-control-required-content: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.RequiredContent);
-        --wa-form-control-required-content-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.RequiredContentColor);
-        --wa-form-control-required-content-offset: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.RequiredContentOffset);
-        --wa-form-control-padding-block: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PaddingBlock);
-        --wa-form-control-padding-inline: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PaddingInline);
-        --wa-form-control-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.Height);
-        --wa-form-control-toggle-size: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.ToggleSize);
-        --wa-panel-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderStyle);
-        --wa-panel-border-width: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderWidth);
-        --wa-panel-border-radius: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.PanelBorderRadius);
-        --wa-tooltip-arrow-size: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipArrowSize);
-        --wa-tooltip-background-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBackgroundColor);
-        --wa-tooltip-border-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderColor);
-        --wa-tooltip-border-style: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderStyle);
-        --wa-tooltip-border-width: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderWidth);
-        --wa-tooltip-border-radius: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipBorderRadius);
-        --wa-tooltip-content-color: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipContentColor);
-        --wa-tooltip-font-size: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipFontSize);
-        --wa-tooltip-line-height: @RenderCssValue(ThemeService.CustomTheme.Token.ComponentGroup.TooltipLineHeight);
-        /* ### End component groups section ###*/
-        }
+        @RenderCssValue(variantMappings)
         }
     </style>
 }
 
-@RenderScheme(CurrentToken.Light)
-@RenderScheme(CurrentToken.Dark)
+@if (themeCss.Length > 0)
+{
+    <style>
+        @@layer wa-theme-overrides {
+        @RenderCssValue(themeCss)
+        }
+    </style>
+}
 
 @code {
     private const string SharedSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark, .wa-invert";
     private const string LightSelectors = ":where(:root), .wa-theme-default, .wa-light, .wa-dark .wa-invert, .wa-light .wa-theme-default, .wa-dark .wa-theme-default.wa-invert, .wa-dark .wa-theme-default .wa-invert";
     private const string DarkSelectors = ".wa-dark, .wa-invert, .wa-dark .wa-theme-default, .wa-light .wa-theme-default.wa-invert, .wa-light .wa-theme-default .wa-invert";
     private const string InitialModeSelector = ":root:where(:not(.wa-light):not(.wa-dark))";
-    private static readonly Theme.Token DefaultToken = new();
-    private Theme.Token CurrentToken => ThemeService.CustomTheme?.Token ?? DefaultToken;
+    private static readonly ThemeTokens DefaultTokens = new();
+    private string ActiveSchemeName => ThemeService.Mode == ThemeMode.Dark ? "dark" : "light";
 
     private string GetModeSelectors(string name)
     {
         var selectors = name == "light" ? LightSelectors : DarkSelectors;
-        var modeSelector = $".wa-{ThemeService.Mode}";
+        var modeSelector = $".wa-{ActiveSchemeName}";
         // Give a classless root the same specificity and descendant behavior as the active mode class.
         var initialSelectors = selectors.Split(", ").Where(selector => selector.Contains(modeSelector, StringComparison.Ordinal)).Select(selector => selector.Replace(modeSelector, InitialModeSelector, StringComparison.Ordinal));
 
         return $"{selectors}, {string.Join(", ", initialSelectors)}";
     }
 
-    private RenderFragment RenderScheme(Theme.SchemeColors scheme)
+    private string BuildThemeCss(ThemeTokens tokens)
     {
-        var selectors = GetModeSelectors(scheme.Name);
-        var defaults = scheme.Name == "light" ? DefaultToken.Light : DefaultToken.Dark;
+        var css = new StringBuilder();
+        AppendCssRule(css, SharedSelectors, BuildSharedCss(tokens));
+        AppendCssRule(css, ":where(:root)", BuildPaletteCss(tokens));
+        AppendCssRule(css, GetModeSelectors(tokens.Light.Name), BuildSchemeCss(tokens.Light, DefaultTokens.Light, tokens.Variants));
+        AppendCssRule(css, GetModeSelectors(tokens.Dark.Name), BuildSchemeCss(tokens.Dark, DefaultTokens.Dark, tokens.Variants));
 
-        return @<style data-roar-color-scheme="@scheme.Name">
-            @@layer wa-theme-overrides {
-            @selectors {
-            color-scheme: @RenderCssValue(scheme.Name);
-            color: var(--wa-color-text-normal);
-            --wa-color-surface-raised: @RenderCssValue(scheme.SurfaceRaised ?? defaults.SurfaceRaised);
-            --wa-color-surface-default: @RenderCssValue(scheme.SurfaceDefault ?? defaults.SurfaceDefault);
-            --wa-color-surface-lowered: @RenderCssValue(scheme.SurfaceLowered ?? defaults.SurfaceLowered);
-            --wa-color-surface-border: @RenderCssValue(scheme.SurfaceBorder ?? defaults.SurfaceBorder);
-            --wa-color-text-normal: @RenderCssValue(scheme.TextNormal ?? defaults.TextNormal);
-            --wa-color-text-quiet: @RenderCssValue(scheme.TextQuiet ?? defaults.TextQuiet);
-            --wa-color-text-link: @RenderCssValue(scheme.TextLink ?? defaults.TextLink);
-            --wa-color-overlay-modal: @RenderCssValue(scheme.OverlayModal ?? defaults.OverlayModal);
-            --wa-color-overlay-inline: @RenderCssValue(scheme.OverlayInline ?? defaults.OverlayInline);
-            --wa-color-shadow: @RenderCssValue(scheme.Shadow ?? defaults.Shadow);
-            --wa-color-focus: @RenderCssValue(scheme.Focus ?? defaults.Focus);
-            --wa-color-mix-hover: @RenderCssValue(scheme.MixHover ?? defaults.MixHover);
-            --wa-color-mix-active: @RenderCssValue(scheme.MixActive ?? defaults.MixActive);
-            @foreach (var variant in CurrentToken.Variants)
-            {
-                var appearance = scheme.Name == "light" ? variant.Value.Light : variant.Value.Dark;
-                var variantDefaults = DefaultToken.Variants.GetValueOrDefault(variant.Key);
-                var appearanceDefaults = scheme.Name == "light" ? variantDefaults?.Light : variantDefaults?.Dark;
+        return css.ToString();
+    }
 
-                <text>
-                --wa-color-@(variant.Key)-fill-quiet: @RenderCssValue(appearance?.FillQuiet ?? appearanceDefaults?.FillQuiet ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "95" : "10")})");
-                --wa-color-@(variant.Key)-fill-normal: @RenderCssValue(appearance?.FillNormal ?? appearanceDefaults?.FillNormal ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "90" : "20")})");
-                --wa-color-@(variant.Key)-fill-loud: @RenderCssValue(appearance?.FillLoud ?? appearanceDefaults?.FillLoud ?? $"var(--wa-color-{variant.Key}-50)");
-                --wa-color-@(variant.Key)-border-quiet: @RenderCssValue(appearance?.BorderQuiet ?? appearanceDefaults?.BorderQuiet ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "90" : "20")})");
-                --wa-color-@(variant.Key)-border-normal: @RenderCssValue(appearance?.BorderNormal ?? appearanceDefaults?.BorderNormal ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "80" : "30")})");
-                --wa-color-@(variant.Key)-border-loud: @RenderCssValue(appearance?.BorderLoud ?? appearanceDefaults?.BorderLoud ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "60" : "40")})");
-                --wa-color-@(variant.Key)-on-quiet: @RenderCssValue(appearance?.OnQuiet ?? appearanceDefaults?.OnQuiet ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "40" : "60")})");
-                --wa-color-@(variant.Key)-on-normal: @RenderCssValue(appearance?.OnNormal ?? appearanceDefaults?.OnNormal ?? $"var(--wa-color-{variant.Key}-{(scheme.Name == "light" ? "30" : "70")})");
-                --wa-color-@(variant.Key)-on-loud: @RenderCssValue(appearance?.OnLoud ?? appearanceDefaults?.OnLoud ?? "white");
-                </text>
-            }
-            }
-            }
-        </style>;
+    private static StringBuilder BuildSharedCss(ThemeTokens tokens)
+    {
+        var shared = new StringBuilder();
+
+        AppendCssProperty(shared, "--wa-border-style", tokens.Border.Style, DefaultTokens.Border.Style);
+        AppendCssProperty(shared, "--wa-border-width-s", tokens.Border.WidthS, DefaultTokens.Border.WidthS);
+        AppendCssProperty(shared, "--wa-border-width-m", tokens.Border.WidthM, DefaultTokens.Border.WidthM);
+        AppendCssProperty(shared, "--wa-border-width-l", tokens.Border.WidthL, DefaultTokens.Border.WidthL);
+        AppendCssProperty(shared, "--wa-border-radius-pill", tokens.Border.RadiusPill, DefaultTokens.Border.RadiusPill);
+        AppendCssProperty(shared, "--wa-border-radius-circle", tokens.Border.RadiusCircle, DefaultTokens.Border.RadiusCircle);
+        AppendCssProperty(shared, "--wa-border-radius-square", tokens.Border.RadiusSquare, DefaultTokens.Border.RadiusSquare);
+        AppendCssProperty(shared, "--wa-border-radius-s", tokens.Border.RadiusS, DefaultTokens.Border.RadiusS);
+        AppendCssProperty(shared, "--wa-border-radius-m", tokens.Border.RadiusM, DefaultTokens.Border.RadiusM);
+        AppendCssProperty(shared, "--wa-border-radius-l", tokens.Border.RadiusL, DefaultTokens.Border.RadiusL);
+
+        AppendCssProperty(shared, "--wa-focus-ring-style", tokens.FocusRing.Style, DefaultTokens.FocusRing.Style);
+        AppendCssProperty(shared, "--wa-focus-ring-width", tokens.FocusRing.Width, DefaultTokens.FocusRing.Width);
+        AppendCssProperty(shared, "--wa-focus-ring", tokens.FocusRing.Ring, DefaultTokens.FocusRing.Ring);
+        AppendCssProperty(shared, "--wa-focus-ring-offset", tokens.FocusRing.Offset, DefaultTokens.FocusRing.Offset);
+
+        AppendCssProperty(shared, "--wa-shadow-s", tokens.Shadow.S, DefaultTokens.Shadow.S);
+        AppendCssProperty(shared, "--wa-shadow-m", tokens.Shadow.M, DefaultTokens.Shadow.M);
+        AppendCssProperty(shared, "--wa-shadow-l", tokens.Shadow.L, DefaultTokens.Shadow.L);
+        AppendCssProperty(shared, "--wa-shadow-offset-x-s", tokens.Shadow.OffsetXS, DefaultTokens.Shadow.OffsetXS);
+        AppendCssProperty(shared, "--wa-shadow-offset-x-m", tokens.Shadow.OffsetXM, DefaultTokens.Shadow.OffsetXM);
+        AppendCssProperty(shared, "--wa-shadow-offset-x-l", tokens.Shadow.OffsetXL, DefaultTokens.Shadow.OffsetXL);
+        AppendCssProperty(shared, "--wa-shadow-offset-y-s", tokens.Shadow.OffsetYS, DefaultTokens.Shadow.OffsetYS);
+        AppendCssProperty(shared, "--wa-shadow-offset-y-m", tokens.Shadow.OffsetYM, DefaultTokens.Shadow.OffsetYM);
+        AppendCssProperty(shared, "--wa-shadow-offset-y-l", tokens.Shadow.OffsetYL, DefaultTokens.Shadow.OffsetYL);
+        AppendCssProperty(shared, "--wa-shadow-blur-s", tokens.Shadow.BlurS, DefaultTokens.Shadow.BlurS);
+        AppendCssProperty(shared, "--wa-shadow-blur-m", tokens.Shadow.BlurM, DefaultTokens.Shadow.BlurM);
+        AppendCssProperty(shared, "--wa-shadow-blur-l", tokens.Shadow.BlurL, DefaultTokens.Shadow.BlurL);
+        AppendCssProperty(shared, "--wa-shadow-spread-s", tokens.Shadow.SpreadS, DefaultTokens.Shadow.SpreadS);
+        AppendCssProperty(shared, "--wa-shadow-spread-m", tokens.Shadow.SpreadM, DefaultTokens.Shadow.SpreadM);
+        AppendCssProperty(shared, "--wa-shadow-spread-l", tokens.Shadow.SpreadL, DefaultTokens.Shadow.SpreadL);
+
+        AppendCssProperty(shared, "--wa-space-3xs", tokens.Spacing.Space3XS, DefaultTokens.Spacing.Space3XS);
+        AppendCssProperty(shared, "--wa-space-2xs", tokens.Spacing.Space2XS, DefaultTokens.Spacing.Space2XS);
+        AppendCssProperty(shared, "--wa-space-xs", tokens.Spacing.SpaceXS, DefaultTokens.Spacing.SpaceXS);
+        AppendCssProperty(shared, "--wa-space-s", tokens.Spacing.SpaceS, DefaultTokens.Spacing.SpaceS);
+        AppendCssProperty(shared, "--wa-space-m", tokens.Spacing.SpaceM, DefaultTokens.Spacing.SpaceM);
+        AppendCssProperty(shared, "--wa-space-l", tokens.Spacing.SpaceL, DefaultTokens.Spacing.SpaceL);
+        AppendCssProperty(shared, "--wa-space-xl", tokens.Spacing.SpaceXL, DefaultTokens.Spacing.SpaceXL);
+        AppendCssProperty(shared, "--wa-space-2xl", tokens.Spacing.Space2XL, DefaultTokens.Spacing.Space2XL);
+        AppendCssProperty(shared, "--wa-space-3xl", tokens.Spacing.Space3XL, DefaultTokens.Spacing.Space3XL);
+        AppendCssProperty(shared, "--wa-space-4xl", tokens.Spacing.Space4XL, DefaultTokens.Spacing.Space4XL);
+        AppendCssProperty(shared, "--wa-space-5xl", tokens.Spacing.Space5XL, DefaultTokens.Spacing.Space5XL);
+
+        AppendCssProperty(shared, "--wa-transition-slow", tokens.Transition.Slow, DefaultTokens.Transition.Slow);
+        AppendCssProperty(shared, "--wa-transition-normal", tokens.Transition.Normal, DefaultTokens.Transition.Normal);
+        AppendCssProperty(shared, "--wa-transition-fast", tokens.Transition.Fast, DefaultTokens.Transition.Fast);
+        AppendCssProperty(shared, "--wa-transition-easing", tokens.Transition.Easing, DefaultTokens.Transition.Easing);
+
+        AppendCssProperty(shared, "--wa-font-family-body", tokens.Typography.FontFamilyBody, DefaultTokens.Typography.FontFamilyBody);
+        AppendCssProperty(shared, "--wa-font-family-heading", tokens.Typography.FontFamilyHeading, DefaultTokens.Typography.FontFamilyHeading);
+        AppendCssProperty(shared, "--wa-font-family-code", tokens.Typography.FontFamilyCode, DefaultTokens.Typography.FontFamilyCode);
+        AppendCssProperty(shared, "--wa-font-family-longform", tokens.Typography.FontFamilyLongForm, DefaultTokens.Typography.FontFamilyLongForm);
+        AppendCssProperty(shared, "--wa-font-size-3xs", tokens.Typography.FontSize3XS, DefaultTokens.Typography.FontSize3XS);
+        AppendCssProperty(shared, "--wa-font-size-2xs", tokens.Typography.FontSize2XS, DefaultTokens.Typography.FontSize2XS);
+        AppendCssProperty(shared, "--wa-font-size-xs", tokens.Typography.FontSizeXS, DefaultTokens.Typography.FontSizeXS);
+        AppendCssProperty(shared, "--wa-font-size-s", tokens.Typography.FontSizeS, DefaultTokens.Typography.FontSizeS);
+        AppendCssProperty(shared, "--wa-font-size-m", tokens.Typography.FontSizeM, DefaultTokens.Typography.FontSizeM);
+        AppendCssProperty(shared, "--wa-font-size-l", tokens.Typography.FontSizeL, DefaultTokens.Typography.FontSizeL);
+        AppendCssProperty(shared, "--wa-font-size-xl", tokens.Typography.FontSizeXL, DefaultTokens.Typography.FontSizeXL);
+        AppendCssProperty(shared, "--wa-font-size-2xl", tokens.Typography.FontSize2XL, DefaultTokens.Typography.FontSize2XL);
+        AppendCssProperty(shared, "--wa-font-size-3xl", tokens.Typography.FontSize3XL, DefaultTokens.Typography.FontSize3XL);
+        AppendCssProperty(shared, "--wa-font-size-4xl", tokens.Typography.FontSize4XL, DefaultTokens.Typography.FontSize4XL);
+        AppendCssProperty(shared, "--wa-font-size-5xl", tokens.Typography.FontSize5XL, DefaultTokens.Typography.FontSize5XL);
+        AppendCssProperty(shared, "--wa-font-size-smaller", tokens.Typography.FontSizeSmaller, DefaultTokens.Typography.FontSizeSmaller);
+        AppendCssProperty(shared, "--wa-font-size-larger", tokens.Typography.FontSizeLarger, DefaultTokens.Typography.FontSizeLarger);
+        AppendCssProperty(shared, "--wa-font-weight-light", tokens.Typography.FontWeightLight, DefaultTokens.Typography.FontWeightLight);
+        AppendCssProperty(shared, "--wa-font-weight-normal", tokens.Typography.FontWeightNormal, DefaultTokens.Typography.FontWeightNormal);
+        AppendCssProperty(shared, "--wa-font-weight-semibold", tokens.Typography.FontWeightSemiBold, DefaultTokens.Typography.FontWeightSemiBold);
+        AppendCssProperty(shared, "--wa-font-weight-bold", tokens.Typography.FontWeightBold, DefaultTokens.Typography.FontWeightBold);
+        AppendCssProperty(shared, "--wa-font-weight-body", tokens.Typography.FontWeightBody, DefaultTokens.Typography.FontWeightBody);
+        AppendCssProperty(shared, "--wa-font-weight-heading", tokens.Typography.FontWeightHeading, DefaultTokens.Typography.FontWeightHeading);
+        AppendCssProperty(shared, "--wa-font-weight-code", tokens.Typography.FontWeightCode, DefaultTokens.Typography.FontWeightCode);
+        AppendCssProperty(shared, "--wa-font-weight-longform", tokens.Typography.FontWeightLongform, DefaultTokens.Typography.FontWeightLongform);
+        AppendCssProperty(shared, "--wa-font-weight-action", tokens.Typography.FontWeightAction, DefaultTokens.Typography.FontWeightAction);
+        AppendCssProperty(shared, "--wa-line-height-condensed", tokens.Typography.LineHeightCondensed, DefaultTokens.Typography.LineHeightCondensed);
+        AppendCssProperty(shared, "--wa-line-height-normal", tokens.Typography.LineHeightNormal, DefaultTokens.Typography.LineHeightNormal);
+        AppendCssProperty(shared, "--wa-line-height-expanded", tokens.Typography.LineHeightExpanded, DefaultTokens.Typography.LineHeightExpanded);
+        AppendCssProperty(shared, "--wa-link-decoration-default", tokens.Typography.LinkDecorationDefault, DefaultTokens.Typography.LinkDecorationDefault);
+        AppendCssProperty(shared, "--wa-link-decoration-hover", tokens.Typography.LinkDecorationHover, DefaultTokens.Typography.LinkDecorationHover);
+
+        AppendCssProperty(shared, "--wa-form-control-background-color", tokens.Components.BackgroundColor, DefaultTokens.Components.BackgroundColor);
+        AppendCssProperty(shared, "--wa-form-control-border-color", tokens.Components.BorderColor, DefaultTokens.Components.BorderColor);
+        AppendCssProperty(shared, "--wa-form-control-border-style", tokens.Components.BorderStyle, DefaultTokens.Components.BorderStyle);
+        AppendCssProperty(shared, "--wa-form-control-border-width", tokens.Components.BorderWidth, DefaultTokens.Components.BorderWidth);
+        AppendCssProperty(shared, "--wa-form-control-border-radius", tokens.Components.BorderRadius, DefaultTokens.Components.BorderRadius);
+        AppendCssProperty(shared, "--wa-form-control-activated-color", tokens.Components.ActivatedColor, DefaultTokens.Components.ActivatedColor);
+        AppendCssProperty(shared, "--wa-form-control-label-color", tokens.Components.LabelColor, DefaultTokens.Components.LabelColor);
+        AppendCssProperty(shared, "--wa-form-control-label-font-weight", tokens.Components.LabelFontWeight, DefaultTokens.Components.LabelFontWeight);
+        AppendCssProperty(shared, "--wa-form-control-label-line-height", tokens.Components.LabelLineHeight, DefaultTokens.Components.LabelLineHeight);
+        AppendCssProperty(shared, "--wa-form-control-value-color", tokens.Components.ValueColor, DefaultTokens.Components.ValueColor);
+        AppendCssProperty(shared, "--wa-form-control-value-font-weight", tokens.Components.ValueFontWeight, DefaultTokens.Components.ValueFontWeight);
+        AppendCssProperty(shared, "--wa-form-control-value-line-height", tokens.Components.ValueLineHeight, DefaultTokens.Components.ValueLineHeight);
+        AppendCssProperty(shared, "--wa-form-control-hint-color", tokens.Components.HintColor, DefaultTokens.Components.HintColor);
+        AppendCssProperty(shared, "--wa-form-control-hint-font-weight", tokens.Components.HintFontWeight, DefaultTokens.Components.HintFontWeight);
+        AppendCssProperty(shared, "--wa-form-control-hint-line-height", tokens.Components.HintLineHeight, DefaultTokens.Components.HintLineHeight);
+        AppendCssProperty(shared, "--wa-form-control-placeholder-color", tokens.Components.PlaceholderColor, DefaultTokens.Components.PlaceholderColor);
+        AppendCssProperty(shared, "--wa-form-control-required-content", tokens.Components.RequiredContent, DefaultTokens.Components.RequiredContent);
+        AppendCssProperty(shared, "--wa-form-control-required-content-color", tokens.Components.RequiredContentColor, DefaultTokens.Components.RequiredContentColor);
+        AppendCssProperty(shared, "--wa-form-control-required-content-offset", tokens.Components.RequiredContentOffset, DefaultTokens.Components.RequiredContentOffset);
+        AppendCssProperty(shared, "--wa-form-control-padding-block", tokens.Components.PaddingBlock, DefaultTokens.Components.PaddingBlock);
+        AppendCssProperty(shared, "--wa-form-control-padding-inline", tokens.Components.PaddingInline, DefaultTokens.Components.PaddingInline);
+        AppendCssProperty(shared, "--wa-form-control-height", tokens.Components.Height, DefaultTokens.Components.Height);
+        AppendCssProperty(shared, "--wa-form-control-toggle-size", tokens.Components.ToggleSize, DefaultTokens.Components.ToggleSize);
+        AppendCssProperty(shared, "--wa-panel-border-style", tokens.Components.PanelBorderStyle, DefaultTokens.Components.PanelBorderStyle);
+        AppendCssProperty(shared, "--wa-panel-border-width", tokens.Components.PanelBorderWidth, DefaultTokens.Components.PanelBorderWidth);
+        AppendCssProperty(shared, "--wa-panel-border-radius", tokens.Components.PanelBorderRadius, DefaultTokens.Components.PanelBorderRadius);
+        AppendCssProperty(shared, "--wa-tooltip-arrow-size", tokens.Components.TooltipArrowSize, DefaultTokens.Components.TooltipArrowSize);
+        AppendCssProperty(shared, "--wa-tooltip-background-color", tokens.Components.TooltipBackgroundColor, DefaultTokens.Components.TooltipBackgroundColor);
+        AppendCssProperty(shared, "--wa-tooltip-border-color", tokens.Components.TooltipBorderColor, DefaultTokens.Components.TooltipBorderColor);
+        AppendCssProperty(shared, "--wa-tooltip-border-style", tokens.Components.TooltipBorderStyle, DefaultTokens.Components.TooltipBorderStyle);
+        AppendCssProperty(shared, "--wa-tooltip-border-width", tokens.Components.TooltipBorderWidth, DefaultTokens.Components.TooltipBorderWidth);
+        AppendCssProperty(shared, "--wa-tooltip-border-radius", tokens.Components.TooltipBorderRadius, DefaultTokens.Components.TooltipBorderRadius);
+        AppendCssProperty(shared, "--wa-tooltip-content-color", tokens.Components.TooltipContentColor, DefaultTokens.Components.TooltipContentColor);
+        AppendCssProperty(shared, "--wa-tooltip-font-size", tokens.Components.TooltipFontSize, DefaultTokens.Components.TooltipFontSize);
+        AppendCssProperty(shared, "--wa-tooltip-line-height", tokens.Components.TooltipLineHeight, DefaultTokens.Components.TooltipLineHeight);
+
+        return shared;
+    }
+
+    private static StringBuilder BuildPaletteCss(ThemeTokens tokens)
+    {
+        var palette = new StringBuilder();
+
+        AppendCssProperty(palette, "--wa-color-red-95", tokens.Palette.Red95, DefaultTokens.Palette.Red95);
+        AppendCssProperty(palette, "--wa-color-red-90", tokens.Palette.Red90, DefaultTokens.Palette.Red90);
+        AppendCssProperty(palette, "--wa-color-red-80", tokens.Palette.Red80, DefaultTokens.Palette.Red80);
+        AppendCssProperty(palette, "--wa-color-red-70", tokens.Palette.Red70, DefaultTokens.Palette.Red70);
+        AppendCssProperty(palette, "--wa-color-red-60", tokens.Palette.Red60, DefaultTokens.Palette.Red60);
+        AppendCssProperty(palette, "--wa-color-red-50", tokens.Palette.Red50, DefaultTokens.Palette.Red50);
+        AppendCssProperty(palette, "--wa-color-red-40", tokens.Palette.Red40, DefaultTokens.Palette.Red40);
+        AppendCssProperty(palette, "--wa-color-red-30", tokens.Palette.Red30, DefaultTokens.Palette.Red30);
+        AppendCssProperty(palette, "--wa-color-red-20", tokens.Palette.Red20, DefaultTokens.Palette.Red20);
+        AppendCssProperty(palette, "--wa-color-red-10", tokens.Palette.Red10, DefaultTokens.Palette.Red10);
+        AppendCssProperty(palette, "--wa-color-red-05", tokens.Palette.Red05, DefaultTokens.Palette.Red05);
+        AppendCssProperty(palette, "--wa-color-red", tokens.Palette.Red, DefaultTokens.Palette.Red);
+
+        AppendCssProperty(palette, "--wa-color-orange-95", tokens.Palette.Orange95, DefaultTokens.Palette.Orange95);
+        AppendCssProperty(palette, "--wa-color-orange-90", tokens.Palette.Orange90, DefaultTokens.Palette.Orange90);
+        AppendCssProperty(palette, "--wa-color-orange-80", tokens.Palette.Orange80, DefaultTokens.Palette.Orange80);
+        AppendCssProperty(palette, "--wa-color-orange-70", tokens.Palette.Orange70, DefaultTokens.Palette.Orange70);
+        AppendCssProperty(palette, "--wa-color-orange-60", tokens.Palette.Orange60, DefaultTokens.Palette.Orange60);
+        AppendCssProperty(palette, "--wa-color-orange-50", tokens.Palette.Orange50, DefaultTokens.Palette.Orange50);
+        AppendCssProperty(palette, "--wa-color-orange-40", tokens.Palette.Orange40, DefaultTokens.Palette.Orange40);
+        AppendCssProperty(palette, "--wa-color-orange-30", tokens.Palette.Orange30, DefaultTokens.Palette.Orange30);
+        AppendCssProperty(palette, "--wa-color-orange-20", tokens.Palette.Orange20, DefaultTokens.Palette.Orange20);
+        AppendCssProperty(palette, "--wa-color-orange-10", tokens.Palette.Orange10, DefaultTokens.Palette.Orange10);
+        AppendCssProperty(palette, "--wa-color-orange-05", tokens.Palette.Orange05, DefaultTokens.Palette.Orange05);
+        AppendCssProperty(palette, "--wa-color-orange", tokens.Palette.Orange, DefaultTokens.Palette.Orange);
+
+        AppendCssProperty(palette, "--wa-color-yellow-95", tokens.Palette.Yellow95, DefaultTokens.Palette.Yellow95);
+        AppendCssProperty(palette, "--wa-color-yellow-90", tokens.Palette.Yellow90, DefaultTokens.Palette.Yellow90);
+        AppendCssProperty(palette, "--wa-color-yellow-80", tokens.Palette.Yellow80, DefaultTokens.Palette.Yellow80);
+        AppendCssProperty(palette, "--wa-color-yellow-70", tokens.Palette.Yellow70, DefaultTokens.Palette.Yellow70);
+        AppendCssProperty(palette, "--wa-color-yellow-60", tokens.Palette.Yellow60, DefaultTokens.Palette.Yellow60);
+        AppendCssProperty(palette, "--wa-color-yellow-50", tokens.Palette.Yellow50, DefaultTokens.Palette.Yellow50);
+        AppendCssProperty(palette, "--wa-color-yellow-40", tokens.Palette.Yellow40, DefaultTokens.Palette.Yellow40);
+        AppendCssProperty(palette, "--wa-color-yellow-30", tokens.Palette.Yellow30, DefaultTokens.Palette.Yellow30);
+        AppendCssProperty(palette, "--wa-color-yellow-20", tokens.Palette.Yellow20, DefaultTokens.Palette.Yellow20);
+        AppendCssProperty(palette, "--wa-color-yellow-10", tokens.Palette.Yellow10, DefaultTokens.Palette.Yellow10);
+        AppendCssProperty(palette, "--wa-color-yellow-05", tokens.Palette.Yellow05, DefaultTokens.Palette.Yellow05);
+        AppendCssProperty(palette, "--wa-color-yellow", tokens.Palette.Yellow, DefaultTokens.Palette.Yellow);
+
+        AppendCssProperty(palette, "--wa-color-green-95", tokens.Palette.Green95, DefaultTokens.Palette.Green95);
+        AppendCssProperty(palette, "--wa-color-green-90", tokens.Palette.Green90, DefaultTokens.Palette.Green90);
+        AppendCssProperty(palette, "--wa-color-green-80", tokens.Palette.Green80, DefaultTokens.Palette.Green80);
+        AppendCssProperty(palette, "--wa-color-green-70", tokens.Palette.Green70, DefaultTokens.Palette.Green70);
+        AppendCssProperty(palette, "--wa-color-green-60", tokens.Palette.Green60, DefaultTokens.Palette.Green60);
+        AppendCssProperty(palette, "--wa-color-green-50", tokens.Palette.Green50, DefaultTokens.Palette.Green50);
+        AppendCssProperty(palette, "--wa-color-green-40", tokens.Palette.Green40, DefaultTokens.Palette.Green40);
+        AppendCssProperty(palette, "--wa-color-green-30", tokens.Palette.Green30, DefaultTokens.Palette.Green30);
+        AppendCssProperty(palette, "--wa-color-green-20", tokens.Palette.Green20, DefaultTokens.Palette.Green20);
+        AppendCssProperty(palette, "--wa-color-green-10", tokens.Palette.Green10, DefaultTokens.Palette.Green10);
+        AppendCssProperty(palette, "--wa-color-green-05", tokens.Palette.Green05, DefaultTokens.Palette.Green05);
+        AppendCssProperty(palette, "--wa-color-green", tokens.Palette.Green, DefaultTokens.Palette.Green);
+
+        AppendCssProperty(palette, "--wa-color-cyan-95", tokens.Palette.Cyan95, DefaultTokens.Palette.Cyan95);
+        AppendCssProperty(palette, "--wa-color-cyan-90", tokens.Palette.Cyan90, DefaultTokens.Palette.Cyan90);
+        AppendCssProperty(palette, "--wa-color-cyan-80", tokens.Palette.Cyan80, DefaultTokens.Palette.Cyan80);
+        AppendCssProperty(palette, "--wa-color-cyan-70", tokens.Palette.Cyan70, DefaultTokens.Palette.Cyan70);
+        AppendCssProperty(palette, "--wa-color-cyan-60", tokens.Palette.Cyan60, DefaultTokens.Palette.Cyan60);
+        AppendCssProperty(palette, "--wa-color-cyan-50", tokens.Palette.Cyan50, DefaultTokens.Palette.Cyan50);
+        AppendCssProperty(palette, "--wa-color-cyan-40", tokens.Palette.Cyan40, DefaultTokens.Palette.Cyan40);
+        AppendCssProperty(palette, "--wa-color-cyan-30", tokens.Palette.Cyan30, DefaultTokens.Palette.Cyan30);
+        AppendCssProperty(palette, "--wa-color-cyan-20", tokens.Palette.Cyan20, DefaultTokens.Palette.Cyan20);
+        AppendCssProperty(palette, "--wa-color-cyan-10", tokens.Palette.Cyan10, DefaultTokens.Palette.Cyan10);
+        AppendCssProperty(palette, "--wa-color-cyan-05", tokens.Palette.Cyan05, DefaultTokens.Palette.Cyan05);
+        AppendCssProperty(palette, "--wa-color-cyan", tokens.Palette.Cyan, DefaultTokens.Palette.Cyan);
+
+        AppendCssProperty(palette, "--wa-color-blue-95", tokens.Palette.Blue95, DefaultTokens.Palette.Blue95);
+        AppendCssProperty(palette, "--wa-color-blue-90", tokens.Palette.Blue90, DefaultTokens.Palette.Blue90);
+        AppendCssProperty(palette, "--wa-color-blue-80", tokens.Palette.Blue80, DefaultTokens.Palette.Blue80);
+        AppendCssProperty(palette, "--wa-color-blue-70", tokens.Palette.Blue70, DefaultTokens.Palette.Blue70);
+        AppendCssProperty(palette, "--wa-color-blue-60", tokens.Palette.Blue60, DefaultTokens.Palette.Blue60);
+        AppendCssProperty(palette, "--wa-color-blue-50", tokens.Palette.Blue50, DefaultTokens.Palette.Blue50);
+        AppendCssProperty(palette, "--wa-color-blue-40", tokens.Palette.Blue40, DefaultTokens.Palette.Blue40);
+        AppendCssProperty(palette, "--wa-color-blue-30", tokens.Palette.Blue30, DefaultTokens.Palette.Blue30);
+        AppendCssProperty(palette, "--wa-color-blue-20", tokens.Palette.Blue20, DefaultTokens.Palette.Blue20);
+        AppendCssProperty(palette, "--wa-color-blue-10", tokens.Palette.Blue10, DefaultTokens.Palette.Blue10);
+        AppendCssProperty(palette, "--wa-color-blue-05", tokens.Palette.Blue05, DefaultTokens.Palette.Blue05);
+        AppendCssProperty(palette, "--wa-color-blue", tokens.Palette.Blue, DefaultTokens.Palette.Blue);
+
+        AppendCssProperty(palette, "--wa-color-indigo-95", tokens.Palette.Indigo95, DefaultTokens.Palette.Indigo95);
+        AppendCssProperty(palette, "--wa-color-indigo-90", tokens.Palette.Indigo90, DefaultTokens.Palette.Indigo90);
+        AppendCssProperty(palette, "--wa-color-indigo-80", tokens.Palette.Indigo80, DefaultTokens.Palette.Indigo80);
+        AppendCssProperty(palette, "--wa-color-indigo-70", tokens.Palette.Indigo70, DefaultTokens.Palette.Indigo70);
+        AppendCssProperty(palette, "--wa-color-indigo-60", tokens.Palette.Indigo60, DefaultTokens.Palette.Indigo60);
+        AppendCssProperty(palette, "--wa-color-indigo-50", tokens.Palette.Indigo50, DefaultTokens.Palette.Indigo50);
+        AppendCssProperty(palette, "--wa-color-indigo-40", tokens.Palette.Indigo40, DefaultTokens.Palette.Indigo40);
+        AppendCssProperty(palette, "--wa-color-indigo-30", tokens.Palette.Indigo30, DefaultTokens.Palette.Indigo30);
+        AppendCssProperty(palette, "--wa-color-indigo-20", tokens.Palette.Indigo20, DefaultTokens.Palette.Indigo20);
+        AppendCssProperty(palette, "--wa-color-indigo-10", tokens.Palette.Indigo10, DefaultTokens.Palette.Indigo10);
+        AppendCssProperty(palette, "--wa-color-indigo-05", tokens.Palette.Indigo05, DefaultTokens.Palette.Indigo05);
+        AppendCssProperty(palette, "--wa-color-indigo", tokens.Palette.Indigo, DefaultTokens.Palette.Indigo);
+
+        AppendCssProperty(palette, "--wa-color-purple-95", tokens.Palette.Purple95, DefaultTokens.Palette.Purple95);
+        AppendCssProperty(palette, "--wa-color-purple-90", tokens.Palette.Purple90, DefaultTokens.Palette.Purple90);
+        AppendCssProperty(palette, "--wa-color-purple-80", tokens.Palette.Purple80, DefaultTokens.Palette.Purple80);
+        AppendCssProperty(palette, "--wa-color-purple-70", tokens.Palette.Purple70, DefaultTokens.Palette.Purple70);
+        AppendCssProperty(palette, "--wa-color-purple-60", tokens.Palette.Purple60, DefaultTokens.Palette.Purple60);
+        AppendCssProperty(palette, "--wa-color-purple-50", tokens.Palette.Purple50, DefaultTokens.Palette.Purple50);
+        AppendCssProperty(palette, "--wa-color-purple-40", tokens.Palette.Purple40, DefaultTokens.Palette.Purple40);
+        AppendCssProperty(palette, "--wa-color-purple-30", tokens.Palette.Purple30, DefaultTokens.Palette.Purple30);
+        AppendCssProperty(palette, "--wa-color-purple-20", tokens.Palette.Purple20, DefaultTokens.Palette.Purple20);
+        AppendCssProperty(palette, "--wa-color-purple-10", tokens.Palette.Purple10, DefaultTokens.Palette.Purple10);
+        AppendCssProperty(palette, "--wa-color-purple-05", tokens.Palette.Purple05, DefaultTokens.Palette.Purple05);
+        AppendCssProperty(palette, "--wa-color-purple", tokens.Palette.Purple, DefaultTokens.Palette.Purple);
+
+        AppendCssProperty(palette, "--wa-color-pink-95", tokens.Palette.Pink95, DefaultTokens.Palette.Pink95);
+        AppendCssProperty(palette, "--wa-color-pink-90", tokens.Palette.Pink90, DefaultTokens.Palette.Pink90);
+        AppendCssProperty(palette, "--wa-color-pink-80", tokens.Palette.Pink80, DefaultTokens.Palette.Pink80);
+        AppendCssProperty(palette, "--wa-color-pink-70", tokens.Palette.Pink70, DefaultTokens.Palette.Pink70);
+        AppendCssProperty(palette, "--wa-color-pink-60", tokens.Palette.Pink60, DefaultTokens.Palette.Pink60);
+        AppendCssProperty(palette, "--wa-color-pink-50", tokens.Palette.Pink50, DefaultTokens.Palette.Pink50);
+        AppendCssProperty(palette, "--wa-color-pink-40", tokens.Palette.Pink40, DefaultTokens.Palette.Pink40);
+        AppendCssProperty(palette, "--wa-color-pink-30", tokens.Palette.Pink30, DefaultTokens.Palette.Pink30);
+        AppendCssProperty(palette, "--wa-color-pink-20", tokens.Palette.Pink20, DefaultTokens.Palette.Pink20);
+        AppendCssProperty(palette, "--wa-color-pink-10", tokens.Palette.Pink10, DefaultTokens.Palette.Pink10);
+        AppendCssProperty(palette, "--wa-color-pink-05", tokens.Palette.Pink05, DefaultTokens.Palette.Pink05);
+        AppendCssProperty(palette, "--wa-color-pink", tokens.Palette.Pink, DefaultTokens.Palette.Pink);
+
+        AppendCssProperty(palette, "--wa-color-gray-95", tokens.Palette.Gray95, DefaultTokens.Palette.Gray95);
+        AppendCssProperty(palette, "--wa-color-gray-90", tokens.Palette.Gray90, DefaultTokens.Palette.Gray90);
+        AppendCssProperty(palette, "--wa-color-gray-80", tokens.Palette.Gray80, DefaultTokens.Palette.Gray80);
+        AppendCssProperty(palette, "--wa-color-gray-70", tokens.Palette.Gray70, DefaultTokens.Palette.Gray70);
+        AppendCssProperty(palette, "--wa-color-gray-60", tokens.Palette.Gray60, DefaultTokens.Palette.Gray60);
+        AppendCssProperty(palette, "--wa-color-gray-50", tokens.Palette.Gray50, DefaultTokens.Palette.Gray50);
+        AppendCssProperty(palette, "--wa-color-gray-40", tokens.Palette.Gray40, DefaultTokens.Palette.Gray40);
+        AppendCssProperty(palette, "--wa-color-gray-30", tokens.Palette.Gray30, DefaultTokens.Palette.Gray30);
+        AppendCssProperty(palette, "--wa-color-gray-20", tokens.Palette.Gray20, DefaultTokens.Palette.Gray20);
+        AppendCssProperty(palette, "--wa-color-gray-10", tokens.Palette.Gray10, DefaultTokens.Palette.Gray10);
+        AppendCssProperty(palette, "--wa-color-gray-05", tokens.Palette.Gray05, DefaultTokens.Palette.Gray05);
+        AppendCssProperty(palette, "--wa-color-gray", tokens.Palette.Gray, DefaultTokens.Palette.Gray);
+
+        foreach (var (name, variant) in tokens.Variants)
+        {
+            var defaults = DefaultTokens.Variants.GetValueOrDefault(name);
+            var fallback = defaults is null ? DefaultTokens.Variants[RoarVariant.Brand] : null;
+
+            AppendCssProperty(palette, $"--wa-color-{name}-95", variant.Color95 ?? fallback?.Color95, defaults?.Color95);
+            AppendCssProperty(palette, $"--wa-color-{name}-90", variant.Color90 ?? fallback?.Color90, defaults?.Color90);
+            AppendCssProperty(palette, $"--wa-color-{name}-80", variant.Color80 ?? fallback?.Color80, defaults?.Color80);
+            AppendCssProperty(palette, $"--wa-color-{name}-70", variant.Color70 ?? fallback?.Color70, defaults?.Color70);
+            AppendCssProperty(palette, $"--wa-color-{name}-60", variant.Color60 ?? fallback?.Color60, defaults?.Color60);
+            AppendCssProperty(palette, $"--wa-color-{name}-50", variant.Color50 ?? fallback?.Color50, defaults?.Color50);
+            AppendCssProperty(palette, $"--wa-color-{name}-40", variant.Color40 ?? fallback?.Color40, defaults?.Color40);
+            AppendCssProperty(palette, $"--wa-color-{name}-30", variant.Color30 ?? fallback?.Color30, defaults?.Color30);
+            AppendCssProperty(palette, $"--wa-color-{name}-20", variant.Color20 ?? fallback?.Color20, defaults?.Color20);
+            AppendCssProperty(palette, $"--wa-color-{name}-10", variant.Color10 ?? fallback?.Color10, defaults?.Color10);
+            AppendCssProperty(palette, $"--wa-color-{name}-05", variant.Color05 ?? fallback?.Color05, defaults?.Color05);
+            AppendCssProperty(palette, $"--wa-color-{name}-on", variant.On ?? fallback?.On, defaults?.On);
+            AppendCssProperty(palette, $"--wa-color-{name}", variant.Color ?? fallback?.Color, defaults?.Color);
+        }
+
+        return palette;
+    }
+
+    private static StringBuilder BuildSchemeCss(SchemeColors scheme, SchemeColors defaults, Dictionary<string, VariantColors> variants)
+    {
+        var css = new StringBuilder();
+        var isLight = scheme.Name == "light";
+
+        css.AppendLine($"color-scheme: {scheme.Name};");
+        css.AppendLine("color: var(--wa-color-text-normal);");
+
+        AppendCssProperty(css, "--wa-color-surface-raised", scheme.SurfaceRaised ?? defaults.SurfaceRaised, null);
+        AppendCssProperty(css, "--wa-color-surface-default", scheme.SurfaceDefault ?? defaults.SurfaceDefault, null);
+        AppendCssProperty(css, "--wa-color-surface-lowered", scheme.SurfaceLowered ?? defaults.SurfaceLowered, null);
+        AppendCssProperty(css, "--wa-color-surface-border", scheme.SurfaceBorder ?? defaults.SurfaceBorder, null);
+        AppendCssProperty(css, "--wa-color-text-normal", scheme.TextNormal ?? defaults.TextNormal, null);
+        AppendCssProperty(css, "--wa-color-text-quiet", scheme.TextQuiet ?? defaults.TextQuiet, null);
+        AppendCssProperty(css, "--wa-color-text-link", scheme.TextLink ?? defaults.TextLink, null);
+        AppendCssProperty(css, "--wa-color-overlay-modal", scheme.OverlayModal ?? defaults.OverlayModal, null);
+        AppendCssProperty(css, "--wa-color-overlay-inline", scheme.OverlayInline ?? defaults.OverlayInline, null);
+        AppendCssProperty(css, "--wa-color-shadow", scheme.Shadow ?? defaults.Shadow, null);
+        AppendCssProperty(css, "--wa-color-focus", scheme.Focus ?? defaults.Focus, null);
+        AppendCssProperty(css, "--wa-color-mix-hover", scheme.MixHover ?? defaults.MixHover, null);
+        AppendCssProperty(css, "--wa-color-mix-active", scheme.MixActive ?? defaults.MixActive, null);
+
+        foreach (var name in DefaultTokens.Variants.Keys.Union(variants.Keys))
+        {
+            var variant = variants.GetValueOrDefault(name);
+            var variantDefaults = DefaultTokens.Variants.GetValueOrDefault(name);
+            var appearance = isLight ? variant?.Light : variant?.Dark;
+            var appearanceDefaults = (isLight ? variantDefaults?.Light : variantDefaults?.Dark) ?? GetCustomVariantAppearanceDefaults(name, isLight);
+
+            AppendCssProperty(css, $"--wa-color-{name}-fill-quiet", appearance?.FillQuiet ?? appearanceDefaults.FillQuiet, null);
+            AppendCssProperty(css, $"--wa-color-{name}-fill-normal", appearance?.FillNormal ?? appearanceDefaults.FillNormal, null);
+            AppendCssProperty(css, $"--wa-color-{name}-fill-loud", appearance?.FillLoud ?? appearanceDefaults.FillLoud, null);
+            AppendCssProperty(css, $"--wa-color-{name}-border-quiet", appearance?.BorderQuiet ?? appearanceDefaults.BorderQuiet, null);
+            AppendCssProperty(css, $"--wa-color-{name}-border-normal", appearance?.BorderNormal ?? appearanceDefaults.BorderNormal, null);
+            AppendCssProperty(css, $"--wa-color-{name}-border-loud", appearance?.BorderLoud ?? appearanceDefaults.BorderLoud, null);
+            AppendCssProperty(css, $"--wa-color-{name}-on-quiet", appearance?.OnQuiet ?? appearanceDefaults.OnQuiet, null);
+            AppendCssProperty(css, $"--wa-color-{name}-on-normal", appearance?.OnNormal ?? appearanceDefaults.OnNormal, null);
+            AppendCssProperty(css, $"--wa-color-{name}-on-loud", appearance?.OnLoud ?? appearanceDefaults.OnLoud, null);
+        }
+
+        return css;
+    }
+
+    private static VariantSchemeColors GetCustomVariantAppearanceDefaults(string variant, bool isLight) => new()
+    {
+        FillQuiet = $"var(--wa-color-{variant}-{(isLight ? "95" : "10")})",
+        FillNormal = $"var(--wa-color-{variant}-{(isLight ? "90" : "20")})",
+        FillLoud = $"var(--wa-color-{variant}-50)",
+        BorderQuiet = $"var(--wa-color-{variant}-{(isLight ? "90" : "20")})",
+        BorderNormal = $"var(--wa-color-{variant}-{(isLight ? "80" : "30")})",
+        BorderLoud = $"var(--wa-color-{variant}-{(isLight ? "60" : "40")})",
+        OnQuiet = $"var(--wa-color-{variant}-{(isLight ? "40" : "60")})",
+        OnNormal = $"var(--wa-color-{variant}-{(isLight ? "30" : "70")})",
+        OnLoud = "white"
+    };
+
+    private static string? GetOverride(string? value, string? defaultValue) => string.Equals(value, defaultValue, StringComparison.Ordinal) ? null : value;
+
+    private static void AppendCssProperty(StringBuilder css, string property, string? value, string? defaultValue)
+    {
+        if (GetOverride(value, defaultValue) is { } overrideValue)
+        {
+            css.AppendLine($"{property}: {overrideValue};");
+        }
+    }
+
+    private static void AppendCssRule(StringBuilder css, string selectors, StringBuilder declarations)
+    {
+        if (declarations.Length > 0)
+        {
+            css.AppendLine($"{selectors} {{");
+            css.Append(declarations);
+            css.AppendLine("}");
+        }
     }
 
     private static MarkupString RenderCssValue(string? value)
@@ -429,19 +429,19 @@
         return new MarkupString(value?.Replace("</", "\\3c /", StringComparison.Ordinal) ?? string.Empty);
     }
 
-    private MarkupString BuildVariantMappings(IEnumerable<string> variants)
+    private string BuildVariantMappings(IEnumerable<string> variants)
     {
-        var css = new System.Text.StringBuilder();
+        var css = new StringBuilder();
 
         foreach (var variant in variants)
         {
             foreach (var renderer in VariantCssRenderers)
             {
-                css.AppendLine(renderer.BuildVariantMappings(variant));
+                css.Append(renderer.BuildVariantMappings(variant));
             }
         }
 
-        return RenderCssValue(css.ToString());
+        return css.ToString();
     }
 
     protected override void OnInitialized()
@@ -455,7 +455,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+            await JSRuntime.InvokeVoidAsync("applyMode", ActiveSchemeName);
         }
     }
 
@@ -469,7 +469,7 @@
         InvokeAsync(StateHasChanged);
     }
 
-    public void OnModeChangedHandler(object? sender, string mode)
+    public void OnModeChangedHandler(object? sender, ThemeMode mode)
     {
         InvokeAsync(async () =>
         {
@@ -477,7 +477,7 @@
 
             try
             {
-                await JSRuntime.InvokeVoidAsync("applyMode", ThemeService.Mode);
+                await JSRuntime.InvokeVoidAsync("applyMode", ActiveSchemeName);
             }
             catch (InvalidOperationException)
             {
