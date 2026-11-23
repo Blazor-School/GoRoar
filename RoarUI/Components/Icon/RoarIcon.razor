@@ -2,7 +2,7 @@
 
 <RoarDependency ComponentName="icon" />
 
-<wa-icon family="@Family" variant="@Variant" label="@Label" canvas="@Canvas" rotate="@Rotate" flip="@Flip" animation="@Animation" swap-opacity="@SwapOpacity" name="@Name" library="default" @attributes="InternalAttributes">
+<wa-icon family="@(Family?.Value)" variant="@(Variant?.Value)" label="@Label" canvas="@Canvas" rotate="@Rotate" flip="@Flip" animation="@Animation" swap-opacity="@SwapOpacity" name="@Name" library="default" @attributes="InternalAttributes">
     @ChildContent
 </wa-icon>
 
@@ -18,13 +18,13 @@
     /// The name of the icon's variant. Some variants require a Font Awesome Pro subscription.
     /// </summary>
     [Parameter]
-    public FontAwesomeVariant Variant { get; set; }
+    public FontAwesomeVariant? Variant { get; set; }
 
     /// <summary>
     /// The family of icons to choose from. Some families require a Font Awesome Pro subscription.
     /// </summary>
     [Parameter]
-    public FontAwesomeFamily Family { get; set; }
+    public FontAwesomeFamily? Family { get; set; }
 
     /// <summary>
     /// An alternate description to use for assistive devices. If omitted, the icon will be considered presentational and ignored by assistive devices.
