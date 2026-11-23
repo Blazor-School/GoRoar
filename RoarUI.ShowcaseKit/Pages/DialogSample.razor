@@ -1,7 +1,7 @@
 ﻿@page "/dialog-sample"
 
 <h3>Dialog without Header</h3>
-<RoarDialog Spacing="var(--wa-space-l)" Width="32rem" BackdropFilter="blur(4px)" ShowDuration="250ms" HideDuration="150ms" Label="Dialog" WithoutHeader @bind-Open="DialogWithoutHeaderOpen">
+<RoarDialog Spacing="var(--wa-space-l)" Width="32rem" BackdropColor="color-mix(in oklab, var(--wa-color-brand-50) 45%, transparent)" BackdropFilter="blur(4px)" ShowDuration="250ms" HideDuration="150ms" Label="Dialog" WithoutHeader @bind-Open="DialogWithoutHeaderOpen">
     Look ma, no header! Sometimes you just need a clean, simple dialog.
     <RoarButton slot="@DialogSlot.Footer" Variant="ButtonVariant.Brand" data-dialog="close">Close</RoarButton>
 </RoarDialog>

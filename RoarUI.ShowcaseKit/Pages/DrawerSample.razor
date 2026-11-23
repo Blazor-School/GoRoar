@@ -1,7 +1,7 @@
 ﻿@page "/drawer-sample"
 
 <h3>Drawer without Header</h3>
-<RoarDrawer Spacing="var(--wa-space-l)" Size="min(28rem, 90vw)" BackdropFilter="blur(4px)" ShowDuration="250ms" HideDuration="150ms" Label="Drawer" WithoutHeader id="drawer-no-header">
+<RoarDrawer Spacing="var(--wa-space-l)" Size="min(28rem, 90vw)" BackdropColor="color-mix(in oklab, var(--wa-color-brand-50) 45%, transparent)" BackdropFilter="blur(4px)" ShowDuration="250ms" HideDuration="150ms" Label="Drawer" WithoutHeader id="drawer-no-header">
     Look ma, no header!
     <RoarButton slot="@DrawerSlot.Footer" Variant="ButtonVariant.Brand" data-drawer="close">Close</RoarButton>
 </RoarDrawer>

@@ -1,12 +1,10 @@
-﻿import { setBasePath } from "./webawesome-3.14.0/webawesome.js";
-
-export function beforeWebStart(options) {
-    setBasePath(new URL("./webawesome-3.14.0", import.meta.url).pathname);
+﻿async function configureWebAwesome() {
+    const baseUrl = new URL("./webawesome-3.15.0", import.meta.url);
+    const { setBasePath } = await import(`${baseUrl.href}/webawesome.js`);
+    setBasePath(baseUrl.pathname);
 }
 
-export function beforeStart(options, extensions) {
-    setBasePath(new URL("./webawesome-3.14.0", import.meta.url).pathname);
-}
+export { configureWebAwesome as beforeWebStart, configureWebAwesome as beforeStart };
 
 export function afterWebStarted(blazor) {
     roarGeneralFunction();
