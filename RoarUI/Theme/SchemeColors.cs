@@ -22,6 +22,7 @@ public class SchemeColors
     public string? TextQuiet { get; set; }
     public string? TextLink { get; set; }
     public string? OverlayModal { get; set; }
+    public string? OverlayMedia { get; set; }
     public string? OverlayInline { get; set; }
     public string? Shadow { get; set; }
     public string? Focus { get; set; }

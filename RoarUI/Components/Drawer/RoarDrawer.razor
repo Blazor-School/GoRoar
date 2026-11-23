@@ -21,6 +21,12 @@
     public string? Size { get; set; }
 
     /// <summary>
+    /// The color of the backdrop behind the drawer. Accepts CSS values, including var().
+    /// </summary>
+    [Parameter]
+    public string? BackdropColor { get; set; }
+
+    /// <summary>
     /// A filter to apply to the backdrop behind the drawer. Accepts CSS values, including var().
     /// </summary>
     [Parameter]
@@ -158,6 +164,7 @@
         InternalAttributes = new AttributeBuilder(AdditionalAttributes)
             .AddStyle("--spacing", Spacing)
             .AddStyle("--size", Size)
+            .AddStyle("--backdrop-color", BackdropColor)
             .AddStyle("--backdrop-filter", BackdropFilter)
             .AddStyle("--show-duration", ShowDuration)
             .AddStyle("--hide-duration", HideDuration)
