@@ -336,6 +336,18 @@ function createRoarValueEventArgs(event) {
 const propertyObservers = new WeakMap();
 const ratingDefaultSymbols = new WeakMap();
 
+function clearPopoverVirtualAnchorAfterHide(event) {
+    const popover = event.currentTarget;
+    if (event.target !== popover || popover.open) {
+        return;
+    }
+
+    if (!popover.for && !(popover.anchor instanceof Element)) {
+        popover.anchor = null;
+    }
+    popover.removeEventListener("wa-after-hide", clearPopoverVirtualAnchorAfterHide);
+}
+
 function roarGeneralFunction() {
     window.applyMode = function (mode) {
         document.documentElement.classList.toggle('wa-light', mode === 'light');
@@ -372,6 +384,29 @@ function roarGeneralFunction() {
             ? ratingDefaultSymbols.get(element)
             : (value, isSelectedOrHovered) => symbols[value - 1]?.[isSelectedOrHovered ? 1 : 0] ?? ""; //Each symbols has 2 states, state 0 is for unselected, state 1 is for selected or hovered
 
+        await element.updateComplete;
+    };
+
+    window.popoverSetVirtualAnchor = async function (element, bounds) {
+        await customElements.whenDefined(element.localName);
+        await element.updateComplete;
+
+        if (element.for) {
+            if (bounds != null) {
+                throw new Error("Clear the popover's For parameter before setting a virtual anchor.");
+            }
+            return;
+        }
+
+        if (bounds == null) {
+            element.anchor = null;
+            element.removeEventListener("wa-after-hide", clearPopoverVirtualAnchorAfterHide);
+        } else {
+            element.anchor = {
+                getBoundingClientRect: () => new DOMRect(bounds.x, bounds.y, bounds.width, bounds.height)
+            };
+            element.addEventListener("wa-after-hide", clearPopoverVirtualAnchorAfterHide);
+        }
         await element.updateComplete;
     };
 

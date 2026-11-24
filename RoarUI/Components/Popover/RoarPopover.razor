@@ -16,8 +16,8 @@
 
     /// <summary>
     /// The ID of the popover's anchor. Use an interactive element such as a button, and render it before the popover.
+    /// Leave this empty when using a virtual anchor.
     /// </summary>
-    [EditorRequired]
     [Parameter]
     public string For { get; set; } = "";
 
@@ -109,7 +109,7 @@
     public EventCallback OnHide { get; set; }
 
     /// <summary>
-    /// Emitted after the popover has hidden and all animations are complete.
+    /// Emitted after the popover has hidden, all animations are complete, and any virtual anchor has been cleared.
     /// </summary>
     [Parameter]
     public EventCallback OnAfterHide { get; set; }
@@ -125,6 +125,19 @@
             .AddStyle("--hide-duration", HideDuration)
             .Build();
     }
+
+    /// <summary>
+    /// Anchors the popover to a rectangle in viewport coordinates, in CSS pixels. Omit the dimensions to anchor to a point.
+    /// Call after interactive rendering and before showing the popover, with <see cref="For"/> empty.
+    /// The anchor is cleared when the popover finishes hiding. Set it again before reopening.
+    /// A virtual anchor only provides positioning. Open the popover programmatically and manage trigger accessibility and focus return as needed.
+    /// </summary>
+    public ValueTask SetVirtualAnchorAsync(double x, double y, double width = 0, double height = 0) => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.PopoverSetVirtualAnchor, Element, new { x, y, width, height });
+
+    /// <summary>
+    /// Clears the virtual anchor explicitly. The popover also clears it automatically after hiding.
+    /// </summary>
+    public ValueTask ClearVirtualAnchorAsync() => JSRuntime.InvokeVoidAsync(JavascriptFunctionNames.PopoverSetVirtualAnchor, Element, (object?)null);
 
     /// <summary>
     /// Shows the popover and waits for its animation, unless KeepClosed prevents it from opening.

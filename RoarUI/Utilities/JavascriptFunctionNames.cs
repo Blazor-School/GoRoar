@@ -34,6 +34,11 @@ internal static class JavascriptFunctionNames
     public const string RatingSetSymbols = "ratingSetSymbols";
 
     /// <summary>
+    /// Element, Viewport rectangle or null to clear the virtual anchor
+    /// </summary>
+    public const string PopoverSetVirtualAnchor = "popoverSetVirtualAnchor";
+
+    /// <summary>
     /// Element, PropertyName
     /// </summary>
     public const string GetObjectProperty = "getObjectProperty";

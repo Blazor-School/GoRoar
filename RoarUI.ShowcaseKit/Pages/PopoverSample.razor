@@ -8,6 +8,13 @@
     <RoarPopover For="popover-anchor-native">I'm anchored to a native button.</RoarPopover>
 </div>
 
+<h3>Virtual Anchor</h3>
+<button type="button" class="wa-filled" id="popover-virtual-trigger" aria-haspopup="dialog" aria-expanded="@(VirtualOpen ? "true" : "false")" @onclick="ShowVirtualPopoverAsync">Open at click position</button>
+<RoarPopover id="popover-virtual" @ref="VirtualPopover" @bind-Open="VirtualOpen" Placement="PopoverPlacement.Bottom">
+    <p>This popover is anchored to the point you clicked.</p>
+    <RoarButton data-popover="close">Dismiss</RoarButton>
+</RoarPopover>
+
 <h3>Opening & Closing</h3>
 <RoarButton Appearance="ButtonAppearance.Filled" id="popover-opening">Toggle popover</RoarButton>
 <RoarPopover For="popover-opening" @bind-Open="Open" OnShow="() => ShowCount++" OnAfterShow="() => AfterShowCount++" OnHide="() => HideCount++" OnAfterHide="() => AfterHideCount++">
@@ -95,6 +102,8 @@
     public int AfterShowCount { get; set; }
     public int HideCount { get; set; }
     public int AfterHideCount { get; set; }
+    private RoarPopover VirtualPopover { get; set; } = default!;
+    private bool VirtualOpen { get; set; }
     public RoarPopover ProgrammaticPopover { get; set; } = default!;
     public bool ProgrammaticOpen { get; set; }
     public RoarPopover GuardedPopover { get; set; } = default!;
@@ -104,6 +113,17 @@
     public int GuardedShowCount { get; set; }
     public int GuardedHideCount { get; set; }
     public int GuardedMethodCount { get; set; }
+
+    private async Task ShowVirtualPopoverAsync(MouseEventArgs args)
+    {
+        if (VirtualOpen)
+        {
+            return;
+        }
+
+        await VirtualPopover.SetVirtualAnchorAsync(args.ClientX, args.ClientY);
+        VirtualOpen = true;
+    }
 
     public async Task ShowPopoverAsync() => await ProgrammaticPopover.ShowAsync();
     public async Task HidePopoverAsync() => await ProgrammaticPopover.HideAsync();
