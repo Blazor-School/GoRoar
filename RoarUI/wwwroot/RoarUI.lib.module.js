@@ -34,6 +34,15 @@ function registerRoarEvents(blazor) {
                         return { dialog: { selfClose: event.detail?.source === event.target.dialog } };
                     case "wa-drawer":
                         return { drawer: { selfClose: event.detail?.source === event.target.drawer } };
+                    case "wa-lightbox":
+                        return {
+                            lightbox: {
+                                selfClose: event.detail?.source === event.target.dialog,
+                                sourceTagName: event.detail?.source?.localName,
+                                sourceId: event.detail?.source?.id || null,
+                                sourcePart: event.detail?.source?.getAttribute("part") ?? null
+                            }
+                        };
                     default:
                         return {};
                 }
@@ -139,6 +148,24 @@ function registerRoarEvents(blazor) {
                 switch (event.target?.localName) {
                     case "wa-carousel":
                         return { carousel: { index: event.detail.index, slide: event.detail.slide ? { id: event.detail.slide.id } : null } };
+                    default:
+                        return {};
+                }
+            }
+        },
+        roaritemchange: {
+            browserEventName: "wa-item-change",
+            createEventArgs: event => {
+                switch (event.target?.localName) {
+                    case "wa-lightbox":
+                        return {
+                            lightbox: {
+                                index: event.detail.index,
+                                previousIndex: event.detail.previousIndex,
+                                item: getLightboxItemInfo(event.detail.item),
+                                previousItem: getLightboxItemInfo(event.detail.previousItem)
+                            }
+                        };
                     default:
                         return {};
                 }
@@ -348,6 +375,25 @@ function clearPopoverVirtualAnchorAfterHide(event) {
     popover.removeEventListener("wa-after-hide", clearPopoverVirtualAnchorAfterHide);
 }
 
+function getLightboxItemInfo(item) {
+    if (!item) {
+        return null;
+    }
+
+    return {
+        id: item.id,
+        src: item.src,
+        alt: item.resolvedAlt,
+        caption: item.caption,
+        type: item.type,
+        thumbnail: item.thumbnailSrc,
+        srcSet: item.srcset,
+        sizes: item.sizes,
+        width: item.width,
+        height: item.height
+    };
+}
+
 function roarGeneralFunction() {
     window.applyMode = function (mode) {
         document.documentElement.classList.toggle('wa-light', mode === 'light');
@@ -408,6 +454,12 @@ function roarGeneralFunction() {
             element.addEventListener("wa-after-hide", clearPopoverVirtualAnchorAfterHide);
         }
         await element.updateComplete;
+    };
+
+    window.lightboxGetItemDetails = async function (element, currentOnly) {
+        await customElements.whenDefined("wa-lightbox");
+        await element.updateComplete;
+        return currentOnly ? getLightboxItemInfo(element.currentItem) : element.items.map(getLightboxItemInfo);
     };
 
     window.sliderSetValueFormatter = async function (element, template) {

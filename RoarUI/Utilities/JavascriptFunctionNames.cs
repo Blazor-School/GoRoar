@@ -39,6 +39,11 @@ internal static class JavascriptFunctionNames
     public const string PopoverSetVirtualAnchor = "popoverSetVirtualAnchor";
 
     /// <summary>
+    /// Lightbox element, whether to return only the current item
+    /// </summary>
+    public const string LightboxGetItemDetails = "lightboxGetItemDetails";
+
+    /// <summary>
     /// Element, PropertyName
     /// </summary>
     public const string GetObjectProperty = "getObjectProperty";

@@ -1,0 +1,298 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<RoarDependency ComponentName="lightbox" />
+
+<wa-lightbox index="@Index" label="@Label" loop="@Loop" with-thumbnails="@WithThumbnails" without-navigation="@WithoutNavigation" without-counter="@WithoutCounter" without-zoom="@WithoutZoom" open="@Open" @onroarshow="TriggerShowAsync" @onroarshow:preventDefault="KeepClosed" @onroaraftershow="TriggerAfterShowAsync" @onroarhide="TriggerHideAsync" @onroarhide:preventDefault="KeepOpen" @onroarafterhide="TriggerAfterHideAsync" @onroaritemchange="TriggerItemChangeAsync" @ref="Element" @attributes="InternalAttributes">
+    @ChildContent
+</wa-lightbox>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// A label that describes the lightbox to assistive devices, e.g. "Vacation photos".
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    /// <summary>
+    /// Indicates whether or not the lightbox is open. Toggle this attribute to show and hide the lightbox.
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; }
+
+    /// <summary>
+    /// Emitted when the lightbox is opened or closed.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>
+    /// The zero-based index of the current item.
+    /// </summary>
+    [Parameter]
+    public int Index { get; set; }
+
+    /// <summary>
+    /// Emitted when the current item changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<int> IndexChanged { get; set; }
+
+    /// <summary>
+    /// Wraps around when navigating past the first or last item with the buttons or the keyboard.
+    /// </summary>
+    [Parameter]
+    public bool Loop { get; set; }
+
+    /// <summary>
+    /// Shows a strip of thumbnails for jumping between items.
+    /// </summary>
+    [Parameter]
+    public bool WithThumbnails { get; set; }
+
+    /// <summary>
+    /// Hides the previous and next buttons. Swiping and the arrow keys still work. The buttons are always hidden on touch screens, where swiping takes their place.
+    /// </summary>
+    [Parameter]
+    public bool WithoutNavigation { get; set; }
+
+    /// <summary>
+    /// Hides the counter that shows the current item's position.
+    /// </summary>
+    [Parameter]
+    public bool WithoutCounter { get; set; }
+
+    /// <summary>
+    /// Disables zooming and removes the zoom button.
+    /// </summary>
+    [Parameter]
+    public bool WithoutZoom { get; set; }
+
+    /// <summary>
+    /// Cancels requests to open the lightbox.
+    /// </summary>
+    [Parameter]
+    public bool KeepClosed { get; set; }
+
+    /// <summary>
+    /// Cancels requests to close the lightbox. Provide a control that clears this state so the user can close it.
+    /// </summary>
+    [Parameter]
+    public bool KeepOpen { get; set; }
+
+    /// <summary>
+    /// The color of the backdrop.
+    /// </summary>
+    [Parameter]
+    public string? BackdropColor { get; set; }
+
+    /// <summary>
+    /// A filter to apply to the backdrop behind the lightbox.
+    /// </summary>
+    [Parameter]
+    public string? BackdropFilter { get; set; }
+
+    /// <summary>
+    /// The border radius of the media in each slide.
+    /// </summary>
+    [Parameter]
+    public string? MediaBorderRadius { get; set; }
+
+    /// <summary>
+    /// The text and icon color used for the controls, counter, and caption.
+    /// </summary>
+    [Parameter]
+    public string? ControlsColor { get; set; }
+
+    /// <summary>
+    /// The background of the controls when the media is behind them.
+    /// </summary>
+    [Parameter]
+    public string? ControlsBackground { get; set; }
+
+    /// <summary>
+    /// The animation duration when showing the lightbox.
+    /// </summary>
+    [Parameter]
+    public string? ShowDuration { get; set; }
+
+    /// <summary>
+    /// The animation duration when hiding the lightbox.
+    /// </summary>
+    [Parameter]
+    public string? HideDuration { get; set; }
+
+    /// <summary>
+    /// The space around the media, the caption, and the lightbox's controls. Grows with the viewport by default.
+    /// </summary>
+    [Parameter]
+    public string? Spacing { get; set; }
+
+    /// <summary>
+    /// The space between slides.
+    /// </summary>
+    [Parameter]
+    public string? SlideGap { get; set; }
+
+    /// <summary>
+    /// The size of each thumbnail in the strip.
+    /// </summary>
+    [Parameter]
+    public string? ThumbnailSize { get; set; }
+
+    /// <summary>
+    /// Emitted when the lightbox opens.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnShow { get; set; }
+
+    /// <summary>
+    /// Emitted after the lightbox opens and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterShow { get; set; }
+
+    /// <summary>
+    /// Emitted when the lightbox is requested to close. <see cref="LightboxHideEventArgs.SourceId"/> contains the source element's ID when present, and <see cref="LightboxHideEventArgs.SourcePart"/> identifies built-in parts such as <c>close-button</c>.
+    /// <see cref="LightboxHideEventArgs.SelfClose"/> is true when the internal dialog is the source, such as when pressing Escape, clicking the backdrop, pulling the media, closing programmatically, or removing the last item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LightboxHideEventArgs> OnHide { get; set; }
+
+    /// <summary>
+    /// Emitted after the lightbox closes and all animations are complete.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAfterHide { get; set; }
+
+    /// <summary>
+    /// Emitted when the current item changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LightboxItemChangeEventArgs> OnItemChange { get; set; }
+
+    /// <summary>
+    /// Requests that the lightbox open, optionally selecting a zero-based index first.
+    /// </summary>
+    public async ValueTask ShowAsync(int? index = null)
+    {
+        if (index is int itemIndex)
+        {
+            await SetComponentPropertyAsync("index", itemIndex);
+        }
+
+        await SetComponentPropertyAsync("open", true);
+    }
+
+    /// <summary>
+    /// Requests that the lightbox close.
+    /// </summary>
+    public ValueTask HideAsync() => SetComponentPropertyAsync("open", false);
+
+    /// <summary>
+    /// Shows the next item.
+    /// </summary>
+    public ValueTask NextAsync() => CallComponentVoidFunctionAsync("next");
+
+    /// <summary>
+    /// Shows the previous item.
+    /// </summary>
+    public ValueTask PreviousAsync() => CallComponentVoidFunctionAsync("previous");
+
+    /// <summary>
+    /// Zooms in on the current image.
+    /// </summary>
+    public ValueTask ZoomInAsync() => CallComponentVoidFunctionAsync("zoomIn");
+
+    /// <summary>
+    /// Zooms out of the current image.
+    /// </summary>
+    public ValueTask ZoomOutAsync() => CallComponentVoidFunctionAsync("zoomOut");
+
+    /// <summary>
+    /// Gets a snapshot of the lightbox items in document order.
+    /// </summary>
+    public ValueTask<LightboxItemInfo[]> GetItemsAsync() => JSRuntime.InvokeAsync<LightboxItemInfo[]>(JavascriptFunctionNames.LightboxGetItemDetails, Element, false);
+
+    /// <summary>
+    /// Gets a snapshot of the current item, or null when the gallery is empty.
+    /// </summary>
+    public ValueTask<LightboxItemInfo?> GetCurrentItemAsync() => JSRuntime.InvokeAsync<LightboxItemInfo?>(JavascriptFunctionNames.LightboxGetItemDetails, Element, true);
+
+    private Dictionary<string, object> InternalAttributes = [];
+
+    protected override void OnParametersSet()
+    {
+        InternalAttributes = new AttributeBuilder(AdditionalAttributes)
+            .AddStyle("--backdrop-color", BackdropColor)
+            .AddStyle("--backdrop-filter", BackdropFilter)
+            .AddStyle("--media-border-radius", MediaBorderRadius)
+            .AddStyle("--controls-color", ControlsColor)
+            .AddStyle("--controls-background", ControlsBackground)
+            .AddStyle("--show-duration", ShowDuration)
+            .AddStyle("--hide-duration", HideDuration)
+            .AddStyle("--spacing", Spacing)
+            .AddStyle("--slide-gap", SlideGap)
+            .AddStyle("--thumbnail-size", ThumbnailSize)
+            .Build();
+    }
+
+    private async Task TriggerShowAsync()
+    {
+        if (KeepClosed)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
+        await OnShow.InvokeAsync();
+    }
+
+    private async Task TriggerAfterShowAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterShow.InvokeAsync();
+    }
+
+    private async Task TriggerHideAsync(RoarHideEventArgs args)
+    {
+        if (args.Lightbox is not { } lightbox)
+        {
+            return;
+        }
+
+        if (KeepOpen)
+        {
+            await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        }
+
+        await OnHide.InvokeAsync(lightbox);
+    }
+
+    private async Task TriggerAfterHideAsync()
+    {
+        await SyncComponentPropertyAsync(nameof(Open), "open", OpenChanged);
+        await OnAfterHide.InvokeAsync();
+    }
+
+    private async Task TriggerItemChangeAsync(RoarItemChangeEventArgs args)
+    {
+        if (args.Lightbox is not { } lightbox)
+        {
+            return;
+        }
+
+        if (Index != lightbox.Index)
+        {
+            Index = lightbox.Index;
+            await IndexChanged.InvokeAsync(Index);
+        }
+
+        await OnItemChange.InvokeAsync(lightbox);
+    }
+}

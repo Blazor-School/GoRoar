@@ -1,0 +1,76 @@
+@namespace RoarUI
+@inherits RoarJsComponentBase
+
+<wa-lightbox-item src="@Src" srcset="@SrcSet" sizes="@Sizes" alt="@Alt" caption="@Caption" thumbnail="@Thumbnail" type="@Type" width="@Width" height="@Height" @ref="Element" @attributes="AdditionalAttributes">
+    @ChildContent
+</wa-lightbox-item>
+
+@code {
+    /// <summary>
+    /// The thumbnail or trigger for this item. Use an HTML template to supply static custom media in the viewer.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// The URL of the full-size image or video.
+    /// </summary>
+    [Parameter]
+    public string? Src { get; set; }
+
+    /// <summary>
+    /// The responsive sources for the full-size image, in HTML srcset format.
+    /// </summary>
+    [Parameter]
+    public string? SrcSet { get; set; }
+
+    /// <summary>
+    /// The responsive sizes used with SrcSet.
+    /// </summary>
+    [Parameter]
+    public string? Sizes { get; set; }
+
+    /// <summary>
+    /// Alternative text for the full-size media. Defaults to the thumbnail image's alternative text.
+    /// </summary>
+    [Parameter]
+    public string? Alt { get; set; }
+
+    /// <summary>
+    /// A plain-text caption shown with the item in the viewer.
+    /// </summary>
+    [Parameter]
+    public string? Caption { get; set; }
+
+    /// <summary>
+    /// The thumbnail URL to use in the viewer when a thumbnail image isn't slotted.
+    /// </summary>
+    [Parameter]
+    public string? Thumbnail { get; set; }
+
+    /// <summary>
+    /// The type of media shown in the lightbox.
+    /// </summary>
+    [Parameter]
+    public LightboxItemType Type { get; set; }
+
+    /// <summary>
+    /// The intrinsic width of the full-size media in pixels.
+    /// </summary>
+    [Parameter]
+    public int? Width { get; set; }
+
+    /// <summary>
+    /// The intrinsic height of the full-size media in pixels.
+    /// </summary>
+    [Parameter]
+    public int? Height { get; set; }
+
+    /// <summary>
+    /// Sets focus on the item's trigger.
+    /// </summary>
+    public ValueTask FocusAsync(bool preventScroll = false, bool focusVisible = true) => CallComponentVoidFunctionAsync("focus", new { preventScroll, focusVisible });
+}

@@ -1,0 +1,57 @@
+@page "/lightbox-sample"
+
+<PageTitle>Lightbox Sample</PageTitle>
+
+<h1>Lightbox</h1>
+
+<RoarLightbox id="landscape-lightbox" @ref="Gallery" Label="Landscape photos" class="wa-grid landscape-lightbox" WithThumbnails Loop MediaBorderRadius="var(--wa-border-radius-m)" @bind-Open="GalleryOpen" @bind-Index="ActiveIndex" OnItemChange="HandleItemChange">
+    @foreach (var photo in Photos)
+    {
+        <RoarLightboxItem @key="photo.Id" id="@photo.Id" Src="@PhotoUrl(photo.Id, 1600, 1067)" Caption="@photo.Caption" Width="1600" Height="1067">
+            <img src="@PhotoUrl(photo.Id, 480, 320)" alt="@photo.Alt" />
+        </RoarLightboxItem>
+    }
+    <RoarLinkButton slot="@LightboxSlot.Actions" Href="@OriginalSource" Target="LinkTarget.Blank" rel="noopener">Open original</RoarLinkButton>
+</RoarLightbox>
+
+<div class="wa-cluster">
+    <RoarButton data-lightbox="open landscape-lightbox">Open first photo</RoarButton>
+    <RoarButton @onclick="OpenLastPhotoAsync">Open last photo</RoarButton>
+    <span role="status">@(GalleryOpen ? "Viewing" : "Selected") photo @(ActiveIndex + 1) of @Photos.Length</span>
+</div>
+
+<style>
+    .landscape-lightbox {
+        --min-column-size: 9rem;
+        max-width: 44rem;
+        margin-block-end: var(--wa-space-m);
+    }
+
+    .landscape-lightbox img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        object-fit: cover;
+        border-radius: var(--wa-border-radius-m);
+    }
+</style>
+
+@code {
+    private static readonly (string Id, string Alt, string Caption)[] Photos =
+    [
+        ("photo-1426604966848-d7adac402bff", "Sunlight falls on a forested mountain valley", "Mountain valley by Adam Kool"),
+        ("photo-1473448912268-2022ce9509d8", "A river curves through an evergreen forest", "Evergreen forest by Luca Bravo"),
+        ("photo-1499002238440-d264edd596ec", "The sun sets over rows of purple lavender", "Lavender field by Leonard Cotte")
+    ];
+
+    private RoarLightbox Gallery { get; set; } = default!;
+    private bool GalleryOpen { get; set; }
+    private int ActiveIndex { get; set; }
+    private string OriginalSource { get; set; } = PhotoUrl(Photos[0].Id, 1600, 1067);
+
+    private static string PhotoUrl(string id, int width, int height) => $"https://images.unsplash.com/{id}?w={width}&h={height}&fit=crop&q=80";
+
+    private async Task OpenLastPhotoAsync() => await Gallery.ShowAsync(Photos.Length - 1);
+
+    private void HandleItemChange(LightboxItemChangeEventArgs args) => OriginalSource = args.Item.Src;
+}
