@@ -170,19 +170,19 @@
 
     public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(args.Slider!.Value);
+        await SetCurrentValueFromBrowserAsync(args.Slider!.Value);
         await OnInput.InvokeAsync(args.Slider);
     }
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(args.Slider!.Value);
+        await SetCurrentValueFromBrowserAsync(args.Slider!.Value);
         await OnChange.InvokeAsync(args.Slider);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await SetComponentPropertyAsync("value", CurrentValue);
 
         if (firstRender || _lastTooltipTemplate != ValueTooltipTemplate)
         {
@@ -191,7 +191,11 @@
         }
     }
 
-    private async Task SynchronizeValueAsync() => await SetCurrentValueAsync(await GetComponentPropertyAsync<double>("value"));
+    private async Task SynchronizeValueAsync()
+    {
+        await SetCurrentValueFromBrowserAsync(await GetComponentPropertyAsync<double>("value"));
+        await InvokeAsync(StateHasChanged);
+    }
 
     /// <summary>
     /// Focuses the slider.

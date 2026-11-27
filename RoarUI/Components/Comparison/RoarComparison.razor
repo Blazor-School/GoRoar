@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="comparison" />
 
-<wa-comparison @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="InternalAttributes">
+<wa-comparison position="@Position" @onroarchange="TriggerChangeAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-comparison>
 
@@ -34,15 +34,12 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        Position = args.Comparison!.Position;
-        await PositionChanged.InvokeAsync(args.Comparison.Position);
-    }
+        double position = args.Comparison!.Position;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        if (!Position.Equals(position))
         {
-            await SetComponentPropertyAsync("position", Position);
+            Position = position;
+            await PositionChanged.InvokeAsync(position);
         }
     }
 

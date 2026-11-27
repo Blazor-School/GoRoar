@@ -179,6 +179,8 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
+
         var kind = Swatches.Kind;
         string swatches = Swatches.ToString();
 
@@ -221,13 +223,13 @@
 
     public async Task TriggerChangeAsync(RoarChangeEventArgs args)
     {
-        await SetCurrentValueAsync(args.ColorPicker!.Value);
+        await SetCurrentValueAsStringAsync(args.ColorPicker!.Value);
         await OnChange.InvokeAsync();
     }
 
     public async Task TriggerInputAsync(RoarInputEventArgs args)
     {
-        await SetCurrentValueAsync(args.ColorPicker!.Value);
+        await SetCurrentValueAsStringAsync(args.ColorPicker!.Value);
         await OnInput.InvokeAsync();
     }
 

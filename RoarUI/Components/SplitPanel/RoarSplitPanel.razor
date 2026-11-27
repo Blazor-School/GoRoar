@@ -3,7 +3,7 @@
 
 <RoarDependency ComponentName="split-panel" />
 
-<wa-split-panel disabled="@Disabled" orientation="@Orientation" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @onroarreposition="TriggerRepositionAsync" @ref="Element" @attributes="InternalAttributes">
+<wa-split-panel disabled="@Disabled" orientation="@Orientation" position="@Position.ToString(CultureInfo.InvariantCulture)" primary="@Primary" snap="@Snap" snap-threshold="@SnapThreshold" @onroarreposition="TriggerRepositionAsync" @ref="Element" @attributes="InternalAttributes">
     @ChildContent
 </wa-split-panel>
 
@@ -85,17 +85,15 @@
 
     public async Task TriggerRepositionAsync(RoarRepositionEventArgs args)
     {
-        Position = args.SplitPanel!.Position;
-        await PositionChanged.InvokeAsync(args.SplitPanel.Position);
-        await OnReposition.InvokeAsync(args.SplitPanel);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        double position = args.SplitPanel!.Position;
+        // Converting between pixels and percentages can introduce rounding error.
+        if (Math.Abs(Position - position) > 1e-9)
         {
-            await SetComponentPropertyAsync("position", Position);
+            Position = position;
+            await PositionChanged.InvokeAsync(position);
         }
+
+        await OnReposition.InvokeAsync(args.SplitPanel);
     }
 
     internal Dictionary<string, object> InternalAttributes = [];

@@ -12,6 +12,7 @@ public abstract class RoarInputBase<TValue> : RoarJsComponentBase, IDisposable
     private readonly EventHandler<ValidationStateChangedEventArgs> _validationStateChangedHandler;
 
     private bool _hasInitializedParameters;
+    private bool _hasValueParameter;
     private bool _disposed;
     private bool _parsingFailed;
     private string? _incomingValueBeforeParsing;
@@ -64,7 +65,11 @@ public abstract class RoarInputBase<TValue> : RoarJsComponentBase, IDisposable
 
     internal virtual bool FieldBound => ValueExpression is not null || ValueChanged.HasDelegate;
 
-    protected async Task SetCurrentValueAsync(TValue? value)
+    protected Task SetCurrentValueAsync(TValue? value) => SetCurrentValueAsync(value, updateValue: true);
+
+    private protected Task SetCurrentValueFromBrowserAsync(TValue? value) => SetCurrentValueAsync(value, updateValue: !_hasValueParameter || !ValueChanged.HasDelegate);
+
+    private async Task SetCurrentValueAsync(TValue? value, bool updateValue)
     {
         bool hasChanged = !EqualityComparer<TValue>.Default.Equals(value, Value);
         if (!hasChanged)
@@ -82,7 +87,11 @@ public abstract class RoarInputBase<TValue> : RoarJsComponentBase, IDisposable
         // A better solution would be somehow forcing the parent component's render to occur first,
         // but that would involve a complex change in the renderer to keep the render queue sorted
         // by component depth or similar.
-        Value = value;
+        if (updateValue)
+        {
+            Value = value;
+        }
+
         if (ValueChanged.HasDelegate)
         {
             // Thread Safety: Force `ValueChanged` to be re-associated with the Dispatcher, prior to invocation.
@@ -240,6 +249,7 @@ public abstract class RoarInputBase<TValue> : RoarJsComponentBase, IDisposable
     /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
+        _hasValueParameter |= parameters.TryGetValue<TValue>(nameof(Value), out _);
         parameters.SetParameterProperties(this);
 
         if (!_hasInitializedParameters)

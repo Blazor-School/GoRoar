@@ -91,4 +91,6 @@
     internal override AttributeBuilder InitializeAttributeBuilder() => base.InitializeAttributeBuilder()
         .AddStyle("--checked-icon-color", CheckedIconColor)
         .AddStyle("--checked-icon-scale", CheckedIconScale);
+
+    protected override Task OnAfterRenderAsync(bool firstRender) => SetComponentPropertyAsync("checked", CurrentValue).AsTask();
 }

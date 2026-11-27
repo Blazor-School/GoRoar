@@ -74,6 +74,8 @@
         await OnInput.InvokeAsync();
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender) => SetComponentPropertyAsync("checked", CurrentValue).AsTask();
+
     /// <summary>
     /// Removes focus from the switch.
     /// </summary>
